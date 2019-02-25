@@ -11,6 +11,20 @@ use app\models\User;
 
 class ExamineeController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->exam)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     //某考试所有考生列表-添加考生入考场时使用
     public function actionIndex()
     {

@@ -13,19 +13,18 @@ use yii\db\Expression;
 
 class ApplyController extends Controller
 {
-    public function init()
+    public function beforeAction($action)
     {
-        parent::init();
-        $this->authConfigs=[
-            [
-                'target'=>[
-                    'detail'=>'*',
-                    'list'=>'*'
-                ],
-                'callback'=>function(){
-                    return !$this->admin->apply;
-                }
-            ]];
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->apply)
+        {
+            $this->throwForbidden();
+        }
+        return true;
     }
 
     //列表

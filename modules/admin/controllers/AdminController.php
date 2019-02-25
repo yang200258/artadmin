@@ -6,6 +6,20 @@ use app\models\Admin;
 
 class AdminController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->admin)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     //管理员列表
     public function actionList()
     {

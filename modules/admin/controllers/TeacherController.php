@@ -6,6 +6,20 @@ use app\models\User;
 
 class TeacherController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->admin)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     //老师列表
     public function actionList()
     {

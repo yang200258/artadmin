@@ -9,22 +9,18 @@ use app\models\ExamSite;
 
 class ExamController extends Controller
 {
-    public function init()
+    public function beforeAction($action)
     {
-        parent::init();
-        $this->authConfigs=[
-            [
-                'target'=>[
-                    'add'=>'*',
-                    'edit'=>'*',
-                    'examinee'=>'*',
-                    'list'=>'*',
-                    'room'=>'*',
-                ],
-                'callback'=>function(){
-                    return !$this->admin->exam;
-                }
-            ]];
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->exam)
+        {
+            $this->throwForbidden();
+        }
+        return true;
     }
 
     //考试信息列表

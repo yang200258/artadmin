@@ -9,6 +9,20 @@ use app\models\InformUser;
 //通知对象操作
 class ObjectController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->inform)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     //获取所有对象列表
     public function actionIndex()
     {

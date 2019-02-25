@@ -9,6 +9,20 @@ use app\models\MsgCategory;
 //信息分类
 class CategoryController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->msg)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     public function actionList()
     {
         $category = MsgCategory::find()->asArray()->all();

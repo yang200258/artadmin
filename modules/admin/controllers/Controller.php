@@ -63,19 +63,9 @@ class Controller extends \yii\rest\Controller
         }
         $this->admin = Admin::findOne(['token' => $token]);
 
-
-        foreach ($this->authConfigs as $authConfig)
+        if (!$this->admin)
         {
-            if (isset($authConfig['target'][$this->id])&&
-                (($authConfig['target'][$this->id]=='*')||(in_array($this->action->id,$authConfig['target'][$this->id])))
-            )
-            {
-                if ($authConfig['callback']()){
-                    $this->throwForbidden();
-                }
-                break;
-            }
-
+            return false;
         }
         return true;
     }

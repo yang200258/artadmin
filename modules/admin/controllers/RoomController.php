@@ -8,6 +8,20 @@ use app\models\ExamSite;
 
 class RoomController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->exam)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     public function actionIndex()
     {
         $this->init_page();

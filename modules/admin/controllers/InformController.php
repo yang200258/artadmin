@@ -9,6 +9,20 @@ use app\models\InformUser;
 //通知管理
 class InformController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->inform)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     public function actionList()
     {
         $request = \Yii::$app->request;

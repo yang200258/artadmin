@@ -7,6 +7,20 @@ use app\models\User;
 
 class OrganController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->admin)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     //机构列表
     public function actionList()
     {

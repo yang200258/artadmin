@@ -11,6 +11,20 @@ use yii\db\Expression;
 
 class MsgController extends Controller
 {
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+        {
+            return false;
+        }
+
+        if (!$this->admin->msg)
+        {
+            $this->throwForbidden();
+        }
+        return true;
+    }
+
     public function actionList()
     {
         $this->init_page();
