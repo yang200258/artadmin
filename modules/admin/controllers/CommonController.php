@@ -8,7 +8,7 @@ class CommonController extends Controller
 {
     public function actionOption()
     {
-        $option = require(dirname(__DIR__) . '/../common/config/option.php');
+        $option = require(dirname(__DIR__) . '/config/option.php');
         return $this->json($option);
     }
 

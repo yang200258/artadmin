@@ -27,8 +27,8 @@ class PayController extends Controller
             return $this->error('您无需缴费');
         }
 
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/lib/WxPay.Api.php");
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/example/WxPay.JsApiPay.php");
+        require_once(dirname(__DIR__) . "/../components/WxpayAPI/lib/WxPay.Api.php");
+        require_once(dirname(__DIR__) . "/../components/WxpayAPI/example/WxPay.JsApiPay.php");
 
 
         $openId = $this->user->openid;
