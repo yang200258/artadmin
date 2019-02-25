@@ -13,28 +13,36 @@ class LoginController extends Controller
         $username = $request->post('username');
         $password = $request->post('password');
 
-        $admin = Admin::findOne(['username' => $username, 'type' => Admin::TYPE_FALSE, 'is_delete' => Admin::IS_DELETE_FALSE]);
-        if (!$admin) {
+        $admin = Admin::findOne(['username' => $username]);
+        if (!$admin)
+        {
             return $this->error('管理员不存在');
         }
 
-        if (!$admin->validatePassword($password)) {
+        if (!$admin->validatePassword($password))
+        {
             return $this->error('密码错误，请重新输入');
         }
 
-        if (!\Yii::$app->user->login($admin, 3600)) {
+        if (!\Yii::$app->user->login($admin, 3600))
+        {
             return $this->error('登录失败, 请重试');
         }
 
         $admin->generateAuthKey();
-        if (!$admin->save(false)) {
+        if (!$admin->save(false))
+        {
             return $this->error('登录失败, 请重试');
         }
 
         return $this->json([
             'token' => $admin->token,
             'username' => $admin->username,
+            'apply' => $admin->apply,
+            'exam' => $admin->exam,
+            'msg' => $admin->msg,
+            'inform' => $admin->inform,
+            'admin' => $admin->admin,
         ]);
     }
-
 }

@@ -10,14 +10,14 @@ class LogoutController extends Controller
     public function actionIndex()
     {
         $token = \Yii::$app->request->post('token');
-        $Admin = Admin::findOne(['token' => $token, 'type' => Admin::TYPE_FALSE]);
-        if (!$Admin)
+        $admin = Admin::findOne(['token' => $token]);
+        if (!$admin)
         {
             return $this->ok('退出成功');
         }
 
-        $Admin->generateAuthKey();
-        if (!$Admin->save(false))
+        $admin->generateAuthKey();
+        if (!$admin->save(false))
         {
             return $this->error('退出失败');
         }

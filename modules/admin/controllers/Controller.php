@@ -2,11 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+
 use app\components\GlobalFunc;
 use app\models\Admin;
 
-
-class Controller extends \yii\web\Controller
+class Controller extends \yii\rest\Controller
 {
     use GlobalFunc;
     public $enableCsrfValidation = false;
@@ -15,6 +15,7 @@ class Controller extends \yii\web\Controller
     protected $limit;
     protected $offset;
     public $admin;
+    protected $authConfigs=[];
 
     public function init()
     {
@@ -36,10 +37,9 @@ class Controller extends \yii\web\Controller
 
         \Yii::$app->user->enableSession = false; // 不需要session
         \Yii::$app->user->loginUrl = null;       // 登录失败不用跳回登录页面
-        \Yii::$app->user->identityClass = 'app\models\Admin';
 
-         //部分控制器不需要验证身份
-        if (in_array($this->id, ['login']))
+        // 部分控制器不需要验证身份
+        if (in_array($this->id, ['login', 'image', 'download', 'file']))
         {
             return true;
         }
@@ -48,7 +48,7 @@ class Controller extends \yii\web\Controller
         if (!$token)
         {
             $resp = \Yii::$app->response;
-            $resp->data = $this->error('登录失败，请重新登录', 401);
+            $resp->data = $this->error('登录失败，请重新登录');
             $resp->send();
             \Yii::$app->end();
         }
@@ -61,7 +61,29 @@ class Controller extends \yii\web\Controller
             \Yii::$app->end();
         }
         $this->admin = Admin::findOne(['token' => $token]);
+
+
+        foreach ($this->authConfigs as $authConfig)
+        {
+            if (isset($authConfig['target'][$this->id])&&
+                (($authConfig['target'][$this->id]=='*')||(in_array($this->action->id,$authConfig['target'][$this->id])))
+            )
+            {
+                if ($authConfig['callback']()){
+                    $this->throwForbidden();
+                }
+                break;
+            }
+
+        }
         return true;
+    }
+
+    public function throwForbidden(){
+        $resp = \Yii::$app->response;
+        $resp->data = $this->error('您的账号无此权限！如需进行此操作，请联系管理员');
+        $resp->send();
+        \Yii::$app->end();
     }
 
     public function init_page()
@@ -75,7 +97,7 @@ class Controller extends \yii\web\Controller
         $this->pn = $pn;
 
         $limit = intval($request->post('limit'));
-        $this->limit = $limit ? $limit : 20;
+        $this->limit = $limit ? $limit : 50;
         $this->offset = ($pn - 1) * $this->limit;
     }
 
