@@ -37,6 +37,7 @@ class Controller extends \yii\rest\Controller
 
         \Yii::$app->user->enableSession = false; // 不需要session
         \Yii::$app->user->loginUrl = null;       // 登录失败不用跳回登录页面
+        \Yii::$app->user->identityClass = 'app\models\Admin';
 
         // 部分控制器不需要验证身份
         if (in_array($this->id, ['login', 'image', 'download', 'file']))
