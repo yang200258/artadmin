@@ -125,9 +125,9 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
         else
         {
             //测试环境不需要更新auth_key
-            if (!$this->auth_key)
+            if (!$this->token)
             {
-                $this->auth_key = Yii::$app->security->generateRandomString();
+                $this->token = Yii::$app->security->generateRandomString();
             }
         }
     }

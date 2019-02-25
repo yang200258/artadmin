@@ -1,5 +1,5 @@
 <?php
-namespace home\controllers;
+namespace app\controllers;
 
 
 class OptionController extends Controller
