@@ -27,8 +27,8 @@ class PayController extends Controller
             return $this->error('您无需缴费');
         }
 
-        require_once(dirname(__DIR__) . "/../components/WxpayAPI/lib/WxPay.Api.php");
-        require_once(dirname(__DIR__) . "/../components/WxpayAPI/example/WxPay.JsApiPay.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/example/WxPay.JsApiPay.php");
 
 
         $openId = $this->user->openid;
@@ -66,12 +66,12 @@ class PayController extends Controller
     public function actionNotify()
     {
         ini_set('date.timezone','Asia/Shanghai');
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/lib/WxPay.Api.php");
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/lib/WxPay.Notify.php");
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/example/notify.php");
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/lib/WxPay.Exception.php");
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/lib/WxPay.Config.php");
-        require_once(dirname(__DIR__) . "/../common/components/WxpayAPI/lib/WxPay.Data.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Notify.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/example/notify.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Exception.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Config.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Data.php");
 
         //获取通知的数据
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
