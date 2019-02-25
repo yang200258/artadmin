@@ -37,7 +37,7 @@ class UserController extends Controller
         $encryptedData = $request->getBodyParam('encryptedData');
 
         $sessionKeyArr = $this->retrieveSession();
-        require_once(dirname(__DIR__) . "/../common/components/wx_decode/wxBizDataCrypt.php");
+        require_once(\Yii::getAlias('@app') . "/components/wx_decode/wxBizDataCrypt.php");
         $weiXinConfig = \Yii::$app->params['weixin'];
         $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
         $errCode = $pc->decryptData($encryptedData, $iv, $data );

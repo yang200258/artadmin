@@ -2,7 +2,7 @@
 
 namespace app\modules\mini\controllers;
 
-use common\helpers\WeiXin;
+use app\helpers\WeiXin;
 use app\models\User;
 use Yii;
 

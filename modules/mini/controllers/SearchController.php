@@ -2,7 +2,7 @@
 
 namespace app\modules\mini\controllers;
 
-use common\helpers\Query;
+use app\helpers\Query;
 
 class SearchController extends Controller
 {

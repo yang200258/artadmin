@@ -6,7 +6,7 @@ class OptionController extends Controller
 {
     public function actionIndex()
     {
-        $option = require(dirname(__DIR__) . '/../config/option.php');
+        $option = require(\Yii::getAlias('@app') . '/config/option.php');
         return $this->json($option);
     }
 }

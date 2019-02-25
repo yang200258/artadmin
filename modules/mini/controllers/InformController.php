@@ -2,11 +2,7 @@
 
 namespace app\modules\mini\controllers;
 
-
-use app\models\Image;
 use app\models\InformUser;
-use app\models\Msg;
-use app\models\MsgCategory;
 
 class InformController extends Controller
 {

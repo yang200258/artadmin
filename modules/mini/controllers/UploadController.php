@@ -2,7 +2,7 @@
 namespace app\modules\mini\controllers;
 
 
-use common\components\ImageUpload;
+use app\components\ImageUpload;
 use app\models\Image;
 
 class UploadController extends Controller
