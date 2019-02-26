@@ -31,8 +31,6 @@ class PayController extends Controller
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/example/WxPay.JsApiPay.php");
 
-
-        $openId = $this->user->openid;
         $order_no = $apply['apply_no'];
         $money = (int)round($apply['pay']['price']);
         if($money < 1)
@@ -40,7 +38,10 @@ class PayController extends Controller
             return  $this->error('支付金额不能少于1分钱');
         }
         //②、统一下单
+        $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayUnifiedOrder();
+        $input->SetAppid($weixin['home_appid']);//公众账号ID
+        $input->SetProduct_id($apply_id);  //商品ID，trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
         $input->SetBody("艺术考级海南账户支付");
         $input->SetAttach("艺术考级海南考区账户支付");
         $input->SetOut_trade_no($order_no);
@@ -48,22 +49,21 @@ class PayController extends Controller
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("test");
-        $input->SetNotify_url(Url::toRoute(['/pay/notify'], true));
+        $input->SetNotify_url(Url::toRoute(['/pay/notify'], true));  //异步通知路径
         $input->SetTrade_type("NATIVE");
-        $input->SetOpenid($openId);
-        $order = \WxPayApi::unifiedOrder($input);
 
-        if($order['return_code'] != 'SUCCESS' || $order['result_code'] != 'SUCCESS')
-        {
-            return $this->error('支付失败');
-        }
-        $tools = new \JsApiPay();
-        $jsApiParameters = $tools->GetJsApiParameters($order);
+        $notify = new \NativePay();
+        $result = $notify->GetPayUrl($input);
+        $code_url = $result["code_url"];
+        $payurl = urlencode($code_url);
 
-        return $this->json($jsApiParameters);
+        $tv = [];
+        $tv['payurl'] = $payurl;
+        return $this->json($tv);
     }
 
 
+    //扫码支付回调
     public function actionNotify()
     {
         ini_set('date.timezone','Asia/Shanghai');
@@ -139,6 +139,37 @@ class PayController extends Controller
                 }
             }
         }
+    }
+
+    //二维码链接输出，get传
+    public function actionQrcode()
+    {
+        $data = \Yii::$app->request->get('data', '');
+        $url = urldecode($data);
+        ob_get_clean();
+        \QRcode::logopng($url, false, QR_ECLEVEL_H, 6,4,false);
+    }
+
+
+    //轮询查询订单接口，返回支付是否成功信息
+    public function actionQueryorder()
+    {
+        $request = \Yii::$app->request;
+        $apply_id = $request->post('apply_id', 0);
+
+        if (!$apply_id) {
+            return $this->error('订单错误');
+        }
+        $apply_pay = ApplyPay::findOne(['apply_id' => $apply_id]);
+
+        if (!$apply_pay) {
+            return $this->error('订单错误');
+        }
+        if (!$apply_pay->status){
+            return $this->error('未缴费');
+        }
+
+        return $this->ok('订单完成');
     }
 
 }
