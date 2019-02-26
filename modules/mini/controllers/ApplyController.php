@@ -120,66 +120,81 @@ class ApplyController extends Controller
         {
             return $this->error('请输入指导老师电话');
         }
-        $apply = new Apply();
-        $apply->apply_no = Apply::getApplynum($domain);
-        $apply->uid = $this->user->id;
-        $apply->exam_id = $exam_id;
-        $apply->picture_id = $picture_id;
-        $apply->name = $name;
-        $apply->pinyin = $pinyin;
-        $apply->sex = $sex;
-        $apply->birth = $birth;
-        $apply->nationality = $nationality;
-        $apply->nation = $nation;
-        $apply->id_type = $id_type;
-        $apply->id_number = $id_number;
-        $apply->domain = $domain;
-        $apply->level = $level;
-        $apply->continuous_level = $continuous_level;
-        if ($continuous_level)
-        {
-            $apply->is_continuous = 1;
-        }
-        $apply->lately_credential = $lately_credential;
-        $apply->pro_certificate_id = $pro_certificate_id ? $pro_certificate_id : 0;
-        $apply->basic_certificate_id = $basic_certificate_id ? $basic_certificate_id : 0;
-        $apply->track_one = $track_one;
-        $apply->track_two = $track_two;
-        $apply->track_three = $track_three;
-        $apply->track_four = $track_four;
-        $apply->track_five = $track_five;
-        $apply->phone = $phone;
-        $apply->preparer = $preparer;
-        $apply->adviser = $adviser;
-        $apply->adviser_phone = $adviser_phone;
-        $apply->create_at = date('Y-m-d H:i:s');
-        if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
-        {
-            $apply->status = 3;
-            $apply->plan = 4;
-        }
-        $apply->save(false);
+        $transaction = \Yii::$app->db->beginTransaction();//创建事务
+        try {
+            $apply = new Apply();
+            $apply->apply_no = Apply::getApplynum($domain);
+            $apply->uid = $this->user->id;
+            $apply->exam_id = $exam_id;
+            $apply->picture_id = $picture_id;
+            $apply->name = $name;
+            $apply->pinyin = $pinyin;
+            $apply->sex = $sex;
+            $apply->birth = $birth;
+            $apply->nationality = $nationality;
+            $apply->nation = $nation;
+            $apply->id_type = $id_type;
+            $apply->id_number = $id_number;
+            $apply->domain = $domain;
+            $apply->level = $level;
+            $apply->continuous_level = $continuous_level;
+            if ($continuous_level)
+            {
+                $apply->is_continuous = 1;
+            }
+            $apply->lately_credential = $lately_credential;
+            $apply->pro_certificate_id = $pro_certificate_id ? $pro_certificate_id : 0;
+            $apply->basic_certificate_id = $basic_certificate_id ? $basic_certificate_id : 0;
+            $apply->track_one = $track_one;
+            $apply->track_two = $track_two;
+            $apply->track_three = $track_three;
+            $apply->track_four = $track_four;
+            $apply->track_five = $track_five;
+            $apply->phone = $phone;
+            $apply->preparer = $preparer;
+            $apply->adviser = $adviser;
+            $apply->adviser_phone = $adviser_phone;
+            $apply->create_at = date('Y-m-d H:i:s');
+            if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
+            {
+                $apply->status = 3;
+                $apply->plan = 4;
+            }
+            if (! $apply->save(false))
+            {
+                $transaction->rollback();//回滚事务
+                return $this->error('报名失败');
+            }
 
-        $apply->bm = Pdf::createPdfApply($apply->id); //生成报名表
-        $apply->save(false);
-        //计算考收取费用，如果连考收两级费用
-        $price = ApplyPay::$rates[$level];
-        if ($continuous_level)
-        {
-            $price = $price + ApplyPay::$rates[$continuous_level];
+            $apply->bm = Pdf::createPdfApply($apply->id); //生成报名表
+            $apply->save(false);
+            //计算考收取费用，如果连考收两级费用
+            $price = ApplyPay::$rates[$level];
+            if ($continuous_level)
+            {
+                $price = $price + ApplyPay::$rates[$continuous_level];
+            }
+            $apply_pay = new ApplyPay();
+            $apply_pay->apply_id = $apply->id;
+            $apply_pay->price = $price;
+            if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
+            {
+                $apply_pay->type = 2;
+                $apply_pay->status = 1;
+                $apply_pay->pay_time = date('Y-m-d H:i:s');
+            }
+            $apply_pay->create_at = date('Y-m-d H:i:s');
+            if(!$apply_pay->save(false))
+            {
+                $transaction->rollback();//回滚事务
+                return $this->error('报名失败');
+            }
+            $transaction->commit();//提交事务
+        } catch (\Exception $e) {
+            \Yii::error($e->getMessage());
+            $transaction->rollback();//回滚事务
+            return $this->error('服务器繁忙，请稍后再试！');
         }
-        $apply_pay = new ApplyPay();
-        $apply_pay->apply_id = $apply->id;
-        $apply_pay->price = $price;
-        if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
-        {
-            $apply_pay->type = 2;
-            $apply_pay->status = 1;
-            $apply_pay->pay_time = date('Y-m-d H:i:s');
-        }
-        $apply_pay->create_at = date('Y-m-d H:i:s');
-        $apply_pay->save(false);
-
         return $this->ok('提交成功');
     }
 
