@@ -1,8 +1,8 @@
 <?php
 namespace app\helpers;
 
-use common\models\Apply;
-use common\models\ExamSite;
+use app\models\Apply;
+use app\models\ExamSite;
 
 class Pdf {
 

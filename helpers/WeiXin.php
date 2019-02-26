@@ -1,8 +1,7 @@
 <?php
 namespace app\helpers;
 
-use app\common\models\Token;
-use yii\web\NotFoundHttpException;
+use app\models\Token;
 
 class WeiXin {
 
