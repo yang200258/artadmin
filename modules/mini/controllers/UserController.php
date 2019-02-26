@@ -46,6 +46,7 @@ class UserController extends Controller
             $user = $this->user;
             if($user){
                 $data = json_decode($data);
+                return $this->json($data);
                 $user->nick_name = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $data->nickName);  // 过滤控制字符
                 $user->union_id= $data->unionId;
                 $user->avatar = $data->avatarUrl;
