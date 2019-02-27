@@ -1,0 +1,101 @@
+<template>
+    <div class="container">
+        <info></info>
+        <richtext class="richtext"></richtext>
+        <el-row class="footer">
+            <el-col :offset="8">
+                <el-button @click="back">返回</el-button>  
+                <el-button @click="saveEdit">保存修改</el-button>
+            </el-col>
+        </el-row>
+    </div>
+</template>
+
+<script>
+
+import info from '../../common/info'
+import richtext from '@/page/common/richtext'
+import {mapMutations} from 'vuex'
+export default {
+    data(){
+        return{
+
+        }
+    },
+    mounted(){
+        this.cleardata()
+        this.getInfo()
+    },
+    components: {
+        info,
+        richtext
+    },
+    computed: {
+        publishData(){
+            return this.$store.publishinfo.publishData
+        }
+    },
+    methods: {
+        //获取信息详情
+        getInfo: function(){
+            this.$axios({
+                url: '/msg/detail',
+                method: 'post',
+                data: {
+                    id: this.$route.params.id
+                }
+            }).then(res=> {
+                console.log('信息详情数据',res);
+                if(res && !res.error){
+                    this.$store.commit('publishinfo/setPublishData',res.data)
+                    //后期需修改********************
+                    this.$store.commit('publishinfo/setquillContent',res.data.content)
+                }
+            }).catch(err=>{
+                console.log(err);
+            })
+        },
+        //获取store清除数据方法
+        ...mapMutations({
+            cleardata: 'publishinfo/cleardata'
+        }),
+        //返回
+        back:function(){
+            this.$router.go(-1)
+        },
+        //保存修改
+        saveEdit:function(){
+            const publishData = this.$store.state.publishinfo.publishData
+            const quillContent = this.$store.state.publishinfo.quillContent
+            // publishData.status = this.$store.state.publishinfo.publishData.status
+            publishData.content = quillContent
+            publishData.id = this.$route.params.id
+            this.$axios({
+                method: 'post',
+                url: '/msg/edit',
+                data: publishData
+            }).then(res=> {
+                console.log('保存信息响应',res);
+                if(res && !res.error) {
+                    this.$router.push({
+                        name: 'infoList'
+                    })
+                }
+            }).catch(err=>{
+                console.log(err);
+            })
+        }
+    }
+}
+</script>
+
+
+<style lang="scss" scoped>
+    .container {
+        .footer {
+            margin: 60px 0;
+        }
+    }
+</style>
+
+

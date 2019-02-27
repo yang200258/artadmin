@@ -1,0 +1,11 @@
+.vscode/
+.idea/
+.DS_Store
+node_modules/
+dist/
+npm-debug.log*
+BEFORE_USE.md
+codeDesign/
+psd/
+package-lock.json
+static

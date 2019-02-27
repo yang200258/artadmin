@@ -1,0 +1,45 @@
+<template>
+    <div id="app" class="sys-app">
+        <router-view></router-view>
+    </div>
+</template>
+
+<script>
+import setTheme from "@/util/setTheme"
+import Cookies from 'js-cookie'
+
+export default {
+    // TODO: 全局状态加载及变更。请根据实际情况改写
+    beforeMount(){
+        // 首次加载/刷新时判断当前是否在登录状态
+        if (!Cookies.get('isLogin')) {
+            console.log("重新登录")
+            this.$store.dispatch('auth/relogin')
+        }
+        console.log('刷新*********************************');
+        this.$store.commit('user/setName',Cookies.get('userName'))
+        this.$store.commit('auth/setOptions',JSON.parse(window.localStorage.getItem('optionData')))
+        this.$store.commit('auth/setOrgan',JSON.parse(window.localStorage.getItem('organ')))
+        this.$store.dispatch('auth/getNavlist')
+        // 加载默认语言包
+        // let defLang = Cookies.get('lang') || this.$i18n.locale
+        // this.$store.dispatch("loadLang", defLang)
+    },
+    // 初次加载时，可通过接口获取用户的主题信息，或者通过按钮触发，或者直接加载默认主题
+    mounted() {
+        this.$nextTick(() => {
+            setTheme("dark")
+            this.$store.commit("setThemeColor", "dark")
+        })
+    }
+}
+</script>
+
+
+<style lang="scss">
+@import '@/assets/css/theme-dark.scss';
+@import '@/assets/css/theme-default.scss';
+@import '@/assets/css/theme/dark.scss';
+@import '@/assets/css/theme/default.scss';
+  @import '@/assets/css/page/login.scss';
+</style>
