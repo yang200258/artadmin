@@ -1,4 +1,5 @@
-const Layout = () => import('@/page/layout')
+// const Layout = () => import('@/page/layout')
+import Layout from '@/page/layout'
 
 const staticRoute = [
     {
