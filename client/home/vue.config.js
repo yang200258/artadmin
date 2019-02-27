@@ -7,5 +7,8 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     proxy: 'http://arthometest.fantuan.cn'
+  },
+  chainWebpack: config => {
+    config.plugins.delete('prefetch')
   }
 }

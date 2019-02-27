@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// resolve => require(['../components/homepage'], resolve)
-// const Home = () => import('./views/Home.vue')
+
 const Home = resolve => require(['./views/Home.vue'], resolve)
 const Login = resolve => require(['./views/Login.vue'], resolve)
 const Enroll = resolve => require(['./views/Enroll.vue'], resolve)
@@ -23,9 +22,7 @@ const ScoreResult = resolve => require(['./views/ScoreResult.vue'], resolve)
 const DynamicDetail = resolve => require(['./views/DynamicDetail.vue'], resolve)
 const MiniappDynamicDetail = resolve => require(['./views/MiniappDynamicDetail.vue'], resolve)
 const MiniappMessageDetail = resolve => require(['./views/MiniappMessageDetail.vue'], resolve)
-// const Home = resolve => require(['./views/Home.vue'], resolve)
-// const Home = resolve => require(['./views/Home.vue'], resolve)
-// const Home = resolve => require(['./views/Home.vue'], resolve)
+// const Home = () => import('./views/Home.vue')
 // const Login = () => import('./views/Login.vue')
 // const Enroll = () => import('./views/Enroll.vue')
 // const Dynamic = () => import('./views/Dynamic.vue')
