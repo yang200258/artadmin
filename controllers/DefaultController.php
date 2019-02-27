@@ -7,7 +7,7 @@ class DefaultController extends Controller
 {
     public function actionIndex()
     {
-        return $this->renderFile(\Yii::getAlias('@app') . '/client/home/dist/index.html');
+        return $this->renderFile('@webroot/home/index.html');
     }
 
 }
