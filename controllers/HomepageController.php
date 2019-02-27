@@ -8,7 +8,7 @@ use app\models\Msg;
 use app\models\MsgCategory;
 use yii\db\Expression;
 
-class HomeController extends Controller
+class HomepageController extends Controller
 {
     //首页
     public function actionIndex()
