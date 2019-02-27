@@ -7,7 +7,7 @@ const staticRoute = [
     },
     {
         path: '/error',
-        component: () => import( '@/page/error'),
+        component: resolve => require( ['@/page/error'],resolve),
         children: [
             {
                 path: '401',
