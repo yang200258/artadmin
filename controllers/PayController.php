@@ -19,14 +19,14 @@ class PayController extends Controller
         $apply_id = $request->getBodyParam('apply_id');
 
         $apply = Apply::find()->with('pay')->where(['id' => $apply_id])->asArray()->one();
-//        if (!$apply)
-//        {
-//            return $this->error('报名不存在');
-//        }
-//        if ($apply['plan'] != 2)
-//        {
-//            return $this->error('您无需缴费');
-//        }
+        if (!$apply)
+        {
+            return $this->error('报名不存在');
+        }
+        if ($apply['plan'] != 2)
+        {
+            return $this->error('您无需缴费');
+        }
 
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/example/WxPay.NativePay.php");
