@@ -114,7 +114,7 @@ export default {
       }
     },
     fetchData: function () {
-      this.$ajax('/home').then(res => {
+      this.$ajax('/homepage').then(res => {
         console.log('sss', res)
         if (res && !res.error) {
           this.leftCates = [res.data.list[0], res.data.list[1], res.data.list[2]]
