@@ -1,4 +1,5 @@
-import Layout from '@/page/layout'
+// import Layout from '@/page/layout'
+const Layout = resolve => require( ['@/page/layout'],resolve)
 
 const staticRoute = [
     {

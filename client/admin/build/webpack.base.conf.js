@@ -13,6 +13,14 @@ module.exports = {
     entry: {
         app: './src/main.js'
     },
+    //CDN引入过大的包
+    externals: {
+        'vue': 'Vue',
+        'element-ui': 'ElementUI',
+        'quill': 'quill',
+        'vue-router': 'VueRouter',
+        'vue-i18n': 'VueI18n',
+    },
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
