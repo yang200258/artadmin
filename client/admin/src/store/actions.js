@@ -5,7 +5,7 @@ export default {
         // 加载要切换的语言包
         let langPackList = state.langPack
         if (!langPackList.includes(lang)) {
-            return import(/* webpackChunkName: "lang/lang-[request]" */ `@/lang/${lang}`).then(msgs => {
+            return import(`@/lang/${lang}`).then(msgs => {
                 i18n.setLocaleMessage(lang, msgs.default)
                 i18n.locale = lang
                 commit('addLangPack', lang)
