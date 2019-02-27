@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[31],{dr8t:function(t,n,e){"use strict";e.r(n);var i={methods:{back:function(){this.$router.go(-1)}}},s=e("KHd+"),c=Object(s.a)(i,function(){var t=this.$createElement,n=this._self._c||t;return n("div",[this._v("\n    404\n    "),n("a",{on:{click:this.back}},[this._v("返回上一页")])])},[],!1,null,null,null);n.default=c.exports}}]);
