@@ -76,7 +76,7 @@ const service = axios.create({
 
 // baseURL
 // axios.defaults.baseURL = 'http://artadmintest.fantuan.cn';
-axios.defaults.baseURL = 'https://www.hnyskj.net/admin'
+axios.defaults.baseURL = 'https://www.hnyskj.net/adminapi'
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
 
 // http request 拦截器
