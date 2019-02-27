@@ -11,25 +11,25 @@ const staticRoute = [
         children: [
             {
                 path: '401',
-                component: () => import('@/page/error/401')
+                component: resolve => require(['@/page/error/401'],resolve)
             },
             {
                 path: '403',
-                component: () => import( '@/page/error/403')
+                component: resolve => require(['@/page/error/403'],resolve)
             },
             {
                 path: '404',
-                component: () => import( '@/page/error/404')
+                component: resolve => require(['@/page/error/404'],resolve)
             },
             {
                 path: '500',
-                component: () => import( '@/page/error/500')
+                component: resolve => require(['@/page/error/500'],resolve)
             }
         ]
     },
     {
         path: '/login',
-        component: () => import('@/page/login')
+        component: resolve => require(['@/page/login'],resolve)
     },
     {
         path: '/home',
@@ -37,7 +37,7 @@ const staticRoute = [
         children : [
             {
                 path: '',
-                component: () => import('@/page/home'),
+                component: resolve => require(['@/page/home'],resolve),
                 meta: {name: '首页'}
             }
         ]
@@ -50,18 +50,18 @@ const staticRoute = [
             {
                 path: '',
                 name: 'signup',
-                component: () => import('@/page/signup')
+                component: resolve => require(['@/page/signup'],resolve),
             },
             {
                 path: 'signInfo',
                 name: 'signInfo',
-                component: () => import('@/page/signup/signInfo'),
+                component: resolve => require(['@/page/signup/signInfo'],resolve),
                 meta: {name: '考生详情'}
             },
             {
                 path: 'signInfo/imginfo',
                 name: 'imginfo',
-                component: () => import('@/page/signup/signInfo/imginfo'),
+                component: resolve => require(['@/page/signup/signInfo/imginfo'],resolve),
                 meta: {name: '下载证书'}
             },
         ]
@@ -73,32 +73,32 @@ const staticRoute = [
             {
                 path: 'testInfo',
                 name: 'testInfo',
-                component: () => import('@/page/test/testInfo'),
+                component: resolve => require(['@/page/test/testInfo'],resolve),
                 meta: {name: '考试管理'}
             },
             {
                 path: 'testInfo/addTest',
                 name: 'addTest',
-                component: () => import('@/page/test/testInfo/addTest'),
+                component: resolve => require(['@/page/test/testInfo/addTest'],resolve),
                 meta: {name: '添加考试'}
             },
             {
                 path: 'testInfo/editTest',
                 name: 'editTest',
-                component: () => import('@/page/test/testInfo/editTest'),
+                component: resolve => require(['@/page/test/testInfo/editTest'],resolve),
                 meta: {name: '编辑考试'}
             },
             {
                 path: 'positionInfo',
                 name: 'positionInfo',
-                component: () => import('@/page/test/positionInfo'),
+                component: resolve => require(['@/page/test/positionInfo'],resolve),
                 meta: {name: '考场管理'}
             },
             
             {
                 path: 'positionInfo/editLocation',
                 name: 'editLocation',
-                component: () => import('@/page/test/positionInfo/editLocation'),
+                component: (resolve) => require(['@/page/test/positionInfo/editLocation'],resolve),
                 meta: {name: '考生安排'}
             }
         ]
@@ -109,19 +109,19 @@ const staticRoute = [
         children: [
             {
                 path: 'publishInfo',
-                component: () => import('@/page/infoManagement/publishInfo'),
+                component: (resolve) => require(['@/page/infoManagement/publishInfo'],resolve),
                 meta: {name: '发布信息'}
             },
             {
                 path: 'infoList',
                 name: 'infoList',
-                component: () => import('@/page/infoManagement/infoList'),
+                component: (resolve) => require(['@/page/infoManagement/infoList'],resolve),
                 meta: {name: '信息管理'},
             },
             {
                 path: 'editInfo',
                 name: 'editInfo',
-                component: () => import('@/page/infoManagement/infoList/editInfo'),
+                component: (resolve) => require(['@/page/infoManagement/infoList/editInfo'],resolve),
                 meta: {name: '编辑信息'}
             },
             
@@ -134,31 +134,31 @@ const staticRoute = [
             {
                 path: 'publishInform',
                 name: 'publishInform',
-                component: () => import('@/page/informManagement/publishInform'),
+                component: (resolve) => require(['@/page/informManagement/publishInform'],resolve),
                 meta: {name: '发布通知'}
             },
             {
                 path: 'publishInform/informObject',
                 name: 'informObject',
-                component: () => import('@/page/informManagement/publishInform/informObject'),
+                component: (resolve) => require(['@/page/informManagement/publishInform/informObject'],resolve),
                 meta: {name: '通知对象'}
             },
             {
                 path: 'informlist',
                 name: 'informlist',
-                component: () => import('@/page/informManagement/informlist'),
+                component: (resolve) => require(['@/page/informManagement/informlist'],resolve),
                 meta: {name: '通知列表'}
             },
             {
                 path: 'informlist/editinform',
                 name: 'editInform',
-                component: () => import('@/page/informManagement/informlist/editinform'),
+                component: (resolve) => require(['@/page/informManagement/informlist/editinform'],resolve),
                 meta: {name: '编辑通知'}
             },
             {
                 path: 'informlist/editinformobject',
                 name: 'editinformObject',
-                component: () => import('@/page/informManagement/informlist/editinform/informobject'),
+                component: (resolve) => require(['@/page/informManagement/informlist/editinform/informobject'],resolve),
                 meta: {name: '编辑对象'}
             }
         ]
@@ -170,55 +170,55 @@ const staticRoute = [
             {
                 path: 'manager',
                 name: 'manager',
-                component: () => import('@/page/manager/manager'),
+                component: (resolve) => require(['@/page/manager/manager'],resolve),
                 meta: {name: '管理员管理'}
             },
             {
                 path: 'oganization',
                 name: 'oganization',
-                component: () => import('@/page/manager/oganization'),
+                component: (resolve) => require(['@/page/manager/oganization'],resolve),
                 meta: {name: '机构管理'}
             },
             {
                 path: 'signTeacher',
                 name: 'signTeacher',
-                component: () => import('@/page/manager/signTeacher'),
+                component: (resolve) => require(['@/page/manager/signTeacher'],resolve),
                 meta: {name: '报名老师管理'}
             },
             {
                 path: 'manager/editmanager',
                 name: 'editmanager',
-                component: () => import('@/page/manager/manager/editmanager'),
+                component: (resolve) => require(['@/page/manager/manager/editmanager'],resolve),
                 meta: {name: '编辑管理员'}
             },
             {
                 path: 'manager/addmanager',
                 name: 'addmanager',
-                component: () => import('@/page/manager/manager/addmanager'),
+                component: (resolve) => require(['@/page/manager/manager/addmanager'],resolve),
                 meta: {name: '新增管理员'}
             },
             {
                 path: 'signTeacher/addTeacher',
                 name: 'addTeacher',
-                component: () => import('@/page/manager/signTeacher/addTeacher'),
+                component: (resolve) => require(['@/page/manager/signTeacher/addTeacher'],resolve),
                 meta: {name: '新增老师'}
             },
             {
                 path: 'signTeacher/editTeacher',
                 name: 'editTeacher',
-                component: () => import('@/page/manager/signTeacher/editTeacher'),
+                component: (resolve) => require(['@/page/manager/signTeacher/editTeacher'],resolve),
                 meta: {name: '编辑报名老师信息'}
             },
             {
                 path: 'oganization/addOganization',
                 name: 'addoganization',
-                component: () => import('@/page/manager/oganization/addOganization'),
+                component: (resolve) => require(['@/page/manager/oganization/addOganization'],resolve),
                 meta: {name: '新增机构'}
             },
             {
                 path: 'oganization/editOganization',
                 name: 'editOganization',
-                component: () => import('@/page/manager/oganization/editOganization'),
+                component: (resolve) => require(['@/page/manager/oganization/editOganization'],resolve),
                 meta: {name: '编辑机构信息'}
                 
             }
@@ -231,7 +231,7 @@ const staticRoute = [
             {
                 path: '',
                 name: 'optionRecord',
-                component: () => import('@/page/optionRecord'),
+                component: (resolve) => require(['@/page/optionRecord'],resolve),
                 meta: {name: '操作记录'}
                 
             }
