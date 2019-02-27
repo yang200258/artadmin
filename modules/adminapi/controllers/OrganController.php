@@ -1,10 +1,11 @@
 <?php
-namespace app\modules\admin\controllers;
+
+namespace app\modules\adminapi\controllers;
 
 
 use app\models\User;
 
-class TeacherController extends Controller
+class OrganController extends Controller
 {
     public function beforeAction($action)
     {
@@ -20,7 +21,7 @@ class TeacherController extends Controller
         return true;
     }
 
-    //老师列表
+    //机构列表
     public function actionList()
     {
         $this->init_page();
@@ -31,53 +32,46 @@ class TeacherController extends Controller
         $username = $request->post('username');
 
         $model = User::find()
-            ->select('id, name, username, sex, phone, organ_uid, create_at')
-            ->andWhere(['type' => User::TYPE_TEACHER])
+            ->select('id, name, username, organ_address, phone, organ_name, create_at')
+            ->andWhere(['type' => User::TYPE_ORGAN])
             ->andFilterWhere(['name' => $name])
             ->andFilterWhere(['LIKE', 'phone', $phone])
+            ->andFilterWhere(['LIKE', 'organ_name', $organ_name])
             ->andFilterWhere(['username' => $username]);
-        if ($organ_name)
-        {
-            $organ_uid = User::find()->select('id')->where(['organ_name' => $organ_name])->andWhere(['type' => User::TYPE_ORGAN])->scalar();
-            $model->andWhere(['organ_uid'=> $organ_uid]);
-        }
 
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        foreach ($list as &$one)
-        {
-            $one['organ'] = null;
-            if ($one['organ_uid'])
-            {
-                $one['organ'] = User::find()->select('id, organ_name')->where(['id' => $one['organ_uid']])->asArray()->one();
-            }
-        }
 
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
 
-    //老师添加
+    //机构添加
     public function actionAdd()
     {
         $request = \Yii::$app->request;
         $name = $request->post('name'); //姓名
-        $sex = $request->post('sex');
+        $organ_address = $request->post('organ_address');
         $phone = $request->post('phone', []);
-        $organ_uid = $request->post('organ_uid');
+        $organ_name = $request->post('organ_name');
         $username = $request->post('username');
         $password = $request->post('password');
+        $organ_area = $request->post('organ_area');
 
         if (!$name)
         {
             return $this->error('请输入姓名');
         }
-        if (!$sex)
+        if (!$organ_address)
         {
             return $this->error('请输入性别');
         }
         if (!$phone)
         {
             return $this->error('请输入联系电话');
+        }
+        if (!$organ_name)
+        {
+            return $this->error('请输入所属机构');
         }
         if (!$username)
         {
@@ -94,12 +88,12 @@ class TeacherController extends Controller
             return $this->error('存在相同账号');
         }
         $user = new User();
-        $user->username = $username;
         $user->name = $name;
-        $user->sex = $sex;
+        $user->organ_address = $organ_address;
         $user->phone = implode(',', $phone);
-        $user->organ_uid = $organ_uid;
-        $user->type = User::TYPE_TEACHER;
+        $user->organ_name = $organ_name;
+        $user->organ_area = $organ_area;
+        $user->type = User::TYPE_ORGAN;
         $user->create_at= date("Y-m-d H:i:s",time());
         $user->setPassword($password);
         $user->generateAuthKey();
@@ -110,28 +104,34 @@ class TeacherController extends Controller
         return $this->ok('创建成功');
     }
 
-    //老师编辑
+    //机构编辑
     public function actionEdit()
     {
         $request = \Yii::$app->request;
         $id = $request->post('id');
         $name = $request->post('name'); //姓名
-        $sex = $request->post('sex');
+        $organ_address = $request->post('organ_address');
         $phone = $request->post('phone', []);
-        $organ_uid = $request->post('organ_uid');
+        $organ_name = $request->post('organ_name');
         $username = $request->post('username');
+        $organ_area = $request->post('organ_area');
+        $password = $request->post('password');
 
         if (!$name)
         {
             return $this->error('请输入姓名');
         }
-        if (!$sex)
+        if (!$organ_address)
         {
             return $this->error('请输入性别');
         }
         if (!$phone)
         {
             return $this->error('请输入联系电话');
+        }
+        if (!$organ_name)
+        {
+            return $this->error('请输入所属机构');
         }
         if (!$username)
         {
@@ -148,11 +148,14 @@ class TeacherController extends Controller
         {
             return $this->error('存在相同账号');
         }
+
         $user->username = $username;
         $user->name = $name;
-        $user->sex = $sex;
+        $user->organ_address = $organ_address;
         $user->phone = implode(',', $phone);
-        $user->organ_name = $organ_uid;
+        $user->organ_name = $organ_name;
+        $user->organ_area = $organ_area;
+        $user->setPassword($password);
         $user->generateAuthKey();
         if (!$user->save(false))
         {
@@ -161,7 +164,7 @@ class TeacherController extends Controller
         return $this->ok('修改成功');
     }
 
-    //老师删除
+    //机构删除
     public function actionDelete()
     {
         $id = \Yii::$app->request->post('id');
@@ -171,7 +174,7 @@ class TeacherController extends Controller
         return $this->ok('删除成功');
     }
 
-    //老师重置密码
+    //机构重置密码
     public function actionReset()
     {
         $request = \Yii::$app->request;

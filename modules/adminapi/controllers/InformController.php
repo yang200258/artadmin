@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\adminapi\controllers;
 
 
 use app\models\Inform;
