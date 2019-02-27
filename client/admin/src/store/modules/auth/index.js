@@ -98,7 +98,7 @@ const actions = {
     getOption({commit}) {
         return new Promise((resolve,reject)=> {
             axios({
-                url: '/option',
+                url: '/common/option',
                 method: 'post',
                 data: {}
             }).then(res => {
@@ -127,7 +127,7 @@ const actions = {
     getOrgan({commit}) {
         return new Promise((resolve,reject)=> {
             axios({
-                url: '/organ',
+                url: '/common/organ',
                 method: 'post',
                 data: {}
             }).then(res=> {
