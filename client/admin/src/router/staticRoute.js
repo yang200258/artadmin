@@ -61,7 +61,7 @@ const staticRoute = [
             {
                 path: 'signInfo/imginfo',
                 name: 'imginfo',
-                component: resolve => require(['@/page/signup/signInfo/imginfo'],resolve),
+                component: resolve => require(['@/page/signup/signInfo/imgInfo'],resolve),
                 meta: {name: '下载证书'}
             },
         ]
@@ -109,19 +109,19 @@ const staticRoute = [
         children: [
             {
                 path: 'publishInfo',
-                component: (resolve) => require(['@/page/infoManagement/publishInfo'],resolve),
+                component: (resolve) => require(['@/page/infomanagement/publishInfo'],resolve),
                 meta: {name: '发布信息'}
             },
             {
                 path: 'infoList',
                 name: 'infoList',
-                component: (resolve) => require(['@/page/infoManagement/infoList'],resolve),
+                component: (resolve) => require(['@/page/infomanagement/infoList'],resolve),
                 meta: {name: '信息管理'},
             },
             {
                 path: 'editInfo',
                 name: 'editInfo',
-                component: (resolve) => require(['@/page/infoManagement/infoList/editInfo'],resolve),
+                component: (resolve) => require(['@/page/infomanagement/infoList/editInfo'],resolve),
                 meta: {name: '编辑信息'}
             },
             
@@ -146,19 +146,19 @@ const staticRoute = [
             {
                 path: 'informlist',
                 name: 'informlist',
-                component: (resolve) => require(['@/page/informManagement/informlist'],resolve),
+                component: (resolve) => require(['@/page/informManagement/informList'],resolve),
                 meta: {name: '通知列表'}
             },
             {
                 path: 'informlist/editinform',
                 name: 'editInform',
-                component: (resolve) => require(['@/page/informManagement/informlist/editinform'],resolve),
+                component: (resolve) => require(['@/page/informManagement/informList/editInform'],resolve),
                 meta: {name: '编辑通知'}
             },
             {
                 path: 'informlist/editinformobject',
                 name: 'editinformObject',
-                component: (resolve) => require(['@/page/informManagement/informlist/editinform/informobject'],resolve),
+                component: (resolve) => require(['@/page/informManagement/informList/editInform/informobject'],resolve),
                 meta: {name: '编辑对象'}
             }
         ]
