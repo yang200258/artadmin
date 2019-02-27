@@ -29,7 +29,7 @@ class PayController extends Controller
         }
 
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
-        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/example/WxPay.JsApiPay.php");
+        require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/example/WxPay.NativePay.php");
 
         $order_no = $apply['apply_no'];
         $money = (int)round($apply['pay']['price']);
@@ -40,7 +40,7 @@ class PayController extends Controller
         //②、统一下单
         $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayUnifiedOrder();
-        $input->SetAppid($weixin['home_appid']);//公众账号ID
+        $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetProduct_id($apply_id);  //商品ID，trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
         $input->SetBody("艺术考级海南账户支付");
         $input->SetAttach("艺术考级海南考区账户支付");

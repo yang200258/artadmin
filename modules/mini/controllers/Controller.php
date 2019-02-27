@@ -35,7 +35,7 @@ class Controller extends \yii\rest\Controller
 
         $beforeAction = parent::beforeAction($action);
         // 首次登录时不需要验证登录状态
-        if (in_array($this->id, ['login', 'search']))
+        if (in_array($this->id, ['login', 'search']) || ($this->id == 'pay' && $this->action->id == 'notify'))
         {
             return $beforeAction;
         }
