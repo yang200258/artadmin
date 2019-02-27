@@ -33,29 +33,14 @@ export default {
       }
     }
   },
-  checkLogin: function (needPhone = false) {
-    if (window.localStorage.token &&
-      ((!needPhone) || window.localStorage.phone)
-    ) {
-      return true
+  checkLogin: function () {
+    if (!(window.localStorage.token && window.localStorage.username)) {
+      console.log('router', router)
+      window.localStorage.loginBack = router.history.current.path
+      router.replace({ path: '/login' })
+      return false
     }
-
-    this.setLoginBackParam(needPhone)
-    if (!window.localStorage.token) {
-      // 没有登录
-      router.push({
-        name: 'SMSCode',
-        query: { type: 'login' }
-      })
-    } else if (needPhone) {
-      // 需要绑定手机而又没有绑定手机
-      router.push({
-        name: 'SMSCode',
-        query: { type: 'login' }
-      })
-    }
-
-    return false
+    return true
   },
   // 登录后返回登录之前的页面
   loginBack: function () {
