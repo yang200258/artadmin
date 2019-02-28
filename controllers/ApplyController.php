@@ -226,7 +226,7 @@ class ApplyController extends Controller
     {
         $id = \Yii::$app->request->post('id');
         $apply = Apply::find()
-            ->with(['pay'])
+            ->with(['pay', 'examsite1', 'examsite2'])
             ->where(['id' => $id])
             ->andWhere(['uid' => $this->userid])
             ->asArray()->one();
