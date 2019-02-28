@@ -1,23 +1,21 @@
 <template>
     <div class="container">
-        <el-row class="infoType">
-            <span style="color: red">*</span><span>信息分类：</span>
-            <el-select v-model="publishData.cid" placeholder="请选择信息类型">
-                <el-option v-for="item in infoTypeOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-        </el-row>
-        <el-row class="infoTitle">
-            <el-col :span="1"><span style="color: red">*</span><span>标题：</span></el-col>
-            <el-col :span="8"><el-input @input = "descInput" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input></el-col>
-        </el-row>
-        <el-row class="alnumber">
-            <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
-        </el-row>
-        <el-row class="infoImage">
-            <span>封面图：</span>
-            <el-upload
+        <el-form :model="publishData" :rules="rules">
+            <el-form-item label="信息分类：" prop="cid">
+                <el-select v-model="publishData.cid" placeholder="请选择信息类型">
+                    <el-option v-for="item in infoTypeOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="标题：" prop="title">
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input>
+                <el-row class="alnumber">
+                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
+                </el-row>
+            </el-form-item>
+            <el-form-item label="封面图：">
+                <el-upload
                 name="file"
-                :action="'api/upload'"
+                action="https://www.hnyskj.net/adminapi/upload"
                 :limit="1"
                 accept=".jpg,.png" 
                 list-type="picture-card"
@@ -32,16 +30,14 @@
             <el-dialog :visible.sync="dialogVisible" :modal="false" title="查看大图片">
                 <img width="100%" :src="dialogImageUrl" alt="">
             </el-dialog>
-        </el-row>
-        <el-row class="introduction">
-            <el-col :span="1"><span style="color: red">*</span><span>引言：</span></el-col>
-            <el-col :span="8"><el-input type="textarea" @input = "descInput2" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
-            </el-col>
-        </el-row>
-        <el-row class="alnumber">
-            <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
-        </el-row>
-        <!-- <richtext class="richtext" :content="publishData.content"></richtext> -->
+            </el-form-item>
+            <el-form-item label="引言：" prop="intro">
+               <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
+               <el-row class="alnumber">
+                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
+                </el-row>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 <script>
@@ -60,6 +56,8 @@ export default {
             fileLists: [],
             uploaddata: {},
             cover_id: '',
+            rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
+            title: [{required: true,message: '请输入内容',trigger: 'blur'}],}
         }
     },
     mounted(){
@@ -84,15 +82,6 @@ export default {
         }),
     },
     methods: {
-        //输入标题时计算字数
-        descInput: function(){
-
-        },
-        //输入引言时计算字数
-        descInput2: function(){
-
-        },
-        
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
@@ -135,6 +124,11 @@ export default {
     .container {
         padding-left: 100px;
         font-size: 16px;
+        padding-top: 50px;
+        .el-textarea {
+            display: block;
+            width: 38%;
+        }
         .infoType {
             margin: 30px 0;
         }
@@ -143,12 +137,15 @@ export default {
         }
         .infoTitle {
             margin-bottom: 30px 0;
+            display: flex;
+
         }
         .infoImage {
             margin-bottom: 30px 0;
         }
         .introduction {
             margin-top: 30px;
+            display: flex;
         }
         
     }

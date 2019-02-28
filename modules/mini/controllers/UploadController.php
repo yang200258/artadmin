@@ -13,7 +13,7 @@ class UploadController extends Controller
      */
     public function actionIndex()
     {
-        $destDir = \Yii::getAlias('@root') . '/uimage';
+        $destDir = \Yii::getAlias('@app') . '/uimage';
         $getUrl = \Yii::$app->request->post('url', 0); // 如果传递了getUrl参数,则返回值里带上Url
         $upload = ImageUpload::save($destDir)['image'];
 

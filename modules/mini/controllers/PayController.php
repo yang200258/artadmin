@@ -38,8 +38,9 @@ class PayController extends Controller
         {
             return  $this->error('支付金额不能少于1分钱');
         }
-        //②、统一下单
+        $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayUnifiedOrder();
+        $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetBody("艺术考级海南账户支付");
         $input->SetAttach("艺术考级海南考区账户支付");
         $input->SetOut_trade_no($order_no);
@@ -86,10 +87,12 @@ class PayController extends Controller
             $msg = $e->errorMessage();
             return false;
         }
+        $this->log($result['transaction_id']);
         //查询订单
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
+        $this->log(json_encode($result));
         $apply = Apply::find()->with('pay')->where(['apply_no' => (int)$result['out_trade_no']])->asArray()->one();
         $user_pay = $apply['pay'];
         if($user_pay->state != 1) {
@@ -140,4 +143,10 @@ class PayController extends Controller
         }
     }
 
+
+    protected function log($message)
+    {
+        $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
+        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
+    }
 }

@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
         //     next({path: "/sign", replace: true})
         // }
         if (to.path === '/login') {
-            next({path: "/home", replace: true})
+            next({path: "/signup", replace: true})
         } else if(to.path.indexOf("/error") >= 0){
             // 防止因重定向到error页面造成beforeEach死循环
             next()
@@ -106,6 +106,15 @@ router.beforeEach((to, from, next) => {
         }
     }
 })
+router.onError((error) => {
+    console.log('路由懒加载异常错误捕获')
+    const pattern = /Loading chunk (\d)+ failed/g;
+    const isChunkLoadFailed = error.message.match(pattern);
+    const targetPath = router.history.pending.fullPath;
+    if (isChunkLoadFailed) {
+     router.replace(targetPath);
+    }
+   });
 
 router.afterEach(() => {
     NProgress.done(); // 结束Progress

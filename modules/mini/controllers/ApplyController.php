@@ -195,7 +195,7 @@ class ApplyController extends Controller
             $transaction->rollback();//回滚事务
             return $this->error('服务器繁忙，请稍后再试！');
         }
-        return $this->ok('提交成功');
+        return $this->json(['id' => $apply->id]);
     }
 
     //报名列表
@@ -225,7 +225,7 @@ class ApplyController extends Controller
         {
             return $this->error('报名不存在');
         }
-
+        $apply['pay']['price'] = $apply['pay']['price'] / 100;
         if ($apply['continuous_level'])
         {
             $apply['pay']['domain'] = [

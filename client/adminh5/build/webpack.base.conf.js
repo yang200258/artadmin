@@ -24,9 +24,10 @@ module.exports = {
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
-        publicPath: process.env.NODE_ENV === 'production' ?
-        config.build.assetsPublicPath :
-            config.dev.assetsPublicPath
+        publicPath: process.env.NODE_ENV === 'production' ? 'https://static.hnyskj.net/admin/': '/'
+        // publicPath: './'
+        // config.build.assetsPublicPath :
+        //     config.dev.assetsPublicPath
     },
     resolve: {
         extensions: ['.js', '.vue', '.less', '.css', '.scss', '.json'],
@@ -94,6 +95,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        // new webpack.ProvidePlugin({
+        //     'window.Quill': 'quill/dist/quill.js',
+        //     'Quill': 'quill/dist/quill.js'
+        //   }),
     ]
 }

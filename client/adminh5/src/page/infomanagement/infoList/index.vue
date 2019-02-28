@@ -316,6 +316,7 @@ export default {
         },
         //多选后删除操作
         handleSelectionChange: function(val){
+            this.deleteid = []
             val.forEach(item=> {
                 this.deleteid.push(item.id)
             })

@@ -4,6 +4,7 @@ namespace app\modules\adminapi\controllers;
 
 
 use app\models\Apply;
+use app\models\ApplyPay;
 use app\models\ExamExaminee;
 use app\models\Image;
 use app\models\Inform;
@@ -134,7 +135,7 @@ class ApplyController extends Controller
     public function actionCheck()
     {
         $request = \Yii::$app->request;
-        $apply_id = $request->post('apply_id');
+        $apply_id = $request->post('id');
         $status = $request->post('status');
 
         $apply = Apply::findOne($apply_id);
@@ -160,7 +161,7 @@ class ApplyController extends Controller
                 $inform->type = 8;
             }else //不通过
             {
-                Apply::updateAll(['status' => 2, 'plan' => 3], ['id' => $apply->id]); //未通过、已失效
+                Apply::updateAll(['status' => 2, 'plan' => 3, 'cause' => '审核未通过'], ['id' => $apply->id]); //未通过、已失效
                 $content = '您提交的中国音乐学院全国社会艺术水平考级报名信息未通过审核。请上传正确的相关证书，并在规定报名时间内重新进行报名。';
                 $inform->type = 7;
             }

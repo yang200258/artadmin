@@ -6,6 +6,7 @@ use app\helpers\Pdf;
 use app\models\Apply;
 use app\models\ApplyPay;
 use app\models\Exam;
+use app\models\Image;
 
 class ApplyController extends Controller
 {
@@ -158,7 +159,7 @@ class ApplyController extends Controller
                 $apply->status = 3;
                 $apply->plan = 4;
             }
-            if (! $apply->save(false))
+            if (!$apply->save(false))
             {
                 $transaction->rollback();//回滚事务
                 return $this->error('报名失败');
@@ -193,7 +194,7 @@ class ApplyController extends Controller
             $transaction->rollback();//回滚事务
             return $this->error('服务器繁忙，请稍后再试！');
         }
-        return $this->ok('提交成功');
+        return $this->json(['id' => $apply->id]);
     }
 
     public function actionList()
@@ -216,15 +217,51 @@ class ApplyController extends Controller
 
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
-            $val['detail_image_url'] = "http://artadmintest.fantuan.cn/uimage/6a/58/47/29/6a584729b027034e032d3e42123fbd0c.jpg";
-        });
 
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
 
 
+    public function actionDetail()
+    {
+        $id = \Yii::$app->request->post('id');
+        $apply = Apply::find()
+            ->with(['pay', 'examsite1', 'examsite2'])
+            ->where(['id' => $id])
+            ->andWhere(['uid' => $this->userid])
+            ->asArray()->one();
+        if (!$apply)
+        {
+            return $this->error('报名不存在');
+        }
+        $apply['pay']['price'] = $apply['pay']['price'] / 100;
+        if ($apply['continuous_level'])
+        {
+            $apply['pay']['domain'] = [
+                [
+                    'name' => $apply['domain'] . $apply['level'],
+                    'price' => ApplyPay::$rates[$apply['level']] / 100 . '元',
+                ],
+                [
+                    'name' => $apply['domain'] . $apply['continuous_level'],
+                    'price' => ApplyPay::$rates[$apply['continuous_level']] / 100 . '元',
+                ],
+            ];
+        }else
+        {
+            $apply['pay']['domain'] = [
+                [
+                    'name' => $apply['domain'] . $apply['level'],
+                    'price' => ApplyPay::$rates[$apply['level']] / 100 . '元',
+                ]
+            ];
+        }
+        $apply['pro_certificate_url'] = $apply['pro_certificate_id'] ? Image::getAbsoluteUrlById($apply['pro_certificate_id']) : '';
+        $apply['basic_certificate_url'] = $apply['basic_certificate_id'] ? Image::getAbsoluteUrlById($apply['basic_certificate_id']) : '';
+        $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
 
+        return $this->json($apply);
+    }
     public function getStatus($exam)
     {
         $time = strtotime(date('Y-m-d H:i:s', time()));

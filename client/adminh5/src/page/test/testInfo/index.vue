@@ -13,10 +13,10 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="9"><p>报名时间：</p>
+                <el-col :span="6"><p>报名时间：</p>
                     <el-date-picker v-model="apply_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                 </el-col>
-                <el-col :span="9"><p>考试时间：</p>
+                <el-col :span="6"><p>考试时间：</p>
                     <el-date-picker v-model="exam_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                 </el-col>
             </el-row>
@@ -87,11 +87,11 @@ export default {
       },
       addTest(){
           this.$router.push({
-              path: 'testInfo/addTest'
+              name: 'addTest'
           })
       },
       editTest(){
-          this.$router.push({path: 'test/testInfo/editTest'})
+          this.$router.push({name: 'editTest'})
       }
     }
 }

@@ -10,9 +10,9 @@
             </el-row></el-form-item>
             <el-form-item label="机构地址：" prop="organ_address"><el-row><el-input placeholder="请输入机构地址" v-model="addForm.organ_address"></el-input></el-row></el-form-item>
             <el-form-item label="联系人：" prop="name"><el-row><el-input placeholder="请输入密码" v-model="addForm.name"></el-input></el-row></el-form-item>
-            <el-form-item label="联系电话1" prop="phone1"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[0]"></el-input></el-row></el-form-item>
-            <el-form-item label="联系电话2" prop="phone2"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[1]"></el-input></el-row></el-form-item>
-            <el-form-item label="联系电话3" prop="phone3"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[2]"></el-input></el-row></el-form-item>
+            <el-form-item label="联系电话1" prop="phone"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[0]"></el-input></el-row></el-form-item>
+            <el-form-item label="联系电话2"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[1]"></el-input></el-row></el-form-item>
+            <el-form-item label="联系电话3"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[2]"></el-input></el-row></el-form-item>
             <el-form-item label="官网登录账号：" prop="username"><el-row><el-input placeholder="" v-model="addForm.username"></el-input></el-row></el-form-item>
             <el-form-item label="官网登录密码：" prop="password"><el-row><el-input type="password" placeholder="" v-model="addForm.password"></el-input></el-row></el-form-item>
             <el-form-item>
@@ -32,7 +32,7 @@ export default {
             districtOptions: [{key: '0',label: '海口市'},{key: '1',label: '其他市县'}],
             rules:{organ_name: [{required: true,message: '请输入机构名称', trigger: 'blur'}],organ_area: [{required: true,message: '请输入所属地区', trigger: 'change'}],
                     organ_address: [{required: true,message: '请输入机构地址', trigger: 'blur'}],name: [{required: true,message: '请输入机构联系人', trigger: 'blur'}],
-                    phone1: [{required: true,message: '请输入联系电话', trigger: 'blur'}],username: [{required: true,message: '请输入官网登录账号', trigger: 'blur'}],
+                    phone: [{required: true,message: '请输入联系电话', trigger: 'blur'}],username: [{required: true,message: '请输入官网登录账号', trigger: 'blur'}],
                     password: [{required: true,message: '请输入官网登录密码', trigger: 'blur'}]}
         }
     },
