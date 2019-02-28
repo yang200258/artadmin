@@ -195,7 +195,7 @@ class ApplyController extends Controller
             $transaction->rollback();//回滚事务
             return $this->error('服务器繁忙，请稍后再试！');
         }
-        return $this->ok('提交成功');
+        return $this->json(['id' => $apply->id]);
     }
 
     //报名列表
