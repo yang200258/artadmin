@@ -115,7 +115,7 @@ export default {
         //获取信息分类列表
         getTypeList: function(){
             this.$axios({
-                url: '/msg/category/list',
+                url: '/category/list',
                 method: 'post',
                 data: {}
             }).then(res=>{

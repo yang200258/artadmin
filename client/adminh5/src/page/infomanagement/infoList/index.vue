@@ -131,7 +131,7 @@ export default {
             let addcategoryname = this.addcategoryname;
             if (addcategoryname) {
                 this.$axios({
-                    url: '/msg/category/add',
+                    url: '/category/add',
                     method: 'post',
                     data: {name: addcategoryname}
                 }).then(res=>{
@@ -153,7 +153,7 @@ export default {
         closeTag: function(id){
             console.log(id);
             this.$axios({
-                url: '/msg/category/delete',
+                url: '/category/delete',
                 method: 'post',
                 data: {id: id}
             }).then(res=> {
@@ -179,7 +179,7 @@ export default {
         //回车完成信息分类编辑
         editCategary: function(){
             this.$axios({
-                url: '/msg/category/edit',
+                url: '/category/edit',
                 method: 'post',
                 data: this.editcategary
             }).then(res=> {
@@ -236,7 +236,7 @@ export default {
         editOption: function(){
             this.dialogVisible = true
             this.$axios({
-                url: '/msg/category/list',
+                url: '/category/list',
                 method: 'post',
                 data: {}
             }).then(res=> {
@@ -293,7 +293,7 @@ export default {
         //获取信息分类
         getTypeList: function(){
             this.$axios({
-                url: '/msg/category/list',
+                url: '/category/list',
                 method: 'post',
                 data: {}
             }).then(res=>{
