@@ -11,7 +11,7 @@ class UploadController extends Controller
     //上传图片接口
     public function actionIndex()
     {
-        $destDir = \Yii::getAlias('@root') . '/uimage';
+        $destDir = \Yii::getAlias('@app') . '/uimage';
 
         $uploads = ImageUpload::save($destDir);
         $ids = [];
