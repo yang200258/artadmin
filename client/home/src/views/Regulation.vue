@@ -1,42 +1,45 @@
 <template>
-  <div class="p-us">
+  <div class="p-regulation">
     <top-info />
     <top-bar />
     <sub-nav :navs="subNavs" />
-    <div class="us-detail-body">
+    <div class="regulation-detail-body">
       <div class="header">
-        <div class="title">{{aboutUs.title}}</div>
-        <div v-if="aboutUs.create_at" class="time">发布日期：{{aboutUs.create_at}}</div>
+        <div class="title">{{regulation.title}}</div>
+        <div v-if="regulation.create_at" class="time">发布日期：{{regulation.create_at}}</div>
       </div>
-      <div class="us-content" v-html="aboutUs.content"></div>
+      <div class="regulation-content" v-html="regulation.content"></div>
     </div>
     <bottom-info />
   </div>
 </template>
 
 <script>
+// 考级简章
 // @ is an alias to /src
 import TopInfo from '../components/TopInfo'
 import TopBar from '../components/TopBar'
 import BottomInfo from '../components/BottomInfo'
 import SubNav from '../components/SubNav'
+import mixin from '../lib/mixins'
 
 export default {
+  mixins: [mixin],
   data () {
     return {
-      subNavs: [{ name: 'Home', label: '海南考区', link: '/' }, { name: 'Us', label: '关于我们', link: '/us' }],
-      aboutUs: {}
+      subNavs: [{ name: 'Home', label: '海南考区', link: '/' }, { name: 'Regulation', label: '考级简章', link: '/regulation' }],
+      regulation: {}
     }
   },
   components: { TopInfo, TopBar, BottomInfo, SubNav },
   mounted: function () {
-    this.fetchAboutUs()
+    this.fetchRegulation()
   },
   methods: {
-    fetchAboutUs: function () {
-      this.$ajax('/msg/detail', { data: { cid: 6 } }).then(res => { // cid为6表示 关于我们 的数据
+    fetchRegulation: function () {
+      this.$ajax('/msg/detail', { data: { cid: 7 } }).then(res => { // cid为7表示 考级简章 的数据
         if (res && !res.error) { // 获取成功
-          this.aboutUs = res.data
+          this.regulation = res.data
         }
       }).catch(err => {
         console.log('err', err)
@@ -47,10 +50,10 @@ export default {
 </script>
 
 <style scoped>
-.p-us{
+.p-regulation-detail{
   overflow-x: visible;
 }
-.us-detail-body{
+.regulation-detail-body{
   min-height: 1000px;
   padding-bottom: 20px;
   background: #EFEFEF;
@@ -74,7 +77,7 @@ export default {
   color: #9B9B9B;
   padding-top: 15px;
 }
-.us-content{
+.regulation-content{
   padding: 30px 50px;
 }
 </style>

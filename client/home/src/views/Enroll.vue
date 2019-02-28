@@ -10,6 +10,7 @@
           <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/manage') !== -1}" @click.stop="sidebarClick('2')">报名管理</div>
           <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/queryhall') !== -1}" @click.stop="sidebarClick('3')">考场查询</div>
           <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/queryscore') !== -1}" @click.stop="sidebarClick('4')">成绩查询</div>
+          <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/regulation') !== -1}" @click.stop="sidebarClick('5')">考级简章</div>
         </div>
         <div class="side-body fr">
           <keep-alive>
@@ -69,6 +70,8 @@ export default {
         this.$router.replace({ path: '/enroll/queryhall' })
       } else if (type.toString() === '4') { // 点击成绩管理
         this.$router.replace({ path: '/enroll/queryscore' })
+      } else if (type.toString() === '5') { // 点击考级简章
+        this.$router.push({ path: '/regulation' })
       }
     }
   }
