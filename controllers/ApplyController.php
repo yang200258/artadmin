@@ -224,7 +224,44 @@ class ApplyController extends Controller
     }
 
 
+    public function actionDetail()
+    {
+        $id = \Yii::$app->request->post('id');
+        $apply = Apply::find()
+            ->with(['pay'])
+            ->where(['id' => $id])
+            ->andWhere(['uid' => $this->userid])
+            ->asArray()->one();
+        if (!$apply)
+        {
+            return $this->error('报名不存在');
+        }
 
+        if ($apply['continuous_level'])
+        {
+            $apply['pay']['domain'] = [
+                [
+                    'name' => $apply['domain'] . $apply['level'],
+                    'price' => ApplyPay::$rates[$apply['level']] / 100 . '元',
+                ],
+                [
+                    'name' => $apply['domain'] . $apply['continuous_level'],
+                    'price' => ApplyPay::$rates[$apply['continuous_level']] / 100 . '元',
+                ],
+            ];
+        }else
+        {
+            $apply['pay']['domain'] = [
+                [
+                    'name' => $apply['domain'] . $apply['level'],
+                    'price' => ApplyPay::$rates[$apply['level']] / 100 . '元',
+                ]
+            ];
+        }
+        $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
+
+        return $this->json($apply);
+    }
     public function getStatus($exam)
     {
         $time = strtotime(date('Y-m-d H:i:s', time()));
