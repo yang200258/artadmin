@@ -91,6 +91,7 @@ class PayController extends Controller
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
+        $this->log(json_encode($result));
         $apply = Apply::find()->with('pay')->where(['apply_no' => (int)$result['out_trade_no']])->asArray()->one();
         $user_pay = $apply['pay'];
         if($user_pay->state != 1) {
@@ -141,4 +142,10 @@ class PayController extends Controller
         }
     }
 
+
+    protected function log($message)
+    {
+        $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
+        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
+    }
 }
