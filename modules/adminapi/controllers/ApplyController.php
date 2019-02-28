@@ -135,7 +135,7 @@ class ApplyController extends Controller
     public function actionCheck()
     {
         $request = \Yii::$app->request;
-        $apply_id = $request->post('apply_id');
+        $apply_id = $request->post('id');
         $status = $request->post('status');
 
         $apply = Apply::findOne($apply_id);
