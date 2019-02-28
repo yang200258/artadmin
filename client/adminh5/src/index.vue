@@ -5,7 +5,7 @@
 </template>
 
 <script>
-// import setTheme from "@/util/setTheme"
+import setTheme from "@/util/setTheme"
 import Cookies from 'js-cookie'
 
 export default {
