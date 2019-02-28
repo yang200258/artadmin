@@ -47,8 +47,8 @@ $config = [
         'mini' => [
             'class' => 'app\modules\mini\Module',
         ],
-        'admin' => [
-            'class' => 'app\modules\admin\Module',
+        'adminapi' => [
+            'class' => 'app\modules\adminapi\Module',
         ]
     ],
     'params' => $params,

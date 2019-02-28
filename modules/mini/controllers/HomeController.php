@@ -25,15 +25,15 @@ class HomeController extends Controller
         $banner = [
             [
                 'url' => 'http://www.baidu.com',
-                'img' => 'http://image.mamicode.com/info/201706/20180110233404910337.png'
+                'img' => \Yii::$app->params['image_site'] . '/image/mini/1.png'
             ],
             [
                 'url' => 'http://www.baidu.com',
-                'img' => 'http://image.mamicode.com/info/201706/20180110233404910337.png'
+                'img' => \Yii::$app->params['image_site'] . '/image/mini/2.png'
             ],
             [
                 'url' => 'http://www.baidu.com',
-                'img' => 'http://image.mamicode.com/info/201706/20180110233404910337.png'
+                'img' => \Yii::$app->params['image_site'] . '/image/mini/3.png'
             ]
         ];
 

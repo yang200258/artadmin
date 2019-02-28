@@ -59,6 +59,7 @@ class PayController extends Controller
 
         $tv = [];
         $tv['payurl'] = $payurl;
+        $tv['apply'] = $apply;
         return $this->json($tv);
     }
 
