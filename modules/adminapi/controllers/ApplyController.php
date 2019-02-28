@@ -161,7 +161,7 @@ class ApplyController extends Controller
                 $inform->type = 8;
             }else //不通过
             {
-                Apply::updateAll(['status' => 2, 'plan' => 3], ['id' => $apply->id]); //未通过、已失效
+                Apply::updateAll(['status' => 2, 'plan' => 3, 'cause' => '审核未通过'], ['id' => $apply->id]); //未通过、已失效
                 $content = '您提交的中国音乐学院全国社会艺术水平考级报名信息未通过审核。请上传正确的相关证书，并在规定报名时间内重新进行报名。';
                 $inform->type = 7;
             }
