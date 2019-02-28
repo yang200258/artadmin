@@ -170,7 +170,7 @@ export default {
         padding-top: 50px;
         .el-textarea {
             display: block;
-            width: 30%;
+            width: 38%;
         }
         .infoType {
             margin: 30px 0;
