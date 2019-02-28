@@ -38,8 +38,9 @@ class PayController extends Controller
         {
             return  $this->error('支付金额不能少于1分钱');
         }
-        //②、统一下单
+        $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayUnifiedOrder();
+        $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetBody("艺术考级海南账户支付");
         $input->SetAttach("艺术考级海南考区账户支付");
         $input->SetOut_trade_no($order_no);
