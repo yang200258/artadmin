@@ -129,7 +129,15 @@ class MsgController extends Controller
     public function actionDetail()
     {
         $id = \Yii::$app->request->post('id');
-        $msg = Msg::find()->where(['id' => $id])->asArray()->one();
+        $cid = \Yii::$app->request->post('cid');
+        if ($cid)
+        {
+            $msg = Msg::find()->where(['cid' => $cid])->orderBy('id desc')->asArray()->one();
+        }else
+        {
+            $msg = Msg::find()->where(['id' => $id])->asArray()->one();
+        }
+
         if (!$msg)
         {
             return $this->error('信息不存在');
