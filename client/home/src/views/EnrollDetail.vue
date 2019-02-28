@@ -3,70 +3,89 @@
     <div class="info-box">
       <div class="title">报名信息</div>
       <div class="info-body">
-        <img v-if="order.evaSheet" class="image" :src="order.evaSheet" alt="报名评审表" title="报名评审表" />
+        <img v-if="enroll.bm_image_url" class="image" :src="enroll.bm_image_url" alt="报名评审表" title="报名评审表" />
         <div class="seal-box">
-          <seal :type="order.status.toString()" />
+          <seal :type="enroll.plan.toString()" />
         </div>
-        <div v-if="order.cerMajor || order.cerBasicmusic" class="cer-buttons clearfix">
-          <div v-if="order.cerMajor" class="cer-button cursor-pointer fl" @click.stop="changeShowCer('showCerMajor')">查看专业证书</div>
-          <div v-if="order.cerBasicmusic" class="cer-button cursor-pointer fl" @click.stop="changeShowCer('showCerBasicmusic')">查看基本乐科证书</div>
+        <div v-if="enroll.pro_certificate_url || enroll.basic_certificate_url" class="cer-buttons clearfix">
+          <div v-if="enroll.pro_certificate_url" class="cer-button cursor-pointer fl" @click.stop="changeShowCer('showCerMajor')">查看专业证书</div>
+          <div v-if="enroll.basic_certificate_url" class="cer-button cursor-pointer fl" @click.stop="changeShowCer('showCerBasicmusic')">查看基本乐科证书</div>
         </div>
       </div>
-      <div v-if="order.cerMajor" v-show="showCerMajor" class="cer-wrapper">
-        <div class="cer-box" :style="{backgroundImage: 'url(' + order.cerMajor + ')'}"></div>
+      <div v-if="enroll.pro_certificate_url" v-show="showCerMajor" class="cer-wrapper">
+        <div class="cer-box" :style="{backgroundImage: 'url(' + enroll.pro_certificate_url + ')'}"></div>
         <i class="ykfont yk-close cer-close cursor-pointer" @click.stop="changeShowCer('showCerMajor')"></i>
       </div>
-      <div v-if="order.cerBasicmusic" v-show="showCerBasicmusic" class="cer-wrapper">
-        <div class="cer-box" :style="{backgroundImage: 'url(' + order.cerBasicmusic + ')'}"></div>
+      <div v-if="enroll.basic_certificate_url" v-show="showCerBasicmusic" class="cer-wrapper">
+        <div class="cer-box" :style="{backgroundImage: 'url(' + enroll.basic_certificate_url + ')'}"></div>
         <i class="ykfont yk-close cer-close cursor-pointer" @click.stop="changeShowCer('showCerBasicmusic')"></i>
       </div>
     </div>
-    <div v-if="order.status.toString() === '5'" class="fee-box">
+    <!-- 已缴费 -->
+    <div v-if="enroll.plan.toString() === '4'" class="fee-box">
       <div class="title">缴费信息</div>
       <div class="fee-body">
-        <div class="info-row">缴费状态：{{statusText[order.status]}}</div>
+        <div class="info-row">缴费状态：{{statusText[enroll.plan]}}</div>
         <div class="clearfix">
           <div class="info-row fl">缴费科目：</div>
           <div class="fl" style="width:870px">
-            <div v-for="row in order.infoList" :key="row.id" class="info-row clearfix">
+            <div v-for="row in payData.domain" :key="row.id" class="info-row clearfix">
               <div class="name fl">{{row.name}}</div>
-              <div class="price fr">{{row.price}}元</div>
+              <div class="price fr">{{row.price || '0.00'}}</div>
             </div>
           </div>
         </div>
-        <div class="info-row">缴费金额：{{order.total}}元</div>
-        <div class="info-row">缴费方式：{{order.methodText}}</div>
-        <div class="info-row">缴费时间：{{order.payTime}}</div>
-        <div class="info-row">缴费单号：{{order.payNumber}}</div>
+        <div class="info-row">缴费金额：{{payData.price || '0.00'}}元</div>
+        <div class="info-row">缴费方式：{{payType[payData.type.toString()]}}</div>
+        <div class="info-row">缴费时间：{{payData.pay_time}}</div>
+        <div class="info-row">缴费单号：{{payData.number}}</div>
       </div>
     </div>
-    <div v-else-if="order.status.toString() === '2'" class="fee-box2">
+    <!-- 待缴费 -->
+    <div v-else-if="enroll.plan.toString() === '2'" class="fee-box2">
       <div class="title">应缴费用</div>
       <div class="fee-body">
-        <div v-for="row in order.infoList" :key="row.id" class="info-row2 clearfix">
+        <div v-for="row in payData.domain" :key="row.id" class="info-row2 clearfix">
           <div class="fl">考试项目：{{row.name}}</div>
-          <div class="fr">{{row.price}}元</div>
+          <div class="fr">{{row.price || '0.00'}}</div>
         </div>
-        <div class="total">总计：<span style="color:#D0021B">{{order.total}}</span>元</div>
+        <div class="total">总计：<span style="color:#D0021B">{{payData.price}}</span>元</div>
       </div>
     </div>
-    <div v-if="order.status.toString() === '2'">
+    <div v-if="enroll.plan.toString() === '2'">
       <div class="state-text2 clearfix">
         <i class="ykfont yk-warning fl"></i>
         <div class="warining-text fl">进行缴费后，考试费用不再退回</div>
       </div>
       <div class="go-pay-btn cursor-pointer" @click.stop="goPay">立即缴费</div>
     </div>
-    <div v-else-if="order.status.toString() === '5'">
-      <div v-if="hall && hall.id" class="hall-box">
-        <div class="title">考场信息</div>
-        <div class="hall-body">
-          <div class="info-row">考试地址：{{hall.address}}元</div>
-          <div class="info-row">考场：{{hall.name}}</div>
-          <div class="info-row">排位号：{{hall.seat}}</div>
-          <div class="info-row">考试时间：{{hall.examTime}}</div>
-        </div>
+    <!-- 失效原因 -->
+    <div v-if="enroll.cause">
+      <div class="state-text2 clearfix">
+        <div class="warining-text fl">失效原因：{{enroll.cause}}</div>
       </div>
+    </div>
+    <!-- 考场信息 -->
+    <div v-if="enroll.examsite1" class="hall-box">
+      <div class="title">考场信息</div>
+      <div class="hall-body">
+        <div class="info-row">考试地址：{{enroll.examsite1.address}}</div>
+        <div class="info-row">考场：{{enroll.examsite1.room}}</div>
+        <div class="info-row">排位号：{{enroll.examsite1.sort}}</div>
+        <div class="info-row">考试时间：{{enroll.examsite1.exam_time}}</div>
+      </div>
+    </div>
+    <div v-if="enroll.examsite2" class="hall-box">
+      <div class="title">考场信息</div>
+      <div class="hall-body">
+        <div class="info-row">考试地址：{{enroll.examsite2.address}}</div>
+        <div class="info-row">考场：{{enroll.examsite2.room}}</div>
+        <div class="info-row">排位号：{{enroll.examsite2.sort}}</div>
+        <div class="info-row">考试时间：{{enroll.examsite2.exam_time}}</div>
+      </div>
+    </div>
+    <!-- 已缴费 -->
+    <div v-else-if="enroll.plan.toString() === '4'">
       <!-- <div v-if="(userRole.toString() === roles.teacher || userRole.toString() === roles.institution) && !outOfExam && !editedDelay" class="delay-box clearfix">
         <div class="required-title fl">是否缺考顺延：</div>
         <label class="delay-label cursor-pointer fl clearfix">
@@ -97,80 +116,49 @@ export default {
     return {
       statusText: globalConstant.statusText,
       roles: globalConstant.roles,
+      payType: globalConstant.enrollPayType,
       userRole: '0',
       showCerMajor: false,
       showCerBasicmusic: false,
-      order: {
-        status: '5',
-        methodText: '微信支付/线下缴费',
-        payTime: '2019.01.02 14：35：30',
-        payNumber: '',
-        cerMajor: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1039122920,2898171750&fm=26&gp=0.jpg', // 专业证书
-        cerBasicmusic: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3370886825,148288012&fm=26&gp=0.jpg', // 基本乐科证书
-        evaSheet: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550047344237&di=1b411d36b7e87d1ced1fc3cf44a0cd1a&imgtype=0&src=http%3A%2F%2Fpic5.photophoto.cn%2F20071207%2F0033034132771700_b.jpg', // 评审表
-        infoList: [
-          {
-            id: '2',
-            name: '基本乐科一级',
-            price: '240.00'
-          },
-          {
-            id: '3',
-            name: '基本乐科二级',
-            price: '280.00'
-          }
-        ],
-        total: '520.00'
-      },
-      hall: {
-        id: '1',
-        address: '海南省海口市龙华区滨海大道105号百方广场15B',
-        name: '考场1',
-        seat: '35',
-        examTime: '2019.02.15 14:00'
-      },
-      outOfExam: false, // 考试时间是否已过
-      editedDelay: false, // 是否已提交过缺考顺延
-      delay: '0' // 缺考是否顺延
+      enroll: {},
+      payData: {}
     }
   },
   components: { Seal },
+  mounted () {
+    this.fetchEnroll()
+  },
+  actived () {
+    this.fetchEnroll()
+  },
   methods: {
     changeShowCer: function (key) {
       this[key] = !this[key]
     },
     goPay: function () {
       console.log('goPay')
-      this.$router.replace({ path: '/enroll/pay' })
-    },
-    requestDelay: function (callback) {
-      // todo，请求缺考顺延
-      // 模拟请求缺考顺延
-      setTimeout(() => {
-        callback && callback()
-      }, 500)
+      let path = '/enroll/pay?id=' + this.$route.query.id
+      this.$router.replace({ path })
     },
     enrollMore: function () { // 点击继续添加
       this.$router.replace({ path: '/enroll/apply' })
-      // if ((this.userRole.toString() === this.roles.teacher || this.userRole.toString() === this.roles.institution) && !this.outOfExam && !this.editedDelay) { // 老师或机构 且 在考试时间内 且未请求过缺考顺延
-      //   const successCallback = () => {
-      //     this.$router.replace({ path: '/enroll/apply' })
-      //   }
-      //   this.requestDelay(successCallback)
-      // } else {
-      //   this.$router.replace({ path: '/enroll/apply' })
-      // }
     },
     complete: function () { // 点击完成
       this.$router.go(-1)
-      // if ((this.userRole.toString() === this.roles.teacher || this.userRole.toString() === this.roles.institution) && !this.outOfExam && !this.editedDelay) { // 老师或机构 且 在考试时间内 且未请求过缺考顺延
-      //   const successCallback = () => {
-      //     this.$router.go(-1)
-      //   }
-      //   this.requestDelay(successCallback)
-      // } else {
-      //   this.$router.go(-1)
-      // }
+    },
+    fetchEnroll: function () {
+      let rData = {
+        id: this.$route.query.id
+      }
+      this.$ajax('/apply/detail', { data: rData }).then(res => {
+        console.log('/apply/detail', res)
+        if (res && res.data && !res.error) {
+          this.enroll = res.data
+          this.payData = res.data.pay
+        }
+      }).catch(err => {
+        console.log('/apply/detail_error', err)
+      })
     }
   }
 }
@@ -226,11 +214,11 @@ export default {
   text-align: right;
   font-weight: bold;
 }
-.state-text{
+/* .state-text{
   font-size: 16px;
   line-height: 22px;
   margin: 30px 0 0 24px;
-}
+} */
 .yk-warning{
   color: #D0021B;
 }
@@ -284,7 +272,7 @@ export default {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  background-color: transparent;
+  background-color: #E5E5E5;
 }
 .cer-close{
   position: absolute;

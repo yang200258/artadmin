@@ -292,6 +292,188 @@ for (let j = 0; j < 13; j++) {
     })
   }
 }
+const initialForm = {
+  avatar: {
+    value: '',
+    required: true,
+    valid: false,
+    url: '',
+    id: '',
+    tip: '请上传照片',
+    upload_data: {},
+    uploading: false,
+    uploadError: false,
+    uploadTip: ''
+  },
+  name: {
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写姓名'
+  },
+  pinyin: {
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写拼音或英文'
+  },
+  gender: {
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请选择性别'
+  },
+  birthday: {
+    required: true,
+    value: '',
+    text: '',
+    valid: false,
+    tip: '请选择出生日期'
+  },
+  nationality: { // 国籍
+    required: true,
+    value: '中国',
+    text: '中国',
+    valid: true,
+    tip: '请选择国籍'
+  },
+  volk: { // 民族
+    required: true,
+    value: '汉族',
+    text: '汉族',
+    valid: true,
+    tip: '请选择民族'
+  },
+  cardtype: { // 证件类型
+    required: true,
+    value: '身份证',
+    text: '身份证',
+    valid: true,
+    tip: '请选择证件类型'
+  },
+  cardnumber: { // 证件号码
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写证件号码'
+  },
+  phone: {
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写联系电话'
+  },
+  major: {
+    required: true,
+    value: '',
+    text: '',
+    valid: false,
+    tip: '请选择报考专业'
+  },
+  level: {
+    required: true,
+    value: '',
+    text: '',
+    valid: false,
+    tip: '请选择报考级别'
+  },
+  continuity: { // 是否连考
+    required: false,
+    value: '',
+    text: '',
+    valid: false,
+    tip: '请选择是否连考'
+  },
+  lastgetcertificate: {
+    required: true,
+    year: {
+      required: true,
+      value: '',
+      text: '',
+      valid: false,
+      tip: '请选择年份'
+    },
+    month: {
+      required: true,
+      value: '',
+      text: '',
+      valid: false,
+      tip: '请选择月份'
+    }
+  },
+  majorcertificate: { // 专业证书
+    upload_data: {},
+    value: '',
+    required: false,
+    valid: false,
+    url: '',
+    id: '',
+    tip: '请上传专业证书',
+    uploading: false,
+    uploadError: false,
+    uploadTip: ''
+  },
+  basicmusiccertificate: { // 基本乐科证书
+    upload_data: {},
+    value: '',
+    required: false,
+    valid: false,
+    url: '',
+    id: '请上传基本乐科证书',
+    tip: '',
+    uploading: false,
+    uploadError: false,
+    uploadTip: ''
+  },
+  bent1: { // 曲目1
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写考试曲目1'
+  },
+  bent2: {
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写考试曲目2'
+  },
+  bent3: {
+    required: false,
+    value: '',
+    valid: false,
+    tip: '请填写考试曲目3'
+  },
+  bent4: {
+    required: false,
+    value: '',
+    valid: false,
+    tip: '请填写考试曲目4'
+  },
+  bent5: {
+    required: false,
+    value: '',
+    valid: false,
+    tip: '请填写考试曲目5'
+  },
+  fillter: { // 填表人
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写填表人姓名'
+  },
+  teacher: { // 指导老师
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写老师姓名'
+  },
+  teacherphone: { // 老师电话
+    required: true,
+    value: '',
+    valid: false,
+    tip: '请填写老师电话'
+  }
+}
 export default {
   data () {
     return {
@@ -313,188 +495,7 @@ export default {
       years: years,
       months: months,
       editPinyin: false,
-      form: {
-        avatar: {
-          value: '',
-          required: true,
-          valid: false,
-          url: '',
-          id: '',
-          tip: '请上传照片',
-          upload_data: {},
-          uploading: false,
-          uploadError: false,
-          uploadTip: ''
-        },
-        name: {
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写姓名'
-        },
-        pinyin: {
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写拼音或英文'
-        },
-        gender: {
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请选择性别'
-        },
-        birthday: {
-          required: true,
-          value: '',
-          text: '',
-          valid: false,
-          tip: '请选择出生日期'
-        },
-        nationality: { // 国籍
-          required: true,
-          value: '中国',
-          text: '中国',
-          valid: true,
-          tip: '请选择国籍'
-        },
-        volk: { // 民族
-          required: true,
-          value: '汉族',
-          text: '汉族',
-          valid: true,
-          tip: '请选择民族'
-        },
-        cardtype: { // 证件类型
-          required: true,
-          value: '身份证',
-          text: '身份证',
-          valid: true,
-          tip: '请选择证件类型'
-        },
-        cardnumber: { // 证件号码
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写证件号码'
-        },
-        phone: {
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写联系电话'
-        },
-        major: {
-          required: true,
-          value: '',
-          text: '',
-          valid: false,
-          tip: '请选择报考专业'
-        },
-        level: {
-          required: true,
-          value: '',
-          text: '',
-          valid: false,
-          tip: '请选择报考级别'
-        },
-        continuity: { // 是否连考
-          required: false,
-          value: '',
-          text: '',
-          valid: false,
-          tip: '请选择是否连考'
-        },
-        lastgetcertificate: {
-          required: true,
-          year: {
-            required: true,
-            value: '',
-            text: '',
-            valid: false,
-            tip: '请选择年份'
-          },
-          month: {
-            required: true,
-            value: '',
-            text: '',
-            valid: false,
-            tip: '请选择月份'
-          }
-        },
-        majorcertificate: { // 专业证书
-          upload_data: {},
-          value: '',
-          required: false,
-          valid: false,
-          url: '',
-          id: '',
-          tip: '请上传专业证书',
-          uploading: false,
-          uploadError: false,
-          uploadTip: ''
-        },
-        basicmusiccertificate: { // 基本乐科证书
-          upload_data: {},
-          value: '',
-          required: false,
-          valid: false,
-          url: '',
-          id: '请上传基本乐科证书',
-          tip: '',
-          uploading: false,
-          uploadError: false,
-          uploadTip: ''
-        },
-        bent1: { // 曲目1
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写考试曲目1'
-        },
-        bent2: {
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写考试曲目2'
-        },
-        bent3: {
-          required: false,
-          value: '',
-          valid: false,
-          tip: '请填写考试曲目3'
-        },
-        bent4: {
-          required: false,
-          value: '',
-          valid: false,
-          tip: '请填写考试曲目4'
-        },
-        bent5: {
-          required: false,
-          value: '',
-          valid: false,
-          tip: '请填写考试曲目5'
-        },
-        fillter: { // 填表人
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写填表人姓名'
-        },
-        teacher: { // 指导老师
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写老师姓名'
-        },
-        teacherphone: { // 老师电话
-          required: true,
-          value: '',
-          valid: false,
-          tip: '请填写老师电话'
-        }
-      }
+      form: initialForm
     }
   },
   activated () {
@@ -566,8 +567,7 @@ export default {
       formData.append('token', window.localStorage.token || '')
       let config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'token': window.localStorage.token || ''
+          'Content-Type': 'multipart/form-data'
         }
       }
       if (type === 'avatar') {
@@ -908,8 +908,8 @@ export default {
         }
         this.submitting = true
         this.$ajax('/apply/add', { data: formData }).then(res => {
-          if (res && res.data && !res.error) { // 提交表单成功
-            this.submitSuccess(formData.exam_id)
+          if (res && (res.error === 0 || res.error) && res.data) { // 提交表单成功
+            this.submitSuccess(res.data.id)
           }
         }).catch(err => {
           console.log('err', err)
@@ -918,6 +918,9 @@ export default {
       }
     },
     submitSuccess: function (id) {
+      window.localStorage.applyForm = ''
+      window.localStorage.applyFormOptions = ''
+      this.form = initialForm
       let { roles, userRole } = this
       if (userRole.toString() === roles.teacher || userRole.toString() === roles.institution) { // 老师或机构,直接成功，无需审核、支付
         this.$router.replace({ path: '/enroll/detail?id=' + id })
@@ -979,13 +982,17 @@ export default {
 .state-text{
   font-size: 16px;
   line-height: 22px;
+  position: relative;
 }
 .yk-warning{
   color: #D0021B;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .warining-text{
   color: #D0021B;
-  padding-left: 8px;
+  padding-left: 24px;
 }
 .avatar-btn{
   width: 78px;

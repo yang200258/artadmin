@@ -67,7 +67,7 @@
         <el-table-column prop="time" label="报名时间" width="91"></el-table-column>
         <el-table-column prop="status" label="当前进度" width="91">
           <template slot-scope="scope">
-            {{statusText[scope.row.status]}}
+            {{statusText[scope.row.plan]}}
           </template>
         </el-table-column>
         <el-table-column label="操作">

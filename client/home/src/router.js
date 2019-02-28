@@ -22,28 +22,18 @@ const ScoreResult = resolve => require(['./views/ScoreResult.vue'], resolve)
 const DynamicDetail = resolve => require(['./views/DynamicDetail.vue'], resolve)
 const MiniappDynamicDetail = resolve => require(['./views/MiniappDynamicDetail.vue'], resolve)
 const MiniappMessageDetail = resolve => require(['./views/MiniappMessageDetail.vue'], resolve)
+const MiniappRegulation = resolve => require(['./views/MiniappRegulation.vue'], resolve)
+const MiniappUs = resolve => require(['./views/MiniappUs.vue'], resolve)
 const Regulation = resolve => require(['./views/Regulation.vue'], resolve)
-// const Home = () => import('./views/Home.vue')
-// const Login = () => import('./views/Login.vue')
-// const Enroll = () => import('./views/Enroll.vue')
-// const Dynamic = () => import('./views/Dynamic.vue')
-// const Training = () => import('./views/Training.vue')
-// const Race = () => import('./views/Race.vue')
-// const Perform = () => import('./views/Perform.vue')
-// const Book = () => import('./views/Book.vue')
-// const Us = () => import('./views/Us.vue')
-// const EnrollNotice = () => import('./views/EnrollNotice.vue')
-// const EnrollManage = () => import('./views/EnrollManage.vue')
-// const Queryhall = () => import('./views/Queryhall.vue')
-// const Queryscore = () => import('./views/Queryscore.vue')
-// const EnrollApply = () => import('./views/EnrollApply.vue')
-// const EnrollApplySuccess = () => import('./views/EnrollApplySuccess.vue')
-// const EnrollPay = () => import('./views/EnrollPay.vue')
-// const EnrollDetail = () => import('./views/EnrollDetail.vue')
-// const ScoreResult = () => import('./views/ScoreResult.vue')
-// const DynamicDetail = () => import('./views/DynamicDetail.vue')
-// const MiniappDynamicDetail = () => import('./views/MiniappDynamicDetail.vue')
-// const MiniappMessageDetail = () => import('./views/MiniappMessageDetail.vue')
+
+// 路由相关说明:
+// 关于我们: /us
+// 考试简章: /regulation
+// 信息详情: /dynamicdetail?id=xxx
+// 小程序访问->关于我们: /nimiappus
+// 小程序访问->考试简章: /nimiappregulation
+// 小程序访问->信息详情: /miniappdynamic?id=xxx
+// 小程序访问->通知详情: /miniappmessage?id=xxx
 
 Vue.use(Router)
 
@@ -243,6 +233,24 @@ const router = new Router({
       meta: {
         requiredLogin: false,
         title: '社会艺术等级考试-海南考区'
+      }
+    },
+    {
+      path: '/miniappregulation',
+      name: 'MiniappRegulation',
+      component: MiniappRegulation,
+      meta: {
+        requiredLogin: false,
+        title: '考级简章-社会艺术等级考试-海南考区'
+      }
+    },
+    {
+      path: '/miniappus',
+      name: 'MiniappUs',
+      component: MiniappUs,
+      meta: {
+        requiredLogin: false,
+        title: '关于我们-社会艺术等级考试-海南考区'
       }
     },
     {
