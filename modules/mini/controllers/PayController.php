@@ -94,10 +94,15 @@ class PayController extends Controller
         $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
+        $this->log($result['out_trade_no']);
         $this->log(json_encode($result));
-        $apply = Apply::find()->with('pay')->where(['apply_no' => $result['out_trade_no']])->asArray()->one();
-        $user_pay = $apply['pay'];
-        if($user_pay->state != 1) {
+        $apply = Apply::findOne(['apply_no' => $result['out_trade_no']]);
+        if (!$apply)
+        {
+            $this->log('不存在');
+            return false;
+        }
+        if($apply->plan != 4) {
             if ($result['trade_state'] == "SUCCESS") {
                 $transaction = \Yii::$app->db->beginTransaction();//创建事务
                 try {
@@ -112,7 +117,7 @@ class PayController extends Controller
                         $transaction->rollback();   //回滚事务
                         return $this->error('支付失败');
                     }
-                    Apply::updateAll(['plan' => 4], ['id' => $apply['id']]);
+                    Apply::updateAll(['plan' => 4], ['id' => $apply->id]);
 
                     $content = '您已成功报名中国音乐学院社会艺术水平考级考试！ 关注微信公众号“海南考级中心”及时获取更多考试相关信息';
                     $inform = new Inform();
