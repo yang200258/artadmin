@@ -179,20 +179,6 @@ const staticRoute = [
                 name: 'oganization',
                 component: (resolve) => require(['@/page/manager/oganization'],resolve),
                 meta: {name: '机构管理'},
-                children: [
-                    {
-                        path: 'addOganization',
-                        name: 'addoganization',
-                        component: (resolve) => require(['@/page/manager/oganization/addOganization'],resolve),
-                        meta: {name: '新增机构'}
-                    },
-                    {
-                        path: 'editOganization',
-                        name: 'editOganization',
-                        component: (resolve) => require(['@/page/manager/oganization/editOganization'],resolve),
-                        meta: {name: '编辑机构信息'}
-                    }
-                ]
             },
             {
                 path: 'signTeacher',
@@ -223,6 +209,18 @@ const staticRoute = [
                 name: 'editTeacher',
                 component: (resolve) => require(['@/page/manager/signTeacher/editTeacher'],resolve),
                 meta: {name: '编辑报名老师信息'}
+            },
+            {
+                path: 'addOganization',
+                name: 'addoganization',
+                component: (resolve) => require(['@/page/manager/oganization/addOganization'],resolve),
+                meta: {name: '新增机构'}
+            },
+            {
+                path: 'editOganization',
+                name: 'editOganization',
+                component: (resolve) => require(['@/page/manager/oganization/editOganization'],resolve),
+                meta: {name: '编辑机构信息'}
             }
         ]
     },

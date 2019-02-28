@@ -87,7 +87,7 @@ export default {
       },
       addTest(){
           this.$router.push({
-              path: 'test/testInfo/addTest'
+              path: 'testInfo/addTest'
           })
       },
       editTest(){
