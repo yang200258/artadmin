@@ -95,7 +95,7 @@ class PayController extends Controller
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
         $this->log(json_encode($result));
-        $apply = Apply::find()->with('pay')->where(['apply_no' => (int)$result['out_trade_no']])->asArray()->one();
+        $apply = Apply::find()->with('pay')->where(['apply_no' => $result['out_trade_no']])->asArray()->one();
         $user_pay = $apply['pay'];
         if($user_pay->state != 1) {
             if ($result['trade_state'] == "SUCCESS") {
