@@ -109,6 +109,7 @@ export default {
         },
         //批量删除通知对象
         handleSelectionChange: function(val){
+             this.deleteid = []
             if(val) {
                 val.forEach(item=> {
                     this.deleteid.push(item.id)

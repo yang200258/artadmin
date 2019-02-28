@@ -38,51 +38,6 @@
                 </el-row>
             </el-form-item>
         </el-form>
-
-
-
-        <!-- <el-row class="infoType">
-            <span style="color: red">*</span><span>信息分类：</span>
-            <el-select v-model="publishData.cid" placeholder="请选择信息类型">
-                <el-option v-for="item in infoTypeOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-        </el-row>
-        <el-row class="infoTitle">
-            <el-col :span="1"><span style="color: red">*</span><span>标题：</span></el-col>
-            <el-col :span="8"><el-input @input = "descInput" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input></el-col>
-        </el-row>
-        <el-row class="alnumber">
-            <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
-        </el-row>
-        <el-row class="infoImage">
-            <span>封面图：</span>
-            <el-upload
-                name="file"
-                :action="'adminapi/upload'"
-                :limit="1"
-                accept=".jpg,.png" 
-                list-type="picture-card"
-                :data="uploaddata"
-                :file-list="fileLists"
-                :on-exceed="exceed"
-                :on-preview="handlePictureCardPreview"
-                :on-success="success"
-                :on-remove="handleRemove">
-                <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible" :modal="false" title="查看大图片">
-                <img width="100%" :src="dialogImageUrl" alt="">
-            </el-dialog>
-        </el-row>
-        <el-row class="introduction">
-            <el-col :span="1"><span style="color: red">*</span><span>引言：</span></el-col>
-            <el-col :span="8"><el-input type="textarea" @input = "descInput2" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
-            </el-col>
-        </el-row>
-        <el-row class="alnumber">
-            <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
-        </el-row> -->
-        <!-- <richtext class="richtext" :content="publishData.content"></richtext> -->
     </div>
 </template>
 <script>
@@ -101,6 +56,8 @@ export default {
             fileLists: [],
             uploaddata: {},
             cover_id: '',
+            rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
+            title: [{required: true,message: '请输入内容',trigger: 'blur'}],}
         }
     },
     mounted(){
