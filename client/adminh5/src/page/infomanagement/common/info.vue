@@ -15,7 +15,7 @@
             <el-form-item label="封面图：">
                 <el-upload
                 name="file"
-                :action="'adminapi/upload'"
+                action="'https://www.hnyskj.net/adminapi/upload'"
                 :limit="1"
                 accept=".jpg,.png" 
                 list-type="picture-card"
@@ -167,6 +167,11 @@ export default {
     .container {
         padding-left: 100px;
         font-size: 16px;
+        padding-top: 50px;
+        .el-input {
+            display: block;
+            width: 30%;
+        }
         .infoType {
             margin: 30px 0;
         }
