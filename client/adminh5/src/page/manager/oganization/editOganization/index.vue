@@ -47,7 +47,7 @@ export default {
             this.$refs['editForm'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
-                        url: '/manager/organ/edit',
+                        url: '/organ/edit',
                         method: 'post',
                         data: {id,name,organ_address,organ_name,username,organ_area,password,phone}
                     }).then(res=> {

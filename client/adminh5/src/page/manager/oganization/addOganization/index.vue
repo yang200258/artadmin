@@ -46,7 +46,7 @@ export default {
             this.$refs['addOgan'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
-                        url: '/manager/organ/add',
+                        url: '/organ/add',
                         method: 'post',
                         data: {name,organ_address,organ_name,username,organ_area,password,phone}
                     }).then(res=> {

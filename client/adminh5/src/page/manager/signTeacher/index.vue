@@ -81,7 +81,7 @@ export default {
             pn = pn || 1
             this.loadingSignTeacher = true
             this.$axios({
-                url: '/manager/teacher/list',
+                url: '/teacher/list',
                 method: 'post',
                 data: {name,phone,organ_name,username,pn}
             }).then(res=>{
@@ -147,7 +147,7 @@ export default {
             this.$refs['resetForm'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
-                        url: '/manager/teacher/reset',
+                        url: '/teacher/reset',
                         method: 'post',
                         data: {password,repeat_password,id}
                     }).then(res=> {
