@@ -236,7 +236,7 @@ class ApplyController extends Controller
         {
             return $this->error('报名不存在');
         }
-
+        $apply['pay']['price'] = $apply['pay']['price'] / 100;
         if ($apply['continuous_level'])
         {
             $apply['pay']['domain'] = [
