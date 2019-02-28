@@ -179,27 +179,27 @@ export default {
             }
         },
         //获取专业列表
-        getOption(){
-            this.$axios({
-                url: '/option',
-                method: 'post',
-                data: {}
-            }).then(res=> {
-                console.log('获取基本选项',res)
-                if(res && !res.error) {
-                    let { major } = res.data
-                    let majors = []
-                    for (let mj in major) {
-                        majors.push({ value: mj, text: mj, levels: major[mj] })
-                    }
-                    this.options = majors
-                    console.log('majors',majors);
-                }
+        // getOption(){
+        //     this.$axios({
+        //         url: '/option',
+        //         method: 'post',
+        //         data: {}
+        //     }).then(res=> {
+        //         console.log('获取基本选项',res)
+        //         if(res && !res.error) {
+        //             let { major } = res.data
+        //             let majors = []
+        //             for (let mj in major) {
+        //                 majors.push({ value: mj, text: mj, levels: major[mj] })
+        //             }
+        //             this.options = majors
+        //             console.log('majors',majors);
+        //         }
                
-            }).catch(err=> {
-                console.log(err);
-            })
-        },
+        //     }).catch(err=> {
+        //         console.log(err);
+        //     })
+        // },
         //子组件传递的方法
         editOption: function(){
             this.dialogVisible = true
