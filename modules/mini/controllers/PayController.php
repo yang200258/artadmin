@@ -87,6 +87,7 @@ class PayController extends Controller
             $msg = $e->errorMessage();
             return false;
         }
+        $this->log($result['transaction_id']);
         //查询订单
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($result['transaction_id']);
