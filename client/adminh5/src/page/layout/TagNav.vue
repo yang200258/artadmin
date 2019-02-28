@@ -16,7 +16,7 @@ import ScrollBar from 'sysComponents/ScrollBar'
 export default {
     data(){
         return {
-            defaultPage: '/home'
+            defaultPage: '/signup'
         }
     },
     computed: {
@@ -56,7 +56,7 @@ export default {
                     this.$router.push(this.tagNavList[index-1].path)
                 } else {
                     this.$router.push(this.defaultPage)
-                    if(this.$route.path == "/home"){
+                    if(this.$route.path == "/signup"){
                         this.addTagNav()
                     }
                 }

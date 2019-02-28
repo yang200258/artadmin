@@ -1,6 +1,6 @@
 // import Layout from '@/page/layout'
 const Layout = resolve => require( ['@/page/layout'],resolve)
-
+// import home from '@/page/home'
 const staticRoute = [
     {
         path: '/',
@@ -32,18 +32,18 @@ const staticRoute = [
         path: '/login',
         component: resolve => require(['@/page/login'],resolve)
     },
-    {
-        path: '/home',
-        component: Layout,
-        children : [
-            {
-                path: '',
-                component: resolve => require(['@/page/home'],resolve),
-                meta: {name: '首页'}
-            }
-        ]
+    // {
+    //     path: '/home',
+    //     component: Layout,
+    //     children : [
+    //         {
+    //             path: '',
+    //             component: resolve => require(['@/page/home'],resolve),
+    //             meta: {name: '首页'}
+    //         }
+    //     ]
         
-    },
+    // },
     {
         path: '/signup',
         component: Layout,

@@ -133,6 +133,9 @@ export default {
 
 <style lang="scss" scoped>
     .container {
+        span {
+            overflow: hidden;
+        }
         padding-left: 100px;
         font-size: 16px;
         .infoType {

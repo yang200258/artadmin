@@ -24,9 +24,9 @@ module.exports = {
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
-        publicPath: process.env.NODE_ENV === 'production' ?
-        config.build.assetsPublicPath :
-            config.dev.assetsPublicPath
+        publicPath: process.env.NODE_ENV === 'production' ? 'https://fant.fantuan.cn/admin/': '/'
+        // config.build.assetsPublicPath :
+        //     config.dev.assetsPublicPath
     },
     resolve: {
         extensions: ['.js', '.vue', '.less', '.css', '.scss', '.json'],
