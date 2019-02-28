@@ -89,7 +89,9 @@ class PayController extends Controller
         }
         $this->log($result['transaction_id']);
         //查询订单
+        $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayOrderQuery();
+        $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
         $this->log(json_encode($result));
