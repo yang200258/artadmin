@@ -91,7 +91,7 @@ export default {
           })
       },
       editTest(){
-          this.$router.push({path: 'test/testInfo/editTest'})
+          this.$router.push({path: 'testInfo/editTest'})
       }
     }
 }
