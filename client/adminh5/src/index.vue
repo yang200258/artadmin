@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import setTheme from "@/util/setTheme"
+// import setTheme from "@/util/setTheme"
 import Cookies from 'js-cookie'
 
 export default {
@@ -28,10 +28,10 @@ export default {
     },
     // 初次加载时，可通过接口获取用户的主题信息，或者通过按钮触发，或者直接加载默认主题
     mounted() {
-        this.$nextTick(() => {
-            setTheme("dark")
-            this.$store.commit("setThemeColor", "dark")
-        })
+        // this.$nextTick(() => {
+        //     setTheme("dark")
+        //     this.$store.commit("setThemeColor", "dark")
+        // })
     }
 }
 </script>

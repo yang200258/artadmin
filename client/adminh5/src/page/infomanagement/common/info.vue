@@ -133,6 +133,9 @@ export default {
 
 <style lang="scss" scoped>
     .container {
+        span {
+            overflow: hidden;
+        }
         padding-left: 100px;
         font-size: 16px;
         .infoType {
@@ -143,12 +146,15 @@ export default {
         }
         .infoTitle {
             margin-bottom: 30px 0;
+            display: flex;
+
         }
         .infoImage {
             margin-bottom: 30px 0;
         }
         .introduction {
             margin-top: 30px;
+            display: flex;
         }
         
     }

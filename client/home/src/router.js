@@ -22,6 +22,7 @@ const ScoreResult = resolve => require(['./views/ScoreResult.vue'], resolve)
 const DynamicDetail = resolve => require(['./views/DynamicDetail.vue'], resolve)
 const MiniappDynamicDetail = resolve => require(['./views/MiniappDynamicDetail.vue'], resolve)
 const MiniappMessageDetail = resolve => require(['./views/MiniappMessageDetail.vue'], resolve)
+const Regulation = resolve => require(['./views/Regulation.vue'], resolve)
 // const Home = () => import('./views/Home.vue')
 // const Login = () => import('./views/Login.vue')
 // const Enroll = () => import('./views/Enroll.vue')
@@ -242,6 +243,15 @@ const router = new Router({
       meta: {
         requiredLogin: false,
         title: '社会艺术等级考试-海南考区'
+      }
+    },
+    {
+      path: '/regulation',
+      name: 'Regulation',
+      component: Regulation,
+      meta: {
+        requiredLogin: false,
+        title: '考试简章-社会艺术等级考试-海南考区'
       }
     }
   ]

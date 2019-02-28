@@ -75,7 +75,7 @@ export default {
                         password: this.loginForm.password
                     }).then(res => {
                         if(res && !res.err){
-                            this.$router.push('home')
+                            this.$router.push('signup')
                             this.getOption().then(res=> {
                                 console.log('成功获取操作信息',res);
                                 this.getOrgan().then(res=> {

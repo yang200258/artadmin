@@ -4,13 +4,13 @@ const productionGzipExtensions = ['js', 'css']
 
 module.exports = {
   // 选项...
-  publicPath: process.env.NODE_ENV === 'production' ? '/home/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? 'http://static.hnyskj.net/home' : '/',
   outputDir: '../../web/home',
-  assetsDir: 'assets',
+  assetsDir: 'static',
   devServer: {
     https: true,
     disableHostCheck: true,
-    proxy: 'https://arthometest.fantuan.cn'
+    proxy: 'https://www.hnyskj.net'
   },
   chainWebpack: config => {
     config.plugins.delete('prefetch')

@@ -1,9 +1,9 @@
 var data = [
-    {
-        path: '/home',
-        name: '首页',
-        auth: 'home'
-    },
+    // {
+    //     path: '/home',
+    //     name: '首页',
+    //     auth: 'home'
+    // },
     {
         name: '报名管理',
         path: '/signup',
