@@ -10,7 +10,7 @@ class Pdf {
     public static function createPdfApply($apply_id)
     {
         $apply = Apply::findOne($apply_id);
-        $file = \Yii::getAlias("@root") . "/template/apply.pdf";
+        $file = \Yii::getAlias("@app") . "/template/apply.pdf";
         $pdfer = new Pdfer($file);
         $pdfer->addText($apply->apply_no, 88, 63);
         $pdfer->addText(substr($apply->create_at, 0, 4), 163, 63);
@@ -67,9 +67,9 @@ class Pdf {
 
 
         $str = $apply->apply_no . '_bm';
-        $saveFileName = \Yii::getAlias("@root") . "/file/apply/{$str}.pdf";
+        $saveFileName = \Yii::getAlias("@app") . "/file/apply/{$str}.pdf";
         $pdfer->export($saveFileName);
-        self::pdfpng($saveFileName, \Yii::getAlias("@root") . "/file/applyimg/{$str}.png");
+        self::pdfpng($saveFileName, \Yii::getAlias("@app") . "/file/applyimg/{$str}.png");
         return $str;
 
     }
@@ -78,7 +78,7 @@ class Pdf {
     public static function createPdfExam($apply_id)
     {
         $apply = Apply::findOne($apply_id);
-        $file = \Yii::getAlias("@root") . "/template/exam.pdf";
+        $file = \Yii::getAlias("@app") . "/template/exam.pdf";
 
         $pdfer = new Pdfer($file);
         $pdfer->addText($apply->name, 50, 58);
@@ -128,9 +128,9 @@ class Pdf {
         $pdfer->addText($exam_site1->address, 50, 158);
 
         $str = $apply->apply_no . '_kz';
-        $saveFileName = \Yii::getAlias("@root") . "/file/exam/{$str}.pdf";
+        $saveFileName = \Yii::getAlias("@app") . "/file/exam/{$str}.pdf";
         $pdfer->export($saveFileName);
-        self::pdfpng($saveFileName, \Yii::getAlias("@root") . "/file/examimg/{$str}.png");
+        self::pdfpng($saveFileName, \Yii::getAlias("@app") . "/file/examimg/{$str}.png");
         return $str;
     }
 

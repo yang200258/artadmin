@@ -8,7 +8,7 @@ class FileController extends Controller
     {
         $request = \Yii::$app->request;
         $name = $request->get('name');
-        $file = \Yii::getAlias("@root") . "/file/apply/{$name}.pdf";
+        $file = \Yii::getAlias("@app") . "/file/apply/{$name}.pdf";
         $fp = fopen($file, "r");
         header("Content-type: application/pdf");
         fpassthru($fp);
@@ -19,7 +19,7 @@ class FileController extends Controller
     {
         $request = \Yii::$app->request;
         $name = $request->get('name');
-        $file = \Yii::getAlias("@root") . "/file/exam/{$name}.pdf";
+        $file = \Yii::getAlias("@app") . "/file/exam/{$name}.pdf";
         $fp = fopen($file, "r");
         header("Content-type: application/pdf");
         fpassthru($fp);

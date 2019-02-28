@@ -29,8 +29,8 @@ class DownloadController extends Controller
             {
                 continue;
             }
-            if (file_exists(\Yii::getAlias("@root") . "/file/apply/{$one}.pdf")){
-                $zip->addFile(\Yii::getAlias("@root") . "/file/apply/{$one}.pdf", "{$one}.pdf");
+            if (file_exists(\Yii::getAlias("@app") . "/file/apply/{$one}.pdf")){
+                $zip->addFile(\Yii::getAlias("@app") . "/file/apply/{$one}.pdf", "{$one}.pdf");
             }
         }
         $zip->close();
@@ -68,8 +68,8 @@ class DownloadController extends Controller
             {
                 continue;
             }
-            if (file_exists(\Yii::getAlias("@root") . "/file/exam/{$one}.pdf")){
-                $zip->addFile(\Yii::getAlias("@root") . "/file/exam/{$one}.pdf", "{$one}.pdf");
+            if (file_exists(\Yii::getAlias("@app") . "/file/exam/{$one}.pdf")){
+                $zip->addFile(\Yii::getAlias("@app") . "/file/exam/{$one}.pdf", "{$one}.pdf");
             }
         }
         $zip->close();
@@ -112,7 +112,7 @@ class DownloadController extends Controller
             $md5 = Image::find()->select('md5')->where(['id' => $one['picture_id']])->limit(1)->scalar();
             if($md5)
             {
-                $f = \Yii::getAlias("@root") . Image::createUrl($md5);
+                $f = \Yii::getAlias("@app") . Image::createUrl($md5);
                 if (file_exists($f))
                 {
                     $zip->addFile($f, "{$one['apply_no']}.jpg");
