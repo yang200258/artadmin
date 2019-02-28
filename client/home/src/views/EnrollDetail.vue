@@ -67,7 +67,7 @@
           <div class="info-row">考试时间：{{hall.examTime}}</div>
         </div>
       </div>
-      <div v-if="(userRole.toString() === roles.teacher || userRole.toString() === roles.institution) && !outOfExam && !editedDelay" class="delay-box clearfix">
+      <!-- <div v-if="(userRole.toString() === roles.teacher || userRole.toString() === roles.institution) && !outOfExam && !editedDelay" class="delay-box clearfix">
         <div class="required-title fl">是否缺考顺延：</div>
         <label class="delay-label cursor-pointer fl clearfix">
           <input type="radio" class="delay-radio cursor-pointer fl" value="0" v-model="delay" />
@@ -77,7 +77,7 @@
           <input type="radio" class="delay-radio cursor-pointer fl" value="1" v-model="delay" />
           <span class="fl">是</span>
         </label>
-      </div>
+      </div> -->
       <div class="bottom-buttons">
         <div class="cer-buttons clearfix">
           <div v-if="userRole.toString() === roles.teacher || userRole.toString() === roles.institution" class="bottom-button cursor-pointer fl" @click.stop="enrollMore">继续添加</div>
@@ -151,24 +151,26 @@ export default {
       }, 500)
     },
     enrollMore: function () { // 点击继续添加
-      if ((this.userRole.toString() === this.roles.teacher || this.userRole.toString() === this.roles.institution) && !this.outOfExam && !this.editedDelay) { // 老师或机构 且 在考试时间内 且未请求过缺考顺延
-        const successCallback = () => {
-          this.$router.replace({ path: '/enroll/apply' })
-        }
-        this.requestDelay(successCallback)
-      } else {
-        this.$router.replace({ path: '/enroll/apply' })
-      }
+      this.$router.replace({ path: '/enroll/apply' })
+      // if ((this.userRole.toString() === this.roles.teacher || this.userRole.toString() === this.roles.institution) && !this.outOfExam && !this.editedDelay) { // 老师或机构 且 在考试时间内 且未请求过缺考顺延
+      //   const successCallback = () => {
+      //     this.$router.replace({ path: '/enroll/apply' })
+      //   }
+      //   this.requestDelay(successCallback)
+      // } else {
+      //   this.$router.replace({ path: '/enroll/apply' })
+      // }
     },
     complete: function () { // 点击完成
-      if ((this.userRole.toString() === this.roles.teacher || this.userRole.toString() === this.roles.institution) && !this.outOfExam && !this.editedDelay) { // 老师或机构 且 在考试时间内 且未请求过缺考顺延
-        const successCallback = () => {
-          this.$router.go(-1)
-        }
-        this.requestDelay(successCallback)
-      } else {
-        this.$router.go(-1)
-      }
+      this.$router.go(-1)
+      // if ((this.userRole.toString() === this.roles.teacher || this.userRole.toString() === this.roles.institution) && !this.outOfExam && !this.editedDelay) { // 老师或机构 且 在考试时间内 且未请求过缺考顺延
+      //   const successCallback = () => {
+      //     this.$router.go(-1)
+      //   }
+      //   this.requestDelay(successCallback)
+      // } else {
+      //   this.$router.go(-1)
+      // }
     }
   }
 }

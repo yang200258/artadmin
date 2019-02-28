@@ -5,7 +5,7 @@
       <i class="ykfont yk-success"></i>
       <div class="big-tip">报名提交成功，请等待审核</div>
       <div class="sub-tip">审核通过并进行缴费后完成报名</div>
-      <div class="red-tip">关注微信公众号“XXX”及时获取更多考试相关信息</div>
+      <div class="red-tip">关注微信公众号“海南考级中心”及时获取更多考试相关信息</div>
       <div class="btn cursor-pointer" @click.stop="goBack">完成</div>
     </div>
   </div>
