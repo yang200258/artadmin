@@ -77,7 +77,7 @@ export default {
                 if(this.rightlist[i] == 'admin')   admin = 1
             }
             this.$axios({
-                url: '/manager/admin/edit',
+                url: '/admin/edit',
                 method: 'post',
                 data: {id,name,identity,username,apply,exam,msg,inform,admin}
             }).then(res=> {

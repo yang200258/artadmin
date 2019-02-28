@@ -48,7 +48,7 @@ export default {
             this.$refs['addManager'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
-                        url: '/manager/admin/add',
+                        url: '/admin/add',
                         method: 'post',
                         data: {name,identity,username,password,repeat_password,apply,exam,msg,inform,admin}
                     }).then(res=> {

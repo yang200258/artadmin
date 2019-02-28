@@ -56,7 +56,7 @@ export default {
             this.$refs['addTeacher'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
-                        url: '/manager/teacher/add',
+                        url: '/teacher/add',
                         method: 'post',
                         data: {name,phone:phoneArr,username,password,sex,organ_uid}
                     }).then(res=> {

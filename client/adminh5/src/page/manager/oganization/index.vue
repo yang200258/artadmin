@@ -81,7 +81,7 @@ export default {
             const {name,organ_name,phone,username} = this
             pn = pn || '1'
             this.$axios({
-                url: '/manager/organ/list',
+                url: '/organ/list',
                 method: 'post',
                 data: {name,organ_name,phone,username,pn}
             }).then(res=>{
@@ -145,7 +145,7 @@ export default {
             this.$refs['resetForm'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
-                        url: '/manager/organ/reset',
+                        url: '/organ/reset',
                         method: 'post',
                         data: {password,repeat_password,id}
                     }).then(res=> {

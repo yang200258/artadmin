@@ -81,7 +81,7 @@ export default {
         queryManager: function(){
             this.loadingManager = true
             this.$axios({
-              url : '/manager/admin/list',
+              url : '/admin/list',
               method: 'post',
               data: {}
           }).then(res=> {
@@ -147,7 +147,7 @@ export default {
         saveReset: function(){
             const {id,password,repeat_password} = this
             this.$axios({
-                url: '/manager/admin/reset',
+                url: '/admin/reset',
                 method: 'post',
                 data: {id,password,repeat_password}
             }).then(res=> {
