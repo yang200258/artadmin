@@ -87,19 +87,15 @@ class PayController extends Controller
             $msg = $e->errorMessage();
             return false;
         }
-        $this->log($result['transaction_id']);
         //查询订单
         $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayOrderQuery();
         $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
-        $this->log($result['out_trade_no']);
-        $this->log(json_encode($result));
         $apply = Apply::findOne(['apply_no' => $result['out_trade_no']]);
         if (!$apply)
         {
-            $this->log('不存在');
             return false;
         }
         if($apply->plan != 4) {
