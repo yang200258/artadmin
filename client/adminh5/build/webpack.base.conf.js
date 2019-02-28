@@ -24,7 +24,7 @@ module.exports = {
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
-        publicPath: process.env.NODE_ENV === 'production' ? 'https://fant.fantuan.cn/admin/': '/'
+        publicPath: process.env.NODE_ENV === 'production' ? 'https://static.hnyskj.net/admin/': '/'
         // config.build.assetsPublicPath :
         //     config.dev.assetsPublicPath
     },
