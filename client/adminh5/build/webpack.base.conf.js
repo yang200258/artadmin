@@ -94,6 +94,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        // new webpack.ProvidePlugin({
+        //     'window.Quill': 'quill/dist/quill.js',
+        //     'Quill': 'quill/dist/quill.js'
+        //   }),
     ]
 }

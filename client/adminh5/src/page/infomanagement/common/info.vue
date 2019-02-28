@@ -146,12 +146,15 @@ export default {
         }
         .infoTitle {
             margin-bottom: 30px 0;
+            display: flex;
+
         }
         .infoImage {
             margin-bottom: 30px 0;
         }
         .introduction {
             margin-top: 30px;
+            display: flex;
         }
         
     }
