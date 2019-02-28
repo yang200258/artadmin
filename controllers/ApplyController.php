@@ -119,7 +119,7 @@ class ApplyController extends Controller
             return $this->error('请输入指导老师电话');
         }
         $transaction = \Yii::$app->db->beginTransaction();//创建事务
-//        try {
+        try {
             $apply = new Apply();
             $apply->apply_no = Apply::getApplynum($domain);
             $apply->uid = $this->user->id;
@@ -188,12 +188,12 @@ class ApplyController extends Controller
                 return $this->error('报名失败');
             }
             $transaction->commit();//提交事务
-//        } catch (\Exception $e) {
-//            \Yii::error($e->getMessage());
-//            $transaction->rollback();//回滚事务
-//            return $this->error('服务器繁忙，请稍后再试！');
-//        }
-        return $this->ok('提交成功');
+        } catch (\Exception $e) {
+            \Yii::error($e->getMessage());
+            $transaction->rollback();//回滚事务
+            return $this->error('服务器繁忙，请稍后再试！');
+        }
+        return $this->json($apply->id);
     }
 
     public function actionList()
