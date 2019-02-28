@@ -1,6 +1,47 @@
 <template>
     <div class="container">
-        <el-row class="infoType">
+        <el-form :model="publishData" :rules="rules">
+            <el-form-item label="信息分类：" prop="cid">
+                <el-select v-model="publishData.cid" placeholder="请选择信息类型">
+                    <el-option v-for="item in infoTypeOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="标题：" prop="title">
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input>
+                <el-row class="alnumber">
+                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
+                </el-row>
+            </el-form-item>
+            <el-form-item label="封面图：">
+                <el-upload
+                name="file"
+                :action="'adminapi/upload'"
+                :limit="1"
+                accept=".jpg,.png" 
+                list-type="picture-card"
+                :data="uploaddata"
+                :file-list="fileLists"
+                :on-exceed="exceed"
+                :on-preview="handlePictureCardPreview"
+                :on-success="success"
+                :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible" :modal="false" title="查看大图片">
+                <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+            </el-form-item>
+            <el-form-item label="引言：" prop="intro">
+               <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
+               <el-row class="alnumber">
+                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
+                </el-row>
+            </el-form-item>
+        </el-form>
+
+
+
+        <!-- <el-row class="infoType">
             <span style="color: red">*</span><span>信息分类：</span>
             <el-select v-model="publishData.cid" placeholder="请选择信息类型">
                 <el-option v-for="item in infoTypeOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -17,7 +58,7 @@
             <span>封面图：</span>
             <el-upload
                 name="file"
-                :action="'api/upload'"
+                :action="'adminapi/upload'"
                 :limit="1"
                 accept=".jpg,.png" 
                 list-type="picture-card"
@@ -40,7 +81,7 @@
         </el-row>
         <el-row class="alnumber">
             <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
-        </el-row>
+        </el-row> -->
         <!-- <richtext class="richtext" :content="publishData.content"></richtext> -->
     </div>
 </template>
@@ -84,15 +125,6 @@ export default {
         }),
     },
     methods: {
-        //输入标题时计算字数
-        descInput: function(){
-
-        },
-        //输入引言时计算字数
-        descInput2: function(){
-
-        },
-        
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
@@ -133,9 +165,6 @@ export default {
 
 <style lang="scss" scoped>
     .container {
-        span {
-            overflow: hidden;
-        }
         padding-left: 100px;
         font-size: 16px;
         .infoType {
