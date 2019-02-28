@@ -217,7 +217,7 @@ class ApplyController extends Controller
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
         array_walk($list, function (&$val){
-            $val['detail_image_url'] = "http://artadmintest.fantuan.cn/uimage/6a/58/47/29/6a584729b027034e032d3e42123fbd0c.jpg";
+            $val['bm_image_url'] = $val['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $val['bm'] . '.png' : '';
         });
 
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
