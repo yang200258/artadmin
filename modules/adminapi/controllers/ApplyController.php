@@ -4,6 +4,7 @@ namespace app\modules\adminapi\controllers;
 
 
 use app\models\Apply;
+use app\models\ApplyPay;
 use app\models\ExamExaminee;
 use app\models\Image;
 use app\models\Inform;
