@@ -48,7 +48,7 @@ class PayController extends Controller
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("test");
-        $input->SetNotify_url(Url::toRoute(['/pay/notify'], true));
+        $input->SetNotify_url('https://www.hnyskj.net/mini/pay/notify');
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         $order = \WxPayApi::unifiedOrder($input);
@@ -66,9 +66,6 @@ class PayController extends Controller
 
     public function actionNotify()
     {
-        $this->log('ssdsda');
-        echo 1;
-        exit();
         ini_set('date.timezone','Asia/Shanghai');
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Notify.php");
