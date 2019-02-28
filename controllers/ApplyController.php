@@ -6,6 +6,7 @@ use app\helpers\Pdf;
 use app\models\Apply;
 use app\models\ApplyPay;
 use app\models\Exam;
+use app\models\Image;
 
 class ApplyController extends Controller
 {
@@ -216,9 +217,6 @@ class ApplyController extends Controller
 
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
-            $val['bm_image_url'] = $val['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $val['bm'] . '.png' : '';
-        });
 
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
@@ -258,6 +256,8 @@ class ApplyController extends Controller
                 ]
             ];
         }
+        $apply['pro_certificate_url'] = $apply['pro_certificate_id'] ? Image::getAbsoluteUrlById($apply['pro_certificate_id']) : '';
+        $apply['basic_certificate_url'] = $apply['basic_certificate_id'] ? Image::getAbsoluteUrlById($apply['basic_certificate_id']) : '';
         $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
 
         return $this->json($apply);
