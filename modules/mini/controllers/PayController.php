@@ -66,6 +66,9 @@ class PayController extends Controller
 
     public function actionNotify()
     {
+        $this->log('ssdsda');
+        echo 1;
+        exit();
         ini_set('date.timezone','Asia/Shanghai');
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Api.php");
         require_once(\Yii::getAlias('@app') . "/components/WxpayAPI/lib/WxPay.Notify.php");
