@@ -87,11 +87,11 @@ export default {
       },
       addTest(){
           this.$router.push({
-              path: 'testInfo/addTest'
+              name: 'addTest'
           })
       },
       editTest(){
-          this.$router.push({path: 'testInfo/editTest'})
+          this.$router.push({name: 'editTest'})
       }
     }
 }
