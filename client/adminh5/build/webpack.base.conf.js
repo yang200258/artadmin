@@ -17,7 +17,7 @@ module.exports = {
     externals: {
         // 'vue': 'Vue',
         // 'element-ui': 'ElementUI',
-        'quill': 'quill',
+        // 'quill': 'quill',
         // 'vue-router': 'VueRouter',
         // 'vue-i18n': 'VueI18n',
     },

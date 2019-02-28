@@ -15,12 +15,13 @@ export default {
         if (!Cookies.get('isLogin')) {
             console.log("重新登录")
             this.$store.dispatch('auth/relogin')
+        } else {
+            console.log('刷新*********************************');
+            this.$store.commit('user/setName',Cookies.get('userName'))
+            this.$store.commit('auth/setOptions',JSON.parse(window.localStorage.getItem('optionData')))
+            this.$store.commit('auth/setOrgan',JSON.parse(window.localStorage.getItem('organ')))
+            this.$store.dispatch('auth/getNavlist')
         }
-        console.log('刷新*********************************');
-        this.$store.commit('user/setName',Cookies.get('userName'))
-        this.$store.commit('auth/setOptions',JSON.parse(window.localStorage.getItem('optionData')))
-        this.$store.commit('auth/setOrgan',JSON.parse(window.localStorage.getItem('organ')))
-        this.$store.dispatch('auth/getNavlist')
         // 加载默认语言包
         // let defLang = Cookies.get('lang') || this.$i18n.locale
         // this.$store.dispatch("loadLang", defLang)

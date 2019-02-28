@@ -46,10 +46,13 @@ const mutations = {
         state.nationality = data
     },
     setOptions(state,data) {
-        state.nation = data.nation
-        state.domainOptions = data.domainOptions
-        state.certificate = data.certificate
-        state.nationality = data.nationality
+        if(data) {
+            state.nation = data.nation
+            state.domainOptions = data.domainOptions
+            state.certificate = data.certificate
+            state.nationality = data.nationality
+        }
+        
     },
     setOrgan(state,data) {
         state.organ = data
