@@ -18,14 +18,14 @@ module.exports = {
         // 'vue': 'Vue',
         // 'element-ui': 'ElementUI',
         // 'quill': 'quill',
-        'vue-router': 'VueRouter',
+        // 'vue-router': 'VueRouter',
         // 'vue-i18n': 'VueI18n',
     },
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
         publicPath: process.env.NODE_ENV === 'production' ?
-            './' :
+        config.build.assetsPublicPath :
             config.dev.assetsPublicPath
     },
     resolve: {

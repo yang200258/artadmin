@@ -5,7 +5,7 @@
 import 'babel-polyfill'
 import Vue from "vue"
 import {Pagination,Dialog,Input,Radio,Checkbox,Select,Button,Option,Table,DatePicker,TimePicker,Form,FormItem,Icon,Upload,Container,Header,Aside,Main,Footer,TableColumn,
-    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,} from 'element-ui'
+    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,Dropdown,DropdownMenu,DropdownItem} from 'element-ui'
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(TableColumn)
@@ -35,6 +35,9 @@ Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
 Vue.use(RadioGroup)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
 
 import router from './router'
 import store from './store'
