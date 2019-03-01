@@ -42,7 +42,10 @@
     }
 }
 @media screen and (max-width: 800px) {
-    .logo {
-        display: none;
+    // .logo {
+    //     display: none;
+    // }
+    .sys-header {
+        height: 0;
     }
 }
