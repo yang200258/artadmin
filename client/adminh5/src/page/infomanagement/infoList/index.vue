@@ -39,7 +39,7 @@
                 <div class="el-icon-edit" @click="editCategaryName(item)"></div>
                 <!-- <div class="el-icon-delete"></div> -->
             </el-tag>
-            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="add">
             </el-input>
             <el-button v-else class="button-new-tag" size="small" @click="addCategory">添加分类</el-button>
             <span slot="footer" class="dialog-footer">
@@ -129,8 +129,20 @@ export default {
         },
         //点击确定或回车添加信息分类
         handleInputConfirm: function(){ 
+            console.log('huiche添加分类信息名称')
             let name = this.addcategoryname;
-            if (name) {
+            this.addTypeName(name)
+            this.inputVisible = false
+        },
+        add: function(){
+            console.log('add添加分类信息名称')
+            let name = this.addcategoryname;
+            this.addTypeName(name)
+            this.inputVisible = false
+        },
+        //添加信息分类方法
+        addTypeName: function(name){
+            if(name) {
                 this.$axios({
                     url: '/category/add',
                     method: 'post',
@@ -147,8 +159,9 @@ export default {
                 }).catch(err=> {
                     console.log(err);
                 })
+            } else {
+                alert('请输入分类信息名称')
             }
-            this.inputVisible = false
         },
         //删除信息分类
         closeTag: function(id){
@@ -239,21 +252,6 @@ export default {
             this.dialogVisible = true
             // this.getTypeList()
         },
-        //获取信息分类名称方法
-        // getInfoTypeName: function(){
-        //     this.$axios({
-        //         url: '/category/list',
-        //         method: 'post',
-        //         data: {}
-        //     }).then(res=> {
-        //         console.log('信息分类数据',res);
-        //         if(res && !res.error) {
-        //             this.category = res.data
-        //         }
-        //     }).catch(err=> {
-        //         console.log(err);
-        //     })
-        // },
         //批量删除信息
         deleteOption: function(){
             this.$axios({
@@ -298,7 +296,6 @@ export default {
         },
         //获取信息分类名称
         getTypeList: function(){
-            this.category = []
             this.$axios({
                 url: '/category/list',
                 method: 'post',
@@ -308,9 +305,9 @@ export default {
                 if(res && !res.error) {
                     // this.infoTypeOptions = res.data
                     this.$set(this,'infoTypeOptions',res.data)
-                    res.data.forEach(item=> {
-                        if(item.id >7) {
-                            this.category.push(item)
+                    this.category = res.data.filter((item) => {
+                        if(item.id > 7) {
+                            return true
                         }
                     })
                     
