@@ -10,10 +10,10 @@
                         <p>考场1：</p>
                         <div class="line"></div>
                         <!-- 考试时间1********** -->
+                        <img src="@/assets/images/add.png" class="addimg" @click="addtime">
                         <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :label="'考试时间' + (index+1) + '：'" :prop="'time.' + index + '.value'">
                             <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
                         </el-form-item>
-                        <img src="@/assets/images/add.png" class="addimg" @click="addtime">
                         <div class="line2"></div>
 
 
