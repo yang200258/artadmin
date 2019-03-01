@@ -12,9 +12,9 @@ module.exports = {
     disableHostCheck: true,
     proxy: 'https://www.hnyskj.net'
   },
-  chainWebpack: config => {
-    config.plugins.delete('prefetch')
-  },
+  // chainWebpack: config => {
+  //   config.plugins.delete('prefetch')
+  // },
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') { // 生产环境
       config.plugins.push(
