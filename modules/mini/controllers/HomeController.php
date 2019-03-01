@@ -19,6 +19,7 @@ class HomeController extends Controller
             $list = Msg::find()->select('')->where(['cid' => $one['id'], 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(3)->asArray()->all();
             array_walk($list, function (&$val){
                 $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+                $val['url'] = $this->createMiniUrl('/miniappdynamic?id=' . $val['id']);
             });
             $one['list'] = $list;
         }
