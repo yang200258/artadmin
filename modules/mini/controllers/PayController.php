@@ -48,7 +48,7 @@ class PayController extends Controller
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("test");
-        $input->SetNotify_url(Url::toRoute(['/pay/notify'], true));
+        $input->SetNotify_url('https://www.hnyskj.net/mini/pay/notify');
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         $order = \WxPayApi::unifiedOrder($input);
@@ -87,15 +87,18 @@ class PayController extends Controller
             $msg = $e->errorMessage();
             return false;
         }
-        $this->log($result['transaction_id']);
         //查询订单
+        $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayOrderQuery();
+        $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
-        $this->log(json_encode($result));
-        $apply = Apply::find()->with('pay')->where(['apply_no' => (int)$result['out_trade_no']])->asArray()->one();
-        $user_pay = $apply['pay'];
-        if($user_pay->state != 1) {
+        $apply = Apply::findOne(['apply_no' => $result['out_trade_no']]);
+        if (!$apply)
+        {
+            return false;
+        }
+        if($apply->plan != 4) {
             if ($result['trade_state'] == "SUCCESS") {
                 $transaction = \Yii::$app->db->beginTransaction();//创建事务
                 try {
@@ -110,7 +113,7 @@ class PayController extends Controller
                         $transaction->rollback();   //回滚事务
                         return $this->error('支付失败');
                     }
-                    Apply::updateAll(['plan' => 4], ['id' => $apply['id']]);
+                    Apply::updateAll(['plan' => 4], ['id' => $apply->id]);
 
                     $content = '您已成功报名中国音乐学院社会艺术水平考级考试！ 关注微信公众号“海南考级中心”及时获取更多考试相关信息';
                     $inform = new Inform();

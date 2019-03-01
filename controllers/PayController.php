@@ -89,12 +89,14 @@ class PayController extends Controller
             return false;
         }
         //查询订单
+        $weixin = \Yii::$app->params['weixin'];
         $input = new \WxPayOrderQuery();
+        $input->SetAppid($weixin['appid']);//公众账号ID
         $input->SetTransaction_id($result['transaction_id']);
         $result = \WxPayApi::orderQuery($input);
-        $apply = Apply::find()->with('pay')->where(['apply_no' => (int)$result['out_trade_no']])->asArray()->one();
-        $user_pay = $apply['pay'];
-        if($user_pay->state != 1) {
+        $apply = Apply::findOne(['apply_no' => $result['out_trade_no']]);
+
+        if($apply->plan != 4) {
             if ($result['trade_state'] == "SUCCESS") {
                 $transaction = \Yii::$app->db->beginTransaction();//创建事务
                 try {

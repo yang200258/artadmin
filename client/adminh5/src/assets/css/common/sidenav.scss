@@ -60,6 +60,7 @@
     &.top{
         float: left;
         margin-left: 20px;
+        position: fixed;
         & > .el-menu{
             background-color: transparent;
             /* 无下级菜单的menu-item */
