@@ -39,7 +39,7 @@
                 <div class="el-icon-edit" @click="editCategaryName(item)"></div>
                 <!-- <div class="el-icon-delete"></div> -->
             </el-tag>
-            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter="handleInputConfirm" @blur="handleInputConfirm">
+            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
             </el-input>
             <el-button v-else class="button-new-tag" size="small" @click="addCategory">添加分类</el-button>
             <span slot="footer" class="dialog-footer">
@@ -298,6 +298,7 @@ export default {
         },
         //获取信息分类名称
         getTypeList: function(){
+            this.category = []
             this.$axios({
                 url: '/category/list',
                 method: 'post',

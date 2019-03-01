@@ -8,10 +8,10 @@
             </el-form-item>
             <el-form-item label="标题：" prop="title">
                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input>
-                <el-row class="alnumber">
-                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
-                </el-row>
             </el-form-item>
+            <el-row class="alnumber">
+                <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
+            </el-row>
             <el-form-item label="封面图：">
                 <el-upload
                 name="file"
@@ -33,10 +33,10 @@
             </el-form-item>
             <el-form-item label="引言：" prop="intro">
                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
-               <el-row class="alnumber">
-                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
-                </el-row>
             </el-form-item>
+            <el-row class="alnumber">
+                <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
+            </el-row>
         </el-form>
     </div>
 </template>
