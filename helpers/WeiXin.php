@@ -17,7 +17,7 @@ class WeiXin {
             }
         }
         $weixin = \Yii::$app->params['weixin'];
-        $token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$weixin['appid']}&secret={$weixin['appsecret']}";
+        $token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$weixin['home_appid']}&secret={$weixin['home_appsecret']}";
         $json = file_get_contents($token_url);
         $result = json_decode($json, true);
         if (isset($result['access_token']))
@@ -27,7 +27,7 @@ class WeiXin {
                 $t = new Token();
             }
             $t->token = $result['access_token'];
-            $t->timestamp = date('Y-m-d H:i:s');
+            $t->create_at = date('Y-m-d H:i:s');
             $t->save(false);
             return $result['access_token'];
         }

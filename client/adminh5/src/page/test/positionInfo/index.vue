@@ -37,6 +37,9 @@ export default {
             isLoading: false
         }
     },
+    mounted(){
+         this.queryTestInfo()
+    },
     methods: {
         handleCurrentChange(val) {
             this.queryTestInfo(val)
@@ -48,7 +51,7 @@ export default {
             const exam_time_end = util.filterDate(testTime[1])
             pn = pn || 1
             this.$axios({
-                url : '/exam/room',
+                url : '/room',
                 method: 'post',
                 data: {name,number,exam_time_start,exam_time_end,pn}
             }).then(res=> {

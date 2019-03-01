@@ -139,7 +139,9 @@ export default {
             return this.$store.state.informobject.filter
         }
     },
-    mounted(){}
+    mounted(){
+        this.queryInformList()
+    }
 }
 </script>
 

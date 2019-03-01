@@ -53,7 +53,7 @@ export default {
         getInform: function(){
             const inform_id = this.$route.params.inform_id
             this.$axios({
-                url: '/inform/object/list',
+                url: '/object/list',
                 method: 'post',
                 data: {inform_id}
             }).then(res=> {

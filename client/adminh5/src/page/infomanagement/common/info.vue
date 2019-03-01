@@ -8,12 +8,13 @@
             </el-form-item>
             <el-form-item label="标题：" prop="title">
                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input>
-                <el-row class="alnumber">
-                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
-                </el-row>
             </el-form-item>
+            <el-row class="alnumber">
+                <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
+            </el-row>
             <el-form-item label="封面图：">
                 <el-upload
+                v-if="length"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit="1"
@@ -33,10 +34,10 @@
             </el-form-item>
             <el-form-item label="引言：" prop="intro">
                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
-               <el-row class="alnumber">
-                    <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
-                </el-row>
             </el-form-item>
+            <el-row class="alnumber">
+                <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>
+            </el-row>
         </el-form>
     </div>
 </template>
@@ -57,7 +58,8 @@ export default {
             uploaddata: {},
             cover_id: '',
             rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
-            title: [{required: true,message: '请输入内容',trigger: 'blur'}],}
+            title: [{required: true,message: '请输入内容',trigger: 'blur'}],},
+            length: 1
         }
     },
     mounted(){
@@ -68,6 +70,7 @@ export default {
         //若跳转路由，展示图片
         if(this.$route.params.url) {
             this.fileLists = [{name: 'title',url: this.$route.params.url}]
+            this.length = this.fileLists.length
         }
         
         
@@ -83,6 +86,9 @@ export default {
     },
     methods: {
         handleRemove(file, fileList) {
+            // if(!fileList[0]) {
+                this.length = 1
+            // }
             console.log(file, fileList);
         },
         handlePictureCardPreview(file) {
@@ -91,10 +97,14 @@ export default {
             this.dialogVisible = true;
         },
         //图片上传成功后修改cover——id
-        success: function(response){
-            console.log(response);
+        success: function(response, file, fileList){
+            console.log(response, file, fileList);
+
             if(response && !response.error) {
                 this.publishData.cover_id = response.data.id[0]
+            }
+            if(fileList[0]) {
+                this.length = 0
             }
         },
         exceed: function() {

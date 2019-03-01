@@ -15,7 +15,7 @@ class UserController extends Controller
             'nick_name' => $this->user->nick_name,
             'avatar' => $this->user->avatar,
             'unread_num' => $unread_num,
-            'about_us_url' => 'http://www.baidu.com'
+            'about_us_url' => $this->createMiniUrl('/miniappus')
         ];
         return $this->json($data);
     }

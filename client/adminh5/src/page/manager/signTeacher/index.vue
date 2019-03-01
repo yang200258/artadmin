@@ -71,6 +71,9 @@ export default {
             rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'}],repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'}]}
         }
     },
+    mounted(){
+        this.querySignTeacher()
+    },
     methods: {
         handleCurrentChange(val){
             this.querySignTeacher(val)
