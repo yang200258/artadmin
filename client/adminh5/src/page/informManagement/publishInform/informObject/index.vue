@@ -91,7 +91,7 @@ export default {
             const start_time = util.filterDate(this.signTime[0]) || ''
             const end_time = util.filterDate(this.signTime[1]) || ''
             this.$axios({
-                url: '/inform/object',
+                url: '/object',
                 method: 'post',
                 data: { name,domain,level,start_time,end_time,pn }
             }).then(res=> {
@@ -160,7 +160,7 @@ export default {
             if(inform_id) {
                 const uid = scope.row.uid
                 this.$axios({
-                    url: '/inform/object/delete',
+                    url: '/object/delete',
                     method: 'post',
                     data: {uid,inform_id}
                 }).then(res=>{

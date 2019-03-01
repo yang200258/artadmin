@@ -5,7 +5,7 @@ use app\models\User;
 
 class LoginController extends Controller
 {
-    private $callBackUrl;
+    private $callBackUrl = 'https://www.hnyskj.net/login/wx-call-back';
     private $appID = '';
     //账户密码登录
     public function actionIndex()
@@ -49,16 +49,16 @@ class LoginController extends Controller
 
     public function actionWeixin()
     {
+        $weixin = \Yii::$app->params['weixin'];
         $state  = md5(uniqid(rand(), TRUE));  //--微信登录-----生成唯一随机串防CSRF攻击
         $_SESSION["wx_state"]    =   $state; //存到SESSION
 
         $callback = urlencode($this->callBackUrl);
         $wxurl = "https://open.weixin.qq.com/connect/qrconnect?appid="
-            .$this->appID."&redirect_uri="
-            .$callback."&response_type=code&scope=snsapi_login&state="
-            .$state."#wechat_redirect";
+            . $weixin['home_appid'] ."&redirect_uri="
+            . $callback."&response_type=code&scope=snsapi_login&state="
+            . $state ."#wechat_redirect";
         return $this->json($wxurl);
-//        header("Location: $wxurl");
     }
 
     //微信回调
