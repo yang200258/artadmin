@@ -17,9 +17,6 @@ export default {
     }
   },
   components: { NoticeItem },
-  // mounted () {
-  //   this.fetchNotice()
-  // },
   activated () {
     this.fetchNotice()
   },

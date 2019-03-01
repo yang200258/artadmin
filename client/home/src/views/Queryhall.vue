@@ -53,7 +53,7 @@ export default {
       resultUrl: ''
     }
   },
-  mounted () {
+  actived () {
     this.getOptions()
   },
   methods: {

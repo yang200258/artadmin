@@ -125,9 +125,9 @@ export default {
     }
   },
   components: { Seal },
-  mounted () {
-    this.fetchEnroll()
-  },
+  // mounted () {
+  //   this.fetchEnroll()
+  // },
   actived () {
     this.fetchEnroll()
   },
