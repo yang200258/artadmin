@@ -23,14 +23,13 @@
                         </div>
                         
 
-
+                        <div class="line2"></div>
                         <!-- 添加、删除考点1的考场********************************************************************** -->
                         <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
-                            <div class="line2"></div>
                             <div class="examsite2">
                                 <p>考场{{(index+2)}}：</p>
                                 <div class="img">
-                                    <img src="@/assets/images/delete.png" @click="deleteroom">
+                                    <img src="@/assets/images/delete.png" style="margin-right:16px" @click="deleteroom">
                                     <img src="@/assets/images/add.png"  @click="addroom">
                                 </div>
                             </div>
@@ -40,7 +39,7 @@
                             <!-- 考试时间2************ -->
                             <div class="examsite_address2_time2" v-if="isEmpty">
                                 <div class="img2">
-                                    <img src="@/assets/images/delete.png"  @click="deletetime(index)">
+                                    <img src="@/assets/images/delete.png" style="margin-right:16px"  @click="deletetime(index)">
                                     <img src="@/assets/images/add.png"  @click="addroomtime(index)" >
                                 </div>
                                 <el-form-item v-for="(item,i) in room.times" :key="item.key" :label="'考试时间' + (i+2) + '：'">
@@ -215,7 +214,7 @@ export default {
                 img {
                     &:first-child {
                         display: inline-block;
-                        margin-right: 12px;
+                        // margin-right: 8px;
                     }
                 }
             }
@@ -226,12 +225,12 @@ export default {
                     position: absolute;
                     right: 0;
                     // top: 14%;
-                    margin-top: 10px;
+                    margin-top: 15px;
                     z-index : 999;
                     img {
                         z-index : 999;
                         &:first-child {
-                            margin-right: 8px;
+                            // margin-right: 8px;
                             right: 4%;
                         }
                 }
