@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\helpers\WeiXin;
 use app\models\User;
 
 class LoginController extends Controller
@@ -67,10 +68,18 @@ class LoginController extends Controller
             echo 'sorry,网络请求失败...';
             exit("5001");
         }
-        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->appID.'&secret='.$this->appSecret.'&code='.$_GET['code'].'&grant_type=authorization_code';
+        $weixin = \Yii::$app->params['weixin'];
+        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='. $weixin['home_appid'] .'&secret='. $weixin['home_appsecret'] .'&code='.$_GET['code'].'&grant_type=authorization_code';
         $arr = file_get_contents($url);
         //得到 access_token 与 openid
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
         $user_info = file_get_contents($url);
+        $this->log($user_info);
+    }
+
+    protected function log($message)
+    {
+        $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
+        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
     }
 }
