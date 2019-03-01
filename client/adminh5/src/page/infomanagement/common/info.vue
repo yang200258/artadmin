@@ -91,6 +91,7 @@ export default {
                 this.length = 1
             // }
             console.log(file, fileList);
+            console.log('this.fileLists',this.fileLists);
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
@@ -100,12 +101,9 @@ export default {
         //图片上传成功后修改cover——id
         success: function(response, file, fileList){
             console.log(response, file, fileList);
-
+            console.log('this.fileLists',this.fileLists);
             if(response && !response.error) {
                 this.publishData.cover_id = response.data.id[0]
-            }
-            if(fileList[0]) {
-                this.length = 0
             }
         },
         exceed: function() {
@@ -158,7 +156,7 @@ export default {
             margin-top: 30px;
             display: flex;
         }
-        .disabled .el-upload--picture-card {
+        .disabled.el-upload--picture-card {
             display: none;
         }
     }
