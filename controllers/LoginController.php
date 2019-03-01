@@ -48,14 +48,14 @@ class LoginController extends Controller
     {
         $state  = md5(uniqid(rand(), TRUE));  //--微信登录-----生成唯一随机串防CSRF攻击
         $session = \Yii::$app->session;
-        $session->open();
         $session->set('wx_state',$state); //存到SESSION
-        return $this->json(['state' => $state]);
+        return $this->json(['state' => $session->get('wx_state')]);
     }
 
     //微信回调
     public function actionWxCallBack(){
         $session = \Yii::$app->session;
+        return $this->json(['state' => $session->get('wx_state')]);
         $request = \Yii::$app->request;
         $code = $request->get('code');
         $state = $request->get('state');
