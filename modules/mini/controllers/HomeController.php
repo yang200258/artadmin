@@ -24,15 +24,15 @@ class HomeController extends Controller
         }
         $banner = [
             [
-                'url' => 'http://www.baidu.com',
+                'url' => $this->createMiniUrl('/nimiappregulation'),
                 'img' => \Yii::$app->params['image_site'] . '/image/mini/1.png'
             ],
             [
-                'url' => 'http://www.baidu.com',
+                'url' => $this->createMiniUrl('/nimiappregulation'),
                 'img' => \Yii::$app->params['image_site'] . '/image/mini/2.png'
             ],
             [
-                'url' => 'http://www.baidu.com',
+                'url' => $this->createMiniUrl('/nimiappregulation'),
                 'img' => \Yii::$app->params['image_site'] . '/image/mini/3.png'
             ]
         ];

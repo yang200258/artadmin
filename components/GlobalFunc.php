@@ -40,5 +40,11 @@ trait GlobalFunc
         return (string)floatval($price / 100);
     }
 
+    //小程序h5页面url
+    public function createMiniUrl($path)
+    {
+        return 'https://www.hnyskj.net' . $path;
+    }
+
 
 }

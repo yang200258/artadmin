@@ -25,7 +25,7 @@ class ExamController extends Controller
         }
         $data['exam'] = $exam;
         $data['is_apply'] = true;
-        $data['url'] = 'https://www.baidu.com/'; //简章链接
+        $data['url'] = $this->createMiniUrl('/nimiappregulation'); //简章链接
 
         return $this->json($data);
     }

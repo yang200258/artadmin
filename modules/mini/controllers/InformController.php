@@ -21,7 +21,7 @@ class InformController extends Controller
             {
                 $val['inform']['content'] = htmlspecialchars($val['inform']['content']);
             }
-           $val['inform']['detail'] = "http://www.baidu.com";
+           $val['inform']['detail'] = $this->createMiniUrl('/miniappmessage?id=' . $val['inform']['id']);
         });
         InformUser::updateAll(['read' => 1], ['uid' => $this->userid, 'read' => 0]); //更新所有未读消息为已读
         return $this->json(['list' => $list, 'page' => $this->page($total)]);

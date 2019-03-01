@@ -21,7 +21,7 @@ class MsgController extends Controller
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
         array_walk($list, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
-            $val['detail_url'] = 'https://www.baidu.com/';
+            $val['detail_url'] = $this->createMiniUrl('/miniappdynamic?id=' . $val['id']);
         });
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
