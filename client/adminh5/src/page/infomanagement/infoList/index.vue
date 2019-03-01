@@ -39,7 +39,7 @@
                 <div class="el-icon-edit" @click="editCategaryName(item)"></div>
                 <!-- <div class="el-icon-delete"></div> -->
             </el-tag>
-            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.prevent="handleInputConfirm" @blur="handleInputConfirm">
             </el-input>
             <el-button v-else class="button-new-tag" size="small" @click="addCategory">添加分类</el-button>
             <span slot="footer" class="dialog-footer">
@@ -308,7 +308,7 @@ export default {
                     // this.infoTypeOptions = res.data
                     this.$set(this,'infoTypeOptions',res.data)
                     res.data.forEach(item=> {
-                        if(item >7) {
+                        if(item.id >7) {
                             this.category.push(item)
                         }
                     })
