@@ -128,20 +128,20 @@ export default {
             });
         },
         //点击确定或回车添加信息分类
-        handleInputConfirm: function(){
-            let addcategoryname = this.addcategoryname;
+        handleInputConfirm: function(){ 
+            let name = this.addcategoryname;
             if (addcategoryname) {
                 this.$axios({
                     url: '/category/add',
                     method: 'post',
-                    data: {name: addcategoryname}
+                    data: {name}
                 }).then(res=>{
                     console.log('添加信息分类响应',res);
                     if(res && !res.error) {
                         //重新获取信息分类列表
                         this.getTypeList()
-                        this.category.push({id: this.count++,name: addcategoryname})
-                        this.inputVisible = false;
+                        // this.category.push({id: this.count++,name: addcategoryname})
+                        // this.inputVisible = false;
                         this.addcategoryname = '';
                     }
                 }).catch(err=> {
@@ -196,7 +196,8 @@ export default {
             console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
+            this.queryInfoData(val)
         },
         //查询信息列表
         queryInfoData: function(pn){
@@ -236,19 +237,23 @@ export default {
         //打开信息分类管理页面
         editOption: function(){
             this.dialogVisible = true
-            this.$axios({
-                url: '/category/list',
-                method: 'post',
-                data: {}
-            }).then(res=> {
-                console.log('信息分类数据',res);
-                if(res && !res.error) {
-                    this.category = res.data
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            // this.getTypeList()
         },
+        //获取信息分类名称方法
+        // getInfoTypeName: function(){
+        //     this.$axios({
+        //         url: '/category/list',
+        //         method: 'post',
+        //         data: {}
+        //     }).then(res=> {
+        //         console.log('信息分类数据',res);
+        //         if(res && !res.error) {
+        //             this.category = res.data
+        //         }
+        //     }).catch(err=> {
+        //         console.log(err);
+        //     })
+        // },
         //批量删除信息
         deleteOption: function(){
             this.$axios({
@@ -291,7 +296,7 @@ export default {
                 console.log(err);
             })
         },
-        //获取信息分类
+        //获取信息分类名称
         getTypeList: function(){
             this.$axios({
                 url: '/category/list',
@@ -302,6 +307,12 @@ export default {
                 if(res && !res.error) {
                     // this.infoTypeOptions = res.data
                     this.$set(this,'infoTypeOptions',res.data)
+                    res.data.forEach(item=> {
+                        if(item >7) {
+                            this.category.push(item)
+                        }
+                    })
+                    
                 }
             }).catch(err=> {
                 console.log(err);
