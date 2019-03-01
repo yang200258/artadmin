@@ -58,7 +58,7 @@ export default {
   background: #EFEFEF;
 }
 .header{
-  height: 140px;
+  min-height: 140px;
   margin: 0 50px;
   border-bottom: 1px solid #DDDDDD;
   text-align: center;
@@ -75,8 +75,17 @@ export default {
   line-height: 20px;
   color: #9B9B9B;
   padding-top: 15px;
+  padding-bottom: 30px;
 }
 .dynamic-content{
   padding: 30px 50px;
+}
+.dynamic-content /deep/ div, .dynamic-content /deep/ p {
+  line-height: 150%;
+}
+.dynamic-content /deep/ img{
+  max-width: 100%;
+  display: block;
+  margin: 5px auto;
 }
 </style>

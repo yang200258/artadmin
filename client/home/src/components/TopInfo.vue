@@ -15,7 +15,7 @@
         <p style="color:#666">attention</p>
       </div>
       <div class="public-account-box">
-        <div class="public-account-qrcode" :style="{backgroundImage: 'url(' + 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1668725922,732188399&fm=26&gp=0.jpg' + ')'}"></div>
+        <div class="public-account-qrcode" :style="{backgroundImage: 'url(' + accountImage + ')'}"></div>
         <div class="public-account-tip">微信关注我们<br />获取最新资讯</div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 
 <script>
 import utils from '../lib/utils'
+const accountImage = require('../assets/image/account_code.jpg')
 
 export default {
   props: {
@@ -34,6 +35,7 @@ export default {
   },
   data () {
     return {
+      accountImage: accountImage,
       username: ''
     }
   },
