@@ -14,6 +14,7 @@
             </el-row>
             <el-form-item label="封面图：">
                 <el-upload
+                v-show="length"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit="1"
@@ -57,7 +58,8 @@ export default {
             uploaddata: {},
             cover_id: '',
             rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
-            title: [{required: true,message: '请输入内容',trigger: 'blur'}],}
+            title: [{required: true,message: '请输入内容',trigger: 'blur'}],},
+            length: 0
         }
     },
     mounted(){
@@ -68,6 +70,7 @@ export default {
         //若跳转路由，展示图片
         if(this.$route.params.url) {
             this.fileLists = [{name: 'title',url: this.$route.params.url}]
+            this.length = this.fileLists.length
         }
         
         
@@ -83,6 +86,9 @@ export default {
     },
     methods: {
         handleRemove(file, fileList) {
+            if(fileList) {
+                this.length = this.fileList.length
+            }
             console.log(file, fileList);
         },
         handlePictureCardPreview(file) {
@@ -91,10 +97,14 @@ export default {
             this.dialogVisible = true;
         },
         //图片上传成功后修改cover——id
-        success: function(response){
-            console.log(response);
+        success: function(response, file, fileList){
+            console.log(response, file, fileList);
+
             if(response && !response.error) {
                 this.publishData.cover_id = response.data.id[0]
+            }
+            if(fileList) {
+                this.length = this.fileList.length
             }
         },
         exceed: function() {
