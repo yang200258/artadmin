@@ -49,23 +49,23 @@ class LoginController extends Controller
         $state  = md5(uniqid(rand(), TRUE));  //--微信登录-----生成唯一随机串防CSRF攻击
         $session = \Yii::$app->session;
         $session->set('wx_state',$state); //存到SESSION
-        return $this->json(['state' => $session->get('wx_state')]);
+        return $this->json(['state' => $state]);
     }
 
     //微信回调
     public function actionWxCallBack(){
-        $session = \Yii::$app->session;
-        return $this->json(['state' => $session->get('wx_state')]);
+//        $session = \Yii::$app->session;
+//        return $this->json(['state' => $session->get('wx_state')]);
         $request = \Yii::$app->request;
         $code = $request->get('code');
         $state = $request->get('state');
-        $this->log('微信：' . $state);
-        $this->log('session:' . $session->get('wx_state'));
-        if ($state != $session->get('wx_state'))
-        {
-            $this->log('校验失败');
-            return false;
-        }
+//        $this->log('微信：' . $state);
+//        $this->log('session:' . $session->get('wx_state'));
+//        if ($state != $session->get('wx_state'))
+//        {
+//            $this->log('校验失败');
+//            return false;
+//        }
 
         $weixin = \Yii::$app->params['weixin'];
         $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='. $weixin['home_appid'] .'&secret='. $weixin['home_appsecret'] .'&code='. $code .'&grant_type=authorization_code';
@@ -88,17 +88,13 @@ class LoginController extends Controller
                 return false;
             }
         }
-        $user = User::findOne(['unionid' => $unionid]);
+        $user = User::findOne(['union_id' => $unionid]);
         if (!$user){
             $user = new User();
-            $user->home_openid = $openid;
             $user->union_id = $unionid;
             $user->create_at = date("Y-m-d h:i:s",time());
-            if (!$user->save(false)){
-                $this->log('创建用户失败');
-                return false;
-            }
         }
+        $user->home_openid = $openid;
         $user->generateAuthKey();
         if (!$user->save(false))
         {
@@ -108,20 +104,28 @@ class LoginController extends Controller
         //设置缓存
         \Yii::$app->cache->set($state, $user->token, 600);
         $this->log('登录回调成功');
-        return true;
+        return '微信登录成功';
     }
 
     //轮询请求，获得登录token
     public function actionGetToken()
     {
-        $session = \Yii::$app->session;
-        $state = $session->get('wx_state');
+        $request = \Yii::$app->request;
+//        $code = $request->get('code');
+        $state = $request->post('state');
+//        $session = \Yii::$app->session;
+//        $state = $session->get('wx_state');
         $token = \Yii::$app->cache->get($state);
         if (!$token || !$state)
         {
             return $this->json(['token' => '']);
         }
-        return $this->json(['token' => $token]);
+        $user = User::findOne(['token' => $token]);
+        return $this->json([
+            'token' => $user->token,
+            'username' => $user->username,
+            'type' => $user->type
+        ]);
     }
 
     protected function log($message)
