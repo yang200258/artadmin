@@ -82,6 +82,8 @@ export default {
 }
 .dynamic-content /deep/ div, .dynamic-content /deep/ p {
   line-height: 175%;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 .dynamic-content /deep/ p{
   margin-bottom: 10px;

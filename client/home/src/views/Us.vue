@@ -80,6 +80,8 @@ export default {
 }
 .us-content /deep/ div, .us-content /deep/ p {
   line-height: 175%;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 .us-content /deep/ p{
   margin-bottom: 10px;

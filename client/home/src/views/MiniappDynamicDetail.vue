@@ -60,9 +60,13 @@ export default {
   text-align: left;
 }
 .dynamic-content /deep/ p,.dynamic-content /deep/ div{
-  line-height: 24px !important;
+  line-height: 175% !important;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 .dynamic-content /deep/ img{
   max-width: 100% !important;
+  display: block;
+  margin: auto;
 }
 </style>
