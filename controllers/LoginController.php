@@ -48,41 +48,84 @@ class LoginController extends Controller
         ]);
     }
 
-    public function actionWeixin()
+    public function actionGetState()
     {
-        $weixin = \Yii::$app->params['weixin'];
         $state  = md5(uniqid(rand(), TRUE));  //--微信登录-----生成唯一随机串防CSRF攻击
         \Yii::$app->session->set('wx_state',$state); //存到SESSION
-
-        $callback = urlencode($this->callBackUrl);
-        $wxurl = "https://open.weixin.qq.com/connect/qrconnect?appid="
-            . $weixin['home_appid'] ."&redirect_uri="
-            . $callback."&response_type=code&scope=snsapi_login&state="
-            . $state ."#wechat_redirect";
-        return $this->json($wxurl);
+        return $this->json(['state' => $state]);
     }
 
     //微信回调
     public function actionWxCallBack(){
-//        $session = \Yii::$app->session;
-//        if($_GET['state']!=$session["wx_state"]){
-//            echo 'sorry,网络请求失败...';
-//            exit("5001");
-//        }
+        $session = \Yii::$app->session;
         $request = \Yii::$app->request;
         $code = $request->get('code');
+        $state = $request->get('state');
+        if ($state != $session["wx_state"])
+        {
+            $this->log('校验失败');
+            return false;
+        }
+
         $weixin = \Yii::$app->params['weixin'];
         $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='. $weixin['home_appid'] .'&secret='. $weixin['home_appsecret'] .'&code='. $code .'&grant_type=authorization_code';
         $arr = file_get_contents($url);
         $this->log($arr);
         $arr = json_decode($arr, true);
-        //得到 access_token 与 openid
-        $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
-        $user_info = file_get_contents($url);
-        $this->log($user_info);
-        $result = json_decode($user_info, true);
-        return $result;
+        $unionid = isset($arr['unionid']) ? $arr['unionid'] : '';
+        $openid = $arr['openid'];
+        if (!$unionid)
+        {
+            //得到 access_token 与 openid
+            $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
+            $user_info = file_get_contents($url);
+            $this->log($user_info);
+            $result = json_decode($user_info, true);
+            $unionid = $result['unionid'];
+            $openid = $result['openid'];
+            if (!$unionid)
+            {
+                return false;
+            }
+        }
+        $user = User::findOne(['unionid' => $unionid]);
+        if (!$user){
+            $user = new User();
+            $user->home_openid = $openid;
+            $user->union_id = $unionid;
+            $user->create_at = date("Y-m-d h:i:s",time());
+            if (!$user->save(false)){
+                $this->log('创建用户失败');
+                return false;
+            }
+        }
+        $user->generateAuthKey();
+        if (!$user->save(false))
+        {
+            $this->log('更新token失败');
+            return false;
+        }
+        //设置缓存
+        \Yii::$app->cache->set($state, $user->token, 60);
+        return true;
+    }
 
+    //轮询请求，获得登录token
+    public function actionGetToken()
+    {
+        $request = \Yii::$app->request;
+        $state = $request->get('state');
+        if (!$state)
+        {
+            return $this->error('参数错误');
+        }
+
+        $token = \Yii::$app->cache->get($state);
+        if (!$token)
+        {
+            return $this->json(['token' => '']);
+        }
+        return $this->json(['token' => $token]);
     }
 
     protected function log($message)

@@ -17,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string $name 姓名/联系人
  * @property string $sex 性别
  * @property string $phone 联系电话（多个电话逗号隔开）
+ * @property string $home_openid home_openid
  * @property string $openid 微信openid
  * @property string $union_id 微信union_id
  * @property resource $nick_name 微信昵称
@@ -155,7 +156,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['password', 'organ_name', 'organ_address'], 'string', 'max' => 64],
             [['sex'], 'string', 'max' => 16],
             [['phone', 'avatar'], 'string', 'max' => 128],
-            [['openid'], 'string', 'max' => 28],
+            [['home_openid', 'openid'], 'string', 'max' => 28],
         ];
     }
 
@@ -172,6 +173,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'name' => '姓名/联系人',
             'sex' => '性别',
             'phone' => '联系电话（多个电话逗号隔开）',
+            'home_openid' => '官网微信openid',
             'openid' => '微信openid',
             'union_id' => '微信union_id',
             'nick_name' => '微信昵称',
