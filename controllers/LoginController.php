@@ -52,7 +52,7 @@ class LoginController extends Controller
     {
         $weixin = \Yii::$app->params['weixin'];
         $state  = md5(uniqid(rand(), TRUE));  //--微信登录-----生成唯一随机串防CSRF攻击
-        $_SESSION["wx_state"]    =   $state; //存到SESSION
+        \Yii::$app->session->set('wx_state',$state); //存到SESSION
 
         $callback = urlencode($this->callBackUrl);
         $wxurl = "https://open.weixin.qq.com/connect/qrconnect?appid="
@@ -64,7 +64,8 @@ class LoginController extends Controller
 
     //微信回调
     public function actionWxCallBack(){
-        if($_GET['state']!=$_SESSION["wx_state"]){
+        $session = \Yii::$app->session;
+        if($_GET['state']!=$session["wx_state"]){
             echo 'sorry,网络请求失败...';
             exit("5001");
         }
@@ -75,6 +76,9 @@ class LoginController extends Controller
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
         $user_info = file_get_contents($url);
         $this->log($user_info);
+        $result = json_decode($user_info, true);
+        return $result;
+
     }
 
     protected function log($message)
