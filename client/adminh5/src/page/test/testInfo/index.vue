@@ -51,15 +51,20 @@ export default {
             isLoading: false
         }
     },
+    mounted(){
+        this.queryTestInfo()
+    },
     methods: {
        handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
+        this.queryTestInfo(val)
       },
-      queryTestInfo(){
+      queryTestInfo(pn){
           const {name,number,status,apply_time,exam_time } = this
+          pn = pn || 1
           const apply_time_start = util.filterDate(apply_time[0])
           const apply_time_end  = util.filterDate(apply_time[1])
           const exam_time_start  = util.filterDate(exam_time[0])
@@ -68,7 +73,7 @@ export default {
           this.$axios({
               url : '/exam/list',
               method: 'post',
-              data: {name,number,status,apply_time_start,apply_time_end,exam_time_start,exam_time_end}
+              data: {name,number,status,apply_time_start,apply_time_end,exam_time_start,exam_time_end,pn}
           }).then(res=> {
               console.log('查询考试列表信息',res);
               if(res && !res.error) {

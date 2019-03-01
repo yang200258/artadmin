@@ -37,6 +37,9 @@ export default {
             isLoading: false
         }
     },
+    mounted(){
+         this.queryTestInfo()
+    },
     methods: {
         handleCurrentChange(val) {
             this.queryTestInfo(val)

@@ -117,6 +117,7 @@ export default {
     },
     mounted(){
         this.getTypeList()
+        this.queryInfoData()
     },
     methods: {
         //点击弹出添加信息分类
