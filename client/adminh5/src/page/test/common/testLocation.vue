@@ -142,7 +142,7 @@ export default {
         },
         //添加考点------------
         addsite() {
-            if(!siteStatus) {
+            if(!this.siteStatus) {
                 this.siteStatus = true
             } else {
                 this.examSite.sites.push({
@@ -158,7 +158,7 @@ export default {
         },
 
         changeRoomStatus: function(){
-            if(!roomstatus) {
+            if(!this.roomstatus) {
                 this.roomstatus = true
             } else {
                 this.addroom()
