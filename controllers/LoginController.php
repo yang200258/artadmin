@@ -109,15 +109,10 @@ class LoginController extends Controller
     //轮询请求，获得登录token
     public function actionGetToken()
     {
-        $request = \Yii::$app->request;
-        $state = $request->get('state');
-        if (!$state)
-        {
-            return $this->error('参数错误');
-        }
-
+        $session = \Yii::$app->session;
+        $state = $session->get('wx_state');
         $token = \Yii::$app->cache->get($state);
-        if (!$token)
+        if (!$token || !$state)
         {
             return $this->json(['token' => '']);
         }
