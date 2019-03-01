@@ -77,9 +77,13 @@ export default {
   padding: 20px 0 10px;
 }
 .message-content /deep/ p,.message-content /deep/ div{
-  line-height: 24px !important;
+  line-height: 175% !important;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 .message-content /deep/ img{
   max-width: 100% !important;
+  display: block;
+  margin: 0 auto;
 }
 </style>
