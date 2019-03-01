@@ -17,7 +17,7 @@
                 :class="{disabled:uploadDisabled}"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
-                :limit="1"
+                :limit = "parseInt('1')"
                 accept=".jpg,.png" 
                 list-type="picture-card"
                 :data="uploaddata"
@@ -41,6 +41,7 @@
         </el-form>
     </div>
 </template>
+
 <script>
 // import richtext from '../../common/richtext'
 import Auth from '@/util/auth'
@@ -59,6 +60,7 @@ export default {
             cover_id: '',
             rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
             title: [{required: true,message: '请输入内容',trigger: 'blur'}],},
+            uploadDisabled: false
         }
     },
     mounted(){
@@ -69,6 +71,7 @@ export default {
         //若跳转路由，展示图片
         if(this.$route.params.url) {
             this.fileLists = [{name: 'title',url: this.$route.params.url}]
+            this.uploadDisabled = true
         }
         
         
@@ -81,17 +84,11 @@ export default {
             gettitleNumber: 'publishinfo/gettitleNumber',
             getintroductionNumber: 'publishinfo/getintroductionNumber'
         }),
-        uploadDisabled:function() {
-            return this.fileLists.length >0
-        },
     },
     methods: {
         handleRemove(file, fileList) {
-            // if(!fileList[0]) {
-                this.length = 1
-            // }
+            this.uploadDisabled = false
             console.log(file, fileList);
-            console.log('this.fileLists',this.fileLists);
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
@@ -104,6 +101,7 @@ export default {
             console.log('this.fileLists',this.fileLists);
             if(response && !response.error) {
                 this.publishData.cover_id = response.data.id[0]
+                this.uploadDisabled = true
             }
         },
         exceed: function() {
