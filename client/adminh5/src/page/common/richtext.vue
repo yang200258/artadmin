@@ -27,7 +27,7 @@ export default {
                         [{ 'script': 'sub' }, { 'script': 'super' }],
                         [{ 'indent': '-1' }, { 'indent': '+1' }],
                         [{ 'direction': 'rtl' }],
-                        [{ 'size': ['small', 'large', 'huge'] }],
+                        [{ 'size': ['小', '中', '大'] }],
                         // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                         // [{ 'font': [] }],
                         [{ 'color': [] }, { 'background': [] }],
