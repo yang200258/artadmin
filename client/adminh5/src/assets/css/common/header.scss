@@ -1,10 +1,9 @@
 .sys-header {
-    // position: relative;
+    // position: fixed;
     width: 100%;
     height: $headerHeight;
     background-color: #545c64;
     z-index: 500;
-    overflow: hidden;
     .logo {
         float: left;
         height: $headerHeight;
