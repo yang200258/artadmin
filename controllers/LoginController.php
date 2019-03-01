@@ -57,6 +57,8 @@ class LoginController extends Controller
         $request = \Yii::$app->request;
         $code = $request->get('code');
         $state = $request->get('state');
+        $this->log('微信：' . $state);
+        $this->log('session:' . $session->get('wx_state'));
         if ($state != $session->get('wx_state'))
         {
             $this->log('校验失败');
