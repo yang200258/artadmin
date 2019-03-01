@@ -29,7 +29,7 @@
                             <div class="examsite2">
                                 <p>考场{{(index+2)}}：</p>
                                 <div class="img">
-                                    <img src="@/assets/images/delete.png" @click="deleteroom">
+                                    <img src="@/assets/images/delete.png" style="margin-right:16px" @click="deleteroom">
                                     <img src="@/assets/images/add.png"  @click="addroom">
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                             <!-- 考试时间2************ -->
                             <div class="examsite_address2_time2" v-if="isEmpty">
                                 <div class="img2">
-                                    <img src="@/assets/images/delete.png"  @click="deletetime(index)">
+                                    <img src="@/assets/images/delete.png" style="margin-right:16px"  @click="deletetime(index)">
                                     <img src="@/assets/images/add.png"  @click="addroomtime(index)" >
                                 </div>
                                 <el-form-item v-for="(item,i) in room.times" :key="item.key" :label="'考试时间' + (i+2) + '：'">
