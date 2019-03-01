@@ -14,7 +14,7 @@
             </el-row>
             <el-form-item label="封面图：">
                 <el-upload
-                v-show="length"
+                v-if="!(length)"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit="1"

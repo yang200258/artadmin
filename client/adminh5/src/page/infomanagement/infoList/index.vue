@@ -39,7 +39,7 @@
                 <div class="el-icon-edit" @click="editCategaryName(item)"></div>
                 <!-- <div class="el-icon-delete"></div> -->
             </el-tag>
-            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="add">
+            <el-input class="input-new-tag" v-if="inputVisible" v-model="addcategoryname" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm">
             </el-input>
             <el-button v-else class="button-new-tag" size="small" @click="addCategory">添加分类</el-button>
             <span slot="footer" class="dialog-footer">
@@ -130,12 +130,6 @@ export default {
         //点击确定或回车添加信息分类
         handleInputConfirm: function(){ 
             console.log('huiche添加分类信息名称')
-            let name = this.addcategoryname;
-            this.addTypeName(name)
-            this.inputVisible = false
-        },
-        add: function(){
-            console.log('add添加分类信息名称')
             let name = this.addcategoryname;
             this.addTypeName(name)
             this.inputVisible = false
