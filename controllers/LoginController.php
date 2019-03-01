@@ -94,7 +94,7 @@ class LoginController extends Controller
             $user->union_id = $unionid;
             $user->create_at = date("Y-m-d h:i:s",time());
         }
-        $user->home_openid = $openid;
+//        $user->home_openid = $openid;
         $user->generateAuthKey();
         if (!$user->save(false))
         {
