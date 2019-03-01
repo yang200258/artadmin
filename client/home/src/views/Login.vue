@@ -117,11 +117,11 @@ export default {
             if (this.tokenTimer) {
               clearTimeout(this.tokenTimer)
             }
-            // window.localStorage.token = res.data.token
-            // window.localStorage.username = res.data.username
-            // window.localStorage.userType = res.data.type
-            // // let loginBack = window.localStorage.loginBack || '/'
-            // // this.$router.replace({ path: loginBack })
+            window.localStorage.token = res.data.token
+            window.localStorage.username = res.data.username
+            window.localStorage.userType = res.data.type
+            let loginBack = window.localStorage.loginBack || '/'
+            this.$router.replace({ path: loginBack })
           } else {
             this.getWxLoginToken(state)
           }
