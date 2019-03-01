@@ -74,7 +74,7 @@ export default {
         }
     },
     mounted(){
-        
+        this.queryManager()
     },
     methods: {
         //查询管理员

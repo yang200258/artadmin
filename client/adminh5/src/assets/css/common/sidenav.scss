@@ -133,39 +133,5 @@
             }
             box-sizing: border-box;
         }
-        // &.top{
-        //     float: left;
-        //     margin-left: 20px;
-        //     & > .el-menu{
-        //         background-color: transparent;
-        //         /* 无下级菜单的menu-item */
-        //         & > .el-menu-item{
-        //             color: $topNavItemColor;
-        //             &:hover{
-        //                 background-color: $topNavItemHoverBg;
-        //             }
-        //             &.is-active{
-        //                 background-color: transparent;
-        //                 border-bottom-color: $topNavItemActiveBg;
-        //             }
-        //         }
-        //         /* 有下级菜单的menu-item */
-        //         & > .el-submenu{
-        //             & > .el-submenu__title{
-        //                 color: $topNavItemColor;
-        //                 & > .el-submenu__icon-arrow{
-        //                     color: $topNavItemColor;
-        //                 }
-        //             }
-        //             &:hover .el-submenu__title{
-        //                 background-color: $topNavItemHoverBg;
-        //             }
-        //             &.is-active > .el-submenu__title{
-        //                 background-color: transparent;
-        //                 border-bottom-color: $topNavItemActiveBg;
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
