@@ -14,7 +14,7 @@
             </el-row>
             <el-form-item label="封面图：">
                 <el-upload
-                v-if="!(length)"
+                v-if="length"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit="1"
@@ -59,7 +59,7 @@ export default {
             cover_id: '',
             rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
             title: [{required: true,message: '请输入内容',trigger: 'blur'}],},
-            length: 0
+            length: 1
         }
     },
     mounted(){
@@ -86,9 +86,9 @@ export default {
     },
     methods: {
         handleRemove(file, fileList) {
-            if(fileList) {
-                this.length = this.fileList.length
-            }
+            // if(!fileList[0]) {
+                this.length = 1
+            // }
             console.log(file, fileList);
         },
         handlePictureCardPreview(file) {
@@ -103,8 +103,8 @@ export default {
             if(response && !response.error) {
                 this.publishData.cover_id = response.data.id[0]
             }
-            if(fileList) {
-                this.length = this.fileList.length
+            if(fileList[0]) {
+                this.length = 0
             }
         },
         exceed: function() {
