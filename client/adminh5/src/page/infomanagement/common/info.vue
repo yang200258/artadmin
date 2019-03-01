@@ -14,7 +14,7 @@
             </el-row>
             <el-form-item label="封面图：">
                 <el-upload
-                v-if="length"
+                :class="{disabled:uploadDisabled}"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit="1"
@@ -59,7 +59,6 @@ export default {
             cover_id: '',
             rules:{cid: [{required: true,message: '请选择信息类型',trigger: 'change'}],intro: [{required: true,message: '请输入内容',trigger: 'blur'}],
             title: [{required: true,message: '请输入内容',trigger: 'blur'}],},
-            length: 1
         }
     },
     mounted(){
@@ -70,7 +69,6 @@ export default {
         //若跳转路由，展示图片
         if(this.$route.params.url) {
             this.fileLists = [{name: 'title',url: this.$route.params.url}]
-            this.length = this.fileLists.length
         }
         
         
@@ -83,6 +81,9 @@ export default {
             gettitleNumber: 'publishinfo/gettitleNumber',
             getintroductionNumber: 'publishinfo/getintroductionNumber'
         }),
+        uploadDisabled:function() {
+            return this.fileLists.length >0
+        },
     },
     methods: {
         handleRemove(file, fileList) {
@@ -157,7 +158,9 @@ export default {
             margin-top: 30px;
             display: flex;
         }
-        
+        .disabled .el-upload--picture-card {
+            display: none;
+        }
     }
 </style>
 

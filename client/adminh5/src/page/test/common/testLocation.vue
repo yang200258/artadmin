@@ -23,10 +23,9 @@
                         </div>
                         
 
-
+                        <div class="line2"></div>
                         <!-- 添加、删除考点1的考场********************************************************************** -->
                         <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
-                            <div class="line2"></div>
                             <div class="examsite2">
                                 <p>考场{{(index+2)}}：</p>
                                 <div class="img">
@@ -215,7 +214,7 @@ export default {
                 img {
                     &:first-child {
                         display: inline-block;
-                        margin-right: 12px;
+                        // margin-right: 8px;
                     }
                 }
             }
@@ -226,12 +225,12 @@ export default {
                     position: absolute;
                     right: 0;
                     // top: 14%;
-                    margin-top: 10px;
+                    margin-top: 15px;
                     z-index : 999;
                     img {
                         z-index : 999;
                         &:first-child {
-                            margin-right: 8px;
+                            // margin-right: 8px;
                             right: 4%;
                         }
                 }
