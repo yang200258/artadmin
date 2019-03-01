@@ -74,6 +74,8 @@ class LoginController extends Controller
         $weixin = \Yii::$app->params['weixin'];
         $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='. $weixin['home_appid'] .'&secret='. $weixin['home_appsecret'] .'&code='. $code .'&grant_type=authorization_code';
         $arr = file_get_contents($url);
+        $this->log($arr);
+        $arr = json_decode($arr, true);
         //得到 access_token 与 openid
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
         $user_info = file_get_contents($url);
