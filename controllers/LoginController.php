@@ -102,7 +102,8 @@ class LoginController extends Controller
             return false;
         }
         //设置缓存
-        \Yii::$app->cache->set($state, $user->token, 60);
+        \Yii::$app->cache->set($state, $user->token, 600);
+        $this->log('登录回调成功');
         return true;
     }
 
