@@ -47,7 +47,9 @@ class LoginController extends Controller
     public function actionGetState()
     {
         $state  = md5(uniqid(rand(), TRUE));  //--微信登录-----生成唯一随机串防CSRF攻击
-        \Yii::$app->session->set('wx_state',$state); //存到SESSION
+        $session = \Yii::$app->session;
+        $session->open();
+        $session->set('wx_state',$state); //存到SESSION
         return $this->json(['state' => $state]);
     }
 
@@ -57,6 +59,8 @@ class LoginController extends Controller
         $request = \Yii::$app->request;
         $code = $request->get('code');
         $state = $request->get('state');
+        $this->log('微信：' . $state);
+        $this->log('session:' . $session->get('wx_state'));
         if ($state != $session->get('wx_state'))
         {
             $this->log('校验失败');
@@ -102,22 +106,18 @@ class LoginController extends Controller
             return false;
         }
         //设置缓存
-        \Yii::$app->cache->set($state, $user->token, 60);
+        \Yii::$app->cache->set($state, $user->token, 600);
+        $this->log('登录回调成功');
         return true;
     }
 
     //轮询请求，获得登录token
     public function actionGetToken()
     {
-        $request = \Yii::$app->request;
-        $state = $request->get('state');
-        if (!$state)
-        {
-            return $this->error('参数错误');
-        }
-
+        $session = \Yii::$app->session;
+        $state = $session->get('wx_state');
         $token = \Yii::$app->cache->get($state);
-        if (!$token)
+        if (!$token || !$state)
         {
             return $this->json(['token' => '']);
         }
