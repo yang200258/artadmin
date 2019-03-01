@@ -88,7 +88,7 @@ class LoginController extends Controller
                 return false;
             }
         }
-        $user = User::findOne(['unionid' => $unionid]);
+        $user = User::findOne(['union_id' => $unionid]);
         if (!$user){
             $user = new User();
             $user->home_openid = $openid;
