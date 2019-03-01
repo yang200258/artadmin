@@ -24,15 +24,15 @@ class HomeController extends Controller
         }
         $banner = [
             [
-                'url' => $this->createMiniUrl('/nimiappregulation'),
+                'url' => $this->createMiniUrl('/miniappregulation'),
                 'img' => \Yii::$app->params['image_site'] . '/image/mini/1.png'
             ],
             [
-                'url' => $this->createMiniUrl('/nimiappregulation'),
+                'url' => $this->createMiniUrl('/miniappregulation'),
                 'img' => \Yii::$app->params['image_site'] . '/image/mini/2.png'
             ],
             [
-                'url' => $this->createMiniUrl('/nimiappregulation'),
+                'url' => $this->createMiniUrl('/miniappregulation'),
                 'img' => \Yii::$app->params['image_site'] . '/image/mini/3.png'
             ]
         ];
