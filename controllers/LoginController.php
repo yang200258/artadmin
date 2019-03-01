@@ -39,7 +39,7 @@ class LoginController extends Controller
 
         return $this->json([
             'token' => $user->token,
-            'username' => $user->username,
+            'username' => $user->username ? $user->username : $user->nick_name,
             'type' => $user->type
         ]);
     }
@@ -72,28 +72,25 @@ class LoginController extends Controller
         $arr = file_get_contents($url);
         $this->log($arr);
         $arr = json_decode($arr, true);
-        $unionid = isset($arr['unionid']) ? $arr['unionid'] : '';
-        $openid = $arr['openid'];
+        //得到 access_token 与 openid
+        $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
+        $user_info = file_get_contents($url);
+        $this->log($user_info);
+        $result = json_decode($user_info, true);
+        $unionid = $result['unionid'];
+        $nickname= $result['nickname'];
         if (!$unionid)
         {
-            //得到 access_token 与 openid
-            $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
-            $user_info = file_get_contents($url);
-            $this->log($user_info);
-            $result = json_decode($user_info, true);
-            $unionid = $result['unionid'];
-            $openid = $result['openid'];
-            if (!$unionid)
-            {
-                return false;
-            }
+            return false;
         }
+
         $user = User::findOne(['union_id' => $unionid]);
         if (!$user){
             $user = new User();
             $user->union_id = $unionid;
             $user->create_at = date("Y-m-d h:i:s",time());
         }
+        $user->nick_name = $nickname;
 //        $user->home_openid = $openid;
         $user->generateAuthKey();
         if (!$user->save(false))
@@ -123,7 +120,7 @@ class LoginController extends Controller
         $user = User::findOne(['token' => $token]);
         return $this->json([
             'token' => $user->token,
-            'username' => $user->username,
+            'username' => $user->username ? $user->username : $user->nick_name,
             'type' => $user->type
         ]);
     }
