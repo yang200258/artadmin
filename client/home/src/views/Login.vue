@@ -49,23 +49,25 @@
         </div>
       </div>
     </div>
-    <div v-if="wechatLoginCode" class="wechat-login-mask">
+    <div v-if="showWxLogin" class="wechat-login-mask">
       <div class="wechat-login-mask-box">
-        <div class="mask-header">微信登录</div>
-        <img v-if="wechatLoginCode" class="wechat-qr" :src="wechatLoginCode" />
-        <div class="mask-tip">请使用微信扫描二维码登录<br />“中国音乐学院考级委员会海南考区报名”</div>
+        <!-- <div class="mask-header">微信登录</div> -->
+        <div class="wechat-qr" id="wxcode"></div>
+        <!-- <div class="mask-tip">请使用微信扫描二维码登录<br />“中国音乐学院考级委员会海南考区报名”</div> -->
       </div>
-      <i class="ykfont yk-close cursor-pointer" @click.stop="wechatLoginCode = ''"></i>
+      <i class="ykfont yk-close cursor-pointer" @click.stop="showWxLogin = false"></i>
     </div>
   </div>
 </template>
 
 <script>
+import '../lib/WxLogin'
+
 export default {
   data () {
     return {
       seleced: 1,
-      wechatLoginCode: '',
+      showWxLogin: false,
       form1: {
         username: '',
         password: '',
@@ -77,7 +79,22 @@ export default {
         password: '',
         tyep: '2'
       },
-      tip2: ''
+      tip2: '',
+      tokenTimer: null,
+      wxLoginObj: null
+    }
+  },
+  watch: {
+    'wxLoginObj' (p1, p2) {
+      console.log('watchwxLoginObj', p1, p2)
+    }
+  },
+  mounted () {
+    console.log('WxLogin', window.WxLogin)
+  },
+  beforeDestroy () {
+    if (this.tokenTimer) {
+      clearTimeout(this.tokenTimer)
     }
   },
   methods: {
@@ -87,10 +104,61 @@ export default {
       }
       this.seleced = parseInt(idx)
     },
+    getWxLoginToken: function (state) {
+      if (this.tokenTimer) {
+        clearTimeout(this.tokenTimer)
+      }
+      this.tokenTimer = setTimeout(() => {
+        let rData = {
+          state
+        }
+        this.$ajax('/login/get-token', { data: rData, dontToast: true }).then(res => {
+          if (res && res.data && res.data.token && (res.error === 0 || res.error === '0')) { // 成功获取token
+            if (this.tokenTimer) {
+              clearTimeout(this.tokenTimer)
+            }
+            window.localStorage.token = res.data.token
+            window.localStorage.username = res.data.username
+            window.localStorage.userType = res.data.type
+            let loginBack = window.localStorage.loginBack || '/'
+            this.$router.replace({ path: loginBack })
+          } else {
+            this.getWxLoginToken(state)
+          }
+        }).catch(() => {
+          this.getWxLoginToken(state)
+        })
+      }, 2500)
+    },
     login: function () {
       let rData = {}
       if (this.seleced.toString() === '0') { // 考生登录
-        this.wechatLoginCode = 'wechatLoginCode'
+        this.$ajax('/login/get-state').then(res => {
+          if (res && (res.error === 0 || res.error === '0')) { // 成功获取state
+            let { state } = res.data
+            this.showWxLogin = true
+            this.$nextTick(() => {
+              this.wxLoginObj = new window.WxLogin({
+                self_redirect: true,
+                id: 'wxcode',
+                appid: 'wxe2f2c66f76dbd611',
+                scope: 'snsapi_login',
+                redirect_uri: 'https%3A%2F%2Fwww.hnyskj.net%2Flogin%2Fwx-call-back',
+                state: state,
+                style: 'white',
+                href: ''
+              })
+              this.getWxLoginToken(state)
+            })
+          } else {
+            this.$toast(res.msg || '微信暂时无法登录')
+          }
+        }).catch(err => {
+          if (!err.msg) {
+            this.$toast('微信暂时无法登录')
+          }
+        })
+        return false
       } else if (this.seleced.toString() === '1') { // 老师登录
         rData = this.form1
       } else if (this.seleced.toString() === '2') { // 机构登录
@@ -323,7 +391,7 @@ export default {
   height: 290px;
   padding: 0;
   margin: 0 auto;
-  background: #fff;
+  /* background: #fff; */
 }
 .mask-tip{
   font-size: 18px;

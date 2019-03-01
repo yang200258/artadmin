@@ -17,6 +17,7 @@ body{
 }
 #app {
   max-width: 1200px;
+  min-width: 1200px;
   margin: 0 auto;
   overflow-x: visible;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

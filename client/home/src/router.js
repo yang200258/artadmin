@@ -30,8 +30,8 @@ const Regulation = resolve => require(['./views/Regulation.vue'], resolve)
 // 关于我们: /us
 // 考试简章: /regulation
 // 信息详情: /dynamicdetail?id=xxx
-// 小程序访问->关于我们: /nimiappus
-// 小程序访问->考试简章: /nimiappregulation
+// 小程序访问->关于我们: /miniappus
+// 小程序访问->考试简章: /miniappregulation
 // 小程序访问->信息详情: /miniappdynamic?id=xxx
 // 小程序访问->通知详情: /miniappmessage?id=xxx
 
@@ -39,7 +39,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  // base: process.env.BASE_URL,
+  base: (process.env.NODE_ENV === 'production') ? '/home/' : '/',
   routes: [
     {
       path: '/',

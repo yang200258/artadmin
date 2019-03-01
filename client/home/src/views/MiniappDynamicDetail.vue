@@ -3,7 +3,7 @@
     <div class="dynamic-detail-body">
       <div class="header">
         <div class="title">{{dynamic.title}}</div>
-        <div v-if="dynamic.intro" class="intro">{{dynamic.intro}}</div>
+        <!-- <div v-if="dynamic.intro" class="intro">{{dynamic.intro}}</div> -->
       </div>
       <div class="dynamic-content" v-html="dynamic.content"></div>
     </div>

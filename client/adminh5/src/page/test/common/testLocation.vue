@@ -7,18 +7,25 @@
                         <!-- 考试地点1************************************* -->
                         <el-form-item label="考试地点1" prop="address"><el-input v-model="examSite.address" placeholder="请填写考试地点"></el-input></el-form-item>
                         <!-- 考场1*********************** -->
-                        <p>考场1：</p>
+                        <div class="examsite2">
+                            <p>考场1：</p>
+                            <div class="img">
+                                <img src="@/assets/images/add.png"  @click="changeRoomStatus">
+                            </div>
+                        </div>
                         <div class="line"></div>
                         <!-- 考试时间1********** -->
-                        <img src="@/assets/images/add.png" class="addimg" @click="addtime">
-                        <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :label="'考试时间' + (index+1) + '：'" :prop="'time.' + index + '.value'">
-                            <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
-                        </el-form-item>
+                        <div class="examsite_address2_time2">
+                            <div class="img2"><img src="@/assets/images/add.png" @click="addtime"></div>
+                            <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :label="'考试时间' + (index+1) + '：'" :prop="'time.' + index + '.value'">
+                                <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
+                            </el-form-item>
+                        </div>
+                        
+
                         <div class="line2"></div>
-
-
                         <!-- 添加、删除考点1的考场********************************************************************** -->
-                        <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key">
+                        <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
                             <div class="examsite2">
                                 <p>考场{{(index+2)}}：</p>
                                 <div class="img">
@@ -44,7 +51,7 @@
 
 
                         <!-- 添加考点********************************************************************** -->
-                        <div v-for="(site,index) in examSite.sites" :key="site.key">
+                        <div v-for="(site,index) in examSite.sites" :key="site.key" v-if="siteStatus">
                             <!-- 考试地点2************************************* -->
                             <div class="examsite_address2_time2">
                                 <div class="img2">
@@ -79,6 +86,8 @@ export default {
     data(){
         return{
             isEmpty: true,
+            roomstatus: false,
+            siteStatus: false
         }
     },
     computed: {
@@ -132,15 +141,27 @@ export default {
         },
         //添加考点------------
         addsite() {
-            this.examSite.sites.push({
-                site: '',
-                times: [{value: '',key: Date.now()}],
-                key: Date.now()
-            })
+            if(!this.siteStatus) {
+                this.siteStatus = true
+            } else {
+                this.examSite.sites.push({
+                    site: '',
+                    times: [{value: '',key: Date.now()}],
+                    key: Date.now()
+                })
+            }
         },
         //删除考点2-----
         deleteSite(){
             this.examSite.sites.pop()
+        },
+
+        changeRoomStatus: function(){
+            if(!this.roomstatus) {
+                this.roomstatus = true
+            } else {
+                this.addroom()
+            }
         },
     }
 }
@@ -175,10 +196,6 @@ export default {
                 width: 30%;
                 border-top: 1px solid #dcdfe6;
             }
-            .addimg {
-                position: relative;
-                left: 29%;
-            }
             .line2 {
                 margin-top: 4px;
                 width: 50%;
@@ -197,7 +214,7 @@ export default {
                 img {
                     &:first-child {
                         display: inline-block;
-                        margin-right: 12px;
+                        // margin-right: 8px;
                     }
                 }
             }
@@ -208,12 +225,12 @@ export default {
                     position: absolute;
                     right: 0;
                     // top: 14%;
-                    margin-top: 10px;
+                    margin-top: 15px;
                     z-index : 999;
                     img {
                         z-index : 999;
                         &:first-child {
-                            margin-right: 8px;
+                            // margin-right: 8px;
                             right: 4%;
                         }
                 }
@@ -227,6 +244,9 @@ export default {
             .addsite {
                 margin-left: 50%;
             }
+        }
+        .el-input__icon {
+            height: 150%;
         }
     }
 }

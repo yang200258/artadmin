@@ -1,6 +1,7 @@
 // vue.config.js
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   // 选项...
@@ -29,5 +30,13 @@ module.exports = {
     } else { // 开发环境
 
     }
+    config.plugins.push(
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: './public/index.html',
+        inject: true,
+        favicon: './public/favicon.ico'
+      })
+    )
   }
 }
