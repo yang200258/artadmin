@@ -64,14 +64,18 @@ class LoginController extends Controller
 
     //微信回调
     public function actionWxCallBack(){
-        $session = \Yii::$app->session;
-        if($_GET['state']!=$session["wx_state"]){
-            echo 'sorry,网络请求失败...';
-            exit("5001");
-        }
+//        $session = \Yii::$app->session;
+//        if($_GET['state']!=$session["wx_state"]){
+//            echo 'sorry,网络请求失败...';
+//            exit("5001");
+//        }
+        $request = \Yii::$app->request;
+        $code = $request->get('code');
         $weixin = \Yii::$app->params['weixin'];
-        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='. $weixin['home_appid'] .'&secret='. $weixin['home_appsecret'] .'&code='.$_GET['code'].'&grant_type=authorization_code';
+        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='. $weixin['home_appid'] .'&secret='. $weixin['home_appsecret'] .'&code='. $code .'&grant_type=authorization_code';
         $arr = file_get_contents($url);
+        $this->log($arr);
+        $arr = json_decode($arr, true);
         //得到 access_token 与 openid
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$arr['access_token'].'&openid='.$arr['openid'].'&lang=zh_CN';
         $user_info = file_get_contents($url);
