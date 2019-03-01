@@ -55,6 +55,7 @@ class LoginController extends Controller
     //微信回调
     public function actionWxCallBack(){
         $session = \Yii::$app->session;
+        return $this->json(['state' => $session->get('wx_state')]);
         $request = \Yii::$app->request;
         $code = $request->get('code');
         $state = $request->get('state');
