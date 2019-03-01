@@ -155,7 +155,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['token', 'username', 'name', 'union_id', 'nick_name'], 'string', 'max' => 32],
             [['password', 'organ_name', 'organ_address'], 'string', 'max' => 64],
             [['sex'], 'string', 'max' => 16],
-            [['phone', 'avatar'], 'string', 'max' => 128],
+            [['phone'], 'string', 'max' => 128],
+            [['avatar'], 'string', 'max' => 256],
             [['home_openid', 'openid'], 'string', 'max' => 28],
         ];
     }
