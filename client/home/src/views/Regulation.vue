@@ -82,7 +82,12 @@ export default {
   padding: 30px 50px;
 }
 .regulation-content /deep/ div, .regulation-content /deep/ p {
-  line-height: 150%;
+  line-height: 175%;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.regulation-content /deep/ p{
+  margin-bottom: 10px;
 }
 .regulation-content /deep/ img{
   max-width: 100%;
