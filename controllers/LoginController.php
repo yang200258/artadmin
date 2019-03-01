@@ -91,14 +91,10 @@ class LoginController extends Controller
         $user = User::findOne(['union_id' => $unionid]);
         if (!$user){
             $user = new User();
-            $user->home_openid = $openid;
             $user->union_id = $unionid;
             $user->create_at = date("Y-m-d h:i:s",time());
-            if (!$user->save(false)){
-                $this->log('创建用户失败');
-                return false;
-            }
         }
+        $user->home_openid = $openid;
         $user->generateAuthKey();
         if (!$user->save(false))
         {
@@ -108,7 +104,7 @@ class LoginController extends Controller
         //设置缓存
         \Yii::$app->cache->set($state, $user->token, 600);
         $this->log('登录回调成功');
-        return true;
+        return '微信登录成功';
     }
 
     //轮询请求，获得登录token
@@ -124,7 +120,12 @@ class LoginController extends Controller
         {
             return $this->json(['token' => '']);
         }
-        return $this->json(['token' => $token]);
+        $user = User::findOne(['token' => $token]);
+        return $this->json([
+            'token' => $user->token,
+            'username' => $user->username,
+            'type' => $user->type
+        ]);
     }
 
     protected function log($message)
