@@ -1,13 +1,9 @@
 <?php
 namespace app\controllers;
-
-use app\helpers\WeiXin;
 use app\models\User;
 
 class LoginController extends Controller
 {
-    private $callBackUrl = 'https://www.hnyskj.net/login/wx-call-back';
-    private $appID = '';
     //账户密码登录
     public function actionIndex()
     {
