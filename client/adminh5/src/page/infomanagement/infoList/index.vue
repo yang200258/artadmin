@@ -130,7 +130,7 @@ export default {
         //点击确定或回车添加信息分类
         handleInputConfirm: function(){ 
             let name = this.addcategoryname;
-            if (addcategoryname) {
+            if (name) {
                 this.$axios({
                     url: '/category/add',
                     method: 'post',
@@ -142,7 +142,7 @@ export default {
                         this.getTypeList()
                         // this.category.push({id: this.count++,name: addcategoryname})
                         // this.inputVisible = false;
-                        this.addcategoryname = '';
+                        this.name = '';
                     }
                 }).catch(err=> {
                     console.log(err);
