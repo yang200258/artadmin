@@ -81,7 +81,10 @@ export default {
   padding: 30px 50px;
 }
 .dynamic-content /deep/ div, .dynamic-content /deep/ p {
-  line-height: 150%;
+  line-height: 175%;
+}
+.dynamic-content /deep/ p{
+  margin-bottom: 10px;
 }
 .dynamic-content /deep/ img{
   max-width: 100%;

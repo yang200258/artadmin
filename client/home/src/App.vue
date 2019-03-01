@@ -1,12 +1,19 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{'yk-pc': !isMobile}">
     <router-view />
   </div>
 </template>
 
 <script>
+const isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)
+
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      isMobile
+    }
+  }
 }
 </script>
 
@@ -24,6 +31,9 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;
+}
+.yk-pc{
+  min-width: 1200px;
 }
 .cursor-pointer{
   cursor: pointer;

@@ -79,7 +79,10 @@ export default {
   padding: 30px 50px;
 }
 .us-content /deep/ div, .us-content /deep/ p {
-  line-height: 150%;
+  line-height: 175%;
+}
+.us-content /deep/ p{
+  margin-bottom: 10px;
 }
 .us-content /deep/ img{
   max-width: 100%;
