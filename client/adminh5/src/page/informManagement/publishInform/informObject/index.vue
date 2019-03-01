@@ -203,7 +203,7 @@ export default {
         //子组件传递的方法
         editOption: function(){
             this.dialogVisible = true
-            this.getOption()
+            // this.getOption()
         },
         close: function(){
             this.dialogVisible = false
