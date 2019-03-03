@@ -23,7 +23,7 @@
                         </div>
                         
 
-                        <div class="line2"></div>
+                        <div class="line2"  v-if="roomstatus"></div>
                         <!-- 添加、删除考点1的考场********************************************************************** -->
                         <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
                             <div class="examsite2">
@@ -221,6 +221,18 @@ export default {
             .examsite_address2_time2 {
                 position: relative;
                 width: 30%;
+                .el-input__icon, .el-input__prefix {
+                    height: 40px;
+                    text-align: center;
+                    transition: all .3s;
+                }
+                .el-input__prefix {
+                    position: absolute;
+                    left: 5px;
+                    top: 40px;
+                    color: #c0c4cc;
+
+                }
                 .img2 {
                     position: absolute;
                     right: 0;
