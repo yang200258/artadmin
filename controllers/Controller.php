@@ -47,7 +47,7 @@ class Controller extends \yii\rest\Controller
         \Yii::$app->user->identityClass = 'app\models\User';
 
         // 部分控制器不需要验证身份
-        if (in_array($this->id, ['default','login', 'homepage', 'msg', 'exam', 'option', 'inform']) || ($this->id == 'pay' && $this->action->id == 'notify'))
+        if (in_array($this->id, ['default','login', 'homepage', 'msg', 'exam', 'option', 'inform']) || ($this->id == 'pay' && $this->action->id == 'notify') || ($this->id == 'pay' && $this->action->id == 'qrcode'))
         {
             return true;
         }
