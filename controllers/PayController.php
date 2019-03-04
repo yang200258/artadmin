@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\components\QRcode;
 use app\models\Apply;
 use app\models\ApplyPay;
 use app\models\Inform;
@@ -23,6 +24,7 @@ class PayController extends Controller
         {
             return $this->error('报名不存在');
         }
+
         if ($apply['plan'] != 2)
         {
             return $this->error('您无需缴费');
@@ -56,6 +58,29 @@ class PayController extends Controller
         $result = $notify->GetPayUrl($input);
         $code_url = $result["code_url"];
         $payurl = urlencode($code_url);
+
+        $apply['pay']['price'] = $apply['pay']['price'] / 100;
+        if ($apply['continuous_level'])
+        {
+            $apply['pay']['domain'] = [
+                [
+                    'name' => $apply['domain'] . $apply['level'],
+                    'price' => ApplyPay::$rates[$apply['level']] / 100 . '元',
+                ],
+                [
+                    'name' => $apply['domain'] . $apply['continuous_level'],
+                    'price' => ApplyPay::$rates[$apply['continuous_level']] / 100 . '元',
+                ],
+            ];
+        }else
+        {
+            $apply['pay']['domain'] = [
+                [
+                    'name' => $apply['domain'] . $apply['level'],
+                    'price' => ApplyPay::$rates[$apply['level']] / 100 . '元',
+                ]
+            ];
+        }
 
         $tv = [];
         $tv['payurl'] = $payurl;
@@ -150,7 +175,8 @@ class PayController extends Controller
         $data = \Yii::$app->request->get('data', '');
         $url = urldecode($data);
         ob_get_clean();
-        \QRcode::logopng($url, false, QR_ECLEVEL_H, 6,4,false);
+        require_once(\Yii::getAlias('@app') . "/components/phpqrcode.php");
+        \QRcode::png($url, false, QR_ECLEVEL_H, 6,4);
     }
 
 

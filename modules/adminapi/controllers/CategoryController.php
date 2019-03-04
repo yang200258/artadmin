@@ -55,7 +55,7 @@ class CategoryController extends Controller
         {
             return $this->error('分类名称不能为空');
         }
-        if (in_array($id,[1,2,3,4,5,6,7]))
+        if (in_array($id,[1,2,3,4,5,6,7,8]))
         {
             return $this->error('该分类名称不能修改');
         }
@@ -74,7 +74,7 @@ class CategoryController extends Controller
     {
         $request = \Yii::$app->request;
         $id = $request->post('id');
-        if (in_array($id,[1,2,3,4,5,6,7]))
+        if (in_array($id,[1,2,3,4,5,6,7,8]))
         {
             return $this->error('该分类名称不能删除');
         }
