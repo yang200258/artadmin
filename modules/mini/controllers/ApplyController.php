@@ -176,7 +176,7 @@ class ApplyController extends Controller
             }
             $apply_pay = new ApplyPay();
             $apply_pay->apply_id = $apply->id;
-            $apply_pay->price = $price;
+            $apply_pay->price = 1;
             if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
             {
                 $apply_pay->type = 2;
