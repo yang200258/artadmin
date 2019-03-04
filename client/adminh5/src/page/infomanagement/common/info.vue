@@ -102,7 +102,8 @@ export default {
         //图片上传成功后修改cover——id
         success: function(response, file, fileList){
             console.log(response, file, fileList);
-            
+            console.log(this.fileLists);
+            console.log(this.fileLists.length);
             if(response && !response.error) {
                 console.log('获取到图片上传后的回调',response);
                 this.publishData.cover_id = response.data.id[0]
@@ -159,7 +160,10 @@ export default {
             margin-top: 30px;
             display: flex;
         }
-        .disabled .el-upload--picture-card {
+        .disabled > .el-upload--picture-card {
+            display: none;
+        }
+        .disabled > .el-upload {
             display: none;
         }
     }

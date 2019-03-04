@@ -89,7 +89,7 @@ export default {
             plan : '',
             progressOptions: [{value: '',label: '全部'},{value: '1',label: '审核中'},{value: '3',label: '已失效'},{value: '2',label: '待缴费'},{value: '4',label: '已缴费'}],
             postpone : '',
-            islostTestOptions: [{value: '',label: '全部'},{value: '2',label: '是'},{value: '1',label: '否'}],
+            islostTestOptions: [{value: '',label: '全部'},{value: '1',label: '是'},{value: '0',label: '否'}],
             head: [{key: 'name',name: '考生姓名'},{ key: 'domain',name: '报考专业'},{key: 'level',name: '报考级别'},{key: 'create_at',name: '报名时间'},{key: 'apply_no',name: '报名编号'},
                 {key: 'id_type',name: '证件类型'},{key: 'id_number',name: '证件号码'},{key: 'room',name: '考场'},{key: 'user_organ_name',name: '负责报名机构'},{key: 'user_name',name: '负责报名老师'},
                 {key: 'status_name',name: '审核状态'},{key: 'plan_name',name: '当前进度'},{key: 'postpone_name',name: '是否存在缺考顺延'}],

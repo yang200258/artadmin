@@ -14,8 +14,7 @@
                     :before-upload="beforeUpload">
                 </el-upload>
                 <el-row v-loading="quillUpdateImg">
-                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)" 
-                 ></quill-editor>
+                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)"></quill-editor>
                 </el-row>
             </el-col>
         </el-row>
@@ -23,7 +22,26 @@
 </template>
 
 <script>
-import { quillEditor} from "vue-quill-editor"; //调用编辑器
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{'header': 1}, {'header': 2}],               // custom button values
+  [{'list': 'ordered'}, {'list': 'bullet'}],
+  [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+  [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+  [{'direction': 'rtl'}],                         // text direction
+
+  [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+  [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+  [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+  [{'font': []}],
+  [{'align': []}],
+  ['link', 'image', 'video'],
+  ['clean']                                         // remove formatting button
+]
+import {quillEditor} from 'vue-quill-editor' //调用编辑器
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -32,25 +50,21 @@ export default {
     data(){
         return{
             quillUpdateImg: false,
+            uploaddata: {},
             editorOption:  {
                 placeholder: '',
                 theme: 'snow',
                 modules: {
+                    ImageExtend: {
+                        loading: true,
+                        name: 'img',
+                        action: "https://www.hnyskj.net/adminapi/upload",
+                        response: (res) => {
+                            return res.data.url[0]
+                        }
+                    },
                     toolbar: {
-                        container: [['bold', 'italic', 'underline', 'strike'],
-                                        ['blockquote', 'code-block'],
-                                        [{ 'header': 1 }, { 'header': 2 }],
-                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                        [{ 'script': 'sub' }, { 'script': 'super' }],
-                                        [{ 'indent': '-1' }, { 'indent': '+1' }],
-                                        [{ 'direction': 'rtl' }],
-                                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                                        // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                                        // [{ 'font': [] }],
-                                        [{ 'color': [] }, { 'background': [] }],
-                                        [{ 'align': [] }],
-                                        ['clean'],
-                                        ['link', 'image', 'video']],
+                        container: toolbarOptions,
                         handlers:{
                             'image': function (value) {  //劫持quill自身的文件上传，用原生替换
                             if (value) {
@@ -104,7 +118,7 @@ export default {
         uploadError() {
             // loading动画消失
             this.quillUpdateImg = false
-            this.alert('图片插入失败')
+            alert('图片插入失败')
         },
         editContent: function($event){
             this.$store.commit('publishinfo/setquillContent',$event.html)

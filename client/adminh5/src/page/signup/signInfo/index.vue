@@ -169,8 +169,8 @@
                         <el-col :span="6" :offset="2">
                             <span>是否缺考顺延：</span>
                             <template>
-                                <el-radio v-model="radio" label="1" >否</el-radio>
-                                <el-radio v-model="radio" label="2" >是</el-radio>
+                                <el-radio v-model="radio" label="0" >否</el-radio>
+                                <el-radio v-model="radio" label="1" >是</el-radio>
                             </template>
                         </el-col>
                     </el-row>
@@ -194,7 +194,7 @@ import {mapState} from 'vuex'
 export default {
     data() {
         return {
-            radio: '',
+            radio: '0',
             payType: {'1': '微信支付','2':'线下缴费'},
             statusType: {'0': '未交费','1':'已缴费'},
             isLoading: false,

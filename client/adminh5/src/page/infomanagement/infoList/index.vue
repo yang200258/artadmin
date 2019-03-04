@@ -303,7 +303,7 @@ export default {
                 if(res && !res.error) {
                     // this.infoTypeOptions = res.data
                     this.$set(this,'infoTypeOptions',res.data)
-                    this.infoTypeOptions.push({id: '',name: '全部'})
+                    this.infoTypeOptions.unshift({id: '',name: '全部'})
                     this.category = res.data.filter((item) => {
                         if(item.id > 7) {
                             return true
