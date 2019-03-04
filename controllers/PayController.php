@@ -175,6 +175,7 @@ class PayController extends Controller
         $data = \Yii::$app->request->get('data', '');
         $url = urldecode($data);
         ob_get_clean();
+        require_once(\Yii::getAlias('@app') . "/components/phpqrcode.php");
         \QRcode::png($url, false, QR_ECLEVEL_H, 6,4);
     }
 
