@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 
-use app\components\QRcode;
 use app\models\Apply;
 use app\models\ApplyPay;
 use app\models\Inform;
