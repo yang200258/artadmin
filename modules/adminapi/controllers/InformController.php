@@ -44,6 +44,9 @@ class InformController extends Controller
         }
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
+        array_walk($list, function (&$val){
+            $val['uid_arr'] = InformUser::find()->select(['uid'])->where(['inform_id' => $val['id']])->column();
+        });
 
         return $this->json([
             'list' => $list,
