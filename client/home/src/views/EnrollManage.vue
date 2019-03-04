@@ -1,6 +1,6 @@
 <template>
   <div class="p-enroll-manage">
-    <div v-if="userRole.toString() === roles.teacher || userRole.toString() === roles.institution" class="filter-wrapper clearfix">
+    <div v-if="storeUD.userType === roles.teacher || storeUD.userType === roles.institution" class="filter-wrapper clearfix">
       <div class="filter-box fl clearfix">
         <span class="filter-name fl">考生姓名：</span>
         <input class="filter-input fl" v-model="filters.name" placeholder="考生姓名" />
@@ -40,7 +40,7 @@
         </el-date-picker>
       </div>
       <div class="filter-box fl clearfix">
-        <div class="filter-btn cursor-pointer fl" @click.stop="filter">筛选</div>
+        <div class="filter-btn cursor-pointer fl" @click.stop="requestList">筛选</div>
       </div>
       <div class="filter-box fl clearfix">
         <div class="reset-btn cursor-pointer fl" @click.stop="filter(true)">重置</div>
@@ -52,36 +52,39 @@
         class="table-box"
         header-row-class-name="table-head"
         style="width:100%">
-        <el-table-column prop="number" label="考试编号" width="91"></el-table-column>
-        <el-table-column prop="examName" label="考试名称" width="91"></el-table-column>
-        <el-table-column prop="orderNo" label="报名单号" width="91"></el-table-column>
-        <el-table-column prop="name" label="考生姓名" width="91"></el-table-column>
-        <el-table-column prop="gender" label="考生性别" width="91">
-          <template slot-scope="scope">
-            {{genderText[scope.row.gender]}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="cardnumber" label="证件号码" width="91"></el-table-column>
-        <el-table-column prop="major" label="报考专业" width="91"></el-table-column>
-        <el-table-column prop="level" label="报考级别" width="91"></el-table-column>
-        <el-table-column prop="time" label="报名时间" width="91"></el-table-column>
-        <el-table-column prop="status" label="当前进度" width="91">
+        <el-table-column prop="exam.number" label="考试编号" width="91"></el-table-column>
+        <el-table-column align="center" prop="exam.name" label="考试名称" width="91"></el-table-column>
+        <el-table-column align="center" prop="apply_no" label="报名单号" width="91"></el-table-column>
+        <el-table-column align="center" prop="name" label="考生姓名" width="91"></el-table-column>
+        <el-table-column align="center" prop="sex" label="考生性别" width="91"></el-table-column>
+        <el-table-column align="center" prop="id_number" label="证件号码" width="91"></el-table-column>
+        <el-table-column align="center" prop="domain" label="报考专业" width="91"></el-table-column>
+        <el-table-column align="center" prop="level" label="报考级别" width="91"></el-table-column>
+        <el-table-column align="center" prop="create_at" label="报名时间" width="91"></el-table-column>
+        <el-table-column align="center" prop="plan" label="当前进度" width="91">
           <template slot-scope="scope">
             {{statusText[scope.row.plan]}}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column align="right" label="操作">
           <template slot-scope="scope">
            <span class="cursor-pointer" style="color:#795C41" @click.stop="moreDetail(scope.row.id)">查看详情</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <div style="margin-top:20px;font-size:0;text-align:center">
+      <div style="display:inline-block;">
+        <pagination :total="page.total_page || 0" :current="1" @change="pn => requestList(pn)" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import globalConstant from '../lib/globalConstant'
+import Pagination from '../components/Pagination'
 
 export default {
   data () {
@@ -89,7 +92,6 @@ export default {
       roles: globalConstant.roles,
       statusText: globalConstant.statusText,
       genderText: globalConstant.genderText,
-      userRole: '0',
       majors: [],
       levels: [],
       filters: {
@@ -98,26 +100,18 @@ export default {
         level: '全部',
         range: ''
       },
-      listTable: [
-        {
-          id: '22',
-          number: '123123',
-          examName: '考试1',
-          orderNo: '单号1',
-          name: '张三',
-          gender: '2',
-          cardnumber: '142934782947234234',
-          major: '钢琴',
-          level: '九级',
-          time: '2010.10.10 16:16',
-          status: '1'
-        }
-      ]
+      listRequesting: false,
+      listTable: [],
+      page: {}
     }
   },
+  computed: {
+    ...mapState('user', ['storeUD'])
+  },
+  components: { Pagination },
   activated () {
-    this.userRole = window.localStorage.userType ? window.localStorage.userType.toString() : '0'
     this.getOptions()
+    this.requestList()
   },
   methods: {
     test: function () {
@@ -137,11 +131,38 @@ export default {
         }
       }
     },
-    requestList: function () {
-
+    requestList: function (pn = 1) {
+      let { listRequesting } = this
+      if (listRequesting) {
+        return false
+      }
+      let { name, major, level, range } = this.filters
+      console.log('name, major, level, range', name, major, level, range)
+      let domain = (major === '全部') ? '' : major
+      let _level = (level === '全部') ? '' : level
+      // return false
+      let rData = {
+        name: name,
+        domain: domain,
+        level: _level,
+        start_time: range ? range[0] : '',
+        end_time: range ? range[1] : '',
+        pn: pn
+      }
+      this.$ajax('/apply/list', { data: rData }).then(res => {
+        this.listRequesting = false
+        console.log('/apply/list', res)
+        if (res && res.data && (res.error === 0 || res.error === '0')) {
+          this.listTable = res.data.list
+          this.page = res.data.page
+        }
+      }).catch(err => {
+        console.log('/apply/list_err', err)
+        this.listRequesting = false
+      })
     },
     getOptions: function () {
-      this.$ajax('/option', { data: { token: window.localStorage.token || '' } }).then(res => {
+      this.$ajax('/option').then(res => {
         if (!res.error && res.data) { // 获取信息成功
           let { major } = res.data
           let majors = []

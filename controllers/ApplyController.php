@@ -175,7 +175,7 @@ class ApplyController extends Controller
             }
             $apply_pay = new ApplyPay();
             $apply_pay->apply_id = $apply->id;
-            $apply_pay->price = $price;
+            $apply_pay->price = 2;
             if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
             {
                 $apply_pay->type = 2;
@@ -207,13 +207,13 @@ class ApplyController extends Controller
         $start_time = $request->post('start_time');
         $end_time = $request->post('end_time');
 
-        $model = Apply::find()->with('user')
+        $model = Apply::find()->with(['user', 'exam'])
             ->andWhere(['uid' => $this->userid])
             ->andFilterWhere(['name' => $name])
             ->andFilterWhere(['domain' => $domain])
             ->andFilterWhere(['level' => $level])
-            ->andFilterWhere(['<', 'create_at', $start_time])
-            ->andFilterWhere(['>', 'create_at', $end_time]);
+            ->andFilterWhere(['>=', 'create_at', $start_time])
+            ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . " 23:59:59" : null]);
 
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();

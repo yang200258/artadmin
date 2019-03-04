@@ -139,6 +139,11 @@ class ExamController extends Controller
             return $this->error('请填写考试起止日期');
         }
 
+        $ex = Exam::find()->where(['number' => $number])->exists();
+        if ($ex)
+        {
+            return $this->error('存在相同的考试编号，请核实，重新输入');
+        }
         $exam = new Exam();
         $exam->number = $number;
         $exam->name = $name;
