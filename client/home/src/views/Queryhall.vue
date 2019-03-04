@@ -53,20 +53,55 @@ export default {
       resultUrl: ''
     }
   },
-  actived () {
+  activated () {
     this.getOptions()
   },
   methods: {
     requestList: function () {
       console.log('filters', this.filters)
+      if (this.loading) {
+        return false
+      }
+      let { name, cardNumber, major, level } = this.filters
+      let domain = (major === '全部') ? '' : major
+      let _level = (level === '全部') ? '' : level
+      if (!name) {
+        this.$toast('请输入姓名')
+        return false
+      } else if (!cardNumber) {
+        this.$toast('请输入身份证号')
+        return false
+      } else if (!domain) {
+        this.$toast('请选择专业')
+        return false
+      } else if (!_level) {
+        this.$toast('请选择等级')
+        return false
+      }
+      let rData = {
+        name: name,
+        id_card: cardNumber,
+        domain: domain,
+        level: _level
+      }
       this.loading = true
-      setTimeout(() => {
+      this.$ajax('/search/room', { data: rData }).then(res => {
         this.loading = false
-        this.resultUrl = 'http://img2.imgtn.bdimg.com/it/u=2682247153,4259400185&fm=26&gp=0.jpg'
-      }, 500)
+        console.log('/search/room', res)
+        if (res && res.data && (res.error === 0 || res.error === '0')) {
+          this.resultUrl = res.data.kz_image_url
+          if (!res.data.kz_image_url) {
+            this.$toast('未查询到该考生信息')
+          }
+        }
+      }).catch(err => {
+        console.log('/search/room_err', err)
+        this.loading = false
+      })
     },
     getOptions: function () {
-      this.$ajax('/option', { data: { token: window.localStorage.token || '' } }).then(res => {
+      console.log('getOptions')
+      this.$ajax('/option').then(res => {
         if (!res.error && res.data) { // 获取信息成功
           let { major } = res.data
           let majors = []

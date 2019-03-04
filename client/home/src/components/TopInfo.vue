@@ -4,8 +4,8 @@
     <div class="login fr clearfix" :style="{marginTop: ((height - 40) / 2) + 'px'}">
       <i class="ykfont yk-login fl"></i>
       <div class="center-text fl">
-        <p><span class="login-btn" :class="{'cursor-pointer': !username}" @click.stop="loginClick">{{username || '登录'}}</span><span v-if="username" class="logout-btn cursor-pointer" @click.stop="logoutClick">退出</span></p>
-        <p v-if="!username" style="color:#666">login</p>
+        <p><span class="login-btn" :class="{'cursor-pointer': !storeUD.username}" @click.stop="loginClick">{{storeUD.username || '登录'}}</span><span v-if="storeUD.username" class="logout-btn cursor-pointer" @click.stop="logoutClick">退出</span></p>
+        <p v-if="!storeUD.username" style="color:#666">login</p>
       </div>
     </div>
     <div class="about-us fr clearfix" :style="{marginTop: ((height - 40) / 2) + 'px'}">
@@ -24,6 +24,7 @@
 
 <script>
 import utils from '../lib/utils'
+import { mapState, mapMutations } from 'vuex'
 const accountImage = require('../assets/image/account_code.jpg')
 
 export default {
@@ -35,21 +36,17 @@ export default {
   },
   data () {
     return {
-      accountImage: accountImage,
-      username: ''
+      accountImage: accountImage
     }
   },
-  mounted () {
-    if (window.localStorage.username && window.localStorage.token) {
-      this.username = window.localStorage.username
-    } else {
-      this.username = ''
-    }
+  computed: {
+    ...mapState('user', ['storeUD'])
   },
   methods: {
+    ...mapMutations('user', ['userLogout']),
     loginClick: function () {
       console.log('loginClick')
-      if (this.username) { // 已登录则不需要再跳转登录页面
+      if (this.storeUD.username) { // 已登录则不需要再跳转登录页面
         return false
       }
       window.localStorage.loginBack = this.$route.path
@@ -58,16 +55,10 @@ export default {
     },
     logoutClick: function () {
       console.log('logoutClick')
-      let rData = {
-        token: window.localStorage.token || ''
-      }
-      this.$ajax('/logout', { data: rData }).then(res => {
-        if (res && !res.error) { // 退出成功
+      this.$ajax('/logout').then(res => {
+        if (res && (res.error === 0 || res.error === '0')) { // 退出成功
           this.$toast(res.msg || '退出成功')
-          this.username = ''
-          window.localStorage.token = ''
-          window.localStorage.username = ''
-          window.localStorage.userType = ''
+          this.userLogout()
           if (this.$route.meta.requiredLogin) {
             utils.goLogin()
           }

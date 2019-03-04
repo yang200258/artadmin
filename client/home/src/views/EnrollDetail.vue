@@ -4,7 +4,7 @@
       <div class="title">报名信息</div>
       <div class="info-body">
         <img v-if="enroll.bm_image_url" class="image" :src="enroll.bm_image_url" alt="报名评审表" title="报名评审表" />
-        <div class="seal-box">
+        <div v-if="enroll.plan" class="seal-box">
           <seal :type="enroll.plan.toString()" />
         </div>
         <div v-if="enroll.pro_certificate_url || enroll.basic_certificate_url" class="cer-buttons clearfix">
@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- 已缴费 -->
-    <div v-if="enroll.plan.toString() === '4'" class="fee-box">
+    <div v-if="enroll.plan && enroll.plan.toString() === '4'" class="fee-box">
       <div class="title">缴费信息</div>
       <div class="fee-body">
         <div class="info-row">缴费状态：{{statusText[enroll.plan]}}</div>
@@ -42,7 +42,7 @@
       </div>
     </div>
     <!-- 待缴费 -->
-    <div v-else-if="enroll.plan.toString() === '2'" class="fee-box2">
+    <div v-else-if="enroll.plan && enroll.plan.toString() === '2'" class="fee-box2">
       <div class="title">应缴费用</div>
       <div class="fee-body">
         <div v-for="row in payData.domain" :key="row.id" class="info-row2 clearfix">
@@ -52,7 +52,7 @@
         <div class="total">总计：<span style="color:#D0021B">{{payData.price}}</span>元</div>
       </div>
     </div>
-    <div v-if="enroll.plan.toString() === '2'">
+    <div v-if="enroll.plan && enroll.plan.toString() === '2'">
       <div class="state-text2 clearfix">
         <i class="ykfont yk-warning fl"></i>
         <div class="warining-text fl">进行缴费后，考试费用不再退回</div>
@@ -85,21 +85,10 @@
       </div>
     </div>
     <!-- 已缴费 -->
-    <div v-else-if="enroll.plan.toString() === '4'">
-      <!-- <div v-if="(userRole.toString() === roles.teacher || userRole.toString() === roles.institution) && !outOfExam && !editedDelay" class="delay-box clearfix">
-        <div class="required-title fl">是否缺考顺延：</div>
-        <label class="delay-label cursor-pointer fl clearfix">
-          <input type="radio" class="delay-radio cursor-pointer fl" value="0" v-model="delay" />
-          <span class="fl">否</span>
-        </label>
-        <label class="delay-label cursor-pointer fl clearfix">
-          <input type="radio" class="delay-radio cursor-pointer fl" value="1" v-model="delay" />
-          <span class="fl">是</span>
-        </label>
-      </div> -->
+    <div v-else-if="enroll.plan && enroll.plan.toString() === '4'">
       <div class="bottom-buttons">
         <div class="cer-buttons clearfix">
-          <div v-if="userRole.toString() === roles.teacher || userRole.toString() === roles.institution" class="bottom-button cursor-pointer fl" @click.stop="enrollMore">继续添加</div>
+          <div v-if="storeUD.userType === roles.teacher || storeUD.userType === roles.institution" class="bottom-button cursor-pointer fl" @click.stop="enrollMore">继续添加</div>
           <div class="bottom-button cursor-pointer fl" @click.stop="complete">完成</div>
         </div>
       </div>
@@ -108,27 +97,31 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import globalConstant from '../lib/globalConstant'
 import Seal from '../components/Seal'
 
 export default {
+  name: 'enrollDetail',
   data () {
     return {
       statusText: globalConstant.statusText,
       roles: globalConstant.roles,
       payType: globalConstant.enrollPayType,
-      userRole: '0',
       showCerMajor: false,
       showCerBasicmusic: false,
       enroll: {},
       payData: {}
     }
   },
+  computed: {
+    ...mapState('user', ['storeUD'])
+  },
   components: { Seal },
   // mounted () {
   //   this.fetchEnroll()
   // },
-  actived () {
+  mounted () {
     this.fetchEnroll()
   },
   methods: {
@@ -137,8 +130,7 @@ export default {
     },
     goPay: function () {
       console.log('goPay')
-      let path = '/enroll/pay?id=' + this.$route.query.id
-      this.$router.replace({ path })
+      this.$router.replace({ path: '/enroll/pay', query: { id: this.$route.query.id } })
     },
     enrollMore: function () { // 点击继续添加
       this.$router.replace({ path: '/enroll/apply' })
@@ -147,6 +139,7 @@ export default {
       this.$router.go(-1)
     },
     fetchEnroll: function () {
+      console.log('fetchEnroll')
       let rData = {
         id: this.$route.query.id
       }
