@@ -13,7 +13,7 @@
           <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/regulation') !== -1}" @click.stop="sidebarClick('5')">考级简章</div>
         </div>
         <div class="side-body fr">
-          <keep-alive>
+          <keep-alive :exclude="['enrollDetail', 'enrollPay']">
             <router-view />
           </keep-alive>
         </div>

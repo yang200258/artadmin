@@ -260,6 +260,7 @@
 <script>
 import Mtils from 'mtils'
 import axios from 'axios'
+import { mapState } from 'vuex'
 import globalConstant from '../lib/globalConstant'
 const defaultAvatar = require('../assets/image/default_avatar.png')
 
@@ -480,7 +481,6 @@ export default {
       exam_id: '',
       submitting: false,
       roles: globalConstant.roles,
-      userRole: '0',
       defaultAvatar: defaultAvatar,
       genderText: {
         1: '男',
@@ -498,6 +498,9 @@ export default {
       form: initialForm
     }
   },
+  computed: {
+    ...mapState('user', ['storeUD'])
+  },
   activated () {
     console.log(this.$route.query.id)
     this.exam_id = this.$route.query.id
@@ -506,7 +509,7 @@ export default {
   },
   methods: {
     getOptions: function () {
-      this.$ajax('/option', { data: { token: window.localStorage.token || '' } }).then(res => {
+      this.$ajax('/option').then(res => {
         if (!res.error && res.data) { // 获取信息成功
           let { nationality, nation, major, certificate } = res.data
           let majors = []
@@ -921,8 +924,8 @@ export default {
       window.localStorage.applyForm = ''
       window.localStorage.applyFormOptions = ''
       this.form = initialForm
-      let { roles, userRole } = this
-      if (userRole.toString() === roles.teacher || userRole.toString() === roles.institution) { // 老师或机构,直接成功，无需审核、支付
+      let { roles, storeUD } = this
+      if (storeUD.userType === roles.teacher || storeUD.userType === roles.institution) { // 老师或机构,直接成功，无需审核、支付
         this.$router.replace({ path: '/enroll/detail?id=' + id })
         return false
       }

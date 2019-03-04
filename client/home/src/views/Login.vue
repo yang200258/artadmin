@@ -62,6 +62,7 @@
 
 <script>
 import '../lib/WxLogin'
+import { mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -89,15 +90,13 @@ export default {
       console.log('watchwxLoginObj', p1, p2)
     }
   },
-  mounted () {
-    console.log('WxLogin', window.WxLogin)
-  },
   beforeDestroy () {
     if (this.tokenTimer) {
       clearTimeout(this.tokenTimer)
     }
   },
   methods: {
+    ...mapMutations('user', ['userLogin']),
     changeTab: function (idx) {
       if (this.seleced === parseInt(idx)) {
         return false
@@ -117,9 +116,11 @@ export default {
             if (this.tokenTimer) {
               clearTimeout(this.tokenTimer)
             }
-            window.localStorage.token = res.data.token
-            window.localStorage.username = res.data.username
-            window.localStorage.userType = res.data.type
+            let obj = {}
+            obj.token = res.data.token
+            obj.username = res.data.username
+            obj.userType = res.data.type
+            this.userLogin(obj)
             let loginBack = window.localStorage.loginBack || '/'
             this.$router.replace({ path: loginBack })
           } else {
@@ -175,9 +176,11 @@ export default {
       }
       this.$ajax('/login', { data: rData }).then(res => {
         if (res && !res.error) { // 登录成功
-          window.localStorage.token = res.data.token
-          window.localStorage.username = res.data.username
-          window.localStorage.userType = res.data.type
+          let obj = {}
+          obj.token = res.data.token
+          obj.username = res.data.username
+          obj.userType = res.data.type
+          this.userLogin(obj)
           let loginBack = window.localStorage.loginBack || '/'
           this.$router.replace({ path: loginBack })
         } else if (res && res.error && res.msg) {
