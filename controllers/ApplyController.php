@@ -207,7 +207,7 @@ class ApplyController extends Controller
         $start_time = $request->post('start_time');
         $end_time = $request->post('end_time');
 
-        $model = Apply::find()->with('user')
+        $model = Apply::find()->with(['user', 'exam'])
             ->andWhere(['uid' => $this->userid])
             ->andFilterWhere(['name' => $name])
             ->andFilterWhere(['domain' => $domain])
