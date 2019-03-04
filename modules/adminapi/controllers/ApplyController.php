@@ -47,7 +47,7 @@ class ApplyController extends Controller
         $end_time = $request->post('end_time');
 
         $model = Apply::find()->with(['pay', 'user', 'examsite1', 'examsite2'])
-            ->andFilterWhere(['name' => $name])
+            ->andFilterWhere(['LIKE', 'name', $name])
             ->andFilterWhere(['domain' => $domain])
             ->andFilterWhere(['level' => $level])
             ->andFilterWhere(['id_type' => $id_type])
