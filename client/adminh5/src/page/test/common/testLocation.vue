@@ -8,7 +8,7 @@
                         <el-form-item label="考试地点1" prop="address"><el-input v-model="examSite.address" placeholder="请填写考试地点"></el-input></el-form-item>
                         <!-- 考场1*********************** -->
                         <div class="examsite2">
-                            <p>考场1：</p>
+                            <p style="color: red">*</p><p>考场1：</p>
                             <div class="img">
                                 <img src="@/assets/images/add.png"  @click="changeRoomStatus">
                             </div>
@@ -17,13 +17,17 @@
                         <!-- 考试时间1********** -->
                         <div class="examsite_address2_time2">
                             <div class="img2"><img src="@/assets/images/add.png" @click="addtime"></div>
-                            <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :label="'考试时间' + (index+1) + '：'" :prop="'time.' + index + '.value'">
+                            <el-form-item label="考试时间1" prop="time1" required>
+                                <el-date-picker type="datetime" v-model="examSite.time1" placeholder="请设置考场考试时间"></el-date-picker>
+                            </el-form-item>
+                            <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :label="'考试时间' + (index+2) + '：'" :prop="'time.' + index + '.value'" v-if="time1status">
                                 <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
                             </el-form-item>
                         </div>
                         
+                        
 
-                        <div class="line2"></div>
+                        <div class="line2"  v-if="roomstatus"></div>
                         <!-- 添加、删除考点1的考场********************************************************************** -->
                         <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
                             <div class="examsite2">
@@ -87,7 +91,8 @@ export default {
         return{
             isEmpty: true,
             roomstatus: false,
-            siteStatus: false
+            siteStatus: false,
+            time1status: false
         }
     },
     computed: {
@@ -100,10 +105,14 @@ export default {
     methods: {
         //添加考点1--考场1---考试时间
         addtime(){
-            this.examSite.time.push({
-                value: '',
-                key: Date.now()
-            })
+            if(this.time1status) {
+                this.examSite.time.push({
+                    value: '',
+                    key: Date.now()
+                })
+            } else {
+                this.time1status = true
+            }
         },
         //添加考点1--考场2---考试时间
         addroomtime(index){
@@ -221,6 +230,28 @@ export default {
             .examsite_address2_time2 {
                 position: relative;
                 width: 30%;
+                .el-input__icon, .el-input__prefix {
+                    height: 40px;
+                    text-align: center;
+                    transition: all .3s;
+                }
+                .el-input__prefix {
+                    position: absolute;
+                    left: 5px;
+                    top: 40px;
+                    color: #c0c4cc;
+
+                }
+                .el-input__suffix {
+                    position: absolute;
+                    height: 40px;
+                    right: 5px;
+                    top: 40px;
+                    text-align: center;
+                    color: #c0c4cc;
+                    transition: all .3s;
+                    pointer-events: none;
+                }
                 .img2 {
                     position: absolute;
                     right: 0;

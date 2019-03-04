@@ -38,6 +38,8 @@ Vue.use(RadioGroup)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+// Vue.use(Message)
+// Vue.use(MessageBox)
 
 import router from './router'
 import store from './store'

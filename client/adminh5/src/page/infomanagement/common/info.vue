@@ -14,7 +14,8 @@
             </el-row>
             <el-form-item label="封面图：">
                 <el-upload
-                :class="{disabled:uploadDisabled}"
+                class="avatar-uploader"
+                :class="{hide:uploadDisabled}"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit = "parseInt('1')"
@@ -98,8 +99,9 @@ export default {
         //图片上传成功后修改cover——id
         success: function(response, file, fileList){
             console.log(response, file, fileList);
-            console.log('this.fileLists',this.fileLists);
+            
             if(response && !response.error) {
+                console.log('获取到图片上传后的回调',response);
                 this.publishData.cover_id = response.data.id[0]
                 this.uploadDisabled = true
             }
@@ -154,7 +156,7 @@ export default {
             margin-top: 30px;
             display: flex;
         }
-        .disabled.el-upload--picture-card {
+        .hide .el-upload--picture-card {
             display: none;
         }
     }

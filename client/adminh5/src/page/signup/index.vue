@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="4" :offset="0"><p>报考级别：</p>
                     <el-select v-model="level" placeholder="全部">
-                        <el-option v-for="item in levelOptions" :key="item.value" :label="item.value" :value="item.value"> </el-option>
+                        <el-option v-for="item in levelOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
                     </el-select>
                 </el-col>
                 <el-col :span="8">
@@ -61,7 +61,7 @@
             <el-button type="primary">导出考级录入系统报名表</el-button>
         </div>
         <el-container class="queryResult">
-            <table-data :isPagination="'true'" :totalNumber="page.total" :currentPage="page.pn" :pageSize="page.limit" :head="head" :tableData="signList" :isOption="'true'"
+            <table-data :isPagination="'true'" :totalNumber="totalNumber" :currentPage="currentPage" :pageSize="pageSize" :head="head" :tableData="signList" :isOption="'true'"
             :isEditTable="'true'" :editTableName="'查看详情'" isSelected="'true'" :loadingTable="isLoading" @editInfo="signDetail" @handleCurrentChange="handleCurrentChange">
             </table-data>
         </el-container>
@@ -80,21 +80,23 @@ export default {
             levelOptions: [],
             signTime: [],
             id_type: '',
-            idCardOptions: [{value: '1',label: '身份证'},{value: '2',label: '护照'}],
+            idCardOptions: [{value: '',label: '全部'},{value: '身份证',label: '身份证'},{value: '护照',label: '护照'}],
             id_number: '',
             organ_name : '',
             teacher_name : '',
             status : '',
-            verifyOptions : [{value: '1',label: '待审核'},{value: '2',label: '不通过'},{value: '4',label: '已通过'},{value: '3',label: '无需审核'}],
+            verifyOptions : [{value: '',label: '全部'},{value: '1',label: '待审核'},{value: '2',label: '不通过'},{value: '4',label: '已通过'},{value: '3',label: '无需审核'}],
             plan : '',
-            progressOptions: [{value: '1',label: '审核中'},{value: '3',label: '已失效'},{value: '2',label: '待缴费'},{value: '4',label: '已缴费'}],
+            progressOptions: [{value: '',label: '全部'},{value: '1',label: '审核中'},{value: '3',label: '已失效'},{value: '2',label: '待缴费'},{value: '4',label: '已缴费'}],
             postpone : '',
-            islostTestOptions: [{value: '0',label: '全部'},{value: '2',label: '是'},{value: '1',label: '否'}],
+            islostTestOptions: [{value: '',label: '全部'},{value: '2',label: '是'},{value: '1',label: '否'}],
             head: [{key: 'name',name: '考生姓名'},{ key: 'domain',name: '报考专业'},{key: 'level',name: '报考级别'},{key: 'create_at',name: '报名时间'},{key: 'apply_no',name: '报名编号'},
-                {key: 'id_type',name: '证件类型'},
-                {key: 'id_number',name: '证件号码'},{key: 'room',name: '考场'},{key: 'user_name',name: '负责报名机构'},{key: 'user_organ_name',name: '负责报名老师'},
-                {key: 'status',name: '审核状态'},{key: 'plan',name: '当前进度'},{key: 'postpone',name: '是否存在缺考顺延'}],
-            isLoading: false
+                {key: 'id_type',name: '证件类型'},{key: 'id_number',name: '证件号码'},{key: 'room',name: '考场'},{key: 'user_organ_name',name: '负责报名机构'},{key: 'user_name',name: '负责报名老师'},
+                {key: 'status_name',name: '审核状态'},{key: 'plan_name',name: '当前进度'},{key: 'postpone_name',name: '是否存在缺考顺延'}],
+            isLoading: false,
+            totalNumber: 0,
+            currentPage: 1,
+            pageSize: 50,
         }
         
     },
@@ -110,7 +112,7 @@ export default {
       queryInfo(pn){
           this.$store.commit('signup/setPage',{})
           this.$store.commit('signup/setSignList',[])
-          const {domain,name,level,id_type,id_numbe,status,plan,postpone,organ_name,teacher_name,signTime} = this
+          const {domain,name,level,id_type,id_number,status,plan,postpone,organ_name,teacher_name,signTime} = this
           const start_time = util.filterDate(signTime[0])
           const end_time = util.filterDate(signTime[1])
           pn = pn || 1
@@ -119,7 +121,7 @@ export default {
           this.$axios({
               url : '/apply/list',
               method: 'post',
-              data: {domain,name,level,id_type,id_numbe,status,plan,postpone,organ_name,teacher_name,start_time,end_time,pn}
+              data: {domain,name,level,id_type,id_number,status,plan,postpone,organ_name,teacher_name,start_time,end_time,pn}
           }).then(res=> {
               console.log(res);
               console.log('获取报名列表数据',res);
@@ -141,12 +143,51 @@ export default {
                             if(list.examsite1 && list.examsite2) {
                                   list.room = list.room1 + list.room2
                               }
-                              
+                              switch(list.status) {
+                                case 1:
+                                    list.status_name = '待审核'
+                                    break;
+                                case 2:
+                                    list.status_name = '不通过'
+                                    break;
+                                case 3:
+                                    list.status_name = '无需审核'
+                                    break;
+                                case 4:
+                                    list.status_name = '已通过'
+                                    break;
+                              }
+                              switch(list.plan) {
+                                case 1:
+                                    list.plan_name = '审核中'
+                                    break;
+                                case 2:
+                                    list.plan_name = '待缴费'
+                                    break;
+                                case 3:
+                                    list.plan_name = '已失效'
+                                    break;
+                                case 4:
+                                    list.plan_name = '已缴费'
+                                    break;
+                              }
+                              switch(list.postpone) {
+                                case 0:
+                                    list.postpone_name = '否'
+                                    break;
+                                case 1:
+                                    list.postpone_name = '是'
+                                    break;
+                              }
                               signList.push(list)
                           })
                       })
                   }
-                this.$store.commit('signup/setPage',res.data.page)
+
+                // this.$store.commit('signup/setPage',res.data.page)
+                this.totalNumber = res.data.page.total
+                this.currentPage = res.data.page.pn
+                this.pageSize = res.data.page.limit
                 this.$store.commit('signup/setSignList',signList)
               }
               this.isLoading = false
@@ -189,14 +230,14 @@ export default {
       },
       //改变报考专业对应报考级别
       changeSelect: function(val) {
-          this.levelOptions = []
-           this.domainOptions.forEach(item=> {
-              if(item.key == val) {
-                  for(let i =0;i<item.value.length;i++) {
-                      this.levelOptions.push({key: item.value[i],value:item.value[i]})
-                  }
-              }
-          })
+        this.levelOptions = [{key: '全部',value:''}]
+        this.domainOptions.forEach(item=> {
+            if(item.key == val) {
+                for(let i =0;i<item.value.length;i++) {
+                    this.levelOptions.push({key: item.value[i],value:item.value[i]})
+                }
+            }
+        })
       } 
     },
     computed: {

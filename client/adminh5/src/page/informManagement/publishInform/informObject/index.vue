@@ -1,9 +1,13 @@
 <template>
     <div class="inform-object">
-        <table-data :head="head" :tableData="informobject" :addInformData="addInformData" isEdit="'true'" :editName="editName" :isDeleteTable="'true'" :deleteTableName="deleteTableName"
-         @editOption="editOption" @deleteInfo="deleteInfo" :editType="editType" :loadingTable="loadingInformTable" :loadingAddInformTable="loadingAddInformTable" 
-          @saveAddInform="saveAddInform" @close="close" @getRowKey="getRowKey">
+        <table-data :isPagination="'true'" :currentPage="cp" :pageSize="ps" :totalNumber="tn" :head="head" :tableData="pageinformobject" isEdit="'true'"  :isOption="true" 
+        :editName="editName" :isDeleteTable="'true'" :deleteTableName="deleteTableName" @editOption="editOption" @deleteInfo="deleteInfo" :loadingTable="loadingInformTable" 
+        @handleCurrentChange="handlePage"  @getRowKey="getRowKey">
         </table-data>
+        <div class="button">
+            <el-col style="width:40%;" type="primary"><el-button @click="confirm">确定</el-button></el-col>
+        </div>
+        
         <!-- 添加通知对象弹出层 -->
         <el-dialog title="添加通知对象" :before-close="close" :visible.sync="dialogVisible" width="60%" :center="true" :lock-scroll="false" class="dialog-container">
             <div class="inform-header">
@@ -11,7 +15,7 @@
                     <el-col :span="8"><p>考生姓名：</p><el-input v-model="name" class="" placeholder="考生姓名" clearable></el-input></el-col>
                     <el-col :span="8"><p>报考专业：</p>
                         <el-select v-model="domain" placeholder="全部" @change="changeSelect">
-                            <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.key"> </el-option>
+                            <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="8" :offset="0"><p>报考级别：</p>
@@ -30,13 +34,14 @@
                     </el-col>
                 </el-row>
             </div>
-            <table-data :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" 
-            :isSelected="'true'" :tableData="addInformData" :head="informHead" :loadingTable="loadingAddInformTable" @handleSelectionChange="handleSelectionChange"></table-data>
+            <table-data :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isSelected="'true'" :tableData="addInformData" 
+            :head="informHead" :loadingTable="loadingAddInformTable" @handleSelectionChange="handleSelectionChange"></table-data>
             <span slot="footer">
                 <el-button @click="cancel">取消</el-button>
                 <el-button @click="saveAddInform">保存</el-button>
             </span>
         </el-dialog>
+
     </div>
 </template>
 <script>
@@ -45,18 +50,15 @@ import util from '@/util/util'
 export default {
     data(){
         return{
-            head: [{key: 'uid',name: '编号'},
-                {key: 'name',name: '考生姓名'},
-                {key: 'domain',name: '报考专业'},
-                {key: 'level',name: '报考级别'},
-                {key: 'create_at',name: '报名时间'}
-            ],
+            head: [{key: 'uid',name: '编号'},{key: 'name',name: '考生姓名'},{key: 'domain',name: '报考专业'},{key: 'level',name: '报考级别'},{key: 'create_at',name: '报名时间'}],
+            cp: 1,
+            ps: 50,
+            tn: 0,
             addInformData: [], //获取通知对象全部列表
             editName: '添加通知对象',
             loadingInformTable: false,  // 获取已添加通知对象列表状态
             loadingAddInformTable: false,  //获取通知对象全部列表状态
             deleteTableName: '删除',
-            editType: '',
             dialogVisible: false,
             name: '',
             domain: [],
@@ -69,21 +71,23 @@ export default {
             loadingTable: false,
             informHead: [{key: 'uid',name: '编号'},{key: 'name',name: '考生姓名'},{key: 'domain',name: '报考专业'},
                 {key: 'level',name: '报考级别'},{key: 'create_at',name: '报名时间'}],
-            uid_arr: [],
             readyinforobject: [],
-            
-
+            pageinformobject: []
         }
     },
     components: {
         tableData
     },
     mounted(){
-        if(this.$route.params.inform) {
-            this.informobject = this.$route.params.inform
-        }
+        this.pageinformobject = this.informobject
     },
     methods: {
+        //点击确定返回上一页
+        confirm: function(){
+            this.$router.push({
+                name: 'publishInform',
+            })
+        },
         //筛选通知对象
         chooseInformObject:function(pn){
             const {name,domain,level} = this
@@ -106,55 +110,49 @@ export default {
                 console.log(err);
             })
         },
-        //取消添加通知对象操作
-        cancel: function(){
-            this.dialogVisible = false
-            this.$store.commit('informobject/setaddInformobject',this.informobject)
-            console.log('*******************',this.informobject);
-            this.uid_arr = []
-            this.informobject.forEach(item=> {
-                this.uid_arr.push(item.uid)
-            })
-            this.$router.push({
-                name: 'publishInform',
-                params: {
-                    uid_arr: this.uid_arr,
-                    type: this.type,
-                    inform: this.informobject
-                }
-            })
-        },
-        //翻页功能
+        //翻页筛选通知对象
         handleCurrentChange: function(val){
             this.chooseInformObject(val)
         },
-        //多选操作
+        //选择待添加通知对象
         handleSelectionChange: function(val){
             console.log(val);
-            
             this.readyinforobject = val
         },
         //添加至通知对象列表操作
         saveAddInform: function(){
             this.$store.commit('informobject/setaddInformobject',this.readyinforobject)
-            this.dialogVisible = false
-            this.uid_arr = []
+            const uid_arr = []
             this.readyinforobject.forEach(item=>{
-                this.uid_arr.push(item.uid)
+                uid_arr.push(item.uid)
             })
-            this.$router.push({
-                name: 'publishInform',
-                params: {
-                    uid_arr: this.uid_arr,
-                    type: this.type,
-                    inform: this.readyinforobject
-                }
-            })
+            this.$store.commit('informobject/setAddUid',uid_arr)
+            this.dialogVisible = false
+        },
+        close: function(){
+            this.dialogVisible = false
+        },
+        //取消添加通知对象操作
+        cancel: function(){
+            this.dialogVisible = false
+        },
+        // ********************
+
+        //通知对象列表翻页
+        handlePage: function(val) {
+            const length = this.tn
+            const arr = this.informobject
+            const offset = (val - 1)*this.ps
+            if(offset + this.ps >= length) {
+                this.pageinformobject = arr.splice(offset,length)
+            } else {
+                this.pageinformobject = arr.aplice(offset,offset + this.ps)
+            }
         },
         //删除通知对象
         deleteInfo:function(scope){
             const inform_id = this.$route.params.inform_id || ''
-            const informobject = this.$store.state.informobject.informobjectdata
+            const informobject = this.informobject
             const list = []
             console.log(inform_id);
             if(inform_id) {
@@ -171,60 +169,21 @@ export default {
                                 list.push(item)
                             }
                         })
-                        this.$store.commit('informobject/setInformobject',list)
+                        this.$store.commit('informobject/setaddInformobject',list)
                     }
                 }).catch(err=> {
                     console.log(err);
                 })
             }
         },
-        //获取专业列表
-        // getOption(){
-        //     this.$axios({
-        //         url: '/option',
-        //         method: 'post',
-        //         data: {}
-        //     }).then(res=> {
-        //         console.log('获取基本选项',res)
-        //         if(res && !res.error) {
-        //             let { major } = res.data
-        //             let majors = []
-        //             for (let mj in major) {
-        //                 majors.push({ value: mj, text: mj, levels: major[mj] })
-        //             }
-        //             this.options = majors
-        //             console.log('majors',majors);
-        //         }
-               
-        //     }).catch(err=> {
-        //         console.log(err);
-        //     })
-        // },
         //子组件传递的方法
         editOption: function(){
             this.dialogVisible = true
             // this.getOption()
         },
-        close: function(){
-            this.dialogVisible = false
-            this.$store.commit('informobject/setaddInformobject',this.informobject)
-            console.log('*******************',this.informobject);
-            this.uid_arr = []
-            this.informobject.forEach(item=> {
-                this.uid_arr.push(item.uid)
-            })
-            this.$router.push({
-                name: 'publishInform',
-                params: {
-                    uid_arr: this.uid_arr,
-                    type: this.type,
-                    inform: this.informobject
-                }
-            })
-        },
         //改变选择框时触发
         changeSelect: function(val){
-            this.levelOptions = []
+            this.levelOptions = [{key: '全部',value:''}]
            this.domainOptions.forEach(item=> {
               if(item.key == val) {
                   for(let i =0;i<item.value.length;i++) {
@@ -240,7 +199,7 @@ export default {
     },
     computed: {
         informobject(){
-            return this.$store.state.informobject.addinformobjectdata
+            return this.$store.state.informobject.addinformobjectdata.inform
         },
         type(){
             return this.$store.state.informobject.type
@@ -249,6 +208,9 @@ export default {
         domainOptions() {
             return this.$store.state.auth.domainOptions
         },
+        tn(){
+            return this.$store.state.informobject.addinformobjectdata.inform.length
+        },
     }
 }
 </script>
@@ -256,6 +218,14 @@ export default {
 
 <style lang="scss" scoped>
     .inform-object {
+        .button{
+            margin-top: 60px;
+            margin-left: 35%;
+            padding-bottom: 100px;
+            .el-button {
+                margin-left: 40px;
+            }
+        }
         .dialog-container {
             .inform-header{
                 .el-row {
