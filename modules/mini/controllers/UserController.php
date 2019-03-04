@@ -41,7 +41,8 @@ class UserController extends Controller
         $weiXinConfig = \Yii::$app->params['weixin'];
         $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
         $errCode = $pc->decryptData($encryptedData, $iv, $data );
-
+        $this->log('ceshi');
+        $this->log($errCode);
         if ($errCode == 0) {
             $user = $this->user;
             if($user){
@@ -57,5 +58,11 @@ class UserController extends Controller
             return $this->error('找不到用户');
         }
         return $this->error('获取用户信息失败');
+    }
+
+    protected function log($message)
+    {
+        $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
+        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
     }
 }
