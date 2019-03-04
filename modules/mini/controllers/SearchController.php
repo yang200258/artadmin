@@ -52,7 +52,7 @@ class SearchController extends Controller
             return $this->error('请输入等级');
         }
 
-        $apply = Apply::findOne(['name' => $name, 'id_card' => $id_card, 'domain' => $domain, 'level' => $level, 'plan' => 4]);
+        $apply = Apply::findOne(['name' => $name, 'id_number' => $id_card, 'domain' => $domain, 'level' => $level, 'plan' => 4]);
         if (!$apply)
         {
             $url = '';
