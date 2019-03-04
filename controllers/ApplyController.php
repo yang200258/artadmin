@@ -212,8 +212,8 @@ class ApplyController extends Controller
             ->andFilterWhere(['name' => $name])
             ->andFilterWhere(['domain' => $domain])
             ->andFilterWhere(['level' => $level])
-            ->andFilterWhere(['<', 'create_at', $start_time])
-            ->andFilterWhere(['>', 'create_at', $end_time]);
+            ->andFilterWhere(['>=', 'create_at', $start_time])
+            ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . " 23:59:59" : null]);
 
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
