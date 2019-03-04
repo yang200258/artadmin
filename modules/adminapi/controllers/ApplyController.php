@@ -33,11 +33,11 @@ class ApplyController extends Controller
     {
         $this->init_page();
         $request = \Yii::$app->request;
-        $name = $request->post('name');
-        $domain = $request->post('domain');
-        $level = $request->post('level');
-        $id_type = $request->post('id_type');
-        $id_number = $request->post('id_number');
+        $name = $request->post('name'); //考生姓名
+        $domain = $request->post('domain');  //专业
+        $level = $request->post('level'); //等级
+        $id_type = $request->post('id_type'); //证件类型
+        $id_number = $request->post('id_number'); //证件号码
         $status = $request->post('status'); //审核状态：1=待审核2=不通过3=无需审核4已通过
         $plan = $request->post('plan'); //当前进度：1=审核中2=待缴费3=已失效4=已缴费
         $postpone = $request->post('postpone'); //是否缺考顺延
