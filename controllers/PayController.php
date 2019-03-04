@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\components\QRcode;
 use app\models\Apply;
 use app\models\ApplyPay;
 use app\models\Inform;
@@ -174,7 +175,7 @@ class PayController extends Controller
         $data = \Yii::$app->request->get('data', '');
         $url = urldecode($data);
         ob_get_clean();
-        \QRcode::logopng($url, false, QR_ECLEVEL_H, 6,4,false);
+        \QRcode::png($url, false, QR_ECLEVEL_H, 6,4);
     }
 
 
