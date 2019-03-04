@@ -15,7 +15,7 @@
             <el-form-item label="封面图：">
                 <el-upload
                 class="avatar-uploader"
-                :class="{hide:uploadDisabled}"
+                :class="{disabled:uploadDisabled}"
                 name="file"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit = "parseInt('1')"
@@ -85,6 +85,9 @@ export default {
             gettitleNumber: 'publishinfo/gettitleNumber',
             getintroductionNumber: 'publishinfo/getintroductionNumber'
         }),
+        uploadDisabled:function() {
+            return this.fileLists.length >0
+        },
     },
     methods: {
         handleRemove(file, fileList) {
@@ -156,7 +159,7 @@ export default {
             margin-top: 30px;
             display: flex;
         }
-        .hide .el-upload--picture-card {
+        .disabled .el-upload--picture-card {
             display: none;
         }
     }

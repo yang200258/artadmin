@@ -5,7 +5,7 @@
                 <el-col :span="4"><p>考生姓名：</p><el-input v-model="name" class="" placeholder="考生姓名" clearable></el-input></el-col>
                 <el-col :span="4"><p>报考专业：</p>
                     <el-select v-model="domain" placeholder="全部" @change="changeSelect">
-                        <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.key"> </el-option>
+                        <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.label"> </el-option>
                     </el-select>
                 </el-col>
                 <el-col :span="4" :offset="0"><p>报考级别：</p>
@@ -143,42 +143,21 @@ export default {
                             if(list.examsite1 && list.examsite2) {
                                   list.room = list.room1 + list.room2
                               }
-                              switch(list.status) {
-                                case 1:
-                                    list.status_name = '待审核'
-                                    break;
-                                case 2:
-                                    list.status_name = '不通过'
-                                    break;
-                                case 3:
-                                    list.status_name = '无需审核'
-                                    break;
-                                case 4:
-                                    list.status_name = '已通过'
-                                    break;
-                              }
-                              switch(list.plan) {
-                                case 1:
-                                    list.plan_name = '审核中'
-                                    break;
-                                case 2:
-                                    list.plan_name = '待缴费'
-                                    break;
-                                case 3:
-                                    list.plan_name = '已失效'
-                                    break;
-                                case 4:
-                                    list.plan_name = '已缴费'
-                                    break;
-                              }
-                              switch(list.postpone) {
-                                case 0:
-                                    list.postpone_name = '否'
-                                    break;
-                                case 1:
-                                    list.postpone_name = '是'
-                                    break;
-                              }
+                              this.verifyOptions.forEach(item=> {
+                                  if(list.status == item.value) {
+                                      list.status_name = item.label
+                                  }
+                              })
+                              this.progressOptions.forEach(item=> {
+                                  if(list.plan == item.value) {
+                                      list.plan_name = item.label
+                                  }
+                              })
+                              this.islostTestOptions.forEach(item=> {
+                                  if(list.postpone == item.value) {
+                                      list.postpone_name = item.label
+                                  }
+                              })
                               signList.push(list)
                           })
                       })

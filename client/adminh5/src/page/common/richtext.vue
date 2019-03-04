@@ -15,9 +15,8 @@
                 </el-upload>
                 <el-row v-loading="quillUpdateImg">
                     <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)" 
-                @ready="onEditorReady($event)" ></quill-editor>
+                 ></quill-editor>
                 </el-row>
-                
             </el-col>
         </el-row>
     </div>
@@ -35,7 +34,7 @@ export default {
             quillUpdateImg: false,
             editorOption:  {
                 placeholder: '',
-                theme: 'bubble',
+                theme: 'snow',
                 modules: {
                     toolbar: {
                         container: [['bold', 'italic', 'underline', 'strike'],

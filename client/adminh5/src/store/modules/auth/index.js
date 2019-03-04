@@ -110,9 +110,9 @@ const actions = {
                     let { nationality, nation, major, certificate } = res.data
                     let domainOptions = []
                     for (let mj in major) {
-                        domainOptions.push({key: mj,value:major[mj]})
+                        domainOptions.push({key: mj,label:mj ,value:major[mj]})
                     }
-                    domainOptions.push({key: '全部',value:["一级", "二级", "三级", "四级", "五级", "六级", "七级", "八级", "九级", "十级", "表演文凭级"]})
+                    domainOptions.push({key: '全部',label: '',value:["一级", "二级", "三级", "四级", "五级", "六级", "七级", "八级", "九级", "十级", "表演文凭级"]})
                     commit('setDomainOptions',domainOptions)
                     commit('setCertificate',certificate)
                     commit('setNation',nation)

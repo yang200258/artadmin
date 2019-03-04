@@ -8,7 +8,7 @@
                         <el-form-item label="考试地点1" prop="address"><el-input v-model="examSite.address" placeholder="请填写考试地点"></el-input></el-form-item>
                         <!-- 考场1*********************** -->
                         <div class="examsite2">
-                            <p style="color: red">*</p><p>考场1：</p>
+                            <p><span style="color: red">*</span>考场1：</p>
                             <div class="img">
                                 <img src="@/assets/images/add.png"  @click="changeRoomStatus">
                             </div>
@@ -235,6 +235,7 @@ export default {
                     text-align: center;
                     transition: all .3s;
                 }
+                
                 .el-input__prefix {
                     position: absolute;
                     left: 5px;

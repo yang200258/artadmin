@@ -3,7 +3,7 @@
         <test-info></test-info>
         <test-location></test-location>
         <div class="button">
-            <el-col style="width:40%;" type="primary"><el-button @click="save" disabled="isdisabled">完成</el-button></el-col>
+            <el-col style="width:40%;" type="primary"><el-button @click="save" :disabled="isdisabled">完成</el-button></el-col>
         </div>
     </div>
 </template>
