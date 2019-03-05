@@ -1,6 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// import Home from './views/Home.vue'
+// import Login from './views/Login.vue'
+// import Enroll from './views/Enroll.vue'
+// import Dynamic from './views/Dynamic.vue'
+// import Training from './views/Training.vue'
+// import Race from './views/Race.vue'
+// import Perform from './views/Perform.vue'
+// import Book from './views/Book.vue'
+// import Us from './views/Us.vue'
+// import EnrollNotice from './views/EnrollNotice.vue'
+// import EnrollManage from './views/EnrollManage.vue'
+// import Queryhall from './views/Queryhall.vue'
+// import Queryscore from './views/Queryscore.vue'
+// import EnrollApply from './views/EnrollApply.vue'
+// import EnrollApplySuccess from './views/EnrollApplySuccess.vue'
+// import EnrollPay from './views/EnrollPay.vue'
+// import EnrollDetail from './views/EnrollDetail.vue'
+// import ScoreResult from './views/ScoreResult.vue'
+// import DynamicDetail from './views/DynamicDetail.vue'
+// import MiniappDynamicDetail from './views/MiniappDynamicDetail.vue'
+// import MiniappMessageDetail from './views/MiniappMessageDetail.vue'
+// import MiniappRegulation from './views/MiniappRegulation.vue'
+// import MiniappUs from './views/MiniappUs.vue'
+// import Regulation from './views/Regulation.vue'
+
 const Home = resolve => require(['./views/Home.vue'], resolve)
 const Login = resolve => require(['./views/Login.vue'], resolve)
 const Enroll = resolve => require(['./views/Enroll.vue'], resolve)
