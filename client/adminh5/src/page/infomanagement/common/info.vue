@@ -110,8 +110,8 @@ export default {
                 this.publishData.cover_id = response.data.id[0]
                 this.uploadDisabled = true
                 console.log(this.$refs.upload);
-                // let upload_div = this.$refs.upload.childNodes[1];
-                // upload_div.style.cssText = "display: none;"
+                let upload_div = this.$refs.upload.$children[1].$el;
+                upload_div.style.cssText = "display: none;"
             }
         },
         exceed: function() {

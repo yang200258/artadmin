@@ -57,7 +57,7 @@ export default {
                             this.getOrgan().then(r=> {
                                 if(r && !r.error) {
                                     this.$store.commit('auth/setOrgan',JSON.parse(window.localStorage.getItem('organ')))
-                                    alert(r.msg)
+                                    alert('添加机构成功！')
                                 }
                             })
                         } else {
