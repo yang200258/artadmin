@@ -7,7 +7,9 @@ use app\models\Image;
 use app\models\Msg;
 use app\models\MsgCategory;
 use app\models\MsgContent;
+use app\models\Record;
 use yii\db\Expression;
+use yii\db\StaleObjectException;
 
 class MsgController extends Controller
 {
@@ -97,6 +99,12 @@ class MsgController extends Controller
         $msg->create_at = date("Y-m-d H:i:s",time());
         $msg->save(false);
 
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "发布{$msg->msgCategory->name}[$msg->id]";
+        $record->type = 4;
+        $record->save(false);
+
         return $this->ok('创建成功');
     }
 
@@ -152,6 +160,12 @@ class MsgController extends Controller
         $msg->status = $status;
         $msg->save(false);
 
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "修改{$msg->msgCategory->name}[$msg->id]";
+        $record->type = 4;
+        $record->save(false);
+
         return $this->ok('修改成功');
     }
 
@@ -181,7 +195,18 @@ class MsgController extends Controller
             MsgContent::deleteAll(['id' => $msg_content_ids]);
         }
 
-        Msg::deleteAll(['id' => $ids]);
+        $msg = Msg::findOne($ids);
+        $categoryName = $msg->msgCategory->name;
+        try {
+            $msg->delete();
+        } catch (\Throwable $e) {
+            return $this->error('删除失败');
+        }
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "删除{$categoryName}[$msg->id]";
+        $record->type = 4;
+        $record->save(false);
         return $this->ok('删除成功');
     }
 }
