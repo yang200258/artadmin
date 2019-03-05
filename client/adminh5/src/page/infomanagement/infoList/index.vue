@@ -268,6 +268,7 @@ export default {
         },
         //编辑信息
         editInfo: function(scope){
+            
             this.$router.push({
                 name: 'editInfo',
                 params: {

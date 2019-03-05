@@ -24,7 +24,7 @@ import richtext from '../../common/richtext'
 export default {
     data(){
         return{
-            type: '',
+            // type: '',
             informTypeOption: [{value: '1',label: '成绩查询'},{value: '2',label: '准考证领取'},{value: '3',label: '考场查询'},
                             {value: '4',label: '考试报名'},{value: '5',label: '大赛通知'},{value: '6',label: '定向通知'}],
         }

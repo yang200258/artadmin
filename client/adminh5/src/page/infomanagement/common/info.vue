@@ -160,11 +160,17 @@ export default {
             margin-top: 30px;
             display: flex;
         }
-        .disabled > .el-upload--picture-card {
-            display: none;
+        .disabled  {
+            .el-upload--picture-card {
+                display: none;
+            }
+            
         }
-        .disabled > .el-upload {
-            display: none;
+        .disabled {
+             .el-upload {
+                 display: none;
+             }
+            
         }
     }
 </style>
