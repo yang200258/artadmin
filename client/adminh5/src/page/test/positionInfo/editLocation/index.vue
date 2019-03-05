@@ -138,12 +138,14 @@ export default {
                 if(res && !res.error) {
                     let list = res.data.list
                     let sortData = []
-                    util.flatData(list).then(res=> {
-                        this.examineeData = res
-                        res.forEach(item=> {
-                            sortData.push({name: item.apply_name,id:item.id})
+                    list.forEach(item=> {
+                        util.flatData(item).then(res=> {
+                            this.examineeData = res
+                            res.forEach(item=> {
+                                sortData.push({name: item.apply_name,id:item.id})
+                            })
+                            this.sortData = sortData
                         })
-                        this.sortData = sortData
                     })
                 } else {
                    alert(res.msg)
@@ -208,7 +210,7 @@ export default {
                 data: {exam_site_id,id_arr }
             }).then(res=> {
                 if(res && !res.error) {
-                    console.log('考生排序结果',res);
+                    console.log('考生排序结果',res)
                 }
             }).catch(err=> {
                 console.log(err);
