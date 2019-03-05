@@ -89,8 +89,8 @@
                         <el-col :span="6" :offset="2">
                             <span>审核结果：</span>
                             <template>
-                                <el-radio v-model="radio" label="4" >通过</el-radio>
-                                <el-radio v-model="radio" label="2" >不通过</el-radio>
+                                <el-radio v-model="verify" label="4" >通过</el-radio>
+                                <el-radio v-model="verify" label="2" >不通过</el-radio>
                             </template>
                         </el-col>
                     </el-row>
@@ -169,15 +169,15 @@
                         <el-col :span="6" :offset="2">
                             <span>是否缺考顺延：</span>
                             <template>
-                                <el-radio v-model="radio" label="1" >否</el-radio>
-                                <el-radio v-model="radio" label="2" >是</el-radio>
+                                <el-radio v-model="radio" label="0" >否</el-radio>
+                                <el-radio v-model="radio" label="1" >是</el-radio>
                             </template>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="6" :offset="4">
-                            <el-button>  返回  </el-button>
-                            <el-button>  确定  </el-button>
+                            <el-button @click="backlost">  返回  </el-button>
+                            <el-button @click="confirmlost">  确定  </el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -194,10 +194,11 @@ import {mapState} from 'vuex'
 export default {
     data() {
         return {
-            radio: '',
+            radio: '0',
             payType: {'1': '微信支付','2':'线下缴费'},
             statusType: {'0': '未交费','1':'已缴费'},
-            isLoading: false
+            isLoading: false,
+            verify: '4'
         }
     },
     mounted(){
@@ -212,6 +213,14 @@ export default {
         })
     },
     methods: {
+        //缺考顺延
+        backlost: function() {
+            this.$router.go(-1)
+        },
+        //确定缺考顺延操作
+        confirmlost: function() {
+            this.$router.go(-1)
+        },
         //获取考生详情信息
         getDetail: function(){
             //若从列表页进入则清除，若从下载页返回则不需要清除状态数据
@@ -238,8 +247,11 @@ export default {
                 if(res && !res.error) {
                     this.$nextTick(()=> {
                         this.$store.commit('signup/setSignDetail',res.data)
+                        this.radio = res.data.postpone
                         this.isLoading = true
                     })
+                } else {
+                    alert(res.msg)
                 }
             }).catch(err=> {
                 console.log(err);
@@ -251,7 +263,7 @@ export default {
         },
         //通过审核
         verify: function(){
-            const status = this.radio
+            const status = this.verify
             const id = this.status.id
             if(status && id) {
                 this.$axios({

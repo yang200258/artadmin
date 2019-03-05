@@ -32,7 +32,7 @@ export default {
     data(){
         return{
             type: '',
-            filter: [{value: '1',label: '成绩查询'},{value: '2',label: '准考证领取'},{value: '3',label: '考场查询'},
+            filter: [{value: '',label: '全部'},{value: '1',label: '成绩查询'},{value: '2',label: '准考证领取'},{value: '3',label: '考场查询'},
             {value: '4',label: '考试报名'},{value: '5',label: '大赛通知'},{value: '6',label: '定向通知'}],
             publishInformDate: [],
             informHead: [{key:'id',name: '通知编号'},{key:'type',name: '通知类型'},{key:'content',name: '通知详情'},{key:'create_at',name: '发布时间'}],
@@ -71,18 +71,13 @@ export default {
         //编辑通知对象
         editInfo: function(scope){
             const filters = this.$store.state.informobject.filter
-            console.log('filters',filters);
-            const type = this.filters.indexOf(scope.row.type)
-            console.log(type);
-            this.$store.commit('informobject/setType',type)
+            const type = filters.indexOf(scope.row.type)
+            if(type) this.$store.commit('informobject/setType',type)
             this.$store.commit('publishinfo/setquillContent',scope.row.content)
+            this.$store.commit('informobject/setEditUid',scope.row.uid_arr)
+            this.$store.commit('informobject/setInformId',scope.row.id)
             this.$router.push({
                 name: 'editInform',
-                params: {
-                    inform_id: scope.row.id,
-                    type: scope.row.type,
-                    firstEdit: true
-                }
             })
         },
         //删除通知对象

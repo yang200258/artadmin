@@ -39,7 +39,7 @@ export default {
             number: '',
             name: '',
             status: '',
-            statusOptions: [{value: '1',label: '未报名'},{value: '2',label: '报名中'},{value: '3',label: '未考试'},{value: '4',label: '考试中'},{value: '5',label: '已结束'}],
+            statusOptions: [{value: '',label: '全部'},{value: '1',label: '未报名'},{value: '2',label: '报名中'},{value: '3',label: '未考试'},{value: '4',label: '考试中'},{value: '5',label: '已结束'}],
             apply_time: '',
             exam_time: '',
             currentPage: 1,
@@ -88,6 +88,7 @@ export default {
               this.isLoading = false
           }).catch(err=> {
               console.log(err);
+              this.isLoading = false
           })
       },
       addTest(){
