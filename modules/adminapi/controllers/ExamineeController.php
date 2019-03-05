@@ -40,9 +40,8 @@ class ExamineeController extends Controller
 
         $model = Apply::find()
             ->andWhere(['exam_id' => $exam_id])
-            ->andWhere(['status' => 4]) //审核通过
             ->andWhere(['plan' => 4]) //已缴费
-            ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
+//            ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
             ->andFilterWhere(['name' => $name])
             ->andFilterWhere(['domain' => $domain])
             ->andFilterWhere(['level' => $level])
