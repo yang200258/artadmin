@@ -94,6 +94,8 @@ export default {
         handleRemove(file, fileList) {
             this.uploadDisabled = false
             console.log(file, fileList);
+            let upload_div = this.$refs.upload.$children[1].$el;
+            upload_div.style.cssText = "display: inline-block;"
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
