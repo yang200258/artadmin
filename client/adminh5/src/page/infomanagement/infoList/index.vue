@@ -225,7 +225,7 @@ export default {
                 console.log('查询信息列表数据',res);
                 if(res && !res.error) {
                     res.data.list.forEach(item=> {
-                        item.status = (item.status = 1) ? '已发布' : '草稿'
+                        item.status = (item.status == '1') ? '已发布' : '草稿'
                         this.infoTypeOptions.forEach(type=> {
                             if(type.id == item.cid) {
                                 item.infoType = type.name
