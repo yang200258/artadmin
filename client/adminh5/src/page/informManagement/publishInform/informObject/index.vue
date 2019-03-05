@@ -202,9 +202,6 @@ export default {
         informobject(){
             return this.$store.state.informobject.addinformobjectdata.inform
         },
-        type(){
-            return this.$store.state.informobject.addinformobjectdata.type
-        },
             //报考专业及报考级别
         domainOptions() {
             return this.$store.state.auth.domainOptions

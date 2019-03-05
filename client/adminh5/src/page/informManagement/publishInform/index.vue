@@ -56,7 +56,7 @@ export default {
         },
         //发布通知
         publishInform: function(){
-            const {type,uid_arr,content} = this.type
+            const {type,uid_arr,content} = this
             this.$axios({
                 url: '/inform/add',
                 method: 'post',
@@ -64,9 +64,10 @@ export default {
             }).then(res=>{
                 console.log('发布通知响应',res);
                 if(res && !res.error) {
-                    this.$store.commit('informobject/setType','')
+                    this.$store.commit('informobject/setAddType','')
                     this.$store.commit('publishinfo/setquillContent','')
                     this.$store.commit('informobject/setaddInformobject',{})
+                    this.$store.commit('informobject/setAddUid',[])
                     this.$router.push({
                         name: 'informlist'
                     })
@@ -83,6 +84,7 @@ export default {
         },
         //改变类型事件
         changeSelect: function(val){
+            console.log('更改通知类型',val)
             this.$store.commit('informobject/setAddType',val)
         }
 
