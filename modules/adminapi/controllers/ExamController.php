@@ -7,6 +7,7 @@ namespace app\modules\adminapi\controllers;
 use app\models\Exam;
 use app\models\ExamExaminee;
 use app\models\ExamSite;
+use app\models\Record;
 
 class ExamController extends Controller
 {
@@ -155,6 +156,9 @@ class ExamController extends Controller
         $exam->create_at = date("Y-m-d H:i:s",time());
         $exam->save(false);
 
+        $examSiteRecordKey = ['admin_id', 'content', 'type','create_at'];
+        $examSiteRecordData = [];
+
         if ($exam_site)
         {
             foreach ($exam_site as $one)
@@ -165,8 +169,23 @@ class ExamController extends Controller
                 $site->room = $one['room'];
                 $site->exam_time = $one['time'];
                 $site->save(false);
+                $examSiteRecordData[] = [
+                    $this->admin->id,
+                    "$name-考点{$one['address']}-新增“{$one['room']}”",
+                    2,
+                    date("Y-m-d H:i:s")
+                ];
             }
+            // 批量记录考点信息
+            \Yii::$app->db->createCommand()
+                ->batchInsert(ExamSite::tableName(), $examSiteRecordKey, $examSiteRecordData)
+                ->execute();
         }
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "新增考试：$name";
+        $record->type = 2;
+        $record->save(false);
 
         return $this->ok('创建成功');
     }
@@ -217,6 +236,8 @@ class ExamController extends Controller
         $exam->exam_time_end = $exam_time_end;
         $exam->save(false);
         ExamSite::deleteAll(['exam_id' => $exam->id]);
+
+        //todo: 这里考点编辑处理比较直接，所以就先不记录考点的编辑信息了
         if ($exam_site)
         {
             foreach ($exam_site as $one)
@@ -229,6 +250,12 @@ class ExamController extends Controller
                 $site->save(false);
             }
         }
+
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "编辑考试：$name";
+        $record->type = 2;
+        $record->save(false);
 
         return $this->ok('修改成功');
     }
