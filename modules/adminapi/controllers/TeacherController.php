@@ -109,12 +109,7 @@ class TeacherController extends Controller
         {
             return $this->error('创建失败');
         }
-
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "添加报名老师[$name]信息";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "添加报名老师[$name]信息");
         return $this->ok('创建成功');
     }
 
@@ -166,12 +161,7 @@ class TeacherController extends Controller
         {
             return $this->error('修改失败');
         }
-
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "编辑报名老师[$name]信息";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "编辑报名老师[$name]信息");
         return $this->ok('修改成功');
     }
 
@@ -187,11 +177,7 @@ class TeacherController extends Controller
         } catch (\Throwable $e) {
             return $this->error('删除失败');
         }
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "删除报名老师[$teacherName]信息";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "删除报名老师[$teacherName]信息");
         return $this->ok('删除成功');
     }
 

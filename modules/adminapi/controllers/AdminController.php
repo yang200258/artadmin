@@ -87,11 +87,7 @@ class AdminController extends Controller
         {
             return $this->error('创建失败');
         }
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "添加管理员[$name]";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "添加管理员[$name]");
         return $this->ok('创建成功');
     }
 
@@ -141,11 +137,7 @@ class AdminController extends Controller
         {
             return $this->error('修改失败');
         }
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "编辑管理员[$name]";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "编辑管理员[$name]");
         return $this->ok('修改成功');
     }
 
@@ -164,11 +156,7 @@ class AdminController extends Controller
         } catch (\Throwable $e) {
             return $this->error('删除失败');
         }
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "删除管理员[$name]";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "删除管理员[$name]");
         return $this->ok('删除成功');
     }
 
