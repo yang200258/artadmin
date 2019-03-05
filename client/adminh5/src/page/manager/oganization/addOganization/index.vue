@@ -24,7 +24,7 @@
 </template>
 
 <script>
-
+import {mapActions} from 'vuex'
 export default {
     data(){
         return{
@@ -40,6 +40,9 @@ export default {
 
     },
     methods:{
+        ...mapActions({
+            getOrgan: 'auth/getOrgan',
+        }),
         //保存机构
         submitForm: function(addForm){
             const {name,organ_address,organ_name,user,organ_area,pass,phone} = addForm
@@ -51,7 +54,7 @@ export default {
                         data: {name,organ_address,organ_name,username:user,organ_area,password:pass,phone}
                     }).then(res=> {
                         if(res && !res.error) {
-                            this.$store.commit('auth/getOrgan').then(r=> {
+                            this.getOrgan().then(r=> {
                                 if(r && !r.error) {
                                     this.$store.commit('auth/setOrgan',JSON.parse(window.localStorage.getItem('organ')))
                                     alert(r.msg)
