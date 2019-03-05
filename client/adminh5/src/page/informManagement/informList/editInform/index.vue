@@ -2,7 +2,7 @@
     <div class="edit-inform">
         <el-row>
             <span style="color:red">*</span><span>通知类型：</span>
-            <el-select :value="filters[type]" placeholder="请选择通知类型" @change="changeType">
+            <el-select :value="type" placeholder="请选择通知类型" @change="changeType">
                 <el-option v-for="item in informTypeOption" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
         </el-row>
@@ -42,11 +42,11 @@ export default {
             })
         },
         changeType: function(val){
-            this.$store.commit('informobject/setType',val)
+            this.$store.commit('informobject/setEditType',val)
         },
         //获取页面跳转后通知数据
         getInform: function(){
-            const inform_id = this.$route.params.inform_id
+            const inform_id = this.inform.inform_id
             this.$axios({
                 url: '/object/list',
                 method: 'post',
@@ -96,7 +96,7 @@ export default {
     },
     computed: {
         type(){
-            return this.$store.state.informobject.type
+            return this.$store.state.informobject.editinformobjectdata.type
         },
         filters(){
             return this.$store.state.informobject.filter

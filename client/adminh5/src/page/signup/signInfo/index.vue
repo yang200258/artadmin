@@ -50,8 +50,8 @@
                         <el-col :span="8">考试曲目5：{{detail.track_five}}</el-col>
                     </el-row>
                     <el-row v-if="status.status !== '3'">
-                        <el-col :span="8" ><el-button type="primary" plain v-if="!(status.domain  == '基本乐科' && status.plan == '4')" @click="getProfessional">查看考生专业证书</el-button></el-col>
-                        <el-col :span="8" ><el-button type="primary" plain v-if=" (status.status !== '1')" @click="getbase">查看考生基本乐科证书</el-button></el-col>
+                        <el-col :span="8" ><el-button type="primary" plain v-if="detail.level  == '十级' || detail.level == '表演文凭级'" @click="getProfessional">查看考生专业证书</el-button></el-col>
+                        <el-col :span="8" ><el-button type="primary" plain v-if="(detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级'))" @click="getbase">查看考生基本乐科证书</el-button></el-col>
                     </el-row>
                 </div>
                 <div class="line" v-if="status.domain  == '基本乐科' && status.plan == '4'"></div>
@@ -198,7 +198,7 @@ export default {
             payType: {'1': '微信支付','2':'线下缴费'},
             statusType: {'0': '未交费','1':'已缴费'},
             isLoading: false,
-            verify: '4'
+            verify: '4',
         }
     },
     mounted(){

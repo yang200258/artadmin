@@ -122,6 +122,7 @@ export default {
         //添加至通知对象列表操作
         saveAddInform: function(){
             this.$store.commit('informobject/setaddInformobject',this.readyinforobject)
+            this.pageinformobject = this.readyinforobject
             const uid_arr = []
             this.readyinforobject.forEach(item=>{
                 uid_arr.push(item.uid)
@@ -200,9 +201,6 @@ export default {
     computed: {
         informobject(){
             return this.$store.state.informobject.addinformobjectdata.inform
-        },
-        type(){
-            return this.$store.state.informobject.type
         },
             //报考专业及报考级别
         domainOptions() {

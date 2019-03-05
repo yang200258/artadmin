@@ -48,6 +48,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import addExaminee from '../../common/addExaminee'
 export default {
     data(){
         return {
@@ -64,6 +65,7 @@ export default {
     },
     components: {
         draggable,
+        addExaminee
     },
     mounted(){
         // this.getExamineeInfo()

@@ -3,7 +3,7 @@
         <test-info></test-info>
         <test-location></test-location>
         <div class="button">
-            <el-col style="width:40%;" type="primary"><el-button @click="save" :disabled="isdisabled">完成</el-button></el-col>
+            <el-col style="width:40%;" type="primary"><el-button @click="save" :disabled="status">完成</el-button></el-col>
         </div>
     </div>
 </template>
@@ -17,7 +17,7 @@ export default {
     
     data(){
         return {
-            isdisabled: true
+            // status: true
         }
     },
     components: {
@@ -29,7 +29,7 @@ export default {
             examSite: state=> state.examSite,
             baseinfo: state=> state.baseinfo,
         }),
-        isdisabled(){
+        status(){
             return (this.examSite.address && this.examSite.time1 && this.baseinfo.name&& this.baseinfo.examTime&& this.baseinfo.number&& this.baseinfo.applyTime) ? false : true
         }
     },
