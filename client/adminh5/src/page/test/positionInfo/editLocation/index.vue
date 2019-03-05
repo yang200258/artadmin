@@ -140,7 +140,7 @@ export default {
                     let sortData = []
                     util.flatData(list).then(res=> {
                         this.examineeData = res
-                        res.forEac(item=> {
+                        res.forEach(item=> {
                             sortData.push({name: item.apply_name,id:item.id})
                         })
                         this.sortData = sortData

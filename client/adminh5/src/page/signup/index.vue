@@ -159,10 +159,7 @@ export default {
                                   }
                               })
                               if(list.user_type == '0') {
-                                  list.user_organ_name = list.adviser
-                              }
-                              if(list.user_type == '1') {
-                                  list.user_organ_name = list.user_name
+                                  list.user_name = list.adviser
                               }
                               signList.push(list)
                           })
