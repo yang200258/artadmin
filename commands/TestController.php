@@ -27,7 +27,7 @@ class TestController extends Controller
     //下载pdf,打包下载zip
     public function actionZip($files)
     {
-        $rootPath = \Yii::getAlias('@root');
+        $rootPath = \Yii::getAlias('@app');
         $fileFolder = $rootPath . "/file/temporary/";
         $zip = new \ZipArchive();
 
@@ -41,8 +41,8 @@ class TestController extends Controller
             echo "暂时无法下载,请稍后重试!\n";
         }
         foreach ($files as $one) {
-            if (file_exists(\Yii::getAlias("@root") . "/file/apply/{$one}.pdf")){
-                $zip->addFile(\Yii::getAlias("@root") . "/file/apply/{$one}.pdf");
+            if (file_exists(\Yii::getAlias("@app") . "/file/apply/{$one}.pdf")){
+                $zip->addFile(\Yii::getAlias("@app") . "/file/apply/{$one}.pdf");
             }
         }
         $zip->close();

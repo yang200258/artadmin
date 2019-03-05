@@ -19,9 +19,7 @@
                 <el-col :span="6"><p>考试时间：</p>
                     <el-date-picker v-model="exam_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                 </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-button type="primary" style="width:30%" @click.prevent="queryTestInfo">查询</el-button>
                 </el-col>
             </el-row>

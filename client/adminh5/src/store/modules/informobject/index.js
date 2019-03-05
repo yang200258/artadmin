@@ -1,7 +1,6 @@
 const state = {
-    addinformobjectdata: {uid_arr: [],inform: [],},
-    editinformobjectdata: {uid_arr: [],inform: [],inform_id: ''},
-    type: '',
+    addinformobjectdata: {uid_arr: [],inform: [],type: ''},
+    editinformobjectdata: {uid_arr: [],inform: [],inform_id: '',type: ''},
     filter: []
     
 }
@@ -14,8 +13,11 @@ const mutations = {
     seteditInformobject: (state,data)=>{
         state.editinformobjectdata.inform = data
     },
-    setType: (state,data)=>{
-        state.type = data
+    setAddType: (state,data)=>{
+        state.addinformobjectdata.type = data
+    },
+    setEditType: (state,data)=>{
+        state.editinformobjectdata.type = data
     },
     setFilter: (state,data)=>{
         state.filter = data

@@ -31,16 +31,15 @@ class ExamineeController extends Controller
         $this->init_page();
         $request = \Yii::$app->request;
         $exam_id = $request->post('exam_id'); //必填参数
-        $name = $request->post('name');
-        $domain = $request->post('domain');
-        $level = $request->post('level');
-        $id_number = $request->post('id_number');
-        $organ_name = $request->post('organ_name'); //机构名称
-        $teacher_name = $request->post('teacher_name');//老师名称;
+        $name = $request->post('name', '');
+        $domain = $request->post('domain', '');
+        $level = $request->post('level', '');
+        $id_number = $request->post('id_number', '');
+        $organ_name = $request->post('organ_name', ''); //机构名称
+        $teacher_name = $request->post('teacher_name', '');//老师名称;
 
         $model = Apply::find()
             ->andWhere(['exam_id' => $exam_id])
-            ->andWhere(['status' => 4]) //审核通过
             ->andWhere(['plan' => 4]) //已缴费
             ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
             ->andFilterWhere(['name' => $name])

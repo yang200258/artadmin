@@ -17,11 +17,11 @@ export default {
       let obj = {}
       obj.isLogin = Boolean(token)
       obj.username = username
-      obj.userType = userType.toString()
+      obj.userType = userType ? userType.toString() : ''
       state.storeUD = obj
       window.localStorage.token = token
       window.localStorage.username = username
-      window.localStorage.userType = userType.toString()
+      window.localStorage.userType = userType ? userType.toString() : ''
     },
     userLogout (state, payload) {
       let obj = {}

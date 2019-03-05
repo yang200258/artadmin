@@ -21,31 +21,23 @@
             </el-row>
             <table-data :isPagination="'true'" :head="managerHead" :tableData="managerData" :isEdit="'true'" :editName="'新增管理员'" @editOption="addManager" :isOption="'true'" :isEditTable="'true'" :editTableName="'重置密码'" :isEditAccount="'true'" 
             :editAccountName="'编辑账号'" :isDeleteTable="'true'" :deleteTableName="'删除账号'" @editInfo="editInfo" @editAccount="editAccount" @deleteInfo="deleteInfo" 
-            :loadingTable="loadingManager" :totalNumber="total" :pageSaze="limit" :currentPage="pn">
+            :loadingTable="loadingManager" :totalNumber="total" :pageSaze="limit" :currentPage="pn" @handleCurrentChange="handleCurrentChange">
             </table-data>
             <el-dialog title="重置密码" :visible.sync="isResetPassword" width="30%" :before-close="handleClose" class="reset-password">
                 <div class="reset-header">
-                    <el-row>
-                        <el-col :span="5" :push="1">
-                            <p>登录密码：</p>
-                        </el-col>
-                        <el-col :span="14">
-                            <el-input type="password" placeholder="请输入密码" v-model="password"></el-input>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="5">
-                            <p>确认登录密码：</p>
-                        </el-col>
-                        <el-col :span="14">
-                            <el-input type="password" placeholder="请再次输入密码" v-model="repeat_password"></el-input>
-                        </el-col>
-                    </el-row>
+                     <el-form :model="resetForm" :rules="rules" ref="resetForm">
+                        <el-form-item label="输入密码" prop="password">
+                            <el-row><el-input type="password" placeholder="请输入密码" v-model="resetForm.password"></el-input></el-row>
+                        </el-form-item>
+                        <el-form-item label="再次输入密码" prop="repeat_password">
+                            <el-row><el-input type="password" placeholder="请再次输入密码" v-model="resetForm.repeat_password"></el-input></el-row>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="cancelReset">取 消</el-button>
+                            <el-button type="primary" @click="submitForm(resetForm)">确定</el-button>
+                        </el-form-item>
+                    </el-form>
                 </div>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="cancelReset">取 消</el-button>
-                    <el-button type="primary" @click="saveReset">确 定</el-button>
-                </span>
             </el-dialog>
         </div>
     </div>
@@ -65,25 +57,31 @@ export default {
             managerData: [],
             loadingManager: false,
             isResetPassword: false,
-            password: '',
-            repeat_password: '',
             total: 0,
             limit: 50,
             pn: 1,
-            rightlist: []
+            rightlist: [],
+            resetForm: {password: '',repeat_password: ''},
+            rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}],
+                    repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}]}
         }
     },
     mounted(){
         this.queryManager()
     },
     methods: {
+        handleCurrentChange: function(val){
+            this.queryManager(val)
+        },
         //查询管理员
-        queryManager: function(){
+        queryManager: function(pn){
+            const {name,username} = this
+            pn = pn || 1
             this.loadingManager = true
             this.$axios({
               url : '/admin/list',
               method: 'post',
-              data: {}
+              data: {name,username,pn}
           }).then(res=> {
               console.log('查询到管理员列表',res);
               if(res && !res.error) {
@@ -144,23 +142,29 @@ export default {
             this.repeat_password = ''
         },
         // 保存重置密码
-        saveReset: function(){
-            const {id,password,repeat_password} = this
-            this.$axios({
-                url: '/admin/reset',
-                method: 'post',
-                data: {id,password,repeat_password}
-            }).then(res=> {
-                if(res && !res.error) {
-                    alert(res.msg)
-                } else {
-                    alert(res.msg)
+        submitForm: function(resetForm){
+            this.$refs.resetForm.validate(valid=> {
+                if(valid) {
+                    const {password,repeat_password} = resetForm
+                    const id = this.id
+                    this.$axios({
+                        url: '/admin/reset',
+                        method: 'post',
+                        data: {id,password,repeat_password}
+                    }).then(res=> {
+                        if(res && !res.error) {
+                            alert(res.msg)
+                        } else {
+                            alert(res.msg)
+                        }
+                        this.isResetPassword = false
+                    }).catch(err=> {
+                        console.log(err);
+                        this.isResetPassword = false
+                    })
                 }
-                this.isResetPassword = false
-            }).catch(err=> {
-                console.log(err);
-                this.isResetPassword = false
             })
+            
         }
     }
 }

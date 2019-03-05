@@ -56,7 +56,7 @@ class ExamExaminee extends \yii\db\ActiveRecord
 
     public function getApply()
     {
-        return $this->hasOne(ExamSite::className(), ['id' => 'apply_id']);
+        return $this->hasOne(Apply::className(), ['id' => 'apply_id']);
     }
 
     //添加
