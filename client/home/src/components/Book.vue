@@ -1,6 +1,6 @@
 <template>
   <div class="c-book cursor-pointer clearfix" :style="{height: height}">
-    <div class="image" :style="{backgroundImage: 'url(' + (book.image || defaultImg) + ')', backgroundSize: (book.image ? 'cover' : '120px 120px')}"></div>
+    <div class="image" :style="{backgroundImage: 'url(' + (book.cover_url || defaultImg) + ')', backgroundSize: (book.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="title">{{book.title}}</div>
   </div>
 </template>
