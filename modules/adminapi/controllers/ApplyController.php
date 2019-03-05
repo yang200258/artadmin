@@ -9,6 +9,7 @@ use app\models\ExamExaminee;
 use app\models\Image;
 use app\models\Inform;
 use app\models\InformUser;
+use app\models\Record;
 use app\models\User;
 use yii\db\Expression;
 
@@ -180,6 +181,17 @@ class ApplyController extends Controller
                 $transaction->rollback();//回滚事务
                 return $this->error('创建失败');
             }
+
+            $record = new Record();
+            $record->admin_id = $this->admin->id;
+            $record->content = ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply_id]";
+            $record->type = 1;
+            if (!$record->save(false))
+            {
+                $transaction->rollback();//回滚事务
+                return $this->error('创建失败');
+            }
+
             $transaction->commit();//提交事务
             return $this->ok('审核完成');
         } catch (\Exception $e) {
