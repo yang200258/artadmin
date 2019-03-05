@@ -58,4 +58,13 @@ class Msg extends \yii\db\ActiveRecord
             'create_at' => '创建时间',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     * @author tao
+     */
+    public function getMsgCategory()
+    {
+        return $this->hasOne(MsgCategory::class, ['id' => 'cid']);
+    }
 }
