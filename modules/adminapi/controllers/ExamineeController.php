@@ -72,7 +72,7 @@ class ExamineeController extends Controller
         $request = \Yii::$app->request;
         $exam_site_id = $request->post('exam_site_id'); //必填参数,考场ID
 
-        $model = ExamExaminee::find()->with(['examsite', 'apply'])
+        $model = ExamExaminee::find()->with(['examsite', 'apply.user'])
             ->where(['exam_site_id' => $exam_site_id]);
 
         $total = $model->count();
