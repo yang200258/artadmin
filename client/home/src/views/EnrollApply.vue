@@ -112,10 +112,10 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <div class="state-text clearfix" style="margin-top:10px;">
+        <!-- <div class="state-text clearfix" style="margin-top:10px;">
           <i class="ykfont yk-warning fl"></i>
-          <div class="warining-text fl">报考音乐基础知识专业的考生，考试曲目1、2都填写"无"</div>
-        </div>
+          <div class="warining-text fl">报考基础乐科的考生，考试曲目1、2都填写"无"</div>
+        </div> -->
       </div>
       <div class="form-box">
         <div class="required-title clearfix"><i class="ykfont yk-required fl"></i><span class="fl">报考级别：</span></div>
@@ -139,7 +139,7 @@
           </el-option>
         </el-select>
       </div>
-      <div class="form-box">
+      <div v-show="form.lastgetcertificate.required" class="form-box">
         <div class="required-title clearfix"><i class="ykfont yk-required fl"></i><span class="fl">最近一次获得同专业考级证书是：</span></div>
         <div class="clearfix">
           <el-select v-model="form.lastgetcertificate.year.value" placeholder="年" class="short-select-picker2 fl" @change="value => pickerChange('lastgetyear', value)">
@@ -210,23 +210,23 @@
           <div class="warining-text fl">报考演唱演奏3~5级必须上传一级基本乐科证书，6~9级必须上传 二级基本乐科证书，10级或以上必须上传三级基本乐科证书；报考基本乐科2~6级，需上传上一级别证书，选择连考的考生上传最近一次获得的乐科证书即可</div>
         </div>
       </div>
-      <div class="form-box">
+      <div v-show="form.major.value !== '基本乐科' && form.major.value" class="form-box">
         <div class="required-title clearfix"><i class="ykfont yk-required fl"></i><span class="fl">考试曲目1：</span></div>
         <input class="full-input" v-model="form.bent1.value" placeholder="请输入考试曲目" @change="e => inputChange('bent1', e)" />
       </div>
-      <div class="form-box">
+      <div v-show="form.major.value !== '基本乐科' && form.major.value" class="form-box">
         <div class="required-title clearfix"><i class="ykfont yk-required fl"></i><span class="fl">考试曲目2：</span></div>
         <input class="full-input" v-model="form.bent2.value" placeholder="请输入考试曲目" @change="e => inputChange('bent2', e)" />
       </div>
-      <div class="form-box">
+      <div v-show="form.major.value !== '基本乐科' && form.major.value" class="form-box">
         <div class="required-title"><span>考试曲目3：</span></div>
         <input class="full-input" v-model="form.bent3.value" placeholder="请输入考试曲目" @change="e => inputChange('bent3', e)" />
       </div>
-      <div class="form-box">
+      <div v-show="form.major.value !== '基本乐科' && form.major.value" class="form-box">
         <div class="required-title"><span>考试曲目4：</span></div>
         <input class="full-input" v-model="form.bent4.value" placeholder="请输入考试曲目" @change="e => inputChange('bent4', e)" />
       </div>
-      <div class="form-box">
+      <div v-show="form.major.value !== '基本乐科' && form.major.value" class="form-box">
         <div class="required-title"><span>考试曲目5：</span></div>
         <input class="full-input" v-model="form.bent5.value" placeholder="请输入考试曲目" @change="e => inputChange('bent5', e)" />
       </div>
@@ -267,31 +267,17 @@ const defaultAvatar = require('../assets/image/default_avatar.png')
 let years = []
 let months = []
 const nowYear = new Date().getFullYear()
-for (let i = 0; i < 101; i++) {
-  if (i === 100) {
-    years.push({
-      value: 'none',
-      text: '无'
-    })
-  } else {
-    years.unshift({
-      value: (nowYear - i).toString(),
-      text: (nowYear - i).toString() + '年'
-    })
-  }
+for (let i = 0; i < 100; i++) {
+  years.push({
+    value: (nowYear - i).toString(),
+    text: (nowYear - i).toString() + '年'
+  })
 }
-for (let j = 0; j < 13; j++) {
-  if (j === 12) {
-    months.push({
-      value: 'none',
-      text: '无'
-    })
-  } else {
-    months.push({
-      value: (j + 1).toString(),
-      text: (j + 1).toString() + '月'
-    })
-  }
+for (let j = 0; j < 12; j++) {
+  months.push({
+    value: (j + 1).toString(),
+    text: (j + 1).toString() + '月'
+  })
 }
 const initialForm = {
   avatar: {
@@ -386,16 +372,16 @@ const initialForm = {
     tip: '请选择是否连考'
   },
   lastgetcertificate: {
-    required: true,
+    required: false,
     year: {
-      required: true,
+      required: false,
       value: '',
       text: '',
       valid: false,
       tip: '请选择年份'
     },
     month: {
-      required: true,
+      required: false,
       value: '',
       text: '',
       valid: false,
@@ -427,13 +413,13 @@ const initialForm = {
     uploadTip: ''
   },
   bent1: { // 曲目1
-    required: true,
+    required: false,
     value: '',
     valid: false,
     tip: '请填写考试曲目1'
   },
   bent2: {
-    required: true,
+    required: false,
     value: '',
     valid: false,
     tip: '请填写考试曲目2'
@@ -730,6 +716,11 @@ export default {
         this.form.continuity.valid = false
         this.form.majorcertificate.required = false
         this.form.basicmusiccertificate.required = false
+        this.form.lastgetcertificate.required = false
+        this.form.lastgetcertificate.year.required = false
+        this.form.lastgetcertificate.month.required = false
+        this.form.bent1.required = Boolean(value === '基本乐科')
+        this.form.bent2.required = Boolean(value === '基本乐科')
       } else if (type === 'level') {
         let levels = JSON.parse(JSON.stringify(this.levels))
         let idx = levels.indexOf(value)
@@ -765,6 +756,9 @@ export default {
         this.form.level.valid = Boolean(value)
         this.form.majorcertificate.required = needMajorCer
         this.form.basicmusiccertificate.required = needBasicMusicCer
+        this.form.lastgetcertificate.required = needMajorCer
+        this.form.lastgetcertificate.year.required = needMajorCer
+        this.form.lastgetcertificate.year.required = needMajorCer
         console.log('continuitys', continuitys)
       } else if (type === 'continuity') {
         let selected = this.continuitys.filter(item => item.value === value)[0]
@@ -793,20 +787,22 @@ export default {
       for (let key in form) {
         console.log('key', key)
         if (key === 'lastgetcertificate') { // 最近一次获得同专业考级证书
-          if (!form.lastgetcertificate.year.valid) {
-            // this.scrollToBlock(key)
-            if (form.lastgetcertificate.year.tip) {
-              this.$toast(form.lastgetcertificate.year.tip)
+          if (form.lastgetcertificate.required) {
+            if (!form.lastgetcertificate.year.valid && form.lastgetcertificate.year.required) {
+              // this.scrollToBlock(key)
+              if (form.lastgetcertificate.year.tip) {
+                this.$toast(form.lastgetcertificate.year.tip)
+              }
+              valid = false
+              break
+            } else if (!form.lastgetcertificate.month.valid && form.lastgetcertificate.month.required) {
+              // this.scrollToBlock(key)
+              if (form.lastgetcertificate.month.tip) {
+                this.$toast(form.lastgetcertificate.month.tip)
+              }
+              valid = false
+              break
             }
-            valid = false
-            break
-          } else if (!form.lastgetcertificate.month.valid) {
-            // this.scrollToBlock(key)
-            if (form.lastgetcertificate.month.tip) {
-              this.$toast(form.lastgetcertificate.month.tip)
-            }
-            valid = false
-            break
           }
         } else {
           if (form[key].required && !form[key].valid) { // 必填且无效
@@ -835,14 +831,14 @@ export default {
         formData.domain = this.form.major.value
         formData.level = this.form.level.value
         formData.continuous_level = this.form.continuity.text
-        formData.lately_credential = (this.form.lastgetcertificate.year.value === 'none' && this.form.lastgetcertificate.month.value === 'none') ? '' : (this.form.lastgetcertificate.year.value + ',' + this.form.lastgetcertificate.month.value + ',' + this.form.major.value + ',' + this.form.level.value.replace('级', ''))
-        formData.pro_certificate_id = this.form.majorcertificate.id
-        formData.basic_certificate_id = this.form.basicmusiccertificate.id
-        formData.track_one = this.form.bent1.value
-        formData.track_two = this.form.bent2.value
-        formData.track_three = this.form.bent3.value
-        formData.track_four = this.form.bent4.value
-        formData.track_five = this.form.bent5.value
+        formData.lately_credential = this.form.lastgetcertificate.required ? (this.form.lastgetcertificate.year.value + ',' + this.form.lastgetcertificate.month.value + ',' + this.form.major.value + ',' + this.form.level.value.replace('级', '')) : ''
+        formData.pro_certificate_id = this.form.majorcertificate.required ? this.form.majorcertificate.id : ''
+        formData.basic_certificate_id = this.form.basicmusiccertificate.required ? this.form.basicmusiccertificate.id : ''
+        formData.track_one = this.form.major.value === '基本乐科' ? '无' : this.form.bent1.value
+        formData.track_two = this.form.major.value === '基本乐科' ? '无' : this.form.bent2.value
+        formData.track_three = this.form.major.value === '基本乐科' ? '' : this.form.bent3.value
+        formData.track_four = this.form.major.value === '基本乐科' ? '' : this.form.bent4.value
+        formData.track_five = this.form.major.value === '基本乐科' ? '' : this.form.bent5.value
         formData.preparer = this.form.fillter.value
         formData.adviser = this.form.teacher.value
         formData.adviser_phone = this.form.teacherphone.value
