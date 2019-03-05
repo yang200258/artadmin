@@ -130,6 +130,7 @@ export default {
             this.isLoading = true
             const exam_site_id = this.$route.params.exam_site_id
             let sortData = []
+            let examineeData = []
             this.$axios({
                 url : '/examinee/list',
                 method: 'post',
@@ -139,14 +140,11 @@ export default {
                 if(res && !res.error) {
                     let list = res.data.list
                     list.forEach(item=> {
-                        console.log(item);
                         util.flatData(item).then(r=> {
-                            console.log(r);
-                            this.examineeData = r
-                            r.forEach(item=> {
-                                sortData.push({name: item.apply_name,id:item.id})
-                            })
+                            examineeData.push(r)
+                            sortData.push({name: r.apply_name,id:r.id})
                             this.sortData = sortData
+                            this.examineeData = examineeData
                         })
                     })
                 } else {
