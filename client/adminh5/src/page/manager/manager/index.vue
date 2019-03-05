@@ -21,7 +21,7 @@
             </el-row>
             <table-data :isPagination="'true'" :head="managerHead" :tableData="managerData" :isEdit="'true'" :editName="'新增管理员'" @editOption="addManager" :isOption="'true'" :isEditTable="'true'" :editTableName="'重置密码'" :isEditAccount="'true'" 
             :editAccountName="'编辑账号'" :isDeleteTable="'true'" :deleteTableName="'删除账号'" @editInfo="editInfo" @editAccount="editAccount" @deleteInfo="deleteInfo" 
-            :loadingTable="loadingManager" :totalNumber="total" :pageSaze="limit" :currentPage="pn">
+            :loadingTable="loadingManager" :totalNumber="total" :pageSaze="limit" :currentPage="pn" @handleCurrentChange="handleCurrentChange">
             </table-data>
             <el-dialog title="重置密码" :visible.sync="isResetPassword" width="30%" :before-close="handleClose" class="reset-password">
                 <div class="reset-header">
@@ -57,12 +57,11 @@ export default {
             managerData: [],
             loadingManager: false,
             isResetPassword: false,
-            password: '',
-            repeat_password: '',
             total: 0,
             limit: 50,
             pn: 1,
             rightlist: [],
+            resetForm: {password: '',repeat_password: ''},
             rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}],
                     repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}]}
         }
@@ -71,13 +70,18 @@ export default {
         this.queryManager()
     },
     methods: {
+        handleCurrentChange: function(val){
+            this.queryManager(val)
+        },
         //查询管理员
-        queryManager: function(){
+        queryManager: function(pn){
+            const {name,username} = this
+            pn = pn || 1
             this.loadingManager = true
             this.$axios({
               url : '/admin/list',
               method: 'post',
-              data: {}
+              data: {name,username,pn}
           }).then(res=> {
               console.log('查询到管理员列表',res);
               if(res && !res.error) {
@@ -141,7 +145,8 @@ export default {
         submitForm: function(resetForm){
             this.$refs.resetForm.validate(valid=> {
                 if(valid) {
-                    const {id,password,repeat_password} = this
+                    const {password,repeat_password} = resetForm
+                    const id = this.id
                     this.$axios({
                         url: '/admin/reset',
                         method: 'post',

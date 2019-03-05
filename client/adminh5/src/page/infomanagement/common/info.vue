@@ -17,6 +17,7 @@
                 class="avatar-uploader"
                 :class="{disabled:uploadDisabled}"
                 name="file"
+                ref="upload"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit = "parseInt('1')"
                 accept=".jpg,.png" 
@@ -108,6 +109,8 @@ export default {
                 console.log('获取到图片上传后的回调',response);
                 this.publishData.cover_id = response.data.id[0]
                 this.uploadDisabled = true
+                let upload_div = this.$refs.upload.childNodes[0];
+                upload_div.style.cssText = "display: none;"
             }
         },
         exceed: function() {
