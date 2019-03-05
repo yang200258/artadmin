@@ -131,7 +131,7 @@ export default {
             const exam_site_id = this.$route.params.exam_site_id
             this.$axios({
                 url : '/examinee/list',
-                type: 'post',
+                method: 'post',
                 data: {exam_site_id}
             }).then(res=> {
                 console.log('查询到的该考场考生信息',res);

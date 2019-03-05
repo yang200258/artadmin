@@ -158,6 +158,12 @@ export default {
                                       list.postpone_name = item.label
                                   }
                               })
+                              if(list.user_type == '0') {
+                                  list.user_organ_name = list.adviser
+                              }
+                              if(list.user_type == '1') {
+                                  list.user_organ_name = list.user_name
+                              }
                               signList.push(list)
                           })
                       })
