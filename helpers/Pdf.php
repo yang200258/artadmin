@@ -96,8 +96,8 @@ class Pdf {
             $pdfer->addText($exam_site1->room, 111, 91);
 
             $pdfer->addText(substr($exam_site1->exam_time, 5, 2), 55, 102);
-            $pdfer->addText(substr($exam_site1->exam_time, 7, 2), 70, 102);
-            $pdfer->addText(substr($exam_site1->exam_time, 8, 5), 102, 102);
+            $pdfer->addText(substr($exam_site1->exam_time, 8, 2), 70, 102);
+            $pdfer->addText(substr($exam_site1->exam_time, 11, 5), 102, 102);
         }else
         {
             //乐科级别
@@ -105,8 +105,8 @@ class Pdf {
             $pdfer->addText($exam_site1->room, 111, 113);
 
             $pdfer->addText(substr($exam_site1->exam_time, 5, 2), 55, 124);
-            $pdfer->addText(substr($exam_site1->exam_time, 7, 2), 70, 124);
-            $pdfer->addText(substr($exam_site1->exam_time, 8, 5), 102, 124);
+            $pdfer->addText(substr($exam_site1->exam_time, 8, 2), 70, 124);
+            $pdfer->addText(substr($exam_site1->exam_time, 11, 5), 102, 124);
 
             if ($apply->is_continuous) //如果基本乐科连考
             {
@@ -118,8 +118,8 @@ class Pdf {
                     $pdfer->addText($exam_site2->room, 111, 135);
 
                     $pdfer->addText(substr($exam_site2->exam_time, 5, 2), 55, 146);
-                    $pdfer->addText(substr($exam_site2->exam_time, 7, 2), 70, 146);
-                    $pdfer->addText(substr($exam_site2->exam_time, 8, 5), 102, 146);
+                    $pdfer->addText(substr($exam_site2->exam_time, 8, 2), 70, 146);
+                    $pdfer->addText(substr($exam_site2->exam_time, 11, 5), 102, 146);
                 }
             }
 
