@@ -1,6 +1,6 @@
 <template>
   <div class="c-perform cursor-pointer clearfix" :style="{height: height}">
-    <div class="image" :style="{backgroundImage: 'url(' + (perform.image || defaultImg) + ')', backgroundSize: (perform.image ? 'cover' : '120px 120px')}"></div>
+    <div class="image" :style="{backgroundImage: 'url(' + (perform.cover_url || defaultImg) + ')', backgroundSize: (perform.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="content-box">
       <div class="title">{{perform.title}}</div>
       <div class="time">{{perform.time}}</div>
