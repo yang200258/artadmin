@@ -130,7 +130,7 @@ export default {
                 //   this.signList = []
                   if(data.length > 0){
                       data.forEach(item=> {
-                          this.flatData(item).then(list=> {
+                          util.flatData(item).then(list=> {
                               if(list.examsite1) {
                                   list.room1 = '考场1' + list.examsite1.address + '(' + list.examsite1.room + ')；'
                               }
@@ -189,24 +189,7 @@ export default {
               }
           })
       },
-      //扁平化数据
-      flatData: function(arr) {
-          return new Promise((resolve)=>{
-              const list = {}
-            Object.keys(arr).forEach(keyo=>{
-                if(typeof(arr[keyo]) == 'object' && arr[keyo]){
-                    if(arr[keyo] !== 'null') {
-                        Object.keys(arr[keyo]).forEach(key=>{
-                            list[keyo + '_' + key] = arr[keyo][key]
-                        }) 
-                    }
-                }  else{
-                    list[keyo] = arr[keyo]
-                }
-            })
-            resolve(list)
-            })
-      },
+      
       //改变报考专业对应报考级别
       changeSelect: function(val) {
         this.levelOptions = [{key: '全部',value:''}]
