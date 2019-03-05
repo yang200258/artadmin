@@ -1,9 +1,9 @@
 <template>
-  <div class="c-dynamic clearfix" :class="{['mode' + mode]: true}">
+  <div class="c-dynamic cursor-pointer clearfix" :class="{['mode' + mode]: true}">
     <div class="image" :class="{fl: mode === '1', ['mode' + mode]: true}" :style="{backgroundImage: 'url(' + (dynamic.cover_url || defaultImg) + ')', backgroundSize: (dynamic.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="content-box" :class="{fr: mode === '1', ['mode' + mode]: true}">
       <div class="content-top" :class="{['mode' + mode]: true}">
-        <p class="title cursor-pointer" :class="{['mode' + mode]: true}" @click.stop="goDetail(dynamic.id)">{{dynamic.title}}</p>
+        <p class="title cursor-pointer" :class="{['mode' + mode]: true}">{{dynamic.title}}</p>
         <p v-if="mode === '1'" class="content" :class="{['mode' + mode]: true}">{{dynamic.intro}}</p>
       </div>
       <p v-if="mode === '1'" class="time" :class="{['mode' + mode]: true}">{{dynamic.create_at}}</p>
@@ -43,10 +43,15 @@ export default {
   border-bottom: 1px solid #EEEEEE;
 }
 .c-dynamic.mode2{
-  padding: 20px 0 4px;
+  padding: 0 0 4px;
+  margin-top: 20px;
 }
 .c-dynamic.mode3{
-  padding: 20px 0 0;
+  padding: 0;
+  margin-top: 20px;
+}
+.c-dynamic:hover{
+  background: rgba(251,241,230,0.4);
 }
 .image{
   display: block;
@@ -83,10 +88,10 @@ export default {
   line-height: 32px;
   color: #76593D;
 }
-.title:hover{
+/* .title:hover{
   color: #F5A623;
   text-decoration: underline;
-}
+} */
 .title.mode1{
   display: -webkit-box;
   -webkit-box-orient: vertical;

@@ -2,7 +2,9 @@
 namespace app\modules\adminapi\controllers;
 
 
+use app\models\Record;
 use app\models\User;
+use yii\db\StaleObjectException;
 
 class TeacherController extends Controller
 {
@@ -107,6 +109,7 @@ class TeacherController extends Controller
         {
             return $this->error('创建失败');
         }
+        Record::saveRecord($this->admin->id, 5, "添加报名老师[$name]信息");
         return $this->ok('创建成功');
     }
 
@@ -158,6 +161,7 @@ class TeacherController extends Controller
         {
             return $this->error('修改失败');
         }
+        Record::saveRecord($this->admin->id, 5, "编辑报名老师[$name]信息");
         return $this->ok('修改成功');
     }
 
@@ -166,8 +170,14 @@ class TeacherController extends Controller
     {
         $id = \Yii::$app->request->post('id');
 
-        User::deleteAll(['id' => $id]);
-
+        $user = User::findOne($id);
+        $teacherName = $user->name;
+        try {
+            $user->delete();
+        } catch (\Throwable $e) {
+            return $this->error('删除失败');
+        }
+        Record::saveRecord($this->admin->id, 5, "删除报名老师[$teacherName]信息");
         return $this->ok('删除成功');
     }
 

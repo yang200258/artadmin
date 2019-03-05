@@ -5,6 +5,7 @@ namespace app\modules\adminapi\controllers;
 
 use app\models\Inform;
 use app\models\InformUser;
+use app\models\Record;
 use yii\db\Expression;
 
 //通知管理
@@ -112,6 +113,7 @@ class InformController extends Controller
                 $transaction->rollback();//回滚事务
                 return $this->error('服务器繁忙，请稍后再试！');
             }
+            Record::saveRecord($this->admin->id, 3, "发布通知[$inform->id]");
             $transaction->commit();//提交事务
             return $this->ok('创建成功');
         } catch (\Exception $e) {
@@ -174,6 +176,7 @@ class InformController extends Controller
                 $transaction->rollback();//回滚事务
                 return $this->error('服务器繁忙，请稍后再试！');
             }
+            Record::saveRecord($this->admin->id, 3, "编辑通知[$inform->id]");
             $transaction->commit();//提交事务
             return $this->ok('创建成功');
         } catch (\Exception $e) {
@@ -190,7 +193,7 @@ class InformController extends Controller
 
         Inform::deleteAll(['id' => $id]);
         InformUser::deleteAll(['inform_id' => $id]);
-
+        Record::saveRecord($this->admin->id, 3, "删除通知[$id]");
         return $this->ok('删除成功');
     }
 

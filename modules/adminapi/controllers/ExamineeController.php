@@ -5,8 +5,10 @@ namespace app\modules\adminapi\controllers;
 
 use app\helpers\Pdf;
 use app\models\Apply;
+use app\models\Exam;
 use app\models\ExamExaminee;
 use app\models\ExamSite;
+use app\models\Record;
 use app\models\User;
 
 class ExamineeController extends Controller
@@ -31,16 +33,15 @@ class ExamineeController extends Controller
         $this->init_page();
         $request = \Yii::$app->request;
         $exam_id = $request->post('exam_id'); //必填参数
-        $name = $request->post('name');
-        $domain = $request->post('domain');
-        $level = $request->post('level');
-        $id_number = $request->post('id_number');
-        $organ_name = $request->post('organ_name'); //机构名称
-        $teacher_name = $request->post('teacher_name');//老师名称;
+        $name = $request->post('name', '');
+        $domain = $request->post('domain', '');
+        $level = $request->post('level', '');
+        $id_number = $request->post('id_number', '');
+        $organ_name = $request->post('organ_name', ''); //机构名称
+        $teacher_name = $request->post('teacher_name', '');//老师名称;
 
         $model = Apply::find()
             ->andWhere(['exam_id' => $exam_id])
-            ->andWhere(['status' => 4]) //审核通过
             ->andWhere(['plan' => 4]) //已缴费
             ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
             ->andFilterWhere(['name' => $name])
@@ -73,7 +74,7 @@ class ExamineeController extends Controller
         $request = \Yii::$app->request;
         $exam_site_id = $request->post('exam_site_id'); //必填参数,考场ID
 
-        $model = ExamExaminee::find()->with(['examsite', 'apply'])
+        $model = ExamExaminee::find()->with(['examsite', 'apply.user'])
             ->where(['exam_site_id' => $exam_site_id]);
 
         $total = $model->count();
@@ -96,11 +97,11 @@ class ExamineeController extends Controller
         }
 
         $exam_site = ExamSite::findOne($exam_site_id);
-
         if (!$exam_site)
         {
             return $this->error('考场不存在');
         }
+        $examName = Exam::findOne($exam_site->exam_id)->name;
 
         $apply = Apply::find()->where(['id' => $apply_id_arr])->all();
 
@@ -108,6 +109,7 @@ class ExamineeController extends Controller
         {
             ExamExaminee::saveExamExaminee($exam_site_id, $one);
             Apply::updateAll(['kz' =>  Pdf::createPdfExam($one->id)], ['id' => $one->id]);
+            Record::saveRecord($this->admin->id, 2, "{$examName}-考点{$exam_site->address}-{$exam_site->room}-{$exam_site->exam_time}-{$one->name}");
         }
 
         return $this->ok('添加成功');

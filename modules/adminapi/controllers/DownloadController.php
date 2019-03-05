@@ -11,7 +11,7 @@ class DownloadController extends Controller
     public function actionBm()
     {
         $files = Apply::find()->select('bm')->column();
-        $rootPath = \Yii::getAlias('@root');
+        $rootPath = \Yii::getAlias("@app");
         $fileFolder = $rootPath . "/file/temporary/";
         $zip = new \ZipArchive();
 
@@ -50,7 +50,7 @@ class DownloadController extends Controller
     public function actionKz()
     {
         $files = Apply::find()->select('kz')->column();
-        $rootPath = \Yii::getAlias('@root');
+        $rootPath = \Yii::getAlias("@app");
         $fileFolder = $rootPath . "/file/temporary/";
         $zip = new \ZipArchive();
 
@@ -90,7 +90,7 @@ class DownloadController extends Controller
     {
         $apply = Apply::find()->asArray()->all();
 
-        $rootPath = \Yii::getAlias('@root');
+        $rootPath = \Yii::getAlias("@app");
         $fileFolder = $rootPath . "/file/temporary/";
         $zip = new \ZipArchive();
 

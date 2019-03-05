@@ -879,6 +879,7 @@ export default {
     getForm: function () {
       let applyForm = window.localStorage.applyForm ? JSON.parse(window.localStorage.applyForm) : {}
       let applyFormOptions = window.localStorage.applyFormOptions ? JSON.parse(window.localStorage.applyFormOptions) : {}
+      console.log('applyForm', applyForm)
       let {
         form
       } = this

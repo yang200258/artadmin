@@ -5,7 +5,9 @@ namespace app\modules\adminapi\controllers;
 
 
 use app\models\Exam;
+use app\models\ExamExaminee;
 use app\models\ExamSite;
+use app\models\Record;
 
 class ExamController extends Controller
 {
@@ -154,6 +156,9 @@ class ExamController extends Controller
         $exam->create_at = date("Y-m-d H:i:s",time());
         $exam->save(false);
 
+        $examSiteRecordKey = ['admin_id', 'content', 'type','create_at'];
+        $examSiteRecordData = [];
+
         if ($exam_site)
         {
             foreach ($exam_site as $one)
@@ -162,10 +167,25 @@ class ExamController extends Controller
                 $site->exam_id = $exam->id;
                 $site->address = $one['address'];
                 $site->room = $one['room'];
-                $site->exam_time = $one['exam_time'];
+                $site->exam_time = $one['time'];
                 $site->save(false);
+                $examSiteRecordData[] = [
+                    $this->admin->id,
+                    "$name-考点{$one['address']}-新增“{$one['room']}”",
+                    2,
+                    date("Y-m-d H:i:s")
+                ];
             }
+            // 批量记录考点信息
+            \Yii::$app->db->createCommand()
+                ->batchInsert(ExamSite::tableName(), $examSiteRecordKey, $examSiteRecordData)
+                ->execute();
         }
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "新增考试：$name";
+        $record->type = 2;
+        $record->save(false);
 
         return $this->ok('创建成功');
     }
@@ -216,6 +236,8 @@ class ExamController extends Controller
         $exam->exam_time_end = $exam_time_end;
         $exam->save(false);
         ExamSite::deleteAll(['exam_id' => $exam->id]);
+
+        //todo: 这里考点编辑处理比较直接，所以就先不记录考点的编辑信息了
         if ($exam_site)
         {
             foreach ($exam_site as $one)
@@ -224,11 +246,46 @@ class ExamController extends Controller
                 $site->exam_id = $exam->id;
                 $site->address = $one['address'];
                 $site->room = $one['room'];
-                $site->exam_time = $one['exam_time'];
+                $site->exam_time = $one['time'];
                 $site->save(false);
             }
         }
 
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "编辑考试：$name";
+        $record->type = 2;
+        $record->save(false);
+
         return $this->ok('修改成功');
+    }
+
+
+    public function actionRoom()
+    {
+        $this->init_page();
+        $request = \Yii::$app->request;
+        $number = $request->post('number');
+        $address = $request->post('address');
+        $exam_time_start = $request->post('exam_time_start');
+        $exam_time_end = $request->post('exam_time_end');
+
+
+        $model = ExamSite::find()
+            ->innerJoin('exam', 'exam.id = exam_site.exam_id')
+            ->andFilterWhere(['number' => $number])
+            ->andFilterWhere(['address' => $address])
+            ->andFilterWhere(['<', 'exam_time', $exam_time_start])
+            ->andFilterWhere(['>', 'exam_time', $exam_time_end]);
+
+        $total = $model->count();
+
+        $list = $model->select('exam_site.id, exam_id, number, address, room, exam_time')->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
+        foreach ($list as &$one)
+        {
+            $one['examinee_num'] = ExamExaminee::find()->where(['exam_site_id' => $one['id']])->count();
+        }
+
+        return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
 }

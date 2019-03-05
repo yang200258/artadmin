@@ -53,7 +53,7 @@ export default {
             const exam_time_end = util.filterDate(testTime[1])
             pn = pn || 1
             this.$axios({
-                url : '/room',
+                url : '/exam/room',
                 method: 'post',
                 data: {name,number,exam_time_start,exam_time_end,pn}
             }).then(res=> {

@@ -1,6 +1,6 @@
 <template>
-  <div class="c-book cursor-pointer clearfix" :style="{height: height}">
-    <div class="image" :style="{backgroundImage: 'url(' + (book.image || defaultImg) + ')', backgroundSize: (book.image ? 'cover' : '120px 120px')}"></div>
+  <div class="c-book cursor-pointer clearfix" :style="{height: height}" @click.stop="goDetail(book.id)">
+    <div class="image" :style="{backgroundImage: 'url(' + (book.cover_url || defaultImg) + ')', backgroundSize: (book.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="title">{{book.title}}</div>
   </div>
 </template>
@@ -22,6 +22,11 @@ export default {
     return {
       defaultImg: defaultImg
     }
+  },
+  methods: {
+    goDetail: function (id) {
+      this.$router.push({ path: 'dynamicdetail', query: { id: id } })
+    }
   }
 }
 </script>
@@ -32,7 +37,7 @@ export default {
   overflow: hidden;
 }
 .c-book:hover{
-  background: #F8F2E8;
+  background: rgba(251,241,230,0.4);
 }
 .content-box{
   padding-top: 5px;
@@ -55,8 +60,8 @@ export default {
   text-overflow: ellipsis;
   padding: 10px 6% 0;
 }
-.title:hover{
+/* .title:hover{
   color: #F5A623;
   text-decoration: underline;
-}
+} */
 </style>

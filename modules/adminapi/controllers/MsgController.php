@@ -7,7 +7,9 @@ use app\models\Image;
 use app\models\Msg;
 use app\models\MsgCategory;
 use app\models\MsgContent;
+use app\models\Record;
 use yii\db\Expression;
+use yii\db\StaleObjectException;
 
 class MsgController extends Controller
 {
@@ -96,6 +98,7 @@ class MsgController extends Controller
         $msg->status = $status;
         $msg->create_at = date("Y-m-d H:i:s",time());
         $msg->save(false);
+        Record::saveRecord($this->admin->id, 4, "发布{$msg->msgCategory->name}[$msg->id]");
 
         return $this->ok('创建成功');
     }
@@ -152,6 +155,7 @@ class MsgController extends Controller
         $msg->status = $status;
         $msg->save(false);
 
+        Record::saveRecord($this->admin->id, 4, "修改{$msg->msgCategory->name}[$msg->id]");
         return $this->ok('修改成功');
     }
 
@@ -181,7 +185,14 @@ class MsgController extends Controller
             MsgContent::deleteAll(['id' => $msg_content_ids]);
         }
 
-        Msg::deleteAll(['id' => $ids]);
+        $msg = Msg::findOne($ids);
+        $categoryName = $msg->msgCategory->name;
+        try {
+            $msg->delete();
+        } catch (\Throwable $e) {
+            return $this->error('删除失败');
+        }
+        Record::saveRecord($this->admin->id, 4, "删除{$categoryName}[$msg->id]");
         return $this->ok('删除成功');
     }
 }
