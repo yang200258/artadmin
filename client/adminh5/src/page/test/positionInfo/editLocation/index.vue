@@ -137,11 +137,11 @@ export default {
                 console.log('查询到的该考场考生信息',res);
                 if(res && !res.error) {
                     let list = res.data.list
-                    let sortData = []
                     list.forEach(item=> {
-                        util.flatData(item).then(res=> {
-                            this.examineeData = res
-                            res.forEach(item=> {
+                        util.flatData(item).then(r=> {
+                            this.examineeData = r
+                            let sortData = []
+                            r.forEach(item=> {
                                 sortData.push({name: item.apply_name,id:item.id})
                             })
                             this.sortData = sortData
