@@ -48,7 +48,6 @@
 
 <script>
 import draggable from 'vuedraggable'
-import addExaminee from '../../common/addExaminee'
 export default {
     data(){
         return {
@@ -65,7 +64,6 @@ export default {
     },
     components: {
         draggable,
-        addExaminee
     },
     mounted(){
         // this.getExamineeInfo()
@@ -86,12 +84,12 @@ export default {
                 if(res && !res.error) {
                     this.examineeData = res.data.list
                 } else {
-                    this.$message.warn(res.msg)
+                   alert(res.msg)
                 }
                 this.isLoading = false
             }).catch(err=> {
                 console.log(err);
-                this.$message.warn(err)
+                alert(err)
             })
         },
         //子组件中传入方法

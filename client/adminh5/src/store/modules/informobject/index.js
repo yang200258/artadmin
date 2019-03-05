@@ -1,7 +1,6 @@
 const state = {
-    addinformobjectdata: [],
-    editinformobjectdata: [],
-    quillContent: '',
+    addinformobjectdata: {uid_arr: [],inform: [],},
+    editinformobjectdata: {uid_arr: [],inform: [],inform_id: ''},
     type: '',
     filter: []
     
@@ -10,10 +9,10 @@ const state = {
 
 const mutations = {
     setaddInformobject: (state,data)=>{
-        state.addinformobjectdata = data
+        state.addinformobjectdata.inform = data
     },
     seteditInformobject: (state,data)=>{
-        state.editinformobjectdata = data
+        state.editinformobjectdata.inform = data
     },
     setType: (state,data)=>{
         state.type = data
@@ -21,12 +20,14 @@ const mutations = {
     setFilter: (state,data)=>{
         state.filter = data
     },
-    setquillContent: (state,data)=>{
-        state.quillContent = data
+    setAddUid: (state,data)=> {
+        state.addinformobjectdata.uid_arr = data
     },
-    cleardata: (state)=> {
-        state.informobject = []
-        state.quillContent = ''
+    setEditUid: (state,data)=> {
+        state.editinformobjectdata.uid_arr = data
+    },
+    setInformId: (state,data)=> {
+        state.editinformobjectdata.inform_id = data
     }
 }
 

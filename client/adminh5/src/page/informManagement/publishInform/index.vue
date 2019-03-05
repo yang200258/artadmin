@@ -2,7 +2,7 @@
     <div class="publish-inform">
         <el-row>
             <span style="color:red">*</span><span>通知类型：</span>
-            <el-select v-model="type" placeholder="请选择通知类型">
+            <el-select v-model="type" placeholder="请选择通知类型" @change="changeSelect">
                 <el-option v-for="item in informTypeOption" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
         </el-row>
@@ -33,24 +33,29 @@ export default {
         richtext
     },
     mounted(){
-        this.type = this.$route.params.type || ''
         this.$store.commit('publishinfo/setquillContent','')
+    },
+    computed: {
+        uid_arr(){
+            return this.$store.state.informobject.addinformobjectdata.uid_arr
+        },
+        type(){
+            return this.$store.state.informobject.type
+        },
+        content(){
+            return this.$store.state.publishinfo.quillContent
+        }
     },
     methods: {
         //点击查看通知对象
         goInform: function(){
-            // this.$store.commit('informobject/setInformobject',[])
-            this.$store.commit('informobject/setType',this.type)
-            this.$store.commit('informobject/setaddInformobject',this.$route.params.inform || [])
             this.$router.push({
-                name: 'informObject',
+                name: 'addinformObject',
             })
         },
         //发布通知
         publishInform: function(){
-            const type = this.type
-            const content = this.$store.state.publishinfo.quillContent
-            const uid_arr = this.$route.params.uid_arr
+            const {type,uid_arr,content} = this.type
             this.$axios({
                 url: '/inform/add',
                 method: 'post',
@@ -60,7 +65,7 @@ export default {
                 if(res && !res.error) {
                     this.$store.commit('informobject/setType','')
                     this.$store.commit('publishinfo/setquillContent','')
-                    this.$store.commit('informobject/setaddInformobject',[])
+                    this.$store.commit('informobject/setaddInformobject',{})
                     this.$router.push({
                         name: 'informlist'
                     })
@@ -75,7 +80,10 @@ export default {
         cancel: function(){
             this.$router.go(-1)
         },
-        
+        //改变类型事件
+        changeSelect: function(){
+            this.$store.commit('informobject/setType',this.type)
+        }
 
     },
 }

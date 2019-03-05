@@ -3,7 +3,7 @@
         <test-info></test-info>
         <test-location></test-location>
         <div class="button">
-            <el-col style="width:40%;" type="primary"><el-button @click="save">完成</el-button></el-col>
+            <el-col style="width:40%;" type="primary"><el-button @click="save" :disabled="isdisabled">完成</el-button></el-col>
         </div>
     </div>
 </template>
@@ -17,7 +17,7 @@ export default {
     
     data(){
         return {
-
+            isdisabled: true
         }
     },
     components: {
@@ -29,19 +29,29 @@ export default {
             examSite: state=> state.examSite,
             baseinfo: state=> state.baseinfo,
         }),
+        isdisabled(){
+            return (this.examSite.address && this.examSite.time1 && this.baseinfo.name&& this.baseinfo.examTime&& this.baseinfo.number&& this.baseinfo.applyTime) ? false : true
+        }
     },
     methods: {
         save: function() {
             console.log(this.examSite);
             console.log(this.baseinfo);
             const {name,number,examTime,applyTime} = this.baseinfo
-            const {address,rooms,sites,time} = this.examSite
+            const {address,rooms,sites,time,time1} = this.examSite
             console.log(applyTime,examTime);
             const apply_time_start = util.filterDateTime(applyTime[0])
             const apply_time_end = util.filterDateTime(applyTime[1])
             const exam_time_start = util.filterDateTime(examTime[0])
             const exam_time_end = util.filterDateTime(examTime[1])
             const exam_site = []
+            if(time1) {
+                exam_site.push({
+                    address: address,
+                    room: '考场1',
+                    time: util.filterDateTime(time1.value)
+                })
+            }
             if(time && time.length) {
                 time.forEach(item=> {
                     exam_site.push({
@@ -82,19 +92,18 @@ export default {
                     }
                 })
             }
-            this.$axios({
-                url: '/exam/add',
-                method: 'post',
-                data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
-            }).then(res=> {
-                if(res && !res.error) {
-                    alert(res.msg)
-                    
-                } else {
-                    alert(res.msg)
-                }
-            })
-            
+                this.$axios({
+                    url: '/exam/add',
+                    method: 'post',
+                    data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
+                }).then(res=> {
+                    if(res && !res.error) {
+                        alert(res.msg)
+                        
+                    } else {
+                        alert(res.msg)
+                    }
+                })
         }
     }
     

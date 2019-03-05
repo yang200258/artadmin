@@ -6,7 +6,7 @@ const productionGzipExtensions = ['js', 'css']
 
 module.exports = {
   // 选项...
-  publicPath: process.env.NODE_ENV === 'production' ? 'https://static.hnyskj.net/home' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? 'https://www.hnyskj.net/home' : '/',
   outputDir: '../../web/home',
   assetsDir: 'static',
   devServer: {

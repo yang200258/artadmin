@@ -242,11 +242,11 @@
  import infoList from  '@/page/infomanagement/infoList'
  import editInfo from  '@/page/infomanagement/infoList/editInfo'
  import publishInform from  '@/page/informManagement/publishInform'
- import informObject from  '@/page/informManagement/publishInform/informObject'
+ import addinformObject from  '@/page/informManagement/publishInform/informObject'
 
  import informList from  '@/page/informManagement/informList'
  import editInform from  '@/page/informManagement/informList/editInform'
- import informobject from  '@/page/informManagement/informList/editInform/informobject'
+ import editinformobject from  '@/page/informManagement/informList/editInform/informobject'
  import manager from  '@/page/manager/manager'
  import oganization from  '@/page/manager/oganization'
  import signTeacher from  '@/page/manager/signTeacher'
@@ -384,8 +384,8 @@ const staticRoute = [
             },
             {
                 path: 'publishInform/informObject',
-                name: 'informObject',
-                component: informObject,
+                name: 'addinformObject',
+                component: addinformObject,
                 meta: {name: '通知对象'}
             },
             {
@@ -403,7 +403,7 @@ const staticRoute = [
             {
                 path: 'informlist/editinformobject',
                 name: 'editinformObject',
-                component: informobject,
+                component: editinformobject,
                 meta: {name: '编辑对象'}
             }
         ]

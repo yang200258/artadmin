@@ -3,42 +3,83 @@
         <el-row>
             <el-col :span="16">
                 <span style="color: red">*</span><span>内容：</span>
-                <quill-editor class="richedit" :value="quillContent" :options="editorOption"  style="height: 400px" @change="editContent($event)"></quill-editor>
+                <el-upload
+                    class="avatar-uploader upload-img"
+                    action="https://www.hnyskj.net/adminapi/upload"
+                    name="img"
+                    :data="uploaddata"
+                    :show-file-list="false"
+                    :on-success="uploadSuccess"
+                    :on-error="uploadError"
+                    :before-upload="beforeUpload">
+                </el-upload>
+                <el-row v-loading="quillUpdateImg">
+                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)"></quill-editor>
+                </el-row>
             </el-col>
         </el-row>
     </div>
 </template>
 
 <script>
-import { quillEditor } from "vue-quill-editor"; //调用编辑器
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{'header': 1}, {'header': 2}],               // custom button values
+  [{'list': 'ordered'}, {'list': 'bullet'}],
+  [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+  [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+  [{'direction': 'rtl'}],                         // text direction
+
+  [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+//   [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+  [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+  [{'font': []}],
+  [{'align': []}],
+  ['link', 'image', 'video'],
+  ['clean']                                         // remove formatting button
+]
+import {quillEditor} from 'vue-quill-editor' //调用编辑器
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
+import Auth from '@/util/auth'
 export default {
     data(){
         return{
-            editorOption: {
+            quillUpdateImg: false,
+            uploaddata: {},
+            editorOption:  {
+                placeholder: '',
+                theme: 'snow',
                 modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        [{ 'script': 'sub' }, { 'script': 'super' }],
-                        [{ 'indent': '-1' }, { 'indent': '+1' }],
-                        [{ 'direction': 'rtl' }],
-                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                        // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        // [{ 'font': [] }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'align': [] }],
-                        ['clean'],
-                        ['link', 'image', 'video']
-                    ]
-                }
-            },
+                    // ImageExtend: {
+                    //     loading: true,
+                    //     name: 'img',
+                    //     action: "https://www.hnyskj.net/adminapi/upload",
+                    //     response: (res) => {
+                    //         return res.data.url[0]
+                    //     }
+                    // },
+                    toolbar: {
+                        container: toolbarOptions,
+                        handlers:{
+                            'image': function (value) {  //劫持quill自身的文件上传，用原生替换
+                            if (value) {
+                                    document.querySelector('.upload-img input').click()
+                                } else {
+                                    this.quill.format('image', false);
+                                }
+                            }
+                        }
+                    }
+                },
+            }
         }
     },
+        
     components: {
         quillEditor
     },
@@ -47,13 +88,41 @@ export default {
             return this.$store.state.publishinfo.quillContent
         }
     },
+    mounted(){
+        this.uploaddata = {token: Auth.hasToken()}
+    },
     methods: {
+        beforeUpload() {
+            // 显示loading动画
+            this.quillUpdateImg = true
+        },
+        uploadSuccess(res) {
+            // res为图片服务器返回的数据
+            // 获取富文本组件实例
+            let quill = this.$refs.myQuillEditor.quill
+            // 如果上传成功
+            if (res && !res.error) {
+                // 获取光标所在位置
+                let length = quill.getSelection().index;
+                // 插入图片  res.info为服务器返回的图片地址
+                quill.insertEmbed(length, 'image', res.data.url[0])
+                // 调整光标到最后
+                quill.setSelection(length + 1)
+            } else {
+                alert('图片插入失败')
+            }
+            // loading动画消失
+            this.quillUpdateImg = false
+        },
+        // 富文本图片上传失败
+        uploadError() {
+            // loading动画消失
+            this.quillUpdateImg = false
+            alert('图片插入失败')
+        },
         editContent: function($event){
-            console.log('event',$event);
             this.$store.commit('publishinfo/setquillContent',$event.html)
-            // console.log(this.$store.state.publishinfo.quillContent);
-            // this.$emit('editContent',content)
-        }
+        },
     }
 }
 </script>

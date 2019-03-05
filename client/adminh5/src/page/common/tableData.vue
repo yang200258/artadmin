@@ -30,9 +30,9 @@
                             </el-table-column>
                             <el-table-column label="操作" align="center" v-if="isOption">
                                 <template slot-scope="scope">
-                                    <el-button  type="text" size="small" @click.prevent="editInfo(scope)" v-if="isEditTable">{{editTableName}}</el-button>
-                                    <el-button  type="text" size="small" @click.prevent="editAccount(scope)" v-if="isEditAccount">{{editAccountName}}</el-button>
-                                    <el-button  type="text" size="small" @click.prevent="deleteInfo(scope)" v-if="isDeleteTable">{{deleteTableName}}</el-button>
+                                    <el-button  type="text" size="small" @click.prevent="editInfo(scope)" v-if="isEditTable" style="color: #199ED8">{{editTableName}}</el-button>
+                                    <el-button  type="text" size="small" @click.prevent="editAccount(scope)" v-if="isEditAccount" style="color: #199ED8">{{editAccountName}}</el-button>
+                                    <el-button  type="text" size="small" @click.prevent="deleteInfo(scope)" v-if="isDeleteTable" style="color: #199ED8">{{deleteTableName}}</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>

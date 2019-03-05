@@ -24,10 +24,8 @@ import richtext from '@/page/common/richtext'
 export default {
     data(){
         return{
-            // type: '',
             informTypeOption: [{value: '1',label: '成绩查询'},{value: '2',label: '准考证领取'},{value: '3',label: '考场查询'},
                         {value: '4',label: '考试报名'},{value: '5',label: '大赛通知'},{value: '6',label: '定向通知'}],
-            uid_arr: [],
         }
     },
     components: {
@@ -35,9 +33,6 @@ export default {
     },
     mounted(){ 
         this.getInform()
-        if(this.$route.params.uid_arr && this.$route.params.uid_arr.length) {
-            this.uid_arr = this.$route.params.uid_arr
-        }
     },
     methods: {
         //返回
@@ -59,21 +54,19 @@ export default {
             }).then(res=> {
                 console.log('获取单条通知数据',res);
                 if(res && !res.error) {
-                    this.uid_arr = []
-                    if(this.$route.params.firstEdit) {
-                        this.$store.commit('informobject/seteditInformobject',res.data.list)
-                    }
+                    this.$store.commit('informobject/seteditInformobject',res.data.list)
+                    const uid_arr = []
                     res.data.list.forEach(item=> {
-                        this.uid_arr.push(item.uid)
+                        uid_arr.push(item.uid)
                     })
+                    this.$store.commit('informobject/setEditUid',uid_arr)
                 }
             })
         },
         //完成编辑通知
         save: function(){
-            const {inform_id,uid_arr} = this.$route.params
-            const type = this.$store.state.informobject.type
-            const content = this.$store.state.publishinfo.quillContent
+            const {uid_arr,inform_id} = this.inform
+            const {type,content} = this
             this.$axios({
                 url: '/inform/edit',
                 method: 'post',
@@ -81,7 +74,7 @@ export default {
             }).then(res=> {
                 console.log('编辑通知响应',res);
                 if(res && !res.error) {
-                    this.$store.commit('informobject/setType',0)
+                    this.$store.commit('informobject/setType','')
                     this.$store.commit('publishinfo/setquillContent','')
                     this.$store.commit('informobject/seteditInformobject',[])
                     this.$router.push({
@@ -94,20 +87,9 @@ export default {
         },
         //点击查看通知对象
         goInform: function(){
-            const inform_id = this.$route.params.inform_id || ''
-            const uid_arr = this.$route.params.uid_arr || this.uid_arr ||  []
-            console.log('uid_arr',uid_arr);
-            if(inform_id && uid_arr && uid_arr.length ) {
-                this.$router.push({
-                    name: 'editinformObject',
-                    params: {
-                        inform_id,
-                        uid_arr,
-                    }
-                })
-            } else {
-                alert('通知编号或通知对象不存在，请检查！')
-            }
+            this.$router.push({
+                name: 'editinformObject',
+            })
             
         },
 
@@ -119,7 +101,12 @@ export default {
         filters(){
             return this.$store.state.informobject.filter
         },
-
+        inform(){
+            return this.$store.state.informobject.editinformobjectdata
+        },
+        content(){
+            return this.$store.state.publishinfo.quillContent
+        }
     }
 }
 </script>
