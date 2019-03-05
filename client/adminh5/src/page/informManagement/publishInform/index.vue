@@ -34,13 +34,14 @@ export default {
     },
     mounted(){
         this.$store.commit('publishinfo/setquillContent','')
+        this.$store.commit('informobject/setAddType','')
     },
     computed: {
         uid_arr(){
             return this.$store.state.informobject.addinformobjectdata.uid_arr
         },
         type(){
-            return this.$store.state.informobject.type
+            return this.$store.state.informobject.addinformobjectdata.type
         },
         content(){
             return this.$store.state.publishinfo.quillContent
@@ -81,8 +82,8 @@ export default {
             this.$router.go(-1)
         },
         //改变类型事件
-        changeSelect: function(){
-            this.$store.commit('informobject/setType',this.type)
+        changeSelect: function(val){
+            this.$store.commit('informobject/setAddType',val)
         }
 
     },

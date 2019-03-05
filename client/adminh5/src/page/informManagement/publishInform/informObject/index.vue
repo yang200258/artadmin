@@ -203,7 +203,7 @@ export default {
             return this.$store.state.informobject.addinformobjectdata.inform
         },
         type(){
-            return this.$store.state.informobject.type
+            return this.$store.state.informobject.addinformobjectdata.type
         },
             //报考专业及报考级别
         domainOptions() {
