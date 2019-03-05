@@ -161,7 +161,9 @@ export default {
                 method: 'post',
                 data: {}
             }).then(res=> {
-                
+                if(res && !res.error) {
+                    console.log('批量下载报名表',res);
+                }
             }).catch(err=> {
                 console.log(err);
             })
@@ -173,7 +175,9 @@ export default {
                 method: 'post',
                 data: {}
             }).then(res=> {
-
+                if(res && !res.error) {
+                    console.log('批量下载准考证',res);
+                }
             }).catch(err=> {
                 console.log(err);
             })
@@ -185,7 +189,9 @@ export default {
                 method: 'post',
                 data: {}
             }).then(res=> {
-
+                if(res && !res.error) {
+                    console.log('批量下载照片',res);
+                }
             }).catch(err=> {
                 console.log(err);
             })
@@ -195,13 +201,14 @@ export default {
         //考生排序系列操作*****
         saveSort: function(){
             const exam_site_id  = this.$route.params.exam_site_id
+            const id_arr = []
             this.$axios({
                 url: '/examinee/sort',
                 method: 'post',
                 data: {exam_site_id,id_arr }
             }).then(res=> {
                 if(res && !res.error) {
-
+                    console.log('考生排序结果',res);
                 }
             }).catch(err=> {
                 console.log(err);
@@ -260,7 +267,7 @@ export default {
             this.$axios({
                 url: '/examinee',
                 method: 'post',
-                data: {name,domain,level,id_number,organ_name,teacher_name,exam_id}
+                data: {name,domain,level,id_number,organ_name,teacher_name,exam_id,pn}
             }).then(res=> {
                 if(res && !res.error) {
                     this.queryData = res.data.list
