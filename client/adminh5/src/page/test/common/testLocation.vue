@@ -27,7 +27,7 @@
                         
                         
 
-                        <div class="line2"  v-if="roomstatus"></div>
+                        <div class="line2"  v-if="roomstatus || siteStatus"></div>
                         <!-- 添加、删除考点1的考场********************************************************************** -->
                         <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
                             <div class="examsite2">

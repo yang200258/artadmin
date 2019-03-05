@@ -38,6 +38,7 @@ export default {
     methods: {
         //获取信息详情
         getInfo: function(){
+            console.log(this.$route.params.id)
             this.$axios({
                 url: '/msg/detail',
                 method: 'post',
