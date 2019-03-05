@@ -8,7 +8,7 @@
                         <el-form-item label="考试地点1" prop="address"><el-input v-model="examSite.address" placeholder="请填写考试地点"></el-input></el-form-item>
                         <!-- 考场1*********************** -->
                         <div class="examsite2">
-                            <p><span style="color: red">*</span>考场1：</p>
+                            <p style="color: 14px;"><span style="color: red">*</span >考场1：</p>
                             <div class="img">
                                 <img src="@/assets/images/add.png"  @click="changeRoomStatus">
                             </div>
@@ -31,7 +31,7 @@
                         <!-- 添加、删除考点1的考场********************************************************************** -->
                         <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
                             <div class="examsite2">
-                                <p>考场{{(index+2)}}：</p>
+                                <p style="color: 14px;">考场{{(index+2)}}：</p>
                                 <div class="img">
                                     <img src="@/assets/images/delete.png" style="margin-right:16px" @click="deleteroom">
                                     <img src="@/assets/images/add.png"  @click="addroom">
@@ -64,7 +64,7 @@
                                 <el-form-item :label="'考试地点' + (index+2) + '：'"><el-input v-model="site.site" placeholder="请填写考试地点"></el-input></el-form-item>
                             </div>
                             <!-- 考场1*********************** -->
-                            <p>考场1：</p>
+                            <p style="color: 14px;">考场1：</p>
                             <div class="line"></div>
                             <!-- 考试时间1********** -->
                             <div class="examsite_address2_time2">
@@ -199,6 +199,29 @@ export default {
             .el-input,el-date-picker {
                 display: block;
                 width: 30%;
+                .el-input__icon,.el-input__prefix {
+                    height: 40px;
+                    text-align: center;
+                    transition: all .3s;
+                }
+                
+                .el-input__prefix {
+                    position: absolute;
+                    left: 5px;
+                    top: 40px;
+                    color: #c0c4cc;
+
+                }
+                .el-input__suffix {
+                    position: absolute;
+                    height: 40px;
+                    right: 5px;
+                    top: 40px;
+                    text-align: center;
+                    color: #c0c4cc;
+                    transition: all .3s;
+                    pointer-events: none;
+                }
             }
             .line {
                 margin-top: 4px;
@@ -230,7 +253,10 @@ export default {
             .examsite_address2_time2 {
                 position: relative;
                 width: 30%;
-                .el-input__icon, .el-input__prefix {
+                .el-input,el-date-picker {
+                display: block;
+                width: 30%;
+                .el-input__icon,.el-input__prefix {
                     height: 40px;
                     text-align: center;
                     transition: all .3s;
@@ -253,6 +279,7 @@ export default {
                     transition: all .3s;
                     pointer-events: none;
                 }
+            }
                 .img2 {
                     position: absolute;
                     right: 0;
@@ -275,9 +302,6 @@ export default {
             }
             .addsite {
                 margin-left: 50%;
-            }
-            .el-input__icon, .el-input__prefix {
-                height: 121%;
             }
         }
         

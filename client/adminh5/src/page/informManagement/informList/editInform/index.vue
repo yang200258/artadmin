@@ -46,7 +46,7 @@ export default {
         },
         //获取页面跳转后通知数据
         getInform: function(){
-            const inform_id = this.$route.params.inform_id
+            const inform_id = this.inform.inform_id
             this.$axios({
                 url: '/object/list',
                 method: 'post',

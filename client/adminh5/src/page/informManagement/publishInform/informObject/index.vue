@@ -122,6 +122,7 @@ export default {
         //添加至通知对象列表操作
         saveAddInform: function(){
             this.$store.commit('informobject/setaddInformobject',this.readyinforobject)
+            this.pageinformobject = this.readyinforobject
             const uid_arr = []
             this.readyinforobject.forEach(item=>{
                 uid_arr.push(item.uid)
