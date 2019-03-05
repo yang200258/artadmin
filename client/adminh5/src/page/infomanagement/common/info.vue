@@ -17,6 +17,7 @@
                 class="avatar-uploader"
                 :class="{disabled:uploadDisabled}"
                 name="file"
+                ref="upload"
                 action="https://www.hnyskj.net/adminapi/upload"
                 :limit = "parseInt('1')"
                 accept=".jpg,.png" 
@@ -93,6 +94,8 @@ export default {
         handleRemove(file, fileList) {
             this.uploadDisabled = false
             console.log(file, fileList);
+            let upload_div = this.$refs.upload.$children[1].$el;
+            upload_div.style.cssText = "display: inline-block;"
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
@@ -108,6 +111,9 @@ export default {
                 console.log('获取到图片上传后的回调',response);
                 this.publishData.cover_id = response.data.id[0]
                 this.uploadDisabled = true
+                console.log(this.$refs.upload);
+                let upload_div = this.$refs.upload.$children[1].$el;
+                upload_div.style.cssText = "display: none;"
             }
         },
         exceed: function() {
@@ -162,13 +168,21 @@ export default {
         }
         .disabled  {
             .el-upload--picture-card {
-                display: none;
+                background-color: #fbfdff;
+                border: 1px dashed #c0ccda;
+                border-radius: 6px;
+                box-sizing: border-box;
+                width: 148px;
+                height: 148px;
+                cursor: pointer;
+                line-height: 146px;
+                vertical-align: top;
+                display: none!important;
             }
-            
         }
         .disabled {
              .el-upload {
-                 display: none;
+                 display: none!important;
              }
             
         }

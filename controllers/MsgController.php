@@ -25,14 +25,14 @@ class MsgController extends Controller
 
         $category3 = MsgCategory::find()->where(['id' => 3])->asArray()->one();
         $list3 = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(2)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list3, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
         });
         $category3['list'] = $list3;
 
         $category5 = MsgCategory::find()->where(['id' => 5])->asArray()->one();
         $list5 = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(6)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list5, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
         });
         $category5['list'] = $list5;
@@ -54,14 +54,14 @@ class MsgController extends Controller
 
         $category3 = MsgCategory::find()->where(['id' => 3])->asArray()->one();
         $list3 = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(2)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list3, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
         });
         $category3['list'] = $list3;
 
         $category5 = MsgCategory::find()->where(['id' => 5])->asArray()->one();
         $list5 = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(6)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list5, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
         });
         $category5['list'] = $list5;
@@ -97,14 +97,14 @@ class MsgController extends Controller
 
         $category3 = MsgCategory::find()->where(['id' => 3])->asArray()->one();
         $list3 = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(2)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list3, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
         });
         $category3['list'] = $list3;
 
         $category5 = MsgCategory::find()->where(['id' => 5])->asArray()->one();
         $list5 = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(6)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list5, function (&$val){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
         });
         $category5['list'] = $list5;

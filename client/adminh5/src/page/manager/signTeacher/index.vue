@@ -68,7 +68,8 @@ export default {
             loadingSignTeacher: false,
             isResetPassword: false,
             resetForm: {password: '',repeat_password: ''},
-            rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'}],repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'}]}
+            rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}],
+                    repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}]}
         }
     },
     mounted(){

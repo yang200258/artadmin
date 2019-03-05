@@ -70,9 +70,7 @@ export default {
         },
         //编辑通知对象
         editInfo: function(scope){
-            const filters = this.$store.state.informobject.filter
-            const type = filters.indexOf(scope.row.type)
-            if(type) this.$store.commit('informobject/setType',type)
+            this.$store.commit('informobject/setEditType',scope.row.type)
             this.$store.commit('publishinfo/setquillContent',scope.row.content)
             this.$store.commit('informobject/setEditUid',scope.row.uid_arr)
             this.$store.commit('informobject/setInformId',scope.row.id)
@@ -132,7 +130,7 @@ export default {
     computed: {
         filters(){
             return this.$store.state.informobject.filter
-        }
+        },
     },
     mounted(){
         this.queryInformList()

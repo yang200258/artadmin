@@ -1,6 +1,5 @@
 const state = {
     publishData: {cid:"",title:"",status: 1,cover_id:"",intro:"",content:""},
-    quillContent: '',
     infoTypeOptions: [],
     titleNumber: 0,
     introductionNumber: 0
@@ -24,7 +23,6 @@ const mutations = {
     },
     cleardata: (state)=> {
         state.publishData = {cid:"",title:"",status:"",cover_id:"",intro:"",content:""}
-        state.quillContent = ''
     }
 }
 

@@ -32,7 +32,7 @@
             </table-data>
             <el-dialog title="重置密码" :visible.sync="isResetPassword" width="30%" :before-close="handleClose" class="reset-password">
                 <div class="reset-header">
-                    <el-form :model="resetForm" :rules="rules" ref="resetForm">
+                     <el-form :model="resetForm" :rules="rules" ref="resetForm">
                         <el-form-item label="输入密码" prop="password">
                             <el-row><el-input type="password" placeholder="请输入密码" v-model="resetForm.password"></el-input></el-row>
                         </el-form-item>
@@ -68,7 +68,8 @@ export default {
             loadingOganization: false,
             isResetPassword: false,
             resetForm: {password: '',repeat_password: ''},
-            rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'}],repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'}]}
+            rules: {password: [{required: true, message: '请输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}],
+                    repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'},{min: 6,max: 16,message: '长度在 6 到 16 个字符'}]}
         }
     },
     mounted(){

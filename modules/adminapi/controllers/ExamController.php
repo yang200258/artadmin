@@ -162,7 +162,7 @@ class ExamController extends Controller
                 $site->exam_id = $exam->id;
                 $site->address = $one['address'];
                 $site->room = $one['room'];
-                $site->exam_time = $one['exam_time'];
+                $site->exam_time = $one['time'];
                 $site->save(false);
             }
         }
@@ -224,7 +224,7 @@ class ExamController extends Controller
                 $site->exam_id = $exam->id;
                 $site->address = $one['address'];
                 $site->room = $one['room'];
-                $site->exam_time = $one['exam_time'];
+                $site->exam_time = $one['time'];
                 $site->save(false);
             }
         }
