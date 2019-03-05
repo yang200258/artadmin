@@ -18,7 +18,7 @@
                         <div class="examsite_address2_time2">
                             <div class="img2"><img src="@/assets/images/add.png" @click="addtime"></div>
                             <el-form-item prop="time1" required>
-                                <span>考试时间1</span>
+                                <p style="color: 14px;"><span style="color: red">*</span >考试时间1：</p>
                                 <el-date-picker type="datetime" v-model="examSite.time1" placeholder="请设置考场考试时间"></el-date-picker>
                             </el-form-item>
                             <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :label="'考试时间' + (index+2) + '：'" :prop="'time.' + index + '.value'" v-if="time1status">
