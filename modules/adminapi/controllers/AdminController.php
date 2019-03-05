@@ -3,6 +3,7 @@ namespace app\modules\adminapi\controllers;
 
 
 use app\models\Admin;
+use app\models\Record;
 
 class AdminController extends Controller
 {
@@ -86,6 +87,11 @@ class AdminController extends Controller
         {
             return $this->error('创建失败');
         }
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "添加管理员[$name]";
+        $record->type = 5;
+        $record->save(false);
         return $this->ok('创建成功');
     }
 
@@ -135,6 +141,11 @@ class AdminController extends Controller
         {
             return $this->error('修改失败');
         }
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "编辑管理员[$name]";
+        $record->type = 5;
+        $record->save(false);
         return $this->ok('修改成功');
     }
 
@@ -143,8 +154,21 @@ class AdminController extends Controller
     {
         $id = \Yii::$app->request->post('id');
 
-        Admin::deleteAll(['id' => $id]);
-
+        $adminM = Admin::findOne($id);
+        if (!$adminM) {
+            return $this->error('该管理员不存在');
+        }
+        $name = $adminM->name;
+        try {
+            $adminM->delete();
+        } catch (\Throwable $e) {
+            return $this->error('删除失败');
+        }
+        $record = new Record();
+        $record->admin_id = $this->admin->id;
+        $record->content = "删除管理员[$name]";
+        $record->type = 5;
+        $record->save(false);
         return $this->ok('删除成功');
     }
 
