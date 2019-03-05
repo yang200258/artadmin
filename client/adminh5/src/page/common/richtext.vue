@@ -4,7 +4,7 @@
             <el-col :span="16">
                 <span style="color: red">*</span><span>内容：</span>
                 <el-upload
-                    class="avatar-uploader"
+                    class="avatar-uploader upload-img"
                     action="https://www.hnyskj.net/adminapi/upload"
                     name="img"
                     :data="uploaddata"
@@ -55,20 +55,20 @@ export default {
                 placeholder: '',
                 theme: 'snow',
                 modules: {
-                    ImageExtend: {
-                        loading: true,
-                        name: 'img',
-                        action: "https://www.hnyskj.net/adminapi/upload",
-                        response: (res) => {
-                            return res.data.url[0]
-                        }
-                    },
+                    // ImageExtend: {
+                    //     loading: true,
+                    //     name: 'img',
+                    //     action: "https://www.hnyskj.net/adminapi/upload",
+                    //     response: (res) => {
+                    //         return res.data.url[0]
+                    //     }
+                    // },
                     toolbar: {
                         container: toolbarOptions,
                         handlers:{
                             'image': function (value) {  //劫持quill自身的文件上传，用原生替换
                             if (value) {
-                                    document.querySelector('.avatar-uploader input').click()
+                                    document.querySelector('.upload-img input').click()
                                 } else {
                                     this.quill.format('image', false);
                                 }
