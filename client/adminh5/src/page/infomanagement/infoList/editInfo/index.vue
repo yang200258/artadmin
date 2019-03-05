@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="status">
         <info></info>
         <richtext class="richtext"></richtext>
         <el-row class="footer">
@@ -19,7 +19,7 @@ import {mapMutations} from 'vuex'
 export default {
     data(){
         return{
-
+            status: false
         }
     },
     mounted(){
@@ -49,8 +49,11 @@ export default {
                 console.log('信息详情数据',res);
                 if(res && !res.error){
                     this.$store.commit('publishinfo/setPublishData',res.data)
-                    //后期需修改********************
                     this.$store.commit('publishinfo/setquillContent',res.data.content)
+                    this.status = true
+                } else {
+                    alert('无法获取该信息详情，请重试！')
+                    this.status = true
                 }
             }).catch(err=>{
                 console.log(err);

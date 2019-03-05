@@ -162,13 +162,21 @@ export default {
         }
         .disabled  {
             .el-upload--picture-card {
-                display: none;
+                background-color: #fbfdff;
+                border: 1px dashed #c0ccda;
+                border-radius: 6px;
+                box-sizing: border-box;
+                width: 148px;
+                height: 148px;
+                cursor: pointer;
+                line-height: 146px;
+                vertical-align: top;
+                display: none!important;
             }
-            
         }
         .disabled {
              .el-upload {
-                 display: none;
+                 display: none!important;
              }
             
         }

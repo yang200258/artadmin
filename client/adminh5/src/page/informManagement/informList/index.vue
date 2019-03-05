@@ -132,7 +132,7 @@ export default {
     computed: {
         filters(){
             return this.$store.state.informobject.filter
-        }
+        },
     },
     mounted(){
         this.queryInformList()
