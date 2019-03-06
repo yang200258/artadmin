@@ -141,6 +141,7 @@ export default {
                     let list = res.data.list
                     list.forEach(item=> {
                         util.flatData(item).then(r=> {
+                            console.log(r);
                             if(r.apply_user_type == '0') r.apply_user_name = r.apply_adviser
                             examineeData.push(r)
                             sortData.push({name: r.apply_name,id:r.id})
@@ -204,6 +205,7 @@ export default {
         //考生排序系列操作*****
         saveSort: function(){
             const exam_site_id  = this.$route.params.exam_site_id
+            console.log(this.sortData);
             const id_arr = []
             this.$axios({
                 url: '/examinee/sort',
@@ -239,6 +241,7 @@ export default {
                 if(res && !res.error) {
                     alert(res.msg)
                     this.getExamineeInfo()
+                    this.queryData = []
                     this.addExaminee = false
                 } else {
                     alert(res.msg)
