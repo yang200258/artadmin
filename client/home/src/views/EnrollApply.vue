@@ -719,8 +719,8 @@ export default {
         this.form.lastgetcertificate.required = false
         this.form.lastgetcertificate.year.required = false
         this.form.lastgetcertificate.month.required = false
-        this.form.bent1.required = Boolean(value === '基本乐科')
-        this.form.bent2.required = Boolean(value === '基本乐科')
+        this.form.bent1.required = Boolean(value !== '基本乐科')
+        this.form.bent2.required = Boolean(value !== '基本乐科')
       } else if (type === 'level') {
         let levels = JSON.parse(JSON.stringify(this.levels))
         let idx = levels.indexOf(value)
