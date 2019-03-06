@@ -30,35 +30,35 @@ class UserController extends Controller
     }
 
     //保存微信用户信息
-    public function actionSavemes()
-    {
-        $request = \Yii::$app->request;
-        $iv = $request->getBodyParam('iv');
-        $encryptedData = $request->getBodyParam('encryptedData');
-
-        $sessionKeyArr = $this->retrieveSession();
-        require_once(\Yii::getAlias('@app') . "/components/wx_decode/wxBizDataCrypt.php");
-        $weiXinConfig = \Yii::$app->params['weixin'];
-        $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
-        $errCode = $pc->decryptData($encryptedData, $iv, $data );
-        $this->log('ceshi');
-        $this->log($errCode);
-        if ($errCode == 0) {
-            $user = $this->user;
-            if($user){
-                $data = json_decode($data);
-                $user->nick_name = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $data->nickName);  // 过滤控制字符
-                $user->union_id= $data->unionId;
-                $user->avatar = $data->avatarUrl;
-                if (!$user->save(false)) {
-                    return $this->error('保存用户信息失败');
-                }
-                return $this->json(['nick_name' => $user->nick_name, 'avatar' => $data->avatarUrl]);
-            }
-            return $this->error('找不到用户');
-        }
-        return $this->error('获取用户信息失败');
-    }
+//    public function actionSavemes()
+//    {
+//        $request = \Yii::$app->request;
+//        $iv = $request->getBodyParam('iv');
+//        $encryptedData = $request->getBodyParam('encryptedData');
+//
+//        $sessionKeyArr = $this->retrieveSession();
+//        require_once(\Yii::getAlias('@app') . "/components/wx_decode/wxBizDataCrypt.php");
+//        $weiXinConfig = \Yii::$app->params['weixin'];
+//        $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
+//        $errCode = $pc->decryptData($encryptedData, $iv, $data );
+//        $this->log('ceshi');
+//        $this->log($errCode);
+//        if ($errCode == 0) {
+//            $user = $this->user;
+//            if($user){
+//                $data = json_decode($data);
+//                $user->nick_name = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $data->nickName);  // 过滤控制字符
+//                $user->union_id= $data->unionId;
+//                $user->avatar = $data->avatarUrl;
+//                if (!$user->save(false)) {
+//                    return $this->error('保存用户信息失败');
+//                }
+//                return $this->json(['nick_name' => $user->nick_name, 'avatar' => $data->avatarUrl]);
+//            }
+//            return $this->error('找不到用户');
+//        }
+//        return $this->error('获取用户信息失败');
+//    }
 
     protected function log($message)
     {
