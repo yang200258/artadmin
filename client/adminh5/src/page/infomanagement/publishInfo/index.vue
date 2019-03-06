@@ -54,6 +54,8 @@ export default {
             }).then(res=> {
                 console.log('添加数据响应',res);
                 if(res && !res.error) {
+                    this.$store.commit('publishinfo/setquillContent','')
+                    this.cleardata()
                     this.$router.push({
                         name: 'infoList'
                     })
