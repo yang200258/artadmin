@@ -67,6 +67,7 @@
     "portfinder": "^1.0.13",
     "postcss-load-config": "^1.2.0",
     "postcss-loader": "^2.1.5",
+    "quill-image-extend-module": "^1.1.2",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
     "semver": "^5.4.1",
