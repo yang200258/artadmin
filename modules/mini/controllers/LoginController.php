@@ -16,7 +16,7 @@ class LoginController extends Controller
         if (!$sessionKeyArr) {
             return $this->error('获取登录态失败', 401);
         }else{
-
+            $this->log(json_encode($sessionKeyArr));
             if (isset($sessionKeyArr['unionid']))
             {
                 $user = User::findOne(['union_id' => $sessionKeyArr['unionid']]);
@@ -47,9 +47,10 @@ class LoginController extends Controller
                 $weiXinConfig = \Yii::$app->params['weixin'];
                 $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
                 $errCode = $pc->decryptData($encryptedData, $iv, $data );
-
+                $this->log($data);
                 if ($errCode == 0)
                 {
+                    $data = json_decode($data);
                     $user = User::findOne(['union_id' => $data->unionId]);
                     if (!$user){
                         $user = new User();
@@ -71,5 +72,12 @@ class LoginController extends Controller
                 return $this->error('获取登录态失败:' . $errCode, 401);
             }
         }
+    }
+
+
+    protected function log($message)
+    {
+        $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
+        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
     }
 }
