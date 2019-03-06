@@ -27,6 +27,7 @@ export default {
     },
     mounted(){
         this.cleardata()
+        this.$store.commit('publishinfo/setquillContent','')
     },
     methods: {
         //发布信息

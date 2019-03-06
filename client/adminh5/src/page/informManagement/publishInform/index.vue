@@ -33,7 +33,7 @@ export default {
         richtext
     },
     mounted(){
-        // this.$store.commit('publishinfo/setquillContent','')
+        this.$store.commit('publishinfo/setquillContent','')
         // this.$store.commit('informobject/setAddType','')
     },
     computed: {
