@@ -12,7 +12,7 @@ class DownloadController extends Controller
     public function actionBm()
     {
         $request = \Yii::$app->request;
-        $exam_site_id = $request->get('exam_site_id '); //考场ID
+        $exam_site_id = $request->get('exam_site_id'); //考场ID
         if (!$exam_site_id)
         {
             return $this->error('参数错误');
@@ -22,7 +22,7 @@ class DownloadController extends Controller
         {
             return $this->error('没有可下载文件');
         }
-        $files = Apply::find()->select('bm')->where(['apply_ids' => $apply_ids])->column();
+        $files = Apply::find()->select('bm')->where(['id' => $apply_ids])->column();
         if (!$files)
         {
             return $this->error('没有可下载文件');
@@ -66,7 +66,7 @@ class DownloadController extends Controller
     public function actionKz()
     {
         $request = \Yii::$app->request;
-        $exam_site_id = $request->get('exam_site_id '); //考场ID
+        $exam_site_id = $request->get('exam_site_id'); //考场ID
         if (!$exam_site_id)
         {
             return $this->error('参数错误');
@@ -76,7 +76,7 @@ class DownloadController extends Controller
         {
             return $this->error('没有可下载文件');
         }
-        $files = Apply::find()->select('kz')->where(['apply_ids' => $apply_ids])->column();
+        $files = Apply::find()->select('kz')->where(['id' => $apply_ids])->column();
         if (!$files)
         {
             return $this->error('没有可下载文件');
@@ -121,7 +121,7 @@ class DownloadController extends Controller
     public function actionZp()
     {
         $request = \Yii::$app->request;
-        $exam_site_id = $request->get('exam_site_id '); //考场ID
+        $exam_site_id = $request->get('exam_site_id'); //考场ID
         if (!$exam_site_id)
         {
             return $this->error('参数错误');
@@ -132,7 +132,7 @@ class DownloadController extends Controller
             return $this->error('没有可下载文件');
         }
 
-        $apply = Apply::find()->where(['apply_ids' => $apply_ids])->asArray()->all();
+        $apply = Apply::find()->where(['id' => $apply_ids])->asArray()->all();
         if (!$apply)
         {
             return $this->error('没有可下载文件');
