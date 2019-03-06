@@ -29,9 +29,10 @@
                 </el-col>
             </el-row>
         </div>
-        <table-data :head="head" :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isEdit="'true'" isDelete="'true'" isSelected="'true'" :loadingTable="loadingTable"
+        <table-data :head="head" :isEditOption="'true'" :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isEdit="'true'" isDelete="'true'" isSelected="'true'" :loadingTable="loadingTable"
         :tableData="infoData" :editName="'信息分类管理'" :deleteName="'删除'" :isOption="'true'" :isEditTable="'true'" :editTableName="'编辑'" :isDeleteTable="'true'" :deleteTableName="'删除'"  @handleCurrentChange="handleCurrentChange"
-        @editInfo="editInfo" @deleteInfo="deleteInfo" @editOption="editOption" @deleteOption="deleteOption" @handleSelectionChange="handleSelectionChange" @getRowKey="getRowKey">
+        @editInfo="editInfo" @deleteInfo="deleteInfo" @editOption="editOption" @deleteOption="deleteOption" @handleSelectionChange="handleSelectionChange" @getRowKey="getRowKey" 
+        :optionName="'发布信息'" @option="publishInfo">
          </table-data>
         <el-dialog title="分类管理" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
             <el-tag class="category-container" v-for="item in category" :key="item.id" closable @close="closeTag(item.id)" ref="categaryName">
@@ -124,6 +125,11 @@ export default {
         this.queryInfoData()
     },
     methods: {
+        publishInfo: function(){
+            this.$router.push({
+                name: 'publishInfo'
+            })
+        },
         //点击弹出添加信息分类
         addCategory: function(){
             this.inputVisible = true;
@@ -306,7 +312,7 @@ export default {
                     this.$set(this,'infoTypeOptions',res.data)
                     this.infoTypeOptions.unshift({id: '',name: '全部'})
                     this.category = res.data.filter((item) => {
-                        if(item.id > 7) {
+                        if(item.id > 8) {
                             return true
                         }
                     })

@@ -27,8 +27,9 @@ class HomepageController extends Controller
                 $limit = 6;
             }
             $list = Msg::find()->select('')->where(['cid' => $one['id'], 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit($limit)->asArray()->all();
-            array_walk($list, function (&$val){
+            array_walk($list, function (&$val) use ($one){
                 $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+                $val['category_name'] = $one['name'];
             });
             $one['list'] = $list;
         }

@@ -12,7 +12,7 @@
          <!-- 考生排序弹出层 -->
         <el-dialog :before-close="closeSort" title="考生排序" width="30%" :visible="sortExaminee">
             <span>(按住拖动进行排序)</span>
-                <draggable element="ul" v-model="sortData" @move="changeSort">
+                <draggable element="ul" v-model="sortData">
                     <transition-group>
                         <li v-for="item in sortData" :key="item.id">
                             {{item.name}}
@@ -36,14 +36,14 @@
                             </el-col>
                             <el-col :span="8"><p>报考专业：</p>
                                 <el-select v-model="domain" placeholder="全部">
-                                    <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
+                                    <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.label"> </el-option>
                                 </el-select>
                             </el-col>
                         </el-row>
                         <el-row :gutter="40">
-                            <el-col :span="8" :offset="0"><p>报考级别：</p>
+                            <el-col :span="6"><p>报考级别：</p>
                                 <el-select v-model="level" placeholder="全部">
-                                    <el-option v-for="item in levelOptions" :key="item.value" :label="item.value" :value="item.value"> </el-option>
+                                    <el-option v-for="item in levelOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
                                 </el-select>
                             </el-col>
                             <el-col :span="8"><p>负责报名机构：</p>
@@ -53,8 +53,8 @@
                                 <p>负责报名老师：</p>
                                 <el-input v-model="teacher_name" class="" placeholder="老师姓名" clearable></el-input>
                             </el-col>
-                            <el-col :span="2">
-                                <el-button type="primary" @click.prevent="queryInfo">筛选</el-button>
+                            <el-col :span="4">
+                                <el-button type="primary" @click.prevent="queryInfo" style="width: 80%">筛选</el-button>
                             </el-col>
                         </el-row>
                     </div>
@@ -73,7 +73,7 @@
                 <p>删除该考生后，请及时安排该考生的考场信息并重新下载该考生的准考证和报名表</p>
                 <span slot="footer">
                     <el-button @click="cancelDelete">取消</el-button>
-                    <el-button @click="deleteExaminee">保存</el-button>
+                    <el-button @click="deleteexaminee">保存</el-button>
                 </span>
             </el-dialog>
         <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :isLoadingTable="isLoading">
@@ -84,6 +84,7 @@
 <script>
 import draggable from 'vuedraggable'
 import util from '@/util/util'
+import Auth from '@/util/auth'
 export default {
     data(){
         return {
@@ -109,7 +110,9 @@ export default {
                 {key: 'user_organ_name',name: '负责报名机构'},{key: 'user_name',name: '负责报名老师'}],
             head: [{key: 'sort',name: '考生排位号'},{key: 'apply_name',name: '考生姓名'},{key: 'apply_id_number',name: '证件号码'},{key: 'apply_domain',name: '报考专业'},
                 {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
-            apply_id_arr: []
+            apply_id_arr: [],
+            exam_site_id: '',
+            exam_id: ''
         }
     },
     components: {
@@ -117,7 +120,10 @@ export default {
     },
     mounted(){
         this.getExamineeInfo()
-        this.exam_id  = this.$route.params.exam_id 
+        if(this.$route.params) {
+            this.exam_id  = this.$route.params.exam_id
+            this.exam_site_id  = this.$route.params.exam_site_id 
+        }
     },
     computed: {
         domainOptions() {
@@ -141,8 +147,12 @@ export default {
                     let list = res.data.list
                     list.forEach(item=> {
                         util.flatData(item).then(r=> {
-                            console.log(r);
-                            if(r.apply_user_type == '0') r.apply_user_name = r.apply_adviser
+                            if(r.apply_user.type == '0') {
+                                r.apply_user_name = r.apply_adviser
+                            } else {
+                                r.apply_user_name = r.apply_user.name
+                            }
+                            r.apply_user_organ_name = r.apply_user.organ_name
                             examineeData.push(r)
                             sortData.push({name: r.apply_name,id:r.id})
                             this.sortData = sortData
@@ -160,67 +170,88 @@ export default {
         },
         //批量下载报名表
         downloadTable: function(){
-            this.$axios({
-                url: '/download/bm',
-                method: 'post',
-                data: {}
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载报名表',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载报名表',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
         //批量下载准考证
         downloadCard: function(){
-            this.$axios({
-                url: '/download/kz',
-                method: 'post',
-                data: {}
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载准考证',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载准考证',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
         //批量下载照片
         downloadPic: function(){
-            this.$axios({
-                url: '/download/zp',
-                method: 'post',
-                data: {}
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载照片',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载照片',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
 
 
         //考生排序系列操作*****
         saveSort: function(){
             const exam_site_id  = this.$route.params.exam_site_id
-            console.log(this.sortData);
             const id_arr = []
+            this.sortData.forEach(item=> {
+                id_arr.push(item.id)
+            })
             this.$axios({
                 url: '/examinee/sort',
                 method: 'post',
                 data: {exam_site_id,id_arr }
             }).then(res=> {
+                console.log('考生排序结果',res)
                 if(res && !res.error) {
-                    console.log('考生排序结果',res)
+                    this.getExamineeInfo()
                 }
             }).catch(err=> {
                 console.log(err);
             })
-        },
-        changeSort: function(evt){
-            console.log(evt);
         },
         closeSort: function(){
             this.sortExaminee = false
@@ -305,8 +336,9 @@ export default {
         deleteInfo(){
             this.deleteExaminee = true
         },
-        deleteExaminee: function(){
+        deleteexaminee: function(){
             alert('开发中')
+            this.deleteExaminee = false
         },
         closeDelete: function(){
             this.deleteExaminee = false

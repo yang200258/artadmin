@@ -3,6 +3,7 @@ namespace app\modules\adminapi\controllers;
 
 
 use app\models\Apply;
+use app\models\ExamExaminee;
 use app\models\Image;
 
 class DownloadController extends Controller
@@ -10,7 +11,22 @@ class DownloadController extends Controller
     //批量下载报名表
     public function actionBm()
     {
-        $files = Apply::find()->select('bm')->column();
+        $request = \Yii::$app->request;
+        $exam_site_id = $request->get('exam_site_id'); //考场ID
+        if (!$exam_site_id)
+        {
+            return $this->error('参数错误');
+        }
+        $apply_ids = ExamExaminee::find()->select('apply_id')->where(['exam_site_id' => $exam_site_id])->column();
+        if (!$apply_ids)
+        {
+            return $this->error('没有可下载文件');
+        }
+        $files = Apply::find()->select('bm')->where(['id' => $apply_ids])->column();
+        if (!$files)
+        {
+            return $this->error('没有可下载文件');
+        }
         $rootPath = \Yii::getAlias("@app");
         $fileFolder = $rootPath . "/file/temporary/";
         $zip = new \ZipArchive();
@@ -49,7 +65,23 @@ class DownloadController extends Controller
     //批量下载准考证
     public function actionKz()
     {
-        $files = Apply::find()->select('kz')->column();
+        $request = \Yii::$app->request;
+        $exam_site_id = $request->get('exam_site_id'); //考场ID
+        if (!$exam_site_id)
+        {
+            return $this->error('参数错误');
+        }
+        $apply_ids = ExamExaminee::find()->select('apply_id')->where(['exam_site_id' => $exam_site_id])->column();
+        if (!$apply_ids)
+        {
+            return $this->error('没有可下载文件');
+        }
+        $files = Apply::find()->select('kz')->where(['id' => $apply_ids])->column();
+        if (!$files)
+        {
+            return $this->error('没有可下载文件');
+        }
+
         $rootPath = \Yii::getAlias("@app");
         $fileFolder = $rootPath . "/file/temporary/";
         $zip = new \ZipArchive();
@@ -88,7 +120,23 @@ class DownloadController extends Controller
     //批量下载照片
     public function actionZp()
     {
-        $apply = Apply::find()->asArray()->all();
+        $request = \Yii::$app->request;
+        $exam_site_id = $request->get('exam_site_id'); //考场ID
+        if (!$exam_site_id)
+        {
+            return $this->error('参数错误');
+        }
+        $apply_ids = ExamExaminee::find()->select('apply_id')->where(['exam_site_id' => $exam_site_id])->column();
+        if (!$apply_ids)
+        {
+            return $this->error('没有可下载文件');
+        }
+
+        $apply = Apply::find()->where(['id' => $apply_ids])->asArray()->all();
+        if (!$apply)
+        {
+            return $this->error('没有可下载文件');
+        }
 
         $rootPath = \Yii::getAlias("@app");
         $fileFolder = $rootPath . "/file/temporary/";
@@ -118,7 +166,6 @@ class DownloadController extends Controller
                     $zip->addFile($f, "{$one['apply_no']}.jpg");
                 }
             }
-
         }
         $zip->close();
         header("Content-Type: application/zip");
