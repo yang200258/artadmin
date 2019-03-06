@@ -59,4 +59,9 @@ class Record extends \yii\db\ActiveRecord
         $record->content  = $content;
         $record->save(false);
     }
+
+    public function getAdmin()
+    {
+        return $this->hasOne(Admin::class, ['id' => 'admin_id']);
+    }
 }
