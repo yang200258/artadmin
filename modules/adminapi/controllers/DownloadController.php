@@ -2,10 +2,10 @@
 namespace app\modules\adminapi\controllers;
 
 
+use app\helpers\Excel;
 use app\models\Apply;
 use app\models\ExamExaminee;
 use app\models\Image;
-use common\helpers\Excel;
 
 class DownloadController extends Controller
 {
