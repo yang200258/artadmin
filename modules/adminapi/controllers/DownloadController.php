@@ -181,6 +181,71 @@ class DownloadController extends Controller
     }
 
 
+    public function actionDown()
+    {
+        ini_set("memory_limit", "1G");
+        $request = \Yii::$app->request;
+
+
+        $list = [];
+        if ($list) {
+
+            include_once \Yii::getAlias('@app') . '/helpers/PHPExcel.php';
+            include_once \Yii::getAlias('@app') . '/helpers/PHPExcel/writer/Excel2007.php';
+
+            ob_end_clean();
+            ob_start();
+
+            $objPHPExcel = new \PHPExcel();
+
+            $objPHPExcel->setActiveSheetIndex(0);
+
+            $objPHPExcel->getProperties()
+                ->setTitle("Office 2007 XLSX Test Document")
+                ->setSubject("Office 2007 XLSX Test Document")
+                ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+                ->setKeywords("office 2007 openxml php")
+                ->setCategory("Test result file");
+
+            $objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(30);
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A1', '关键词')
+                ->setCellValue('B1', '设备');
+
+
+            $i = 2;
+            foreach ($list as $one) {
+
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue("A$i", $one['word'])
+                    ->setCellValue("B$i", $one['word']);
+                $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(25);
+                $i++;
+            }
+            $objPHPExcel->getActiveSheet()->setTitle('111');
+            $objPHPExcel->setActiveSheetIndex(0);
+
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+
+
+            $objWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
+
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type:application/force-download");
+            header("Content-Type:application/vnd.ms-execl");
+            header("Content-Type:application/octet-stream");
+            header("Content-Type:application/download");
+            header("Content-Disposition:attachment;filename=111.xls");
+            header("Content-Transfer-Encoding:binary");
+            $objWriter->save("php://output");
+
+            \Yii::$app->end();
+            spl_autoload_register(array('YiiBase', 'autoload'));
+        }
+    }
 
 
 

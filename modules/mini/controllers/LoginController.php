@@ -64,7 +64,7 @@ class LoginController extends Controller
                     $user->save(false);
                     return $this->json(['token' => $sessionString, 'username' => $user->username ? $user->username : $user->nick_name, 'avatar' => $user->avatar,'union_id' => $user->union_id ? true : false]);
                 }
-
+                return $this->error('获取登录态失败:' . $errCode, 401);
             }
         }
     }
