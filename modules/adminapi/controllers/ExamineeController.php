@@ -119,16 +119,23 @@ class ExamineeController extends Controller
     public function actionSort()
     {
         $request = \Yii::$app->request;
-        $sort_arr = $request->post('sort_arr', []); //必填参数
+        $exam_site_id = $request->post('exam_site_id '); //考场ID
+        $id_arr = $request->post('id_arr', []); //必填参数
 
-        if (!$sort_arr)
+        if (!$id_arr || !$exam_site_id)
         {
             return $this->error('参数错误');
         }
-
-        foreach ($sort_arr as $one)
+        $ExamSite = ExamSite::findOne(['id' => $exam_site_id]);
+        if (!$ExamSite)
         {
-            ExamExaminee::updateAll(['sort' => $one['sort']], ['id' => $one['id']]);
+            return $this->error('考场不存在或者被删除');
+        }
+        $i = 0;
+        foreach ($id_arr as $one)
+        {
+            $i++;
+            ExamExaminee::updateAll(['sort' => $i], ['id' => $one, 'exam_site_id' => $exam_site_id]);
         }
 
         return $this->ok('排序成功');
