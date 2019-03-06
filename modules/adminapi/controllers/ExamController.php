@@ -181,11 +181,7 @@ class ExamController extends Controller
                 ->batchInsert(ExamSite::tableName(), $examSiteRecordKey, $examSiteRecordData)
                 ->execute();
         }
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "新增考试：$name";
-        $record->type = 2;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 2, "新增考试：$name");
 
         return $this->ok('创建成功');
     }
@@ -250,12 +246,7 @@ class ExamController extends Controller
                 $site->save(false);
             }
         }
-
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "编辑考试：$name";
-        $record->type = 2;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 2, "编辑考试：$name");
 
         return $this->ok('修改成功');
     }

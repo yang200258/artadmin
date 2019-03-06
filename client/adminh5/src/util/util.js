@@ -35,6 +35,24 @@ const util = {
             return ''
         }
     },
+    //扁平化数据
+    flatData: function(arr) {
+        return new Promise((resolve)=>{
+        const list = {}
+        Object.keys(arr).forEach(keyo=>{
+            if(typeof(arr[keyo]) == 'object' && arr[keyo]){
+                if(arr[keyo] !== 'null') {
+                    Object.keys(arr[keyo]).forEach(key=>{
+                        list[keyo + '_' + key] = arr[keyo][key]
+                    }) 
+                }
+            }  else{
+                list[keyo] = arr[keyo]
+            }
+        })
+        resolve(list)
+        })
+    },
 }
 
 export default util

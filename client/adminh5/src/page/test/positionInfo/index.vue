@@ -41,9 +41,11 @@ export default {
          this.queryTestInfo()
     },
     methods: {
+        // 分页
         handleCurrentChange(val) {
             this.queryTestInfo(val)
         },
+        //查询考场信息
         queryTestInfo(pn){
             this.isLoading = false
             const {name,number,testTime} = this
@@ -58,8 +60,8 @@ export default {
                 console.log('查询到的考场数据',res);
                 if(res && !res.error) {
                     res.data.list.forEach(item=> {
-                        item.exam_date = item.exam_time.split('')[0]
-                        item.exam_time = item.exam_time.split('')[1]
+                        item.exam_date = item.exam_time.split(' ')[0]
+                        item.exam_time = item.exam_time.split(' ')[1]
                     })
                     this.testLocationData = res.data.list
                     this.pageSize = res.data.page.limit
@@ -74,11 +76,13 @@ export default {
                 this.isLoading = false
             })
         },
+        //编辑考生安排信息
         editExaminee(scope) {
             this.$router.push({
                 name: 'editLocation',
                 params: {
-                    gid: scope.row.number
+                    exam_site_id: scope.row.id,
+                    exam_id: scope.row.exam_id,
                 }
             })
         }

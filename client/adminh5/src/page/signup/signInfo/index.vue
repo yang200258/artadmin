@@ -89,8 +89,8 @@
                         <el-col :span="6" :offset="2">
                             <span>审核结果：</span>
                             <template>
-                                <el-radio v-model="verify" label="4" >通过</el-radio>
-                                <el-radio v-model="verify" label="2" >不通过</el-radio>
+                                <el-radio v-model="verifystatus" label="4" >通过</el-radio>
+                                <el-radio v-model="verifystatus" label="2" >不通过</el-radio>
                             </template>
                         </el-col>
                     </el-row>
@@ -198,7 +198,7 @@ export default {
             payType: {'1': '微信支付','2':'线下缴费'},
             statusType: {'0': '未交费','1':'已缴费'},
             isLoading: false,
-            verify: '4',
+            verifystatus: '4',
         }
     },
     mounted(){
@@ -263,7 +263,7 @@ export default {
         },
         //通过审核
         verify: function(){
-            const status = this.verify
+            const status = this.verifystatus
             const id = this.status.id
             if(status && id) {
                 this.$axios({
