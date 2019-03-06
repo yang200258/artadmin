@@ -119,7 +119,7 @@ class ExamineeController extends Controller
     public function actionSort()
     {
         $request = \Yii::$app->request;
-        $exam_site_id = $request->post('exam_site_id '); //考场ID
+        $exam_site_id = $request->post('exam_site_id'); //考场ID
         $id_arr = $request->post('id_arr', []); //必填参数
 
         if (!$id_arr || !$exam_site_id)
