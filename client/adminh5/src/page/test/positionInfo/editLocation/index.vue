@@ -254,7 +254,7 @@ export default {
         handleSelectionChange: function(val) {
             const apply_id_arr = []
             val.forEach(item=> {
-                apply_id_arr.push(item.apply_id)
+                apply_id_arr.push(item.id)
             })
             this.apply_id_arr = apply_id_arr
         },
