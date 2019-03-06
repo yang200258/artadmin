@@ -312,7 +312,7 @@ export default {
                     this.$set(this,'infoTypeOptions',res.data)
                     this.infoTypeOptions.unshift({id: '',name: '全部'})
                     this.category = res.data.filter((item) => {
-                        if(item.id > 7) {
+                        if(item.id > 8) {
                             return true
                         }
                     })
