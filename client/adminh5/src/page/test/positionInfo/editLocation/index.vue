@@ -41,7 +41,7 @@
                             </el-col>
                         </el-row>
                         <el-row :gutter="40">
-                            <el-col :span="8" :offset="0"><p>报考级别：</p>
+                            <el-col :span="6"><p>报考级别：</p>
                                 <el-select v-model="level" placeholder="全部">
                                     <el-option v-for="item in levelOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
                                 </el-select>
@@ -53,8 +53,8 @@
                                 <p>负责报名老师：</p>
                                 <el-input v-model="teacher_name" class="" placeholder="老师姓名" clearable></el-input>
                             </el-col>
-                            <el-col :span="2">
-                                <el-button type="primary" @click.prevent="queryInfo">筛选</el-button>
+                            <el-col :span="4">
+                                <el-button type="primary" @click.prevent="queryInfo" style="width: 80%">筛选</el-button>
                             </el-col>
                         </el-row>
                     </div>
@@ -172,52 +172,64 @@ export default {
         downloadTable: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            // let url = 'https://www.hnyskj.net/adminapi/download/bm?token='
-            // let link = document.createElement('a')
-            // link.style.display = 'none'
-            // link.href = url
-            // document.body.appendChild(link)
-            // link.click()
-            this.$axios({
-                url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
-                method: 'get',
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载报名表',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载报名表',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
         //批量下载准考证
         downloadCard: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            this.$axios({
-                url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
-                method: 'get',
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载准考证',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载准考证',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
         //批量下载照片
         downloadPic: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            this.$axios({
-                url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
-                method: 'get',
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载照片',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载照片',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
 
 

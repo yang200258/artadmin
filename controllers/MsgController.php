@@ -18,22 +18,25 @@ class MsgController extends Controller
         $model = Msg::find()->where(['cid' => 1, 'status' => Msg::STATUS_PUBLISHED]);
         $total = $model->count();
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list, function (&$val) use ($leftCates){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $leftCates['name'];
         });
         $leftCates['list'] = $list;
 
         $category3 = MsgCategory::find()->where(['id' => 3])->asArray()->one();
         $list3 = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(2)->asArray()->all();
-        array_walk($list3, function (&$val){
+        array_walk($list3, function (&$val) use ($category3){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $category3['name'];
         });
         $category3['list'] = $list3;
 
         $category5 = MsgCategory::find()->where(['id' => 5])->asArray()->one();
         $list5 = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(6)->asArray()->all();
-        array_walk($list5, function (&$val){
+        array_walk($list5, function (&$val) use ($category5){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $category5['name'];
         });
         $category5['list'] = $list5;
         $rightCates = [$category3, $category5];
@@ -47,22 +50,25 @@ class MsgController extends Controller
         $model = Msg::find()->where(['cid' => 2, 'status' => Msg::STATUS_PUBLISHED]);
         $total = $model->count();
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list, function (&$val) use ($leftCates){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $leftCates['name'];
         });
         $leftCates['list'] = $list;
 
         $category3 = MsgCategory::find()->where(['id' => 3])->asArray()->one();
         $list3 = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(2)->asArray()->all();
-        array_walk($list3, function (&$val){
+        array_walk($list3, function (&$val) use ($category3){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $category3['name'];
         });
         $category3['list'] = $list3;
 
         $category5 = MsgCategory::find()->where(['id' => 5])->asArray()->one();
         $list5 = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(6)->asArray()->all();
-        array_walk($list5, function (&$val){
+        array_walk($list5, function (&$val) use ($category5){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $category5['name'];
         });
         $category5['list'] = $list5;
         $rightCates = [$category3, $category5];
@@ -76,8 +82,9 @@ class MsgController extends Controller
         $model = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED]);
         $total = $model->count();
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list, function (&$val) use ($leftCates){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $leftCates['name'];
         });
         $leftCates['list'] = $list;
         return $this->json(['leftCates' => $leftCates, 'page' => $this->page($total)]);
@@ -90,22 +97,25 @@ class MsgController extends Controller
         $model = Msg::find()->where(['cid' => 4, 'status' => Msg::STATUS_PUBLISHED]);
         $total = $model->count();
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list, function (&$val) use ($leftCates){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $leftCates['name'];
         });
         $leftCates['list'] = $list;
 
         $category3 = MsgCategory::find()->where(['id' => 3])->asArray()->one();
         $list3 = Msg::find()->where(['cid' => 3, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(2)->asArray()->all();
-        array_walk($list3, function (&$val){
+        array_walk($list3, function (&$val)use ($category3){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $category3['name'];
         });
         $category3['list'] = $list3;
 
         $category5 = MsgCategory::find()->where(['id' => 5])->asArray()->one();
         $list5 = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(6)->asArray()->all();
-        array_walk($list5, function (&$val){
+        array_walk($list5, function (&$val)use ($category5){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $category5['name'];
         });
         $category5['list'] = $list5;
         $rightCates = [$category3, $category5];
@@ -119,8 +129,9 @@ class MsgController extends Controller
         $model = Msg::find()->where(['cid' => 5, 'status' => Msg::STATUS_PUBLISHED]);
         $total = $model->count();
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
-        array_walk($list, function (&$val){
+        array_walk($list, function (&$val) use ($leftCates){
             $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
+            $val['category_name'] = $leftCates['name'];
         });
         $leftCates['list'] = $list;
         return $this->json(['leftCates' => $leftCates, 'page' => $this->page($total)]);
@@ -142,6 +153,7 @@ class MsgController extends Controller
         {
             return $this->error('信息不存在');
         }
+        $msg['category_name'] = MsgCategory::find()->select('name')->where(['id' => $msg['cid']])->scalar();
         $msg['content'] = MsgContent::find()->select('UNCOMPRESS(content) content')->where(['id' => $msg['content_id']])->scalar();
         return $this->json($msg);
     }

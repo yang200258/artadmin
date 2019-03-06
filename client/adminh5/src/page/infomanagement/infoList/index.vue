@@ -29,7 +29,7 @@
                 </el-col>
             </el-row>
         </div>
-        <table-data :head="head" :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isEdit="'true'" isDelete="'true'" isSelected="'true'" :loadingTable="loadingTable"
+        <table-data :head="head" :isEditOption="'true'" :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isEdit="'true'" isDelete="'true'" isSelected="'true'" :loadingTable="loadingTable"
         :tableData="infoData" :editName="'信息分类管理'" :deleteName="'删除'" :isOption="'true'" :isEditTable="'true'" :editTableName="'编辑'" :isDeleteTable="'true'" :deleteTableName="'删除'"  @handleCurrentChange="handleCurrentChange"
         @editInfo="editInfo" @deleteInfo="deleteInfo" @editOption="editOption" @deleteOption="deleteOption" @handleSelectionChange="handleSelectionChange" @getRowKey="getRowKey" 
         :optionName="'发布信息'" @option="publishInfo">

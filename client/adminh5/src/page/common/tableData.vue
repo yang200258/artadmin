@@ -10,7 +10,7 @@
                     <el-col :span="14">
                         <el-row type="flex" justify-content="end">
                             <el-col :span="2">
-                                <el-button type="primary" @click.prevent="option"  v-if="isEdit">{{optionName}}</el-button>
+                                <el-button type="primary" @click.prevent="option"  v-if="isEditOption">{{optionName}}</el-button>
                             </el-col>
                             <el-col :span="4"  :offset="10">
                                 <el-button type="primary" @click.prevent="editOption"  v-if="isEdit">{{editName}}</el-button>
@@ -56,7 +56,7 @@ export default {
     components: {
     },
     props: ['isEditAccount','editAccountName','loadingAddInformTable','addInformData','editType','isPagination','head','loadingTable','currentPage','pageSize','totalNumber','isEdit','isDelete','tableData',
-             'editName','deleteName','isEditTable','editTableName','isDeleteTable','deleteTableName','isSelected','isOption','optionName'],
+             'editName','deleteName','isEditTable','editTableName','isDeleteTable','deleteTableName','isSelected','isOption','optionName','isEditOption'],
     methods: {
         handleSizeChange(val) {
             
