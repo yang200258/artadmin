@@ -41,7 +41,7 @@ export default {
                     this.optionData = res.data.list
                     this.$set(this,'',res.data.page)
                 } else {
-                    alert(res.msg)
+                    this.$message.warn(res.msg)
                 }
                 this.loadingOptionRecord = false
             }).catch(err=>{

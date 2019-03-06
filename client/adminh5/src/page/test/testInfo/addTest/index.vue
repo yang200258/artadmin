@@ -98,10 +98,10 @@ export default {
                     data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
                 }).then(res=> {
                     if(res && !res.error) {
-                        alert(res.msg)
+                        this.$message.success(res.msg)
                         
                     } else {
-                        alert(res.msg)
+                        this.$message.warn(res.msg)
                     }
                 })
         }

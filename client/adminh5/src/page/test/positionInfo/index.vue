@@ -47,7 +47,7 @@ export default {
         },
         //查询考场信息
         queryTestInfo(pn){
-            this.isLoading = false
+            this.isLoading = true
             const {name,number,testTime} = this
             const exam_time_start = util.filterDate(testTime[0])
             const exam_time_end = util.filterDate(testTime[1])
@@ -68,7 +68,7 @@ export default {
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
                 } else {
-                    alert(res.msg)
+                    this.$message.warn(res.msg)
                 }
                  this.isLoading = false
             }).catch(err=> {

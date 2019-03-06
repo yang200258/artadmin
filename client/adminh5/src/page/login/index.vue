@@ -93,7 +93,7 @@ export default {
                         this.sysMsg = err.msg
                     })
                 } else {
-                    alert('请输入合法的用户名/密码')
+                    this.$message.warn('请输入合法的用户名/密码')
                     return false
                 }
             });
