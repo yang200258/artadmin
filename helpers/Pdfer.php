@@ -14,10 +14,10 @@ class Pdfer
         $l['a_meta_dir'] = 'ltr';
         $l['a_meta_language'] = $language;
         $this->pdf->setLanguageArray($l);
-        $this->pdf->AddPage();
-        $this->pdf->setSourceFile($pdf_file);
-        $tplId = $this->pdf->importPage(1);
-        $this->pdf->useTemplate($tplId);
+//        $this->pdf->AddPage();
+//        $this->pdf->setSourceFile($pdf_file);
+//        $tplId = $this->pdf->importPage(1);
+//        $this->pdf->useTemplate($tplId);
     }
 
     //插入文字
