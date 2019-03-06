@@ -47,6 +47,7 @@ class LoginController extends Controller
                 $weiXinConfig = \Yii::$app->params['weixin'];
                 $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
                 $errCode = $pc->decryptData($encryptedData, $iv, $data );
+                $this->log($errCode);
                 $this->log($data);
                 if ($errCode == 0)
                 {
