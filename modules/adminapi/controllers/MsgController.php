@@ -84,7 +84,7 @@ class MsgController extends Controller
         {
             return $this->error('请输入内容');
         }
-
+        $content = MsgContent::getContent($content);
         $msg_content = new MsgContent();
         $msg_content->content = new Expression("COMPRESS(:content)", [':content' => $content]);
         $msg_content->save(false);
@@ -143,7 +143,7 @@ class MsgController extends Controller
         {
             return $this->error('信息不存在');
         }
-
+        $content = MsgContent::getContent($content);
         $msg_content = MsgContent::findOne($msg->content_id);
         $msg_content->content = new Expression("COMPRESS(:content)", [':content' => $content]);
         $msg_content->save(false);
