@@ -40,7 +40,7 @@ class ExamineeController extends Controller
         $organ_name = $request->post('organ_name', ''); //机构名称
         $teacher_name = $request->post('teacher_name', '');//老师名称;
 
-        $model = Apply::find()
+        $model = Apply::find()->with('user')
             ->andWhere(['exam_id' => $exam_id])
             ->andWhere(['plan' => 4]) //已缴费
             ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
