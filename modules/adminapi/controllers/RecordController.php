@@ -14,7 +14,7 @@ class RecordController extends Controller
         $model = Record::find();
 
         $total = $model->count();
-        $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
+        $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
 
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
