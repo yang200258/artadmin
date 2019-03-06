@@ -118,7 +118,6 @@ class DownloadController extends Controller
                     $zip->addFile($f, "{$one['apply_no']}.jpg");
                 }
             }
-
         }
         $zip->close();
         header("Content-Type: application/zip");
