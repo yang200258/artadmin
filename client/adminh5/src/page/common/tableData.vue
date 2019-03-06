@@ -10,7 +10,7 @@
                     <el-col :span="14">
                         <el-row type="flex" justify-content="end">
                             <el-col :span="2">
-                                <el-button type="primary" @click.prevent="option"  v-if="isEdit">{{optionName}}</el-button>
+                                <el-button type="primary" @click.prevent="option"  v-if="isEditOption">{{optionName}}</el-button>
                             </el-col>
                             <el-col :span="4"  :offset="10">
                                 <el-button type="primary" @click.prevent="editOption"  v-if="isEdit">{{editName}}</el-button>
