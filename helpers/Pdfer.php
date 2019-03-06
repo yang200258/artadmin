@@ -10,6 +10,9 @@ class Pdfer
     public function __construct($pdf_file, $language = 'zh')
     {
         $this->pdf = new Fpdi();
+        $this->pdf->setPrintHeader(false);
+        $this->pdf->setPrintFooter(false);
+
         $l['a_meta_charset'] = 'UTF-8';
         $l['a_meta_dir'] = 'ltr';
         $l['a_meta_language'] = $language;
@@ -27,7 +30,7 @@ class Pdfer
         {
             $this->pdf->SetFont($font, '', 14);
         }
-        $this->pdf->Cell($w, $h, $text, 0, $ln=0, 'L', 0, '', 0, false, 'T', 'C');
+        $this->pdf->Cell($w, $h, $text, 0, $ln=0, 'L', false, '', 0, false, 'T', 'C');
     }
 
     //保存文件

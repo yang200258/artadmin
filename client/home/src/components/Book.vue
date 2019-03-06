@@ -1,5 +1,5 @@
 <template>
-  <div class="c-book cursor-pointer clearfix" :style="{height: height}" @click.stop="goDetail(book.id)">
+  <div class="c-book cursor-pointer clearfix" :style="{height: height}" @click.stop="goDetail(book)">
     <div class="image" :style="{backgroundImage: 'url(' + (book.cover_url || defaultImg) + ')', backgroundSize: (book.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="title">{{book.title}}</div>
   </div>
@@ -24,8 +24,9 @@ export default {
     }
   },
   methods: {
-    goDetail: function (id) {
-      this.$router.push({ path: 'dynamicdetail', query: { id: id } })
+    goDetail: function (dynamic) {
+      let { id, category_name: categoryName } = dynamic
+      this.$router.push({ path: 'dynamicdetail', query: { id, catename: categoryName } })
     }
   }
 }
