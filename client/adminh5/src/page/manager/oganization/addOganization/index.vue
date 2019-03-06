@@ -61,7 +61,7 @@ export default {
                                 }
                             })
                         } else {
-                            this.$message.warn(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         this.$router.push({
                             name: 'oganization'

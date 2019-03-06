@@ -163,7 +163,7 @@ export default {
                         })
                     })
                 } else {
-                   this.$message.warn(res.msg)
+                   this.$message.warning(res.msg)
                 }
                 this.isLoading = false
             }).catch(err=> {
@@ -284,7 +284,7 @@ export default {
                     this.queryData = []
                     this.addExaminee = false
                 } else {
-                    this.$message.warn(res.msg)
+                    this.$message.warning(res.msg)
                     this.addExaminee = false
                 }
                 
@@ -331,7 +331,7 @@ export default {
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
                 }else {
-                    this.$message.warn(res.msg)
+                    this.$message.warning(res.msg)
                 }
                 this.loadingExam = false
             }).catch(err=> {
@@ -349,7 +349,7 @@ export default {
             this.deleteExaminee = true
         },
         deleteexaminee: function(){
-            this.$message.warn('开发中')
+            this.$message.warning('开发中')
             this.deleteExaminee = false
         },
         closeDelete: function(){

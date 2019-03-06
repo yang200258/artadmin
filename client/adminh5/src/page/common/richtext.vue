@@ -112,7 +112,7 @@ export default {
                 // 调整光标到最后
                 quill.setSelection(length + 1)
             } else {
-                this.$message.warn('图片插入失败')
+                this.$message.warning('图片插入失败')
             }
             // loading动画消失
             this.quillUpdateImg = false
@@ -121,7 +121,7 @@ export default {
         uploadError() {
             // loading动画消失
             this.quillUpdateImg = false
-            this.$message.warn('图片插入失败')
+            this.$message.warning('图片插入失败')
         },
         editContent: function($event){
             console.log($event);

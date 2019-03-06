@@ -66,7 +66,7 @@ export default {
                             name: 'signTeacher'
                         })
                         } else {
-                            this.$message.warn(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         
                     })

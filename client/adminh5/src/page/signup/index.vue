@@ -202,7 +202,7 @@ export default {
 
       tickToc: function() {
           if(this.signTime.length <2) {
-              this.$message.warn('请选择报名时间！')
+              this.$message.warning('请选择报名时间！')
           } else {
               this.outputstatus = true
           }

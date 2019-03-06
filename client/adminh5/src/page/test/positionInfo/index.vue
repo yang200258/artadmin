@@ -68,7 +68,7 @@ export default {
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
                 } else {
-                    this.$message.warn(res.msg)
+                    this.$message.warning(res.msg)
                 }
                  this.isLoading = false
             }).catch(err=> {
