@@ -26,7 +26,7 @@ var data = [
     {
         name: '信息管理',
         auth: 'msg',
-        path: '/infoManagement/infoList',
+        path: '/infoManagement',
         // child: [
         //     {
         //         path: '/infoManagement/publishInfo',
@@ -41,7 +41,7 @@ var data = [
     {
         name: '通知管理',
         auth: 'inform',
-        path: '/informManagement/informlist',
+        path: '/informManagement',
         // child: [
         //     {
         //         path: '/informManagement/publishInform',
