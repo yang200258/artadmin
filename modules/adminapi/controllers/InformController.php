@@ -193,7 +193,8 @@ class InformController extends Controller
 
         Inform::deleteAll(['id' => $id]);
         InformUser::deleteAll(['inform_id' => $id]);
-        Record::saveRecord($this->admin->id, 3, "删除通知[$id]");
+        $str_id = implode(',', $id);
+        Record::saveRecord($this->admin->id, 3, "删除通知[$str_id]");
         return $this->ok('删除成功');
     }
 
