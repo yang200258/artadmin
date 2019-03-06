@@ -89,7 +89,7 @@
       <div class="bottom-buttons">
         <div class="cer-buttons clearfix">
           <div v-if="storeUD.userType === roles.teacher || storeUD.userType === roles.institution" class="bottom-button cursor-pointer fl" @click.stop="enrollMore">继续添加</div>
-          <div class="bottom-button cursor-pointer fl" @click.stop="complete">完成</div>
+          <!-- <div class="bottom-button cursor-pointer fl" @click.stop="complete">完成</div> -->
         </div>
       </div>
     </div>

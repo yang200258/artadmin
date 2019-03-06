@@ -1,5 +1,5 @@
 <template>
-  <div class="c-perform cursor-pointer clearfix" :style="{height: height}">
+  <div class="c-perform cursor-pointer clearfix" :style="{height: height}" @click.stop="goDetail(perform.id)">
     <div class="image" :style="{backgroundImage: 'url(' + (perform.cover_url || defaultImg) + ')', backgroundSize: (perform.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="content-box">
       <div class="title">{{perform.title}}</div>
@@ -25,6 +25,11 @@ export default {
     return {
       defaultImg: defaultImg
     }
+  },
+  methods: {
+    goDetail: function (id) {
+      this.$router.push({ path: 'dynamicdetail', query: { id: id } })
+    }
   }
 }
 </script>
@@ -35,7 +40,7 @@ export default {
   overflow: hidden;
 }
 .c-perform:hover{
-  background: #F8F2E8;
+  background: rgba(251,241,230,0.4);
 }
 .content-box{
   padding-top: 5px;
@@ -58,10 +63,10 @@ export default {
   text-overflow: ellipsis;
   padding: 0 4%;
 }
-.title:hover{
+/* .title:hover{
   color: #F5A623;
   text-decoration: underline;
-}
+} */
 .time{
   font-size: 16px;
   line-height: 26px;

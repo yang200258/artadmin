@@ -58,8 +58,8 @@ router.beforeEach((to, from, next) => {
     if (Auth.isLogin()) {
         // 如果当前处于登录状态，并且跳转地址为login，则自动跳回系统首页
         // 这种情况出现在手动修改地址栏地址时
-        console.log('跳转后路径',to);
-        console.log('跳转前路径',from);
+        // console.log('跳转后路径',to);
+        // console.log('跳转前路径',from);
         // if(to.fullPath === '/home') {
         //     next({path: "/sign", replace: true})
         // }
@@ -74,8 +74,8 @@ router.beforeEach((to, from, next) => {
                 console.log("进入权限判断")
                 permissionList.forEach((v) => {
                     // 判断跳转的页面是否在权限列表中
-                    console.log('to.fullPath',to.fullPath.split('/')[1]);
-                    console.log('v.path',v.path.split('/')[1]);
+                    // console.log('to.fullPath',to.fullPath.split('/')[1]);
+                    // console.log('v.path',v.path.split('/')[1]);
                     if(v.path.split('/')[1] == to.fullPath.split('/')[1]){
                         isPermission = true
                     }
