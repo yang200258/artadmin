@@ -82,10 +82,10 @@ export default {
                 data: {id,name,identity,username,apply,exam,msg,inform,admin}
             }).then(res=> {
                 if(res && !res.error) {
-                    alert(res.msg)
+                    this.$message.success(res.msg)
                     this.$router.go(-1)
                 } else {
-                    alert(res.msg)
+                    this.$message.warn(res.msg)
                 }
             }).catch(err=> {
                 console.log(err);

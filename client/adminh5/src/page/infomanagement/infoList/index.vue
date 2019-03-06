@@ -164,7 +164,7 @@ export default {
                     console.log(err);
                 })
             } else {
-                alert('请输入分类信息名称')
+                this.$message.warn('请输入分类信息名称')
             }
         },
         //删除信息分类
@@ -179,7 +179,7 @@ export default {
                 if(res && !res.error) {
                     util.delIdArray(this.category,id)
                 } else {
-                    alert(res.msg)
+                    this.$message.warn(res.msg)
                 }
             }).catch(err=>{
                 console.log(err);

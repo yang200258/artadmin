@@ -96,7 +96,7 @@ export default {
                     this.currentPage = res.data.page.pn
                     this.totalNumber = res.data.page.total
                 } else {
-                    alert(res.msg)
+                    this.$message.warn(res.msg)
                 }
                 this.loadingOganization = false
             }).catch(err=>{
@@ -154,9 +154,9 @@ export default {
                         data: {password,repeat_password,id}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                         } else {
-                            alert(res.msg)
+                            this.$message.warn(res.msg)
                         }
                         this.resetForm.password = ''
                         this.resetForm.repeat_password = ''

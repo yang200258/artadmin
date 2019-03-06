@@ -52,9 +52,9 @@ export default {
                         data: {id,name,organ_address,organ_name,username,organ_area,password,phone}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                         } else {
-                            alert(res.msg)
+                            this.$message.warn(res.msg)
                         }
                         this.$router.push({
                             name: 'oganization'

@@ -61,12 +61,12 @@ export default {
                         data: {name,phone:phoneArr,username:user,password:pass,sex,organ_uid}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                             this.$router.push({
                             name: 'signTeacher'
                         })
                         } else {
-                            alert(res.msg)
+                            this.$message.warn(res.msg)
                         }
                         
                     })

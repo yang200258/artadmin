@@ -68,11 +68,12 @@ export default {
                     this.$store.commit('publishinfo/setquillContent','')
                     this.$store.commit('informobject/setaddInformobject',{})
                     this.$store.commit('informobject/setAddUid',[])
+                    this.$message.success(res.msg)
                     this.$router.push({
                         name: 'informlist'
                     })
                 } else {
-                    alert(res.msg)
+                    this.$message.warn(res.msg)
                 }
             }).catch(err=>{
                 console.log(err);
