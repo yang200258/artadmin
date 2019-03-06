@@ -5,6 +5,7 @@ namespace app\modules\adminapi\controllers;
 use app\models\Apply;
 use app\models\ExamExaminee;
 use app\models\Image;
+use common\helpers\Excel;
 
 class DownloadController extends Controller
 {
@@ -247,7 +248,11 @@ class DownloadController extends Controller
         }
     }
 
-
+    public function actionTest()
+    {
+        $data = [['1','2'],['2','3']];
+        Excel::Export(['测试1', '测试2'], $data, '测试-'.date('YmdHis'));
+    }
 
     //返回当前的毫秒时间戳-用于做压缩文件名
     public function msectime() {
