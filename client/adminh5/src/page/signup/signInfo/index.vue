@@ -54,8 +54,8 @@
                         <el-col :span="8" ><el-button type="primary" plain v-if="(detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级'))" @click="getbase">查看考生基本乐科证书</el-button></el-col>
                     </el-row>
                 </div>
-                <div class="line" v-if="status.domain  == '基本乐科' && status.plan == '4'"></div>
-                <div class="testinfo" v-if="status.domain  == '基本乐科' && status.plan == '4'">
+                <div class="line" v-if="detail.is_continuous"></div>
+                <div class="testinfo" v-if="detail.is_continuous">
                     <el-row>
                         <el-col :span="8">考试名称：{{detail.exam.name}}</el-col>
                         <el-col :span="8">报考专业：{{detail.domain}}</el-col>
