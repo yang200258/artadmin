@@ -14,7 +14,8 @@
                     :before-upload="beforeUpload">
                 </el-upload>
                 <el-row v-loading="quillUpdateImg">
-                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)"></quill-editor>
+                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)"
+                    @blur="blur"></quill-editor>
                 </el-row>
             </el-col>
         </el-row>
@@ -127,6 +128,9 @@ export default {
             console.log($event);
             this.$store.commit('publishinfo/setquillContent',$event.html)
         },
+        blur: function($event){
+            console.log($event);
+        }
     }
 }
 </script>
