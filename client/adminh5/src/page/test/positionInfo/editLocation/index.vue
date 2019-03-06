@@ -59,7 +59,7 @@
                         </el-row>
                     </div>
                     <el-container class="queryResult">
-                        <table-data :isPagination="true" :currentPage="currentPage" :totalNumber="totalNumber" :pageSize="pageSize" :head="headdata" :tableData="queryData" 
+                        <table-data :isPagination="true" :isSelected="true" :currentPage="currentPage" :totalNumber="totalNumber" :pageSize="pageSize" :head="headdata" :tableData="queryData" 
                         @handleCurrentChange="handleCurrentChange"  @handleSelectionChange="handleSelectionChange"></table-data>
                     </el-container>
                 </div>
@@ -87,8 +87,6 @@ import util from '@/util/util'
 export default {
     data(){
         return {
-            head: [{key: 'sort',name: '考生排位号'},{key: 'apply_name',name: '考生姓名'},{key: 'apply_id_number',name: '证件号码'},{key: 'apply_domain',name: '报考专业'},
-                    {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
             examineeData: [],
             isLoading: false,
             sortExaminee: false,
@@ -107,8 +105,10 @@ export default {
             totalNumber: 0,
             pageSize: 50,
             queryData: [],
-            headdata: [{key: 'studentName',name: '姓名'},{key: 'professional',name: '证件号码'},{key: 'level',name: '报考专业'},{key: 'signTime',name: '报考级别'},
-                {key: 'signNo',name: '负责报名机构'},{key: 'idCardType',name: '负责报名老师'}],
+            headdata: [{key: 'name',name: '姓名'},{key: 'id_number',name: '证件号码'},{key: 'domain',name: '报考专业'},{key: 'level',name: '报考级别'},
+                {key: 'user_organ_name',name: '负责报名机构'},{key: 'user_name',name: '负责报名老师'}],
+            head: [{key: 'sort',name: '考生排位号'},{key: 'apply_name',name: '考生姓名'},{key: 'apply_id_number',name: '证件号码'},{key: 'apply_domain',name: '报考专业'},
+                {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
             apply_id_arr: []
         }
     },
@@ -141,6 +141,7 @@ export default {
                     let list = res.data.list
                     list.forEach(item=> {
                         util.flatData(item).then(r=> {
+                            if(r.apply_user_type == '0') r.apply_user_name = r.apply_adviser
                             examineeData.push(r)
                             sortData.push({name: r.apply_name,id:r.id})
                             this.sortData = sortData
@@ -249,10 +250,11 @@ export default {
                 this.addExaminee = false
             })
         },
+        //*************选择考生 */
         handleSelectionChange: function(val) {
             const apply_id_arr = []
             val.forEach(item=> {
-                apply_id_arr.push(item.apply_id)
+                apply_id_arr.push(item.id)
             })
             this.apply_id_arr = apply_id_arr
         },
@@ -266,13 +268,21 @@ export default {
         queryInfo(pn){
             pn = pn || 1
             const {name,domain,level,id_number,organ_name,teacher_name,exam_id} = this
+            let exam = []
             this.$axios({
                 url: '/examinee',
                 method: 'post',
                 data: {name,domain,level,id_number,organ_name,teacher_name,exam_id,pn}
             }).then(res=> {
                 if(res && !res.error) {
-                    this.queryData = res.data.list
+                    const list = res.data.list
+                    list.forEach(item=> {
+                        util.flatData(item).then(l=> {
+                            if(l.user_type == '0') l.user_name = l.adviser
+                            exam.push(l)
+                        })
+                    })
+                    this.queryData = exam
                     this.pageSize = res.data.page.limit
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
