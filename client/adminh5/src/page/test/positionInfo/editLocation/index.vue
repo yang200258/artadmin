@@ -172,52 +172,64 @@ export default {
         downloadTable: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            // let url = 'https://www.hnyskj.net/adminapi/download/bm?token='
-            // let link = document.createElement('a')
-            // link.style.display = 'none'
-            // link.href = url
-            // document.body.appendChild(link)
-            // link.click()
-            this.$axios({
-                url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
-                method: 'get',
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载报名表',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载报名表',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
         //批量下载准考证
         downloadCard: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            this.$axios({
-                url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
-                method: 'get',
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载准考证',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载准考证',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
         //批量下载照片
         downloadPic: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            this.$axios({
-                url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
-                method: 'get',
-            }).then(res=> {
-                if(res && !res.error) {
-                    console.log('批量下载照片',res);
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
+            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
+            // this.$axios({
+            //     url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
+            //     method: 'get',
+            // }).then(res=> {
+            //     if(res && !res.error) {
+            //         console.log('批量下载照片',res);
+            //     }
+            // }).catch(err=> {
+            //     console.log(err);
+            // })
         },
 
 
