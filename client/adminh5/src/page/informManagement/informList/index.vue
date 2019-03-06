@@ -18,7 +18,7 @@
             </el-row>
         </div>
         <div class="inform-footer">
-            <table-data :isDelete="'true'" :isEdit="'true'" :deleteName="'删除'" :isSelected="'true'" :head="informHead" :tableData="informListData" :isOption="'true'" :loadingTable="loadingInformList" 
+            <table-data :isDelete="'true'" :isEditOption="'true'" :deleteName="'删除'" :isSelected="'true'" :head="informHead" :tableData="informListData" :isOption="'true'" :loadingTable="loadingInformList" 
             :isEditTable="'true'" :isDeleteTable="'true'" :editTableName="'编辑'" :deleteTableName="'删除'" @editInfo="editInfo" @deleteInfo="deleteInfo" 
             @handleCurrentChange="handleCurrentChange" @handleSelectionChange="handleSelectionChange" @deleteOption="deleteOption" :optionName="'发布通知'" @option="publishInform">
             </table-data>
