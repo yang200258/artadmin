@@ -84,6 +84,7 @@
 <script>
 import draggable from 'vuedraggable'
 import util from '@/util/util'
+import Auth from '@/util/auth'
 export default {
     data(){
         return {
@@ -109,7 +110,9 @@ export default {
                 {key: 'user_organ_name',name: '负责报名机构'},{key: 'user_name',name: '负责报名老师'}],
             head: [{key: 'sort',name: '考生排位号'},{key: 'apply_name',name: '考生姓名'},{key: 'apply_id_number',name: '证件号码'},{key: 'apply_domain',name: '报考专业'},
                 {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
-            apply_id_arr: []
+            apply_id_arr: [],
+            exam_site_id: '',
+            exam_id: ''
         }
     },
     components: {
@@ -167,11 +170,17 @@ export default {
         },
         //批量下载报名表
         downloadTable: function(){
-            const exam_site_id = this.$route.params.exam_site_id
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
+            // let url = 'https://www.hnyskj.net/adminapi/download/bm?token='
+            // let link = document.createElement('a')
+            // link.style.display = 'none'
+            // link.href = url
+            // document.body.appendChild(link)
+            // link.click()
             this.$axios({
-                url: '/download/bm',
-                method: 'post',
-                data: {exam_site_id}
+                url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
+                method: 'get',
             }).then(res=> {
                 if(res && !res.error) {
                     console.log('批量下载报名表',res);
@@ -182,11 +191,11 @@ export default {
         },
         //批量下载准考证
         downloadCard: function(){
-            const exam_site_id = this.$route.params.exam_site_id
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
             this.$axios({
-                url: '/download/kz',
-                method: 'post',
-                data: {exam_site_id}
+                url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
+                method: 'get',
             }).then(res=> {
                 if(res && !res.error) {
                     console.log('批量下载准考证',res);
@@ -197,11 +206,11 @@ export default {
         },
         //批量下载照片
         downloadPic: function(){
-            const exam_site_id = this.$route.params.exam_site_id
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
             this.$axios({
-                url: '/download/zp',
-                method: 'post',
-                data: {exam_site_id}
+                url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
+                method: 'get',
             }).then(res=> {
                 if(res && !res.error) {
                     console.log('批量下载照片',res);
@@ -215,8 +224,10 @@ export default {
         //考生排序系列操作*****
         saveSort: function(){
             const exam_site_id  = this.$route.params.exam_site_id
-            console.log(this.sortData);
             const id_arr = []
+            this.sortData.forEach(item=> {
+                id_arr.push(item.id)
+            })
             this.$axios({
                 url: '/examinee/sort',
                 method: 'post',
