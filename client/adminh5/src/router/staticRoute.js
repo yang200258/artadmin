@@ -354,11 +354,12 @@ const staticRoute = [
         children: [
             {
                 path: 'publishInfo',
+                name: 'publishInfo',
                 component: publishInfo,
                 meta: {name: '发布信息'}
             },
             {
-                path: 'infoList',
+                path: '',
                 name: 'infoList',
                 component: infoList,
                 meta: {name: '信息管理'},
@@ -389,7 +390,7 @@ const staticRoute = [
                 meta: {name: '通知对象'}
             },
             {
-                path: 'informlist',
+                path: '',
                 name: 'informlist',
                 component: informList,
                 meta: {name: '通知列表'}

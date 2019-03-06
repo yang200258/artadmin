@@ -26,30 +26,32 @@ var data = [
     {
         name: '信息管理',
         auth: 'msg',
-        child: [
-            {
-                path: '/infoManagement/publishInfo',
-                name: '发布信息',
-            },
-            {
-                path: '/infoManagement/infoList',
-                name: '信息列表',
-            }
-        ]
+        path: '/infoManagement/infoList',
+        // child: [
+        //     {
+        //         path: '/infoManagement/publishInfo',
+        //         name: '发布信息',
+        //     },
+        //     {
+        //         path: '/infoManagement/infoList',
+        //         name: '信息列表',
+        //     }
+        // ]
     },
     {
         name: '通知管理',
         auth: 'inform',
-        child: [
-            {
-                path: '/informManagement/publishInform',
-                name: '发布通知',
-            },
-            {
-                path: '/informManagement/informlist',
-                name: '通知列表',
-            }
-        ]
+        path: '/informManagement/informlist',
+        // child: [
+        //     {
+        //         path: '/informManagement/publishInform',
+        //         name: '发布通知',
+        //     },
+        //     {
+        //         path: '/informManagement/informlist',
+        //         name: '通知列表',
+        //     }
+        // ]
     },
     {
         name: '管理员管理',

@@ -7,12 +7,15 @@
                         <el-pagination v-if="isPagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[50, 100, 150, 200]" background :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalNumber">
                         </el-pagination>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="14">
                         <el-row type="flex" justify-content="end">
-                            <el-col :span="8" :offset="10">
+                            <el-col :span="2">
+                                <el-button type="primary" @click.prevent="option"  v-if="isEdit">{{optionName}}</el-button>
+                            </el-col>
+                            <el-col :span="4"  :offset="10">
                                 <el-button type="primary" @click.prevent="editOption"  v-if="isEdit">{{editName}}</el-button>
                             </el-col>
-                            <el-col :span="6"><el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button></el-col>
+                            <el-col :span="6" :offset="4"><el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button></el-col>
                         </el-row>
                     </el-col>
                 </el-row>
@@ -53,7 +56,7 @@ export default {
     components: {
     },
     props: ['isEditAccount','editAccountName','loadingAddInformTable','addInformData','editType','isPagination','head','loadingTable','currentPage','pageSize','totalNumber','isEdit','isDelete','tableData',
-             'editName','deleteName','isEditTable','editTableName','isDeleteTable','deleteTableName','isSelected','isOption'],
+             'editName','deleteName','isEditTable','editTableName','isDeleteTable','deleteTableName','isSelected','isOption','optionName'],
     methods: {
         handleSizeChange(val) {
             
@@ -84,6 +87,9 @@ export default {
         getRowKey: function(row){
             this.$emit('getRowKey',row)
         },
+        option: function(){
+            this.$emit('option')
+        }
 
     }
 }
