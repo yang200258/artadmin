@@ -17,7 +17,7 @@ class LoginController extends Controller
             return $this->error('获取登录态失败', 401);
         }else{
 
-            if ($sessionKeyArr['unionid'])
+            if (isset($sessionKeyArr['unionid']))
             {
                 $user = User::findOne(['union_id' => $sessionKeyArr['unionid']]);
                 if (!$user){
@@ -39,6 +39,10 @@ class LoginController extends Controller
                 //如果没有unionId，需解密获得unionId
                 $iv = $request->getBodyParam('iv');
                 $encryptedData = $request->getBodyParam('encryptedData');
+                if (!$iv || !$encryptedData)
+                {
+                    return $this->error('需要授权信息', 401);
+                }
                 require_once(\Yii::getAlias('@app') . "/components/wx_decode/wxBizDataCrypt.php");
                 $weiXinConfig = \Yii::$app->params['weixin'];
                 $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
@@ -46,7 +50,7 @@ class LoginController extends Controller
 
                 if ($errCode == 0)
                 {
-                    $user = User::findOne(['union_id' => $sessionKeyArr['unionid']]);
+                    $user = User::findOne(['union_id' => $data->unionId]);
                     if (!$user){
                         $user = new User();
                         $user->openid = $sessionKeyArr['openid'];
