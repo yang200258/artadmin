@@ -90,13 +90,13 @@ class OrganController extends Controller
             return $this->error('存在相同账号');
         }
         $user = new User();
+        $user->username = $username;
         $user->name = $name;
         $user->organ_address = $organ_address;
         $user->phone = implode(',', $phone);
         $user->organ_name = $organ_name;
         $user->organ_area = $organ_area;
         $user->type = User::TYPE_ORGAN;
-        $user->create_at= date("Y-m-d H:i:s",time());
         $user->setPassword($password);
         $user->generateAuthKey();
         if (!$user->save(false))
@@ -169,12 +169,7 @@ class OrganController extends Controller
         {
             return $this->error('修改失败');
         }
-
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "编辑机构[$name]信息";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "编辑机构[$name]信息");
         return $this->ok('修改成功');
     }
 
@@ -191,12 +186,7 @@ class OrganController extends Controller
         } catch (\Throwable $e) {
             return $this->error('删除失败');
         }
-
-        $record = new Record();
-        $record->admin_id = $this->admin->id;
-        $record->content = "删除机构[$organName]";
-        $record->type = 5;
-        $record->save(false);
+        Record::saveRecord($this->admin->id, 5, "删除机构[$organName]");
         return $this->ok('删除成功');
     }
 
