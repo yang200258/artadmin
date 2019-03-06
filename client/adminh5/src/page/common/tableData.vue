@@ -56,7 +56,7 @@ export default {
     components: {
     },
     props: ['isEditAccount','editAccountName','loadingAddInformTable','addInformData','editType','isPagination','head','loadingTable','currentPage','pageSize','totalNumber','isEdit','isDelete','tableData',
-             'editName','deleteName','isEditTable','editTableName','isDeleteTable','deleteTableName','isSelected','isOption','optionName'],
+             'editName','deleteName','isEditTable','editTableName','isDeleteTable','deleteTableName','isSelected','isOption','optionName','isEditOption'],
     methods: {
         handleSizeChange(val) {
             

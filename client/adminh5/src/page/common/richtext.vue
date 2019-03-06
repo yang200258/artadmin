@@ -41,7 +41,9 @@ const toolbarOptions = [
   ['link', 'image', 'video'],
   ['clean']                                         // remove formatting button
 ]
-import {quillEditor} from 'vue-quill-editor' //调用编辑器
+import {quillEditor, Quill} from 'vue-quill-editor' //调用编辑器
+import { ImageExtend} from 'quill-image-extend-module'
+Quill.register('modules/ImageExtend', ImageExtend)
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -55,14 +57,14 @@ export default {
                 placeholder: '',
                 theme: 'snow',
                 modules: {
-                    // ImageExtend: {
-                    //     loading: true,
-                    //     name: 'img',
-                    //     action: "https://www.hnyskj.net/adminapi/upload",
-                    //     response: (res) => {
-                    //         return res.data.url[0]
-                    //     }
-                    // },
+                    ImageExtend: {
+                        loading: true,
+                        name: 'img',
+                        action: "https://www.hnyskj.net/adminapi/upload",
+                        response: (res) => {
+                            return res.data.url[0]
+                        }
+                    },
                     toolbar: {
                         container: toolbarOptions,
                         handlers:{
