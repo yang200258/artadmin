@@ -85,7 +85,7 @@ export default {
                     this.$message.success(res.msg)
                     this.$router.go(-1)
                 } else {
-                    this.$message.warn(res.msg)
+                    this.$message.warning(res.msg)
                 }
             }).catch(err=> {
                 console.log(err);

@@ -90,7 +90,7 @@ export default {
                   this.pn = res.data.page.pn
                   this.limit = res.data.list.limit
               } else {
-                  this.$message.warn(res.msg)
+                  this.$message.warning(res.msg)
               }
               this.loadingManager = false
           }).catch(err=> {
@@ -155,7 +155,7 @@ export default {
                         if(res && !res.error) {
                             this.$message.success(res.msg)
                         } else {
-                            this.$message.warn(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         this.isResetPassword = false
                     }).catch(err=> {

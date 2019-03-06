@@ -81,7 +81,7 @@ export default {
                   })
                 this.testData = res.data.list
               } else {
-                  this.$message.warn(res.msg)
+                  this.$message.warning(res.msg)
               }
               this.isLoading = false
           }).catch(err=> {

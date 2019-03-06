@@ -73,7 +73,7 @@ export default {
                         name: 'informlist'
                     })
                 } else {
-                    this.$message.warn(res.msg)
+                    this.$message.warning(res.msg)
                 }
             }).catch(err=>{
                 console.log(err);

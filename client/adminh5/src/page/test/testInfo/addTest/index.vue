@@ -101,7 +101,7 @@ export default {
                         this.$message.success(res.msg)
                         
                     } else {
-                        this.$message.warn(res.msg)
+                        this.$message.warning(res.msg)
                     }
                 })
         }

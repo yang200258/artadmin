@@ -52,7 +52,7 @@ export default {
                     this.$store.commit('publishinfo/setquillContent',res.data.content)
                     this.status = true
                 } else {
-                    this.$message.warn('无法获取该信息详情，请重试！')
+                    this.$message.warning('无法获取该信息详情，请重试！')
                     this.status = true
                 }
             }).catch(err=>{
@@ -81,9 +81,12 @@ export default {
             }).then(res=> {
                 console.log('保存信息响应',res);
                 if(res && !res.error) {
+                    this.$message.success(res.msg)
                     this.$router.push({
                         name: 'infoList'
                     })
+                } else {
+                    this.$message.warning(res.msg)
                 }
             }).catch(err=>{
                 console.log(err);
