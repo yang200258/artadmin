@@ -44,8 +44,13 @@ class Controller extends \yii\rest\Controller
         {
             return true;
         }
-
-        $token = \Yii::$app->request->post('token');
+        if (in_array($this->id, ['download']))
+        {
+            $token = \Yii::$app->request->get('token');
+        }else
+        {
+            $token = \Yii::$app->request->post('token');
+        }
         if (!$token)
         {
             $resp = \Yii::$app->response;
