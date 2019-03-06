@@ -34,7 +34,7 @@ class DownloadController extends Controller
             }
         }
         $zip->close();
-        header("Content-Type: application/zip");
+        header("Content-Type: application/octet-stream");
         header("Content-Transfer-Encoding: Binary");
         header("Content-Length: " . filesize($zipname));
         header("Content-Disposition: attachment; filename=\"" . basename($zipname) . "\"");
