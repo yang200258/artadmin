@@ -32,6 +32,8 @@ export default {
   },
   components: { TopInfo, TopBar, BottomInfo, SubNav },
   mounted: function () {
+    let cateName = this.$route.query.catename
+    this.subNavs[this.subNavs.length - 1].label = cateName + '详情'
     this.fetchDynamc()
   },
   methods: {
@@ -39,6 +41,9 @@ export default {
       this.$ajax('/msg/detail', { data: { id: this.$route.query.id } }).then(res => {
         if (res && !res.error) { // 获取成功
           this.dynamic = res.data
+          if (res.data.category_name) { // 设置label
+            this.subNavs[this.subNavs.length - 1].label = res.data.category_name + '详情'
+          }
         }
       }).catch(err => {
         console.log('err', err)

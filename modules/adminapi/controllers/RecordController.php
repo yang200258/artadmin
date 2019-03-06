@@ -17,10 +17,9 @@ class RecordController extends Controller
         $list = $model
             ->with([
                 'admin' => function ($q) {
-                    $q->select('name');
+                    $q->select('id,name');
                 }
             ])
-            ->orderBy('id desc')
             ->offset($this->offset)
             ->limit($this->limit)
             ->asArray()
