@@ -59,7 +59,7 @@
         <div class="download">
             <el-button type="primary" @click="tickToc">导出考级录入系统报名表</el-button>
         </div>
-        <el-dialog title="提示" :before-close="output = 'false'" :visible="output" width="60%" :center="true" :lock-scroll="false">
+        <el-dialog title="提示" :before-close="output" :visible="outputstatus" width="60%" :center="true" :lock-scroll="false">
             <p>导出名单包括本期已缴费未缺考顺延的考生，以及上期已缴费缺考顺延的考生</p>
             <span slot="footer">
                 <el-button @click="output = 'false'">取消</el-button>
@@ -103,7 +103,7 @@ export default {
             totalNumber: 0,
             currentPage: 1,
             pageSize: 50,
-            output: false
+            outputstatus: false
         }
         
     },
@@ -204,12 +204,15 @@ export default {
           if(this.signTime.length <2) {
               this.$message.warn('请选择报名时间！')
           } else {
-              this.output = true
+              this.outputstatus = true
           }
       },
       //导出考级录入系统报名表
       saveOutput: function() {
 
+      },
+      output: function(){
+          this.outputstatus = false
       },
       //改变报考专业对应报考级别
       changeSelect: function(val) {
