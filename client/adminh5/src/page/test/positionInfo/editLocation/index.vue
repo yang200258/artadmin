@@ -12,7 +12,7 @@
          <!-- 考生排序弹出层 -->
         <el-dialog :before-close="closeSort" title="考生排序" width="30%" :visible="sortExaminee">
             <span>(按住拖动进行排序)</span>
-                <draggable element="ul" v-model="sortData" @move="changeSort">
+                <draggable element="ul" v-model="sortData">
                     <transition-group>
                         <li v-for="item in sortData" :key="item.id">
                             {{item.name}}
@@ -36,14 +36,14 @@
                             </el-col>
                             <el-col :span="8"><p>报考专业：</p>
                                 <el-select v-model="domain" placeholder="全部">
-                                    <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
+                                    <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.label"> </el-option>
                                 </el-select>
                             </el-col>
                         </el-row>
                         <el-row :gutter="40">
                             <el-col :span="8" :offset="0"><p>报考级别：</p>
                                 <el-select v-model="level" placeholder="全部">
-                                    <el-option v-for="item in levelOptions" :key="item.value" :label="item.value" :value="item.value"> </el-option>
+                                    <el-option v-for="item in levelOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
                                 </el-select>
                             </el-col>
                             <el-col :span="8"><p>负责报名机构：</p>
@@ -73,7 +73,7 @@
                 <p>删除该考生后，请及时安排该考生的考场信息并重新下载该考生的准考证和报名表</p>
                 <span slot="footer">
                     <el-button @click="cancelDelete">取消</el-button>
-                    <el-button @click="deleteExaminee">保存</el-button>
+                    <el-button @click="deleteexaminee">保存</el-button>
                 </span>
             </el-dialog>
         <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :isLoadingTable="isLoading">
@@ -117,7 +117,10 @@ export default {
     },
     mounted(){
         this.getExamineeInfo()
-        this.exam_id  = this.$route.params.exam_id 
+        if(this.$route.params) {
+            this.exam_id  = this.$route.params.exam_id
+            this.exam_site_id  = this.$route.params.exam_site_id 
+        }
     },
     computed: {
         domainOptions() {
@@ -141,8 +144,12 @@ export default {
                     let list = res.data.list
                     list.forEach(item=> {
                         util.flatData(item).then(r=> {
-                            console.log(r);
-                            if(r.apply_user_type == '0') r.apply_user_name = r.apply_adviser
+                            if(r.apply_user.type == '0') {
+                                r.apply_user_name = r.apply_adviser
+                            } else {
+                                r.apply_user_name = r.apply_user.name
+                            }
+                            r.apply_user_organ_name = r.apply_user.organ_name
                             examineeData.push(r)
                             sortData.push({name: r.apply_name,id:r.id})
                             this.sortData = sortData
@@ -160,10 +167,11 @@ export default {
         },
         //批量下载报名表
         downloadTable: function(){
+            const exam_site_id = this.$route.params.exam_site_id
             this.$axios({
                 url: '/download/bm',
                 method: 'post',
-                data: {}
+                data: {exam_site_id}
             }).then(res=> {
                 if(res && !res.error) {
                     console.log('批量下载报名表',res);
@@ -174,10 +182,11 @@ export default {
         },
         //批量下载准考证
         downloadCard: function(){
+            const exam_site_id = this.$route.params.exam_site_id
             this.$axios({
                 url: '/download/kz',
                 method: 'post',
-                data: {}
+                data: {exam_site_id}
             }).then(res=> {
                 if(res && !res.error) {
                     console.log('批量下载准考证',res);
@@ -188,10 +197,11 @@ export default {
         },
         //批量下载照片
         downloadPic: function(){
+            const exam_site_id = this.$route.params.exam_site_id
             this.$axios({
                 url: '/download/zp',
                 method: 'post',
-                data: {}
+                data: {exam_site_id}
             }).then(res=> {
                 if(res && !res.error) {
                     console.log('批量下载照片',res);
@@ -212,15 +222,13 @@ export default {
                 method: 'post',
                 data: {exam_site_id,id_arr }
             }).then(res=> {
+                console.log('考生排序结果',res)
                 if(res && !res.error) {
-                    console.log('考生排序结果',res)
+                    this.getExamineeInfo()
                 }
             }).catch(err=> {
                 console.log(err);
             })
-        },
-        changeSort: function(evt){
-            console.log(evt);
         },
         closeSort: function(){
             this.sortExaminee = false
@@ -305,8 +313,9 @@ export default {
         deleteInfo(){
             this.deleteExaminee = true
         },
-        deleteExaminee: function(){
+        deleteexaminee: function(){
             alert('开发中')
+            this.deleteExaminee = false
         },
         closeDelete: function(){
             this.deleteExaminee = false

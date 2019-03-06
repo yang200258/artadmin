@@ -146,8 +146,7 @@ export default {
                 scope: 'snsapi_login',
                 redirect_uri: 'https%3A%2F%2Fwww.hnyskj.net%2Flogin%2Fwx-call-back',
                 state: state,
-                style: 'white',
-                href: ''
+                style: 'white'
               })
               this.getWxLoginToken(state)
             })

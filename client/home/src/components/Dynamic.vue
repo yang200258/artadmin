@@ -1,5 +1,5 @@
 <template>
-  <div class="c-dynamic cursor-pointer clearfix" :class="{['mode' + mode]: true}">
+  <div class="c-dynamic cursor-pointer clearfix" :class="{['mode' + mode]: true}" @click.stop="goDetail(dynamic.id)">
     <div class="image" :class="{fl: mode === '1', ['mode' + mode]: true}" :style="{backgroundImage: 'url(' + (dynamic.cover_url || defaultImg) + ')', backgroundSize: (dynamic.cover_url ? 'cover' : '120px 120px')}"></div>
     <div class="content-box" :class="{fr: mode === '1', ['mode' + mode]: true}">
       <div class="content-top" :class="{['mode' + mode]: true}">
