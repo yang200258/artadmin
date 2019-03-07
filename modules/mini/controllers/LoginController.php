@@ -17,18 +17,9 @@ class LoginController extends Controller
             return $this->error('获取登录态失败', 401);
         }else{
             $this->log(json_encode($sessionKeyArr));
-            if (isset($sessionKeyArr['unionid']))
+            $user = User::findOne(['openid' => $sessionKeyArr['openid']]);
+            if (isset($user->union_id))
             {
-                $user = User::findOne(['union_id' => $sessionKeyArr['unionid']]);
-                if (!$user){
-                    $user = new User();
-                    $user->openid = $sessionKeyArr['openid'];
-                    $user->union_id = $sessionKeyArr['unionid'];
-                    $user->create_at = date("Y-m-d h:i:s",time());
-                    if (!$user->save(false)){
-                        return $this->error('用户创建失败', 401);
-                    }
-                }
                 $sessionString = md5($sessionKeyArr['openid'] . $sessionKeyArr['session_key']);
                 \Yii::$app->cache->set($sessionString, $sessionKeyArr, 3600 * 24 * 30);
                 $user->token = $sessionString;
