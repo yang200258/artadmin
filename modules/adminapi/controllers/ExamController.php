@@ -4,6 +4,7 @@ namespace app\modules\adminapi\controllers;
 
 
 
+use app\models\Apply;
 use app\models\Exam;
 use app\models\ExamExaminee;
 use app\models\ExamSite;
@@ -178,7 +179,7 @@ class ExamController extends Controller
             }
             // 批量记录考点信息
             \Yii::$app->db->createCommand()
-                ->batchInsert(ExamSite::tableName(), $examSiteRecordKey, $examSiteRecordData)
+                ->batchInsert(Record::tableName(), $examSiteRecordKey, $examSiteRecordData)
                 ->execute();
         }
         Record::saveRecord($this->admin->id, 2, "新增考试：$name");
@@ -231,14 +232,16 @@ class ExamController extends Controller
         $exam->exam_time_start = $exam_time_start;
         $exam->exam_time_end = $exam_time_end;
         $exam->save(false);
-        ExamSite::deleteAll(['exam_id' => $exam->id]);
 
-        //todo: 这里考点编辑处理比较直接，所以就先不记录考点的编辑信息了
         if ($exam_site)
         {
             foreach ($exam_site as $one)
             {
-                $site = new ExamSite();
+                $site = ExamSite::findOne(['id' => $one['id'], 'exam_id' => $exam->id]);
+                if (!$site)
+                {
+                    $site = new ExamSite();
+                }
                 $site->exam_id = $exam->id;
                 $site->address = $one['address'];
                 $site->room = $one['room'];
@@ -249,6 +252,49 @@ class ExamController extends Controller
         Record::saveRecord($this->admin->id, 2, "编辑考试：$name");
 
         return $this->ok('修改成功');
+    }
+
+    public function actionDetail()
+    {
+        $request = \Yii::$app->request;
+        $id = $request->post('id');
+        if (!$id)
+        {
+            return $this->error('参数错误');
+        }
+        $exam = Exam::findOne($id);
+        if (!$exam)
+        {
+            return $this->error('考试不存在');
+        }
+        $ExamSite = ExamSite::find()->where(['exam_id' => $id])->asArray()->all();
+        array_walk($ExamSite, function (&$val){
+            $val['is_arrange'] = ExamExaminee::find()->where(['exam_site_id' => $val['id']])->exists();
+        });
+
+        return $this->json(['exam' => $exam, 'exam_site' => $ExamSite]);
+    }
+
+    public function actionDeleteExamSite()
+    {
+        $request = \Yii::$app->request;
+        $id = $request->post('id');
+        if (!$id)
+        {
+            return $this->error('参数错误');
+        }
+        $ExamSite  = ExamSite::findOne($id);
+        if (!$ExamSite)
+        {
+            return $this->error('考场不存在或已被删除');
+        }
+        //删除考场，清空考场关联信息
+        Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id1' => $id]);
+        Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id2' => $id]);
+        ExamExaminee::deleteAll(['exam_site_id' => $id]);
+        ExamSite::deleteAll(['id' => $id]);
+
+        return $this->ok('删除成功');
     }
 
 
@@ -266,8 +312,8 @@ class ExamController extends Controller
             ->innerJoin('exam', 'exam.id = exam_site.exam_id')
             ->andFilterWhere(['number' => $number])
             ->andFilterWhere(['address' => $address])
-            ->andFilterWhere(['<', 'exam_time', $exam_time_start])
-            ->andFilterWhere(['>', 'exam_time', $exam_time_end]);
+            ->andFilterWhere(['>=', 'exam_time', $exam_time_start])
+            ->andFilterWhere(['<=', 'exam_time', $exam_time_end ? $exam_time_end . ' 23:59:59' : null]);
 
         $total = $model->count();
 

@@ -49,4 +49,9 @@ class ExamSite extends \yii\db\ActiveRecord
             'exam_time' => '考试时间',
         ];
     }
+
+    public function getExam()
+    {
+        return $this->hasOne(Exam::class, ['id' => 'exam_id']);
+    }
 }

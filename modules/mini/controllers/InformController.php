@@ -19,7 +19,7 @@ class InformController extends Controller
         array_walk($list, function (&$val){
             if (in_array($val['inform']['type'], [1,2,3,4,5,6]))
             {
-                $val['inform']['content'] = htmlspecialchars($val['inform']['content']);
+                $val['inform']['content'] = strip_tags($val['inform']['content']);
             }
            $val['inform']['detail'] = $this->createMiniUrl('/miniappmessage?id=' . $val['inform']['id']);
         });

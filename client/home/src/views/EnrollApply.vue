@@ -481,7 +481,8 @@ export default {
       years: years,
       months: months,
       editPinyin: false,
-      form: initialForm
+      form: initialForm,
+      saveTimer: null
     }
   },
   computed: {
@@ -492,6 +493,11 @@ export default {
     this.exam_id = this.$route.query.id
     this.getOptions()
     this.getForm()
+  },
+  deactivated () {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer)
+    }
   },
   methods: {
     getOptions: function () {
@@ -875,6 +881,12 @@ export default {
         continuitys: _continuitys
       })
       this.$toast('保存成功')
+      if (this.saveTimer) {
+        clearTimeout(this.saveTimer)
+      }
+      this.saveTimer = setTimeout(() => {
+        this.$router.go(-1)
+      }, 2000)
     },
     getForm: function () {
       let applyForm = window.localStorage.applyForm ? JSON.parse(window.localStorage.applyForm) : {}
@@ -908,6 +920,7 @@ export default {
         }
         this.submitting = true
         this.$ajax('/apply/add', { data: formData }).then(res => {
+          this.submitting = false
           if (res && (res.error === 0 || res.error) && res.data) { // 提交表单成功
             this.submitSuccess(res.data.id)
           }

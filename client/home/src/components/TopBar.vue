@@ -15,9 +15,9 @@ export default {
           link: '/'
         },
         {
-          name: 'Enroll',
+          name: 'EnrollNotice',
           label: '考级报名',
-          link: '/enroll'
+          link: '/enroll/notice'
         },
         {
           name: 'Dynamic',
