@@ -24,6 +24,9 @@ export default {
         testInfo,
         testLocation
     },
+    mounted() {
+        this.$store.commit('test/setExamSite',{})
+    },
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
