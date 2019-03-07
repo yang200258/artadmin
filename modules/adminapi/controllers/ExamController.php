@@ -178,7 +178,7 @@ class ExamController extends Controller
             }
             // 批量记录考点信息
             \Yii::$app->db->createCommand()
-                ->batchInsert(ExamSite::tableName(), $examSiteRecordKey, $examSiteRecordData)
+                ->batchInsert(Record::tableName(), $examSiteRecordKey, $examSiteRecordData)
                 ->execute();
         }
         Record::saveRecord($this->admin->id, 2, "新增考试：$name");
