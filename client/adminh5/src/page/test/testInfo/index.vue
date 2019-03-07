@@ -25,7 +25,8 @@
             </el-row>
         </div>
         <table-data :isPagination="'true'" :totalNumber="totalNumber" :currentPage="currentPage" :pageSize="pageSize" :head="head" :tableData="testData" :isOption="'true'"
-        :isEditTable="'true'" :isEdit="'true'" :editTableName="'查看详情'" :loadingTable="isLoading" @editInfo="editTest" @editOption="addTest" :editName="'添加考试'"></table-data>
+        :isEditTable="'true'" :isEdit="'true'" :isEditAccount="'true'" :editAccountName="'考场安排'" :editTableName="'查看详情'" :loadingTable="isLoading" @editInfo="editTest" 
+        @editOption="addTest" :editName="'添加考试'" @editAccount="testPosition"></table-data>
     </div>
 </template>
 
@@ -96,6 +97,16 @@ export default {
       },
       editTest(){
           this.$router.push({name: 'editTest'})
+      },
+      //进入考场安排页面
+      testPosition: function(scope) {
+          this.$router.push({
+              name: 'positionInfo',
+              params: {
+                  number: scope.row.number,
+                  name: scope.row.name
+              }
+          })
       }
     }
 }

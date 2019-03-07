@@ -316,7 +316,7 @@ const staticRoute = [
         component: Layout,
         children: [
             {
-                path: 'testInfo',
+                path: '',
                 name: 'testInfo',
                 component: testInfo,
                 meta: {name: '考试管理'}

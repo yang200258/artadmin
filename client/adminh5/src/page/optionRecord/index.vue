@@ -12,10 +12,11 @@ export default {
             total: 200,
             limit: 50,
             pn: 1,
-            head: [{key:'id',name: '管理员ID'},{key:'name',name: '姓名'},{key:'optionType',name: '操作类型'},
-                    {key:'optionContent',name: '操作内容'},{key:'optionTime',name: '操作时间'}],
+            head: [{key:'admin_id',name: '管理员ID'},{key:'admin_name',name: '姓名'},{key:'optiontype',name: '操作类型'},
+                    {key:'content',name: '操作内容'},{key:'create_at',name: '操作时间'}],
             optionData: [],
-            loadingOptionRecord: false
+            loadingOptionRecord: false,
+            optionType: ['报名管理','考试管理','通知管理','信息管理','管理员管理']
         }
     },
     mounted(){
@@ -32,13 +33,17 @@ export default {
             this.loadingOptionRecord = true
             pn = pn || 1
             this.$axios({
-                url: '/optionRecord',
+                url: '/record/list',
                 method: 'post',
                 data: {pn}
             }).then(res=>{
                 console.log('获取到的操作数据',res)
                 if(res && !res.error) {
-                    this.optionData = res.data.list
+                    const list = res.data.list
+                    list.forEach(item=> {
+                        item.optiontype = this.optionType[item.type-1]
+                    })
+                    this.optionData = list
                     this.$set(this,'',res.data.page)
                 } else {
                     this.$message.warning(res.msg)
