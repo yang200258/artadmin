@@ -5,6 +5,7 @@ namespace app\modules\adminapi\controllers;
 use app\helpers\Excel;
 use app\models\Apply;
 use app\models\ExamExaminee;
+use app\models\ExamSite;
 use app\models\Image;
 
 class DownloadController extends Controller
@@ -184,7 +185,43 @@ class DownloadController extends Controller
     public function actionTest()
     {
         $data = [['1','2'],['2','3']];
-        Excel::Export(['测试1', '测试2'], $data, '测试-'.date('YmdHis'));
+        Excel::ExportPro(['测试1', '测试2'], $data, '测试-'.date('YmdHis'), 3);
+    }
+
+    public function actionSiteApplyList()
+    {
+        $request = \Yii::$app->request;
+        $examSiteId = $request->get('id'); // 考场id
+
+        if (!$examSiteId) {
+            return $this->error('参数错误');
+        }
+        // 获取考场信息
+        $examSite = ExamSite::findOne($examSiteId);
+        if (!$examSite) {
+            return $this->error('没有查询到考场信息');
+        }
+        $title = "{$examSite->exam->name}名单\n（{$examSite->exam->exam_time_start} {$examSite->room}）";
+        $fileName = "{$examSite->exam->name}名单";
+        $header = ['序号', '姓名', '性别', '出生', '民族', '报考级别',
+            '报考专业', '联系电话', '指导老师', '交费单号', '考试时间', '备注'];
+        // 获取考生信息
+        $applies = Apply::find()
+            ->with('pay')
+            ->where(['exam_site_id1' => $examSiteId])
+            ->orWhere(['exam_site_id2' => $examSiteId])
+            ->all();
+        $list = [];
+        if ($applies) {
+            foreach ($applies as $apply) {
+                $list[] = [
+                    $apply->apply_no, $apply->name, $apply->sex, $apply->birth, $apply->nation, $apply->level,
+                    $apply->domain, $apply->phone, $apply->adviser, $apply->pay->number ?? '', $examSite->exam_time, ''
+                ];
+            }
+        }
+        Excel::ExportPro($header, $list, $title, 3, $fileName);
+        exit();
     }
 
     //返回当前的毫秒时间戳-用于做压缩文件名
