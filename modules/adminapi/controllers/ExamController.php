@@ -266,8 +266,8 @@ class ExamController extends Controller
             ->innerJoin('exam', 'exam.id = exam_site.exam_id')
             ->andFilterWhere(['number' => $number])
             ->andFilterWhere(['address' => $address])
-            ->andFilterWhere(['<', 'exam_time', $exam_time_start])
-            ->andFilterWhere(['>', 'exam_time', $exam_time_end]);
+            ->andFilterWhere(['>=', 'exam_time', $exam_time_start])
+            ->andFilterWhere(['<=', 'exam_time', $exam_time_end ? $exam_time_end . ' 23:59:59' : null]);
 
         $total = $model->count();
 
