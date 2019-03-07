@@ -28,7 +28,8 @@ class Pdfer
         $this->pdf->SetXY($x, $y);
         if ($font)
         {
-            $this->pdf->SetFont($font, '', 14);
+            $fontname = $this->pdf->AddFont(\Yii::getAlias('@app') . '/vendor/tecnickcom/tcpdf/fonts/DroidSansFallback.ttf', 'TrueTypeUnicode', '', 32);
+            $this->pdf->SetFont($fontname, '', 14);
         }
         $this->pdf->Cell($w, $h, $text, 0, $ln=0, 'L', false, '', 0, false, 'T', 'C');
     }
