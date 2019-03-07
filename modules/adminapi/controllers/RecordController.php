@@ -24,6 +24,10 @@ class RecordController extends Controller
             ->limit($this->limit)
             ->asArray()
             ->all();
+        array_walk($list, function (&$val){
+           $val['admin_name'] = $val['admin']['name'];
+           unset($val['admin']);
+        });
 
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
