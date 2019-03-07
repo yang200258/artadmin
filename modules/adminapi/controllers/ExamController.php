@@ -251,6 +251,24 @@ class ExamController extends Controller
         return $this->ok('修改成功');
     }
 
+    public function actionDetail()
+    {
+        $request = \Yii::$app->request;
+        $id = $request->post('id');
+        if (!$id)
+        {
+            return $this->error('参数错误');
+        }
+        $exam = Exam::findOne($id);
+        if (!$exam)
+        {
+            return $this->error('考试不存在');
+        }
+        $ExamSite = ExamSite::find()->where(['exam_id' => $id])->asArray()->all();
+
+        return $this->json(['exam' => $exam, 'exam_site' => $ExamSite]);
+    }
+
 
     public function actionRoom()
     {
