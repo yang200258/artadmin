@@ -48,7 +48,7 @@ class InformController extends Controller
         array_walk($list, function (&$val){
             if (in_array($val['type'], [1,2,3,4,5,6]))
             {
-                $val['content'] = htmlspecialchars($val['content']);
+                $val['content'] = strip_tags($val['content']);
             }
             $val['uid_arr'] = InformUser::find()->select(['uid'])->where(['inform_id' => $val['id']])->column();
         });
