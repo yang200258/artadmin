@@ -100,9 +100,8 @@ class TeacherController extends Controller
         $user->name = $name;
         $user->sex = $sex;
         $user->phone = implode(',', $phone);
-        $user->organ_uid = $organ_uid;
+        $user->organ_uid = $organ_uid ? $organ_uid : '';
         $user->type = User::TYPE_TEACHER;
-        $user->create_at= date("Y-m-d H:i:s",time());
         $user->setPassword($password);
         $user->generateAuthKey();
         if (!$user->save(false))
@@ -155,7 +154,7 @@ class TeacherController extends Controller
         $user->name = $name;
         $user->sex = $sex;
         $user->phone = implode(',', $phone);
-        $user->organ_name = $organ_uid;
+        $user->organ_uid = $organ_uid ? $organ_uid : '';
         $user->generateAuthKey();
         if (!$user->save(false))
         {
