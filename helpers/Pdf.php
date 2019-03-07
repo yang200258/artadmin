@@ -21,7 +21,7 @@ class Pdf {
         $pdfer->addText($apply->nation, 115, 75);
         $pdfer->addText($apply->level, 155, 75);
 
-        $pdfer->addText($apply->pinyin, 32, 88, 'times');
+        $pdfer->addText($apply->pinyin, 32, 88, '');
         $pdfer->addText(substr($apply->birth, 0, 4), 95, 88);
         $pdfer->addText(substr($apply->birth, 5, 2), 112, 88);
 
