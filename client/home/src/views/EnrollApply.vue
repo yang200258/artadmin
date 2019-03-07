@@ -920,6 +920,7 @@ export default {
         }
         this.submitting = true
         this.$ajax('/apply/add', { data: formData }).then(res => {
+          this.submitting = false
           if (res && (res.error === 0 || res.error) && res.data) { // 提交表单成功
             this.submitSuccess(res.data.id)
           }
