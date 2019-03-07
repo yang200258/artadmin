@@ -90,7 +90,7 @@ export default {
                   this.pn = res.data.page.pn
                   this.limit = res.data.list.limit
               } else {
-                  alert(res.msg)
+                  this.$message.warning(res.msg)
               }
               this.loadingManager = false
           }).catch(err=> {
@@ -153,9 +153,9 @@ export default {
                         data: {id,password,repeat_password}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                         } else {
-                            alert(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         this.isResetPassword = false
                     }).catch(err=> {

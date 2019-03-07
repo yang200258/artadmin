@@ -16,19 +16,10 @@ class LoginController extends Controller
         if (!$sessionKeyArr) {
             return $this->error('获取登录态失败', 401);
         }else{
-
-            if ($sessionKeyArr['unionid'])
+            $this->log(json_encode($sessionKeyArr));
+            $user = User::findOne(['openid' => $sessionKeyArr['openid']]);
+            if (isset($user->union_id))
             {
-                $user = User::findOne(['union_id' => $sessionKeyArr['unionid']]);
-                if (!$user){
-                    $user = new User();
-                    $user->openid = $sessionKeyArr['openid'];
-                    $user->union_id = $sessionKeyArr['unionid'];
-                    $user->create_at = date("Y-m-d h:i:s",time());
-                    if (!$user->save(false)){
-                        return $this->error('用户创建失败', 401);
-                    }
-                }
                 $sessionString = md5($sessionKeyArr['openid'] . $sessionKeyArr['session_key']);
                 \Yii::$app->cache->set($sessionString, $sessionKeyArr, 3600 * 24 * 30);
                 $user->token = $sessionString;
@@ -39,14 +30,20 @@ class LoginController extends Controller
                 //如果没有unionId，需解密获得unionId
                 $iv = $request->getBodyParam('iv');
                 $encryptedData = $request->getBodyParam('encryptedData');
+                if (!$iv || !$encryptedData)
+                {
+                    return $this->error('需要授权信息', 401);
+                }
                 require_once(\Yii::getAlias('@app') . "/components/wx_decode/wxBizDataCrypt.php");
                 $weiXinConfig = \Yii::$app->params['weixin'];
                 $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
                 $errCode = $pc->decryptData($encryptedData, $iv, $data );
-
+                $this->log($errCode);
+                $this->log($data);
                 if ($errCode == 0)
                 {
-                    $user = User::findOne(['union_id' => $sessionKeyArr['unionid']]);
+                    $data = json_decode($data);
+                    $user = User::findOne(['union_id' => $data->unionId]);
                     if (!$user){
                         $user = new User();
                         $user->openid = $sessionKeyArr['openid'];
@@ -67,5 +64,12 @@ class LoginController extends Controller
                 return $this->error('获取登录态失败:' . $errCode, 401);
             }
         }
+    }
+
+
+    protected function log($message)
+    {
+        $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
+        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
     }
 }

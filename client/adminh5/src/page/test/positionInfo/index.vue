@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <div class="header">
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="6"><p>考试编号：</p><el-input v-model="number" placeholder="考试编号"></el-input></el-col>
                 <el-col :span="6"><p>考试地点：</p><el-input v-model="name" placeholder="考试地点"></el-input></el-col>
-            </el-row>
+            </el-row> -->
             <el-row>
                 <el-col :span="9"><p>考试日期：</p>
                     <el-date-picker v-model="testTime" type="daterange" start-placeholder="考试开始日期" end-placeholder="考试结束日期" :default-time="['00:00:00', '23:59:59']"></el-date-picker>
@@ -28,17 +28,20 @@ export default {
             testTime: '',
             number: '',
             name: '',
-            pageSize: 20,
-            totalNumber: 200,
-            currentPage: 0,
-            head: [{key: 'number',name: '考试编号'},{key: 'address',name: '考试地点'},{key: 'room',name: '考场'},{key: 'exam_date',name: '考试日期'},
+            pageSize: 50,
+            totalNumber: 0,
+            currentPage: 1,
+            head: [{key: 'address',name: '考试地点'},{key: 'room',name: '考场'},{key: 'exam_date',name: '考试日期'},
                     {key: 'exam_time',name: '考试时间'},{key: 'examinee_num',name: '考生人数'}],
             testLocationData: [],
             isLoading: false
         }
     },
     mounted(){
-         this.queryTestInfo()
+        // this.$set(this,'',this.$route.params)
+        this.number = this.$route.params.number
+        this.name = this.$route.params.name
+        this.queryTestInfo()
     },
     methods: {
         // 分页
@@ -47,7 +50,7 @@ export default {
         },
         //查询考场信息
         queryTestInfo(pn){
-            this.isLoading = false
+            this.isLoading = true
             const {name,number,testTime} = this
             const exam_time_start = util.filterDate(testTime[0])
             const exam_time_end = util.filterDate(testTime[1])
@@ -68,7 +71,7 @@ export default {
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
                 } else {
-                    alert(res.msg)
+                    this.$message.warning(res.msg)
                 }
                  this.isLoading = false
             }).catch(err=> {

@@ -100,7 +100,7 @@ export default {
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
                 } else {
-                    alert(res.msg)
+                    this.$message.warning(res.msg)
                 }
                 this.loadingSignTeacher = false
             }).catch(err=>{
@@ -156,9 +156,9 @@ export default {
                         data: {password,repeat_password,id}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                         } else {
-                            alert(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         this.resetForm.password = ''
                         this.resetForm.repeat_password = ''

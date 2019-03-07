@@ -14,7 +14,8 @@
                     :before-upload="beforeUpload">
                 </el-upload>
                 <el-row v-loading="quillUpdateImg">
-                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)"></quill-editor>
+                    <quill-editor class="richedit" :value="quillContent" ref="myQuillEditor" :options="editorOption"  style="height: 400px" @change="editContent($event)"
+                    @blur="blur"></quill-editor>
                 </el-row>
             </el-col>
         </el-row>
@@ -68,8 +69,9 @@ export default {
                     toolbar: {
                         container: toolbarOptions,
                         handlers:{
-                            'image': function () {  //劫持quill自身的文件上传，用原生替换
+                            'image': function (value) {  //劫持quill自身的文件上传，用原生替换
                             // if (value) {
+                                    console.log(value);
                                     document.querySelector('.upload-img input').click()
                                 // } else {
                                 //     this.quill.format('image', false);
@@ -111,7 +113,7 @@ export default {
                 // 调整光标到最后
                 quill.setSelection(length + 1)
             } else {
-                alert('图片插入失败')
+                this.$message.warning('图片插入失败')
             }
             // loading动画消失
             this.quillUpdateImg = false
@@ -120,11 +122,15 @@ export default {
         uploadError() {
             // loading动画消失
             this.quillUpdateImg = false
-            alert('图片插入失败')
+            this.$message.warning('图片插入失败')
         },
         editContent: function($event){
+            console.log($event);
             this.$store.commit('publishinfo/setquillContent',$event.html)
         },
+        blur: function($event){
+            console.log($event);
+        }
     }
 }
 </script>

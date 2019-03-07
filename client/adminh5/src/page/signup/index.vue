@@ -57,9 +57,15 @@
             </el-row>
         </div>
         <div class="download">
-            <el-button type="primary">导出考级名单报名表</el-button>
-            <el-button type="primary">导出考级录入系统报名表</el-button>
+            <el-button type="primary" @click="tickToc">导出考级录入系统报名表</el-button>
         </div>
+        <el-dialog title="提示" :before-close="output" :visible="outputstatus" width="60%" :center="true" :lock-scroll="false">
+            <p>导出名单包括本期已缴费未缺考顺延的考生，以及上期已缴费缺考顺延的考生</p>
+            <span slot="footer">
+                <el-button @click="output = 'false'">取消</el-button>
+                <el-button @click="saveOutput">确定下载</el-button>
+            </span>
+        </el-dialog>
         <el-container class="queryResult">
             <table-data :isPagination="'true'" :totalNumber="totalNumber" :currentPage="currentPage" :pageSize="pageSize" :head="head" :tableData="signList" :isOption="'true'"
             :isEditTable="'true'" :editTableName="'查看详情'" isSelected="'true'" :loadingTable="isLoading" @editInfo="signDetail" @handleCurrentChange="handleCurrentChange">
@@ -97,6 +103,7 @@ export default {
             totalNumber: 0,
             currentPage: 1,
             pageSize: 50,
+            outputstatus: false
         }
         
     },
@@ -192,7 +199,21 @@ export default {
               }
           })
       },
-      
+
+      tickToc: function() {
+          if(this.signTime.length <2) {
+              this.$message.warning('请选择报名时间！')
+          } else {
+              this.outputstatus = true
+          }
+      },
+      //导出考级录入系统报名表
+      saveOutput: function() {
+
+      },
+      output: function(){
+          this.outputstatus = false
+      },
       //改变报考专业对应报考级别
       changeSelect: function(val) {
         this.levelOptions = [{key: '全部',value:''}]

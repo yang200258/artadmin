@@ -159,12 +159,15 @@ export default {
                         // this.category.push({id: this.count++,name: addcategoryname})
                         // this.inputVisible = false;
                         this.addcategoryname = '';
+                        this.$message.success(res.msg)
+                    } else {
+                        this.$message.warning(res.msg)
                     }
                 }).catch(err=> {
                     console.log(err);
                 })
             } else {
-                alert('请输入分类信息名称')
+                this.$message.warning('请输入分类信息名称')
             }
         },
         //删除信息分类
@@ -179,7 +182,7 @@ export default {
                 if(res && !res.error) {
                     util.delIdArray(this.category,id)
                 } else {
-                    alert(res.msg)
+                    this.$message.warning(res.msg)
                 }
             }).catch(err=>{
                 console.log(err);

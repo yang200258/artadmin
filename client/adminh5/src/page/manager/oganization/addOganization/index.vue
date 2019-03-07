@@ -57,11 +57,11 @@ export default {
                             this.getOrgan().then(r=> {
                                 if(r && !r.error) {
                                     this.$store.commit('auth/setOrgan',JSON.parse(window.localStorage.getItem('organ')))
-                                    alert('添加机构成功！')
+                                    this.$message.success('添加机构成功！')
                                 }
                             })
                         } else {
-                            alert(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         this.$router.push({
                             name: 'oganization'

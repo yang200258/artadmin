@@ -178,7 +178,7 @@ class ExamController extends Controller
             }
             // 批量记录考点信息
             \Yii::$app->db->createCommand()
-                ->batchInsert(ExamSite::tableName(), $examSiteRecordKey, $examSiteRecordData)
+                ->batchInsert(Record::tableName(), $examSiteRecordKey, $examSiteRecordData)
                 ->execute();
         }
         Record::saveRecord($this->admin->id, 2, "新增考试：$name");
@@ -266,8 +266,8 @@ class ExamController extends Controller
             ->innerJoin('exam', 'exam.id = exam_site.exam_id')
             ->andFilterWhere(['number' => $number])
             ->andFilterWhere(['address' => $address])
-            ->andFilterWhere(['<', 'exam_time', $exam_time_start])
-            ->andFilterWhere(['>', 'exam_time', $exam_time_end]);
+            ->andFilterWhere(['>=', 'exam_time', $exam_time_start])
+            ->andFilterWhere(['<=', 'exam_time', $exam_time_end ? $exam_time_end . ' 23:59:59' : null]);
 
         $total = $model->count();
 

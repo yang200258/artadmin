@@ -58,9 +58,9 @@ export default {
                         data: {name,phone:phoneArr,username,sex,organ_uid,id}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                         } else {
-                            alert(res.msg)
+                            this.$message.warning(res.msg)
                         }
                         this.$router.push({
                             name: 'signTeacher'

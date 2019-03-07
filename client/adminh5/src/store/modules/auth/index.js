@@ -91,9 +91,9 @@ const actions = {
             if(authData[item.auth] == '1') {
                 list.push(item)
             }
-            // if(item.auth == 'home' ) {
-            //     list.push(item)
-            // }
+            if(item.auth == 'option' ) {
+                list.push(item)
+            }
         })
         commit('setNavlist', list)
     },

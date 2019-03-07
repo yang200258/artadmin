@@ -12,16 +12,17 @@ var data = [
     {
         name: '考试管理',
         auth: 'exam',
-        child: [
-            {
-                path: '/test/testInfo',
-                name: '考试管理',
-            },
-            {
-                path: '/test/positionInfo',
-                name: '考场安排',
-            }
-        ]
+        path: '/test',
+        // child: [
+        //     {
+        //         path: '/test/testInfo',
+        //         name: '考试管理',
+        //     },
+        //     {
+        //         path: '/test/positionInfo',
+        //         name: '考场安排',
+        //     }
+        // ]
     },
     {
         name: '信息管理',

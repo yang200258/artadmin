@@ -5,6 +5,7 @@
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadTable">批量下载报名表</el-button></el-col>
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadCard">批量下载准考证</el-button></el-col>
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadPic">批量下载照片</el-button></el-col>
+                <el-col :span="3" :push="1"><el-button type="primary" @click="outputTable">导出考级名单报名表</el-button></el-col>
                 <el-col :span="2" :push="8"><el-button type="primary" @click="sortExaminee = true">考生排序</el-button></el-col>
                 <el-col :span="2" :push="8"><el-button type="primary" @click="addExaminee = true">添加考生</el-button></el-col>
             </el-row>
@@ -60,7 +61,7 @@
                     </div>
                     <el-container class="queryResult">
                         <table-data :isPagination="true" :isSelected="true" :currentPage="currentPage" :totalNumber="totalNumber" :pageSize="pageSize" :head="headdata" :tableData="queryData" 
-                        @handleCurrentChange="handleCurrentChange"  @handleSelectionChange="handleSelectionChange"></table-data>
+                        @handleCurrentChange="handleCurrentChange"  @handleSelectionChange="handleSelectionChange" :loadingTable="loadingExam"></table-data>
                     </el-container>
                 </div>
                 <span slot="footer">
@@ -70,13 +71,13 @@
             </el-dialog>
         <!-- 删除考生信息提示层 -->
         <el-dialog title="提示" :before-close="closeDelete" :visible="deleteExaminee" width="60%" :center="true" :lock-scroll="false">
-                <p>删除该考生后，请及时安排该考生的考场信息并重新下载该考生的准考证和报名表</p>
-                <span slot="footer">
-                    <el-button @click="cancelDelete">取消</el-button>
-                    <el-button @click="deleteexaminee">保存</el-button>
-                </span>
-            </el-dialog>
-        <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :isLoadingTable="isLoading">
+            <p>删除该考生后，请及时安排该考生的考场信息并重新下载该考生的准考证和报名表</p>
+            <span slot="footer">
+                <el-button @click="cancelDelete">取消</el-button>
+                <el-button @click="deleteexaminee">保存</el-button>
+            </span>
+        </el-dialog>
+        <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :loadingTable="isLoading">
         </table-data>
     </div>
 </template>
@@ -112,7 +113,9 @@ export default {
                 {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
             apply_id_arr: [],
             exam_site_id: '',
-            exam_id: ''
+            exam_id: '',
+            loadingExam: false,
+            loadingInfo: false,
         }
     },
     components: {
@@ -160,7 +163,7 @@ export default {
                         })
                     })
                 } else {
-                   alert(res.msg)
+                   this.$message.warning(res.msg)
                 }
                 this.isLoading = false
             }).catch(err=> {
@@ -231,6 +234,10 @@ export default {
             //     console.log(err);
             // })
         },
+        //到处考级名单报名表
+        outputTable: function(){
+            
+        },
 
 
         //考生排序系列操作*****
@@ -249,8 +256,10 @@ export default {
                 if(res && !res.error) {
                     this.getExamineeInfo()
                 }
+                this.sortExaminee = false
             }).catch(err=> {
                 console.log(err);
+                this.sortExaminee = false
             })
         },
         closeSort: function(){
@@ -270,12 +279,12 @@ export default {
                 data: {exam_site_id,apply_id_arr}
             }).then(res=> {
                 if(res && !res.error) {
-                    alert(res.msg)
+                    this.$message.success(res.msg)
                     this.getExamineeInfo()
                     this.queryData = []
                     this.addExaminee = false
                 } else {
-                    alert(res.msg)
+                    this.$message.warning(res.msg)
                     this.addExaminee = false
                 }
                 
@@ -300,6 +309,7 @@ export default {
         },
         //**************/查询考生
         queryInfo(pn){
+            this.loadingExam = true
             pn = pn || 1
             const {name,domain,level,id_number,organ_name,teacher_name,exam_id} = this
             let exam = []
@@ -321,10 +331,12 @@ export default {
                     this.totalNumber = res.data.page.total
                     this.currentPage = res.data.page.pn
                 }else {
-                    alert(res.msg)
+                    this.$message.warning(res.msg)
                 }
+                this.loadingExam = false
             }).catch(err=> {
                 console.log(err);
+                this.loadingExam = false
             })
         },
         handleCurrentChange(val) {
@@ -337,7 +349,7 @@ export default {
             this.deleteExaminee = true
         },
         deleteexaminee: function(){
-            alert('开发中')
+            this.$message.warning('开发中')
             this.deleteExaminee = false
         },
         closeDelete: function(){

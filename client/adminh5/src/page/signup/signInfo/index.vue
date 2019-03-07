@@ -54,8 +54,8 @@
                         <el-col :span="8" ><el-button type="primary" plain v-if="(detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级'))" @click="getbase">查看考生基本乐科证书</el-button></el-col>
                     </el-row>
                 </div>
-                <div class="line" v-if="detail.is_continuous"></div>
-                <div class="testinfo" v-if="detail.is_continuous">
+                <div class="line" v-if="detail.is_continuous == '1'"></div>
+                <div class="testinfo" v-if="detail.is_continuous == '1'">
                     <el-row>
                         <el-col :span="8">考试名称：{{detail.exam.name}}</el-col>
                         <el-col :span="8">报考专业：{{detail.domain}}</el-col>
@@ -251,7 +251,7 @@ export default {
                         this.isLoading = true
                     })
                 } else {
-                    alert(res.msg)
+                    this.$message.warning(res.msg)
                 }
             }).catch(err=> {
                 console.log(err);
@@ -273,9 +273,9 @@ export default {
                 }).then(res=> {
                     console.log('发送审核请求',res);
                     if(res && !res.error) {
-                        alert(res.msg)
+                        this.$message.success(res.msg)
                     } else {
-                        alert(res.msg)
+                        this.$message.warning(res.msg)
                     }
                     this.$router.push({
                             name: 'signup'

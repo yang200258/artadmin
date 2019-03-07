@@ -117,7 +117,7 @@ export default {
             }
         },
         exceed: function() {
-            alert('仅允许上传一张图片')
+            this.$message.warning('仅允许上传一张图片')
             return false
         },
         //获取信息分类列表
@@ -130,6 +130,8 @@ export default {
                 console.log('获取到的信息分类列表',res);
                 if(res && !res.error) {
                     this.infoTypeOptions = res.data
+                } else {
+                    this.$message.warning(res.msg)
                 }
             }).catch(err=> {
                 console.log(err);

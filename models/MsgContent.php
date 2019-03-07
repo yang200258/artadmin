@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\helpers\FetchImage;
+use app\helpers\simple_html_dom;
 use Yii;
 
 /**
@@ -40,5 +42,24 @@ class MsgContent extends \yii\db\ActiveRecord
             'id' => 'ID',
             'content' => 'Content',
         ];
+    }
+
+    //从内容中提取出图片url抓取，并替换内容里面的图片路径
+    public static function getContent($content)
+    {
+        $html = new simple_html_dom();
+        $html->load($content);
+        $imgs = $html->find('img');
+        foreach ($imgs as $img)
+        {
+            $src = $img->attr['src'];
+            if (strpos($src, 'hnyskj.net'))
+            {
+                continue;
+            }
+            $md5 = FetchImage::fetchImage($src);
+            $img->src = Image::createAbsoluteUrl($md5);
+        }
+        return strval($html);
     }
 }

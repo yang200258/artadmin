@@ -2,8 +2,10 @@
 namespace app\modules\adminapi\controllers;
 
 
+use app\helpers\Excel;
 use app\models\Apply;
 use app\models\ExamExaminee;
+use app\models\ExamSite;
 use app\models\Image;
 
 class DownloadController extends Controller
@@ -180,74 +182,47 @@ class DownloadController extends Controller
         exit();
     }
 
-
-    public function actionDown()
+    public function actionTest()
     {
-        ini_set("memory_limit", "1G");
-        $request = \Yii::$app->request;
-
-
-        $list = [];
-        if ($list) {
-
-            include_once \Yii::getAlias('@app') . '/helpers/PHPExcel.php';
-            include_once \Yii::getAlias('@app') . '/helpers/PHPExcel/writer/Excel2007.php';
-
-            ob_end_clean();
-            ob_start();
-
-            $objPHPExcel = new \PHPExcel();
-
-            $objPHPExcel->setActiveSheetIndex(0);
-
-            $objPHPExcel->getProperties()
-                ->setTitle("Office 2007 XLSX Test Document")
-                ->setSubject("Office 2007 XLSX Test Document")
-                ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-                ->setKeywords("office 2007 openxml php")
-                ->setCategory("Test result file");
-
-            $objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(30);
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A1', '关键词')
-                ->setCellValue('B1', '设备');
-
-
-            $i = 2;
-            foreach ($list as $one) {
-
-                $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue("A$i", $one['word'])
-                    ->setCellValue("B$i", $one['word']);
-                $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(25);
-                $i++;
-            }
-            $objPHPExcel->getActiveSheet()->setTitle('111');
-            $objPHPExcel->setActiveSheetIndex(0);
-
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-
-
-            $objWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
-
-            header("Pragma: public");
-            header("Expires: 0");
-            header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-            header("Content-Type:application/force-download");
-            header("Content-Type:application/vnd.ms-execl");
-            header("Content-Type:application/octet-stream");
-            header("Content-Type:application/download");
-            header("Content-Disposition:attachment;filename=111.xls");
-            header("Content-Transfer-Encoding:binary");
-            $objWriter->save("php://output");
-
-            \Yii::$app->end();
-            spl_autoload_register(array('YiiBase', 'autoload'));
-        }
+        $data = [['1','2'],['2','3']];
+        Excel::ExportPro(['测试1', '测试2'], $data, '测试-'.date('YmdHis'), 3);
     }
 
+    public function actionSiteApplyList()
+    {
+        $request = \Yii::$app->request;
+        $examSiteId = $request->get('id'); // 考场id
 
+        if (!$examSiteId) {
+            return $this->error('参数错误');
+        }
+        // 获取考场信息
+        $examSite = ExamSite::findOne($examSiteId);
+        if (!$examSite) {
+            return $this->error('没有查询到考场信息');
+        }
+        $title = "{$examSite->exam->name}名单\n（{$examSite->exam->exam_time_start} {$examSite->room}）";
+        $fileName = "{$examSite->exam->name}名单";
+        $header = ['序号', '姓名', '性别', '出生', '民族', '报考级别',
+            '报考专业', '联系电话', '指导老师', '交费单号', '考试时间', '备注'];
+        // 获取考生信息
+        $applies = Apply::find()
+            ->with('pay')
+            ->where(['exam_site_id1' => $examSiteId])
+            ->orWhere(['exam_site_id2' => $examSiteId])
+            ->all();
+        $list = [];
+        if ($applies) {
+            foreach ($applies as $apply) {
+                $list[] = [
+                    $apply->apply_no, $apply->name, $apply->sex, $apply->birth, $apply->nation, $apply->level,
+                    $apply->domain, $apply->phone, $apply->adviser, $apply->pay->number ?? '', $examSite->exam_time, ''
+                ];
+            }
+        }
+        Excel::ExportPro($header, $list, $title, 3, $fileName);
+        exit();
+    }
 
     //返回当前的毫秒时间戳-用于做压缩文件名
     public function msectime() {

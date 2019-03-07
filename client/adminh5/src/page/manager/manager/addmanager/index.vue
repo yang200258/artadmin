@@ -2,8 +2,8 @@
     <div class="addmanager-container">
         <el-form :model="addForm" :rules="rules" ref="addManager">
             <el-form-item label="姓名：" prop="name"><el-row><el-input placeholder="请输入姓名" v-model="addForm.name"></el-input></el-row></el-form-item>
-            <el-form-item label="登录账号：" prop="username"><el-row><el-input placeholder="请输入登录账号" v-model="addForm.username"></el-input></el-row></el-form-item>
-            <el-form-item label="登录密码：" prop="password"><el-row><el-input type="password" placeholder="请输入密码" v-model="addForm.password"></el-input></el-row></el-form-item>
+            <el-form-item label="登录账号：" prop="user"><el-row><el-input placeholder="请输入登录账号" v-model="addForm.user"></el-input></el-row></el-form-item>
+            <el-form-item label="登录密码：" prop="pass"><el-row><el-input type="password" placeholder="请输入密码" v-model="addForm.pass"></el-input></el-row></el-form-item>
             <el-form-item label="确认登录密码：" prop="repeat_password"><el-row><el-input type="password" placeholder="请再次输入密码" v-model="addForm.repeat_password"></el-input></el-row></el-form-item>
             <el-form-item label="用户身份：" prop="identity"><el-row><el-input placeholder="请输入用户身份" v-model="addForm.identity"></el-input></el-row></el-form-item>
             <el-form-item label="权限分配：" prop="right">
@@ -26,8 +26,8 @@ export default {
     data(){
         return {
             addForm: {name: '',username: '',username: '',password: '',repeat_password: '',identity: '',identity: '',identity: '',rightlist: []},
-            rules: {name: [{required: true, message: '请输入姓名', trigger: 'blur'}],username: [{required: true, message: '请输入登录账号', trigger: 'blur'}]
-              ,password: [{required: true, message: '请输入登录密码', trigger: 'blur'}],repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'}],
+            rules: {name: [{required: true, message: '请输入姓名', trigger: 'blur'}],user: [{required: true, message: '请输入登录账号', trigger: 'blur'}]
+              ,pass: [{required: true, message: '请输入登录密码', trigger: 'blur'}],repeat_password: [{required: true, message: '请再次输入密码', trigger: 'blur'}],
               identity: [{required: true, message: '请输入用户身份', trigger: 'blur'}],
             },
             rightlists: [{name: 'apply',label: '报名管理'},{name: 'exam',label: '考试管理'},{name: 'msg',label: '消息管理'},{name: 'inform',label: '通知管理',},{name: 'admin',label: '管理员管理'}]
@@ -36,7 +36,7 @@ export default {
     methods: {
         submitForm: function(addForm) {
             console.log(addForm);
-            const {name,identity,username,password,repeat_password} = addForm
+            const {name,identity,user,pass,repeat_password} = addForm
             let [apply,exam,msg,inform,admin] = ['0','0','0','0','0']
             for(let i=0,len =addForm.rightlist.length;i<len;i++ ) {
                 if(addForm.rightlist[i] == 'apply') apply = 1 
@@ -50,15 +50,15 @@ export default {
                     this.$axios({
                         url: '/admin/add',
                         method: 'post',
-                        data: {name,identity,username,password,repeat_password,apply,exam,msg,inform,admin}
+                        data: {name,identity,username:user,password:pass,repeat_password,apply,exam,msg,inform,admin}
                     }).then(res=> {
                         if(res && !res.error) {
-                            alert(res.msg)
+                            this.$message.success(res.msg)
                             this.$router.push({
                                 name: 'manager'
                             })
                         } else {
-                            alert(res.msg)
+                            this.$message.warning(res.msg)
                         }
                     }).catch(err=> {
                         console.log(err);
