@@ -7,6 +7,7 @@ use app\models\Apply;
 use app\models\ExamExaminee;
 use app\models\ExamSite;
 use app\models\Image;
+use app\models\User;
 
 class DownloadController extends Controller
 {
@@ -187,7 +188,67 @@ class DownloadController extends Controller
         $data = [['1','2'],['2','3']];
         Excel::ExportPro(['测试1', '测试2'], $data, '测试-'.date('YmdHis'), 3);
     }
+    
+    public function actionApplyList()
+    {
+        $request = \Yii::$app->request;
+        $name = $request->get('name'); //考生姓名
+        $domain = $request->get('domain');  //专业
+        $level = $request->get('level'); //等级
+        $id_type = $request->get('id_type'); //证件类型
+        $id_number = $request->get('id_number'); //证件号码
+        $status = $request->get('status'); //审核状态：1=待审核2=不通过3=无需审核4已通过
+        $plan = $request->get('plan', 4); //当前进度：1=审核中2=待缴费3=已失效4=已缴费
+        $postpone = $request->get('postpone'); //是否缺考顺延
+        $organ_name = $request->get('organ_name'); //机构名称
+        $teacher_name = $request->get('teacher_name');//老师名称
+        $start_time = $request->get('start_time');
+        $end_time = $request->get('end_time');
+        if (empty($start_time) || empty($end_time)) {
+            return $this->error('参数错误');
+        }
 
+        $model = Apply::find()
+            ->andFilterWhere(['LIKE', 'name', $name])
+            ->andFilterWhere(['domain' => $domain])
+            ->andFilterWhere(['level' => $level])
+            ->andFilterWhere(['id_type' => $id_type])
+            ->andFilterWhere(['id_number' => $id_number])
+            ->andFilterWhere(['status' => $status])
+            ->andFilterWhere(['plan' => $plan])
+            ->andFilterWhere(['>=', 'create_at', $start_time])
+            ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . ' 23:59:59': '']);
+        if ($postpone)
+        {
+            $model->andWhere(['postpone' => $postpone-1]);
+        }
+        if ($organ_name)
+        {
+            $uid = User::find()->select('id')->where(['organ_name' => $organ_name, 'type' => 2])->scalar();
+            $uid = $uid ? $uid : 0;
+            $model->andWhere(['uid' => $uid]);
+        }
+        if ($teacher_name)
+        {
+            $uid = User::find()->select('id')->where(['name' => $teacher_name, 'type' => 1])->scalar();
+            $uid = $uid ? $uid : 0;
+            $model->andWhere(['uid' => $uid]);
+        }
+        $header = ["姓名", "拼音", "身份证号码", "性别", "生日", "专业", "级别", "民族",
+            "成绩", "国籍", "承办单位", "考试", "地址", "邮编"];
+        $list = $model->orderBy('create_at desc')->asArray()->all();
+        $data = [];
+        if ($list) {
+            foreach ($list as $item) {
+                $data[] = [
+                  $item['name'], $item['pinyin'], $item['id_number'], $item['sex'], $item['birth'],
+                    $item['domain'], $item['level'], $item['nation'], '', '', '', '', '', ''
+                ];
+            }
+        }
+        Excel::ExportPro($header, $data, '', 0, '考级录入系统' . date('YmdHis'));
+        exit();
+    }
     public function actionSiteApplyList()
     {
         $request = \Yii::$app->request;
@@ -223,6 +284,7 @@ class DownloadController extends Controller
         Excel::ExportPro($header, $list, $title, 3, $fileName);
         exit();
     }
+    
 
     //返回当前的毫秒时间戳-用于做压缩文件名
     public function msectime() {

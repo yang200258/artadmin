@@ -126,9 +126,9 @@ class Excel {
                 $column = $def_columns[$j++];
 				$cell = $column.($line);
                 $objPHPExcel->getActiveSheet()->getStyle($cell)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER)->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle($cell)->getAlignment()->setWrapText(true);
+//                $objPHPExcel->getActiveSheet()->getStyle($cell)->getAlignment()->setWrapText(true);
                 // 动态设置列宽
-                if (mb_strlen($v) > 6) {
+                if (mb_strlen($v) > 4) {
                     $objPHPExcel->getActiveSheet()->getColumnDimension($column)->setAutoSize(true);
                 } else {
                     $objPHPExcel->getActiveSheet()->getColumnDimension($column)->setWidth(10);
@@ -155,7 +155,7 @@ class Excel {
 
 		// Redirect output to a client’s web browser (Excel2007)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header("Content-Disposition: attachment;filename=\"{$fileName}.xlsx\"");
+		header("Content-Disposition: attachment;filename=\"{$fileName}.xls\"");
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');
@@ -166,7 +166,7 @@ class Excel {
 		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
 		header ('Pragma: public'); // HTTP/1.0
 
-		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save('php://output');
 		exit;
 	}
