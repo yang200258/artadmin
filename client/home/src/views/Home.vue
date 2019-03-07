@@ -80,7 +80,7 @@ export default {
         {
           name: '',
           label: '考级报名',
-          route: '/enroll/manage'
+          route: '/enroll/notice'
         },
         {
           name: '',
