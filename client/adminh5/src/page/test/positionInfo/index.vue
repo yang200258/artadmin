@@ -31,7 +31,7 @@ export default {
             pageSize: 50,
             totalNumber: 0,
             currentPage: 1,
-            head: [{key: 'number',name: '考试编号'},{key: 'address',name: '考试地点'},{key: 'room',name: '考场'},{key: 'exam_date',name: '考试日期'},
+            head: [{key: 'address',name: '考试地点'},{key: 'room',name: '考场'},{key: 'exam_date',name: '考试日期'},
                     {key: 'exam_time',name: '考试时间'},{key: 'examinee_num',name: '考生人数'}],
             testLocationData: [],
             isLoading: false

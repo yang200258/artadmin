@@ -49,7 +49,7 @@ export default {
                 exam_site.push({
                     address: address,
                     room: '考场1',
-                    time: util.filterDateTime(time1.value)
+                    time: util.filterDateTime(time1)
                 })
             }
             if(time && time.length) {
@@ -99,10 +99,14 @@ export default {
                 }).then(res=> {
                     if(res && !res.error) {
                         this.$message.success(res.msg)
-                        
+                        this.$router.push({
+                            name: 'testInfo'
+                        })
                     } else {
                         this.$message.warning(res.msg)
                     }
+                }).catch(err=> {
+                    console.log(err);
                 })
         }
     }
