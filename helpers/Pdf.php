@@ -69,7 +69,7 @@ class Pdf {
         // 生成联考评审表，存储路径为正常的评审表名后加_continuous
         if ($apply->is_continuous) {
             $continuousPdf = clone $pdfer;
-            $continuousPdf->addText($apply->level, 155, 75);
+            $continuousPdf->addText($apply->continuous_level, 155, 75);
             $continuousStr = $apply->apply_no . '_bm_continuous';
             $continuousName = \Yii::getAlias("@app") . "/file/apply/{$continuousStr}.pdf";
             $continuousPdf->export($continuousName);
