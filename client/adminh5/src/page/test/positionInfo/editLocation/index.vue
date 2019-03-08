@@ -166,9 +166,10 @@ export default {
                                 r.apply_user_name = r.apply_user.name
                             }
                             r.apply_user_organ_name = r.apply_user.organ_name
-                            examineeData.push(r)
+                            examineeData.unshift(r)
                             sortData.unshift({name: r.apply_name,id:r.id})
-                            this.sortData = sortData
+                            // this.sortData = sortData
+                            this.$set(this,'sortData',sortData)
                             this.examineeData = examineeData
                         })
                     })
@@ -218,7 +219,7 @@ export default {
         outputTable: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download/site-apply-list?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/site-apply-list?token=${token}&id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
