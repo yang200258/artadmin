@@ -3,6 +3,7 @@
 namespace app\commands;
 
 
+use app\helpers\Pdfer;
 use app\models\Admin;
 
 class TestController extends Controller
@@ -52,6 +53,16 @@ class TestController extends Controller
         header("Content-Disposition: attachment; filename=\"" . basename($zipname) . "\"");
         readfile($zipname);
         exit();
+    }
+
+    public function actionPdf()
+    {
+        $file = \Yii::getAlias("@app") . "/template/apply.pdf";
+        $pdfer = new Pdfer($file);
+        $pdfer->addText('郑翔俊测试Zheng xiang Jun', 32, 88, 'times');
+
+        $saveFileName = \Yii::getAlias("@app") . "/runtime/1.pdf";
+        $pdfer->export($saveFileName);
     }
 
 }

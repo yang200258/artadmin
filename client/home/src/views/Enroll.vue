@@ -6,11 +6,11 @@
     <div class="enroll-body">
       <div class="enroll-body-content clearfix">
         <div class="side-bar fl">
-          <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/notice') !== -1}" @click.stop="sidebarClick('1')">考级通知</div>
-          <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/manage') !== -1}" @click.stop="sidebarClick('2')">报名管理</div>
-          <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/queryhall') !== -1}" @click.stop="sidebarClick('3')">考场查询</div>
-          <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/enroll/queryscore') !== -1}" @click.stop="sidebarClick('4')">成绩查询</div>
-          <div class="side-bar-item cursor-pointer" :class="{actived: $route.path.indexOf('/regulation') !== -1}" @click.stop="sidebarClick('5')">考级简章</div>
+          <div class="side-bar-item cursor-pointer" :class="{actived: $route.meta.actived === 'EnrollNotice'}" @click.stop="sidebarClick('1')">考级通知</div>
+          <div class="side-bar-item cursor-pointer" :class="{actived: $route.meta.actived === 'EnrollManage'}" @click.stop="sidebarClick('2')">报名管理</div>
+          <div class="side-bar-item cursor-pointer" :class="{actived: $route.meta.actived === 'Queryhall'}" @click.stop="sidebarClick('3')">考场查询</div>
+          <div class="side-bar-item cursor-pointer" :class="{actived: $route.meta.actived === 'Queryscore'}" @click.stop="sidebarClick('4')">成绩查询</div>
+          <div class="side-bar-item cursor-pointer" :class="{actived: $route.meta.actived === 'Regulation'}" @click.stop="sidebarClick('5')">考级简章</div>
         </div>
         <div class="side-body fr">
           <keep-alive :exclude="['enrollDetail', 'enrollPay']">

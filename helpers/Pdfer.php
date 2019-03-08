@@ -29,6 +29,7 @@ class Pdfer
         if ($font)
         {
             $this->pdf->SetFont($font, '', 14);
+            $this->pdf->setFontSpacing(0.5);
         }
         $this->pdf->Cell($w, $h, $text, 0, $ln=0, 'L', false, '', 0, false, 'T', 'C');
     }

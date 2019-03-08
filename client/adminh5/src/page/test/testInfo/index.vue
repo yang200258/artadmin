@@ -95,8 +95,13 @@ export default {
               name: 'addTest'
           })
       },
-      editTest(){
-          this.$router.push({name: 'editTest'})
+      editTest(scope){
+          this.$router.push({
+                name: 'editTest',
+                params: {
+                  id: scope.row.id  
+                }
+              })
       },
       //进入考场安排页面
       testPosition: function(scope) {

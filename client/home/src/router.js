@@ -98,6 +98,7 @@ const router = new Router({
           name: 'EnrollNotice',
           component: EnrollNotice,
           meta: {
+            actived: 'EnrollNotice',
             requiredLogin: true,
             title: '考级通知-社会艺术等级考试-海南考区'
           }
@@ -107,6 +108,7 @@ const router = new Router({
           name: 'EnrollApply',
           component: EnrollApply,
           meta: {
+            actived: 'EnrollNotice',
             requiredLogin: true,
             title: '考级报名-社会艺术等级考试-海南考区'
           }
@@ -116,6 +118,7 @@ const router = new Router({
           name: 'EnrollApplySuccesss',
           component: EnrollApplySuccess,
           meta: {
+            actived: 'EnrollNotice',
             requiredLogin: true,
             title: '提交成功-社会艺术等级考试-海南考区'
           }
@@ -125,6 +128,7 @@ const router = new Router({
           name: 'EnrollPay',
           component: EnrollPay,
           meta: {
+            actived: 'EnrollManage',
             requiredLogin: true,
             title: '支付-社会艺术等级考试-海南考区'
           }
@@ -134,6 +138,7 @@ const router = new Router({
           name: 'EnrollDetail',
           component: EnrollDetail,
           meta: {
+            actived: 'EnrollManage',
             requiredLogin: true,
             title: '报名详情-社会艺术等级考试-海南考区'
           }
@@ -143,6 +148,7 @@ const router = new Router({
           name: 'EnrollManage',
           component: EnrollManage,
           meta: {
+            actived: 'EnrollManage',
             requiredLogin: true,
             title: '报名管理-社会艺术等级考试-海南考区'
           }
@@ -152,6 +158,7 @@ const router = new Router({
           name: 'Queryhall',
           component: Queryhall,
           meta: {
+            actived: 'Queryhall',
             requiredLogin: false,
             title: '考场查询-社会艺术等级考试-海南考区'
           }
@@ -161,6 +168,7 @@ const router = new Router({
           name: 'Queryscore',
           component: Queryscore,
           meta: {
+            actived: 'Queryscore',
             requiredLogin: false,
             title: '成绩查询-社会艺术等级考试-海南考区'
           }
@@ -170,11 +178,9 @@ const router = new Router({
           name: 'ScoreResult',
           component: ScoreResult,
           meta: {
+            actived: 'Queryscore',
             requiredLogin: true,
-            meta: {
-              requiredLogin: false,
-              title: '成绩查询-社会艺术等级考试-海南考区'
-            }
+            title: '成绩查询-社会艺术等级考试-海南考区'
           }
         }
       ]
@@ -283,6 +289,7 @@ const router = new Router({
       name: 'Regulation',
       component: Regulation,
       meta: {
+        actived: 'Regulation',
         requiredLogin: false,
         title: '考试简章-社会艺术等级考试-海南考区'
       }

@@ -17,12 +17,16 @@ export default {
     
     data(){
         return {
-            // status: true
+            // examSite: [{address: "",time1: '',time: [],rooms: []}]
         }
     },
     components: {
         testInfo,
         testLocation
+    },
+    mounted() {
+        this.$store.commit('test/initExamSite')
+        this.$store.commit('test/initBaseinfo')
     },
     computed: {
         ...mapState('test',{
@@ -30,7 +34,7 @@ export default {
             baseinfo: state=> state.baseinfo,
         }),
         status(){
-            return (this.examSite.address && this.examSite.time1 && this.baseinfo.name&& this.baseinfo.examTime&& this.baseinfo.number&& this.baseinfo.applyTime) ? false : true
+            return (this.examSite[0].address && this.examSite[0].time1 && this.baseinfo.name&& this.baseinfo.examTime&& this.baseinfo.number&& this.baseinfo.applyTime) ? false : true
         }
     },
     methods: {
@@ -38,76 +42,65 @@ export default {
             console.log(this.examSite);
             console.log(this.baseinfo);
             const {name,number,examTime,applyTime} = this.baseinfo
-            const {address,rooms,sites,time,time1} = this.examSite
-            console.log(applyTime,examTime);
             const apply_time_start = util.filterDateTime(applyTime[0])
             const apply_time_end = util.filterDateTime(applyTime[1])
             const exam_time_start = util.filterDateTime(examTime[0])
             const exam_time_end = util.filterDateTime(examTime[1])
             const exam_site = []
-            if(time1) {
-                exam_site.push({
-                    address: address,
-                    room: '考场1',
-                    time: util.filterDateTime(time1)
-                })
-            }
-            if(time && time.length) {
-                time.forEach(item=> {
-                    exam_site.push({
-                        address: address,
-                        room: '考场1',
-                        time: util.filterDateTime(item.value)
-                    })
-                })
-            }
-            if(rooms && rooms.length) {
-                rooms.forEach((item,i)=> {
-                    exam_site.push({
-                        address: address,
-                        room: '考场' + (i+2),
-                        time: util.filterDateTime(item.time1)
-                    })
-                    if(item.times && item.times.length) {
-                        item.times.forEach(time=> {
-                            exam_site.push({
-                                address: address,
-                                room: '考场' + (i+2),
-                                time: util.filterDateTime(time.value)
-                            })
+            this.examSite.forEach(item=> {
+                if(item.address) {
+                    if(item.time1) {
+                        exam_site.push({
+                            address: item.address,
+                            room: '考场1',
+                            time: util.filterDateTime(item.time1)
                         })
                     }
-                })
-            }
-            if(sites && sites.length) {
-                sites.forEach(site=> {
-                    if(site.times && site.times.length) {
-                        site.times.forEach(time=> {
+                    if(item.time && item.time.length) {
+                        item.time.forEach(t=> {
                             exam_site.push({
-                                address: site.site,
+                                address: item.address,
                                 room: '考场1',
-                                time: util.filterDateTime(time.value)
+                                time: util.filterDateTime(t.value)
                             })
                         })
                     }
-                })
-            }
-                this.$axios({
-                    url: '/exam/add',
-                    method: 'post',
-                    data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
-                }).then(res=> {
-                    if(res && !res.error) {
-                        this.$message.success(res.msg)
-                        this.$router.push({
-                            name: 'testInfo'
+                    if(item.rooms && item.rooms.length) {
+                        item.rooms.forEach((room,i)=> {
+                            exam_site.push({
+                                address: item.address,
+                                room: '考场' + (i+2),
+                                time: util.filterDateTime(room.time1)
+                            })
+                            if(room.times && room.times.length) {
+                                room.times.forEach(r=> {
+                                    exam_site.push({
+                                        address: item.address,
+                                        room: '考场' + (i+2),
+                                        time: util.filterDateTime(r.value)
+                                    })
+                                })
+                            }
                         })
-                    } else {
-                        this.$message.warning(res.msg)
                     }
-                }).catch(err=> {
-                    console.log(err);
-                })
+                }
+            })
+            this.$axios({
+                url: '/exam/add',
+                method: 'post',
+                data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
+            }).then(res=> {
+                if(res && !res.error) {
+                    this.$message.success(res.msg)
+                    this.$router.push({
+                        name: 'testInfo'
+                    })
+                } else {
+                    this.$message.warning(res.msg)
+                }
+            }).catch(err=> {
+                console.log(err);
+            })
         }
     }
     
