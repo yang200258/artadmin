@@ -125,6 +125,12 @@ export default {
         draggable,
         tableData
     },
+    created() {
+        document.body.ondrop = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    },
     mounted(){
         this.getExamineeInfo()
         if(this.$route.params) {
