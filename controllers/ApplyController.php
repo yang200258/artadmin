@@ -120,7 +120,7 @@ class ApplyController extends Controller
             return $this->error('请输入指导老师电话');
         }
         $transaction = \Yii::$app->db->beginTransaction();//创建事务
-        try {
+//        try {
             $apply = new Apply();
             $apply->apply_no = Apply::getApplynum($domain);
             $apply->uid = $this->user->id;
@@ -166,6 +166,7 @@ class ApplyController extends Controller
             }
 
             $apply->bm = Pdf::createPdfApply($apply->id); //生成报名表
+            $apply->bm_continuous = $continuous_level ? $apply->bm . '_continuous' : '';// 连考报名表
             $apply->save(false);
             //计算考收取费用，如果连考收两级费用
             $price = ApplyPay::$rates[$level];
@@ -189,11 +190,11 @@ class ApplyController extends Controller
                 return $this->error('报名失败');
             }
             $transaction->commit();//提交事务
-        } catch (\Exception $e) {
-            \Yii::error($e->getMessage());
-            $transaction->rollback();//回滚事务
-            return $this->error('服务器繁忙，请稍后再试！');
-        }
+//        } catch (\Exception $e) {
+//            \Yii::error($e->getMessage());
+//            $transaction->rollback();//回滚事务
+//            return $this->error('服务器繁忙，请稍后再试！');
+//        }
         return $this->json(['id' => $apply->id]);
     }
 

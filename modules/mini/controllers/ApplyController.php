@@ -167,6 +167,7 @@ class ApplyController extends Controller
             }
 
             $apply->bm = Pdf::createPdfApply($apply->id); //生成报名表
+            $apply->bm_continuous = $continuous_level ? $apply->bm . '_continuous' : '';// 连考报名表
             $apply->save(false);
             //计算考收取费用，如果连考收两级费用
             $price = ApplyPay::$rates[$level];
