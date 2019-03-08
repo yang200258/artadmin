@@ -257,7 +257,7 @@ export default {
            this.sortExaminee = false
         },
         sort: function(){
-            this.sortData.sort(compare('sort'))
+            this.sortData.sort(this.compare('sort'))
             this.sortExaminee = true
         },
         compare: function(sort){

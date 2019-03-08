@@ -290,7 +290,7 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.pro_certificate_url 
+                    imgurl: [this.detail.pro_certificate_url ]
                 }
             })
         },
@@ -299,7 +299,7 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.basic_certificate_url  
+                    imgurl: [this.detail.basic_certificate_url ] 
                 }
             })
         },
@@ -308,9 +308,7 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    bm_continuous_image_url: this.detail.bm_continuous_image_url,
-                    bm_image_url: this.detail.bm_image_url,
-                    kz_image_url: this.detail.kz_image_url,
+                    imgurl: [this.detail.bm_continuous_image_url,this.detail.bm_image_url,this.detail.kz_image_url]
                 }
             })
         },
@@ -319,7 +317,7 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.kz_url  
+                    imgurl: [this.detail.kz_url] 
                 }
             })
         },

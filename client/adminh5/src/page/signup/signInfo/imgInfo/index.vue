@@ -6,9 +6,9 @@
         </div>
         <div class="imginfo">
             <el-carousel :interval="5000" arrow="always" class="img">
-                <img :src="bm_continuous_image_url" alt="">
-                <img :src="bm_image_url" alt="">
-                <img :src="bm_image_url" alt="">
+                <el-carousel-item v-for="item in imgurl" :key="item">
+                    <img :src="item" alt="">
+                </el-carousel-item>
             </el-carousel>
         </div>
     </div>
@@ -19,20 +19,12 @@
 export default {
     data(){
         return {
-            bm_continuous_image_url: '',
-            bm_image_url: '',
-            kz_image_url: ''
+            imgurl: []
         }
     },
     mounted(){
-        if(this.$route.params.bm_continuous_image_url) {
-            this.bm_continuous_image_url = this.$route.params.bm_continuous_image_url
-        }
-        if(this.$route.params.bm_image_url) {
-            this.bm_image_url = this.$route.params.bm_image_url
-        }
-        if(this.$route.params.kz_image_url) {
-            this.kz_image_url = this.$route.params.kz_image_url
+        if(this.$route.params.imgurl) {
+            this.imgurl = this.$route.params.imgurl
         }
     },
     methods: {
