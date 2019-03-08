@@ -96,19 +96,19 @@ const util = {
             let site = []
             for(let item in o) {
                 console.log('o[item]',o[item])
-                console.log('o[item].length',o[item].length);
-                if(o[item].length == 1) {
-                    console.log('o[item].exam_time.length',o[item].exam_time.length);
-                    if(o[item].exam_time.length == 1) {
-                        site.push({address: o[item].address,time1: o[item].exam_time[0],time: [],rooms: [],key: Date.now()})
+                console.log('o[item].length',o[item][0].length);
+                if(o[item][0].length == 1) {
+                    console.log('o[item].exam_time.length',o[item][0].exam_time.length);
+                    if(o[item][0].exam_time.length == 1) {
+                        site.push({address: o[item][0].address,time1: o[item][0].exam_time[0],time: [],rooms: [],key: Date.now()})
                     } else {
                         const time = []
-                        o[item].exam_time.forEach((t,i)=> {
+                        o[item][0].exam_time.forEach((t,i)=> {
                             if(i>=1) {
                                 time.push({value:t,key: Date.now()})
                             }
                         })
-                        site.push({address: o[item][0].address,time1: o[item].exam_time[0],time: time,rooms: [],key: Date.now()})
+                        site.push({address: o[item][0].address,time1: o[item][0].exam_time[0],time: time,rooms: [],key: Date.now()})
                     }
                 } else {
                         let time1 = ''

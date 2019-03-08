@@ -5,7 +5,7 @@
                 <div class="baseinfo">
                     <el-form :model="examSite" ref="addexamsite">
                         <div v-for="(site,index) in examSite" :key="site.key">
-                            <div class="line" style="sidth:100%" v-if="examSite.length !== 1"></div>
+                            <div class="line" style="width:100%" v-if="examSite.length !== 1"></div>
                             <!-- 考试地点1************************************* -->
                             <el-form-item>
                                 <p style="color: 14px;"><span style="color: red" v-if="index == 0">*</span >考试地点{{index+1}}：</p>
@@ -37,9 +37,9 @@
                                     <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
                                 </el-form-item>
                             </div>
-                            <div class="line2"  v-if="site.rooms.length !== 0"></div>
                             <!-- 添加、删除考点的考场********************************************************************** -->
                             <div class="editinfo" v-for="(room,m) in site.rooms" :key="room.key" v-if="site.rooms.length !== 0">
+                                <div class="line2"  v-if="site.rooms.length !== 0"></div>
                                 <div class="examsite2">
                                     <p style="color: 14px;">考场{{(m+2)}}：</p>
                                     <div class="img">
