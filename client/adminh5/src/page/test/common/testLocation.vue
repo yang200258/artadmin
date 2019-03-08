@@ -3,11 +3,14 @@
             <el-header><el-row>考试地点安排</el-row></el-header>
             <el-main>
                 <div class="baseinfo">
-                    <el-form :model="examSite" ref="addexamsite" :rules="rules">
+                    <el-form :model="examSite" ref="addexamsite">
                         <div v-for="(site,index) in examSite" :key="site.key">
                             <div class="line" style="sidth:100%" v-if="examSite.length !== 1"></div>
                             <!-- 考试地点1************************************* -->
-                            <el-form-item :label="'考试地点' + (index+1)" prop="address"><el-input v-model="examSite[0].address" placeholder="请填写考试地点"></el-input></el-form-item>
+                            <el-form-item>
+                                <p style="color: 14px;"><span style="color: red" v-if="index == 0">*</span >考试地点{{index+1}}：</p>
+                                <el-input v-model="site.address" placeholder="请填写考试地点"></el-input>
+                            </el-form-item>
                             <!-- 考场1*********************** -->
                             <div class="examsite2">
                                 <p style="color: 14px;"><span style="color: red">*</span >考场1：</p>
@@ -20,9 +23,9 @@
                             <div class="examsite_address2_time2">
                                 <div class="img2"><img src="@/assets/images/add.png" @click="addtime(index)" v-if="site.time.length == 0"></div>
                                 <!-- 考试时间1********** -->
-                                <el-form-item prop="time1">
+                                <el-form-item>
                                     <p style="color: 14px;"><span style="color: red">*</span >考试时间1：</p>
-                                    <el-date-picker type="datetime" v-model="examSite[0].time1" placeholder="请设置考场考试时间"></el-date-picker>
+                                    <el-date-picker type="datetime" v-model="site.time1" placeholder="请设置考场考试时间"></el-date-picker>
                                 </el-form-item>
                                 <!-- 考试时间2********** -->
                                 <el-form-item v-for="(time,i) in site.time" :key="time.key" v-if="site.time.length !== 0">
@@ -67,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-row :justify="center"> 
+                        <el-row class="btn"> 
                             <el-col :span="4"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
                             <el-col :span="4"><el-button @click="addsite">继续添加考点</el-button></el-col>
                         </el-row>
@@ -89,7 +92,6 @@ export default {
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
-            rules: state=> state.rules,
         })
         
     },
@@ -274,6 +276,10 @@ export default {
                     width: 100%;
                     display: block;
                 }
+            }
+            .btn {
+                display: flex;
+                justify-content: center;
             }
         }
         
