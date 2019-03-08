@@ -7,7 +7,12 @@ use app\models\ExamSite;
 class Pdf {
 
     //生成报名评审表pdf
-    public static function createPdfApply($apply_id)
+    /**
+     * @param $apply_id
+     * @param string $continuous_level 若要生成连考的第二个评审表，需传入
+     * @return string
+     */
+    public static function createPdfApply($apply_id, $continuous_level = '')
     {
         $apply = Apply::findOne($apply_id);
         $file = \Yii::getAlias("@app") . "/template/apply.pdf";
@@ -19,6 +24,8 @@ class Pdf {
         $pdfer->addText($apply->name, 40, 75);
         $pdfer->addText($apply->sex, 85, 75);
         $pdfer->addText($apply->nation, 115, 75);
+        // 判断是否是打印连考评审表
+        $pdfer->addText($continuous_level ? $continuous_level : $apply->level, 155, 75);
 
         $pdfer->addText($apply->pinyin, 32, 88, '');
         $pdfer->addText(substr($apply->birth, 0, 4), 95, 88);
@@ -65,19 +72,7 @@ class Pdf {
         $pdfer->addText($apply->track_four, 25, 173);
 
 
-
-        // 生成联考评审表，存储路径为正常的评审表名后加_continuous
-        if ($apply->is_continuous) {
-            $continuousPdf = clone $pdfer;
-            $continuousPdf->addText($apply->continuous_level, 155, 75);
-            $continuousStr = $apply->apply_no . '_bm_continuous';
-            $continuousName = \Yii::getAlias("@app") . "/file/apply/{$continuousStr}.pdf";
-            $continuousPdf->export($continuousName);
-            self::pdfpng($continuousName, \Yii::getAlias("@app") . "/file/applyimg/{$continuousStr}.png");
-        }
-
-        $pdfer->addText($apply->level, 155, 75);
-        $str = $apply->apply_no . '_bm';
+        $str = $apply->apply_no . '_bm' . $continuous_level ? '_continuous' : '';
         $saveFileName = \Yii::getAlias("@app") . "/file/apply/{$str}.pdf";
         $pdfer->export($saveFileName);
         self::pdfpng($saveFileName, \Yii::getAlias("@app") . "/file/applyimg/{$str}.png");
