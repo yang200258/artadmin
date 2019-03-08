@@ -6,7 +6,7 @@
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadCard">批量下载准考证</el-button></el-col>
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadPic">批量下载照片</el-button></el-col>
                 <el-col :span="3" :push="1"><el-button type="primary" @click="outputTable">导出考级名单报名表</el-button></el-col>
-                <el-col :span="2" :push="8"><el-button type="primary" @click="sortExaminee = true">考生排序</el-button></el-col>
+                <el-col :span="2" :push="8"><el-button type="primary" @click="sort">考生排序</el-button></el-col>
                 <el-col :span="2" :push="8"><el-button type="primary" @click="addExaminee = true">添加考生</el-button></el-col>
             </el-row>
         </div>
@@ -167,7 +167,7 @@ export default {
                             }
                             r.apply_user_organ_name = r.apply_user.organ_name
                             examineeData.unshift(r)
-                            sortData.unshift({name: r.apply_name,id:r.id})
+                            sortData.unshift({name: r.apply_name,id:r.id,sort: r.sort})
                             // this.sortData = sortData
                             this.$set(this,'sortData',sortData)
                             this.examineeData = examineeData
@@ -255,6 +255,17 @@ export default {
         },
         cancelSort: function(){
            this.sortExaminee = false
+        },
+        sort: function(){
+            this.sortData.sort(compare('sort'))
+            this.sortExaminee = true
+        },
+        compare: function(sort){
+            return function(a,b){
+                const v1 = a[sort] 
+                const v2 = b[sort]
+                return v1-v2
+            }
         },
 
         //添加考生系列操作*****

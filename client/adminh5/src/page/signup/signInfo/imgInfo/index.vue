@@ -5,7 +5,11 @@
             <el-button @click="back">返回</el-button>
         </div>
         <div class="imginfo">
-            <img :src="imgsrc" alt="">
+            <el-carousel :interval="5000" arrow="always" class="img">
+                <img :src="bm_continuous_image_url" alt="">
+                <img :src="bm_image_url" alt="">
+                <img :src="bm_image_url" alt="">
+            </el-carousel>
         </div>
     </div>
 </template>
@@ -15,7 +19,20 @@
 export default {
     data(){
         return {
-            imgsrc: ''
+            bm_continuous_image_url: '',
+            bm_image_url: '',
+            kz_image_url: ''
+        }
+    },
+    mounted(){
+        if(this.$route.params.bm_continuous_image_url) {
+            this.bm_continuous_image_url = this.$route.params.bm_continuous_image_url
+        }
+        if(this.$route.params.bm_image_url) {
+            this.bm_image_url = this.$route.params.bm_image_url
+        }
+        if(this.$route.params.kz_image_url) {
+            this.kz_image_url = this.$route.params.kz_image_url
         }
     },
     methods: {
@@ -40,9 +57,13 @@ export default {
         }
         .imginfo {
             margin: 30px 0;
-            width: 600px;
-            height: 700px;
-            border: 1px solid rgb(3, 3, 3)
+            width: 40%;
+            height: 80%;
+            border: 1px solid rgb(3, 3, 3);
+            .img {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 </style>

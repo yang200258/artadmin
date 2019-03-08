@@ -51,7 +51,7 @@
                     </el-row>
                     <el-row v-if="status.status !== '3'">
                         <el-col :span="8" ><el-button type="primary" plain v-if="detail.level  == '十级' || detail.level == '表演文凭级'" @click="getProfessional">查看考生专业证书</el-button></el-col>
-                        <el-col :span="8" ><el-button type="primary" plain v-if="(detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级'))" @click="getbase">查看考生基本乐科证书</el-button></el-col>
+                        <el-col :span="8" ><el-button type="primary" plain v-if="((detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级')))  && detail.basic_certificate_url"  @click="getbase">查看考生基本乐科证书</el-button></el-col>
                     </el-row>
                 </div>
                 <div class="line" v-if="detail.is_continuous == '1'"></div>
@@ -308,7 +308,9 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.bm_url  
+                    bm_continuous_image_url: this.detail.bm_continuous_image_url,
+                    bm_image_url: this.detail.bm_image_url,
+                    kz_image_url: this.detail.kz_image_url,
                 }
             })
         },
