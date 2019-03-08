@@ -95,7 +95,10 @@ const util = {
         return new Promise(resolve=> {
             let site = []
             for(let item in o) {
+                console.log('o[item]',o[item])
+                console.log('o[item].length',o[item].length);
                 if(o[item].length == 1) {
+                    console.log('o[item].exam_time.length',o[item].exam_time.length);
                     if(o[item].exam_time.length == 1) {
                         site.push({address: o[item].address,time1: o[item].exam_time[0],time: [],rooms: [],key: Date.now()})
                     } else {
@@ -116,6 +119,7 @@ const util = {
                         o[item].forEach((l,i) => {
                         if(i == 0) {
                             time1 = l.exam_time[0]
+                            console.log('l.exam_time.length',l.exam_time.length);
                             if(l.exam_time.length == 1) {
                                 time = []
                             } else {
@@ -127,6 +131,7 @@ const util = {
                             }
                         } else {
                             rooms.time1 = l.exam_time[0]
+                            console.log('l.exam_time.length',l.exam_time.length);
                             if(l.exam_time.length == 1) {
                                 rooms.times = []
                                 // rooms.push({time1:rooms_time1,key: Date.now() })
@@ -134,7 +139,6 @@ const util = {
                                 l.exam_time.forEach((s,i)=> {
                                     if(i >=1) {
                                         times.push({value: s,key: Date.now()})
-                                        
                                     }
                                 })
                             }
