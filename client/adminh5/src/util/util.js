@@ -23,7 +23,7 @@ const util = {
     },
     //处理时间格式
     filterDateTime(date){
-        if(date) {
+        if(date.split(' ').length > 3) {
             const year = date.getFullYear()
             const month = ((date.getMonth() + 1) >= 10) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))
             const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
@@ -32,7 +32,7 @@ const util = {
             const s = (date.getSeconds() >= 10) ? date.getSeconds() : ('0' + date.getSeconds())
             return year + '-' + month + '-' + day + ' ' + h + ':' + m + ':' + s 
         } else {
-            return ''
+            return date
         }
     },
     //扁平化数据
@@ -58,15 +58,16 @@ const util = {
     mergeJson: function(arr){
         return new Promise((resolve)=> {
             const map = {}
-            for(const site of arr) {
-                if(!map.hasOwnProperty(site.address)) {
-                    map[site.address] = site
-                    const val = map[site.address].exam_time
-                    map[site.address].exam_time = [val]
+            arr.forEach(site=> {
+                if(!map.hasOwnProperty(site.address+site.room)) {
+                    map[site.address+site.room] = site
+                    const val = map[site.address+site.room].exam_time
+                    map[site.address+site.room].exam_time = [{value: val,id:map[site.address+site.room].id}]
                 } else {
-                    map[site.address].exam_time.push(site.exam_time)
+                    map[site.address+site.room].exam_time.push({value:site.exam_time,id:site.id})
                 }
-            }
+            })
+            // console.log(map);
             function transform(obj) {
                 let arr = []
                 for(let item in obj) {
@@ -95,62 +96,54 @@ const util = {
         return new Promise(resolve=> {
             let site = []
             for(let item in o) {
-                console.log('o[item]',o[item])
-                console.log('o[item].length',o[item][0].length);
-                if(o[item][0].length == 1) {
-                    console.log('o[item].exam_time.length',o[item][0].exam_time.length);
-                    if(o[item][0].exam_time.length == 1) {
-                        site.push({address: o[item][0].address,time1: o[item][0].exam_time[0],time: [],rooms: [],key: Date.now()})
-                    } else {
-                        const time = []
-                        o[item][0].exam_time.forEach((t,i)=> {
-                            if(i>=1) {
-                                time.push({value:t,key: Date.now()})
-                            }
-                        })
-                        site.push({address: o[item][0].address,time1: o[item][0].exam_time[0],time: time,rooms: [],key: Date.now()})
-                    }
+                console.log(o[item].length);
+                if(o[item].length == 1) {
+                    const time = []
+                    o[item][0].exam_time.forEach((t,i)=> {
+                        if(i>=1) {
+                            time.push({value:t.value,key: Date.now(),id: t.id })
+                        }
+                    })
+                    site.push({address: o[item][0].address,time1: o[item][0].exam_time[0],time: time,rooms: [],key: Date.now()})
+                    console.log('1个考场时的数据',site);
                 } else {
                         let time1 = ''
                         let time = []
+                        let room = {}
                         let rooms = []
                         let times = []
-                        // let address = 
                         o[item].forEach((l,i) => {
-                        if(i == 0) {
-                            time1 = l.exam_time[0]
-                            console.log('l.exam_time.length',l.exam_time.length);
-                            if(l.exam_time.length == 1) {
-                                time = []
+                            if(i == 0) {
+                                time1 = {value: l.exam_time[0].value,id:l.exam_time[0].id}
+                                if(l.exam_time.length == 1) {
+                                    time = []
+                                } else {
+                                    l.exam_time.forEach((t,m)=> {
+                                        if(m >=1) {
+                                            time.push({value: t.value,key: Date.now(),id: t.id})
+                                        }
+                                    })
+                                }
                             } else {
-                                l.exam_time.forEach((t,m)=> {
-                                    if(m >=1) {
-                                        time.push({value: t,key: Date.now()})
-                                    }
-                                })
+                                room.time1 = {value: l.exam_time[0].value,id: l.exam_time[0].id}
+                                if(l.exam_time.length == 1) {
+                                    room.times = []
+                                } else {
+                                    l.exam_time.forEach((s,i)=> {
+                                        if(i >=1) {
+                                            times.push({value: s.value,key: Date.now(),id: s.id})
+                                        }
+                                    })
+                                }
+                                room.times = times
                             }
-                        } else {
-                            rooms.time1 = l.exam_time[0]
-                            console.log('l.exam_time.length',l.exam_time.length);
-                            if(l.exam_time.length == 1) {
-                                rooms.times = []
-                                // rooms.push({time1:rooms_time1,key: Date.now() })
-                            } else {
-                                l.exam_time.forEach((s,i)=> {
-                                    if(i >=1) {
-                                        times.push({value: s,key: Date.now()})
-                                    }
-                                })
-                            }
-                            rooms.times = times
-                        }
                     })
+                    rooms.push(room)
                     site.push({address: o[item][0].address,time1: time1,time: time,rooms: rooms,key: Date.now()})
                 }
-            }
+        }
             console.log(site);
             resolve(site)
-            
         })
     },
 }
