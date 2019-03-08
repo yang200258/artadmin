@@ -169,6 +169,7 @@ export default {
                             }
                         })
                         this.$store.commit('informobject/seteditInformobject',list)
+                        this.$message.success('删除成功！')
                     }
                 }).catch(err=> {
                     console.log(err);

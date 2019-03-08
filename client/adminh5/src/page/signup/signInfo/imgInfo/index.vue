@@ -5,7 +5,7 @@
             <el-button @click="back">返回</el-button>
         </div>
         <div class="imginfo">
-            <el-carousel :interval="5000" arrow="always" class="img">
+            <el-carousel :interval="5000" arrow="always" class="img" autoplay="false">
                 <el-carousel-item v-for="item in imgurl" :key="item">
                     <img :src="item" alt="">
                 </el-carousel-item>
@@ -49,9 +49,12 @@ export default {
         }
         .imginfo {
             margin: 30px 0;
-            width: 40%;
-            height: 80%;
+            width: 867px;
+            height: 1298px;
             border: 1px solid rgb(3, 3, 3);
+            .el-carousel__container {
+                height: 100%;
+            }
             .img {
                 width: 100%;
                 height: 100%;
