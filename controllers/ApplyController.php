@@ -120,7 +120,7 @@ class ApplyController extends Controller
             return $this->error('请输入指导老师电话');
         }
         $transaction = \Yii::$app->db->beginTransaction();//创建事务
-//        try {
+        try {
             $apply = new Apply();
             $apply->apply_no = Apply::getApplynum($domain);
             $apply->uid = $this->user->id;
@@ -190,11 +190,11 @@ class ApplyController extends Controller
                 return $this->error('报名失败');
             }
             $transaction->commit();//提交事务
-//        } catch (\Exception $e) {
-//            \Yii::error($e->getMessage());
-//            $transaction->rollback();//回滚事务
-//            return $this->error('服务器繁忙，请稍后再试！');
-//        }
+        } catch (\Exception $e) {
+            \Yii::error($e->getMessage());
+            $transaction->rollback();//回滚事务
+            return $this->error('服务器繁忙，请稍后再试！');
+        }
         return $this->json(['id' => $apply->id]);
     }
 
@@ -260,6 +260,7 @@ class ApplyController extends Controller
         $apply['pro_certificate_url'] = $apply['pro_certificate_id'] ? Image::getAbsoluteUrlById($apply['pro_certificate_id']) : '';
         $apply['basic_certificate_url'] = $apply['basic_certificate_id'] ? Image::getAbsoluteUrlById($apply['basic_certificate_id']) : '';
         $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
+        $apply['bm_continuous_image_url'] = $apply['bm_continuous'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm_continuous'] . '.png' : '';
 
         return $this->json($apply);
     }
