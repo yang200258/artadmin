@@ -2,7 +2,7 @@
     <div class="oganization-container">
         <span>机构信息</span>
         <el-form :model="addForm" :rules="rules" ref="addOgan">
-            <el-form-item label="机构名称：" prop="organ_name"><el-row><el-input placeholder="请输入姓名" v-model="addForm.organ_name"></el-input></el-row></el-form-item>
+            <el-form-item label="机构名称：" prop="organ_name"><el-row><el-input placeholder="请输入机构名称" v-model="addForm.organ_name"></el-input></el-row></el-form-item>
             <el-form-item label="所属地区：" prop="organ_area"><el-row>
                     <el-select v-model="addForm.organ_area" placeholder="请选择所属地区">
                         <el-option v-for="item in districtOptions" :key="item.key" :label="item.label" :value="item.key"></el-option>

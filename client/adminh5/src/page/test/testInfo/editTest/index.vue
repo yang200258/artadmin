@@ -4,8 +4,8 @@
             <test-info></test-info>
             <test-location></test-location>
             <div class="button">
-                <el-button @click="back">返回修改</el-button>
-                <el-button @click="save">完成</el-button>
+                <el-button @click="back">返回</el-button>
+                <el-button @click="save">保存修改</el-button>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@ export default {
             this.$store.commit('test/setEdit',false)
             this.$store.commit('test/initExamSite')
             this.$store.commit('test/initBaseinfo')
-            this.$route.go(-1)
+            this.$router.go(-1)
         },
         //保存编辑
         save: function(){
