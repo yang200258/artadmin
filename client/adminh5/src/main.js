@@ -39,9 +39,10 @@ Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Loading)
+
 Vue.prototype.$message = Message
-Vue.prototype.$MessageBox = MessageBox
-// Vue.use(MessageBox)
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$confirm = MessageBox.confirm
 
 import router from './router'
 import store from './store'

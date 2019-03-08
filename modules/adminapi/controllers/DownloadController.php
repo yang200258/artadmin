@@ -242,7 +242,7 @@ class DownloadController extends Controller
             foreach ($list as $item) {
                 $data[] = [
                   $item['name'], $item['pinyin'], $item['id_number'], $item['sex'], $item['birth'],
-                    $item['domain'], $item['level'], $item['nation'], '', '', '', '', '', ''
+                    $item['domain'], $item['level'], $item['nation'], '', $item['nationality'], '', '', '', ''
                 ];
             }
         }

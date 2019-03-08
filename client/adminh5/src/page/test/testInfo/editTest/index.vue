@@ -35,6 +35,7 @@ export default {
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
+            baseinfo: state=> state.baseinfo,
             isEdit: state=> state.isEdit,
         }),
     },
@@ -58,11 +59,11 @@ export default {
                     this.setBaseinfo({name,number,applyTime,examTime,create_at})
                     let examSite = res.data.exam_site
                     this.sites = examSite
-                    util.mergeJson(examSite).then(res=> {
-                        console.log('数据处理成功！',res);
-                        util.turn(res).then(arr=>{
-                            console.log('数据处理成功！',arr);
-                            util.turnFinal(arr).then(final=> {
+                    util.mergeJson(examSite).then(arr=> {
+                        console.log('数据处理成功！',arr)
+                        util.turn(arr).then(t=>{
+                            console.log('数据处理成功！',t);
+                            util.turnFinal(t).then(final=> {
                                 console.log('数据处理成功！',final);
                                 this.setExamSite(final)
                             })
@@ -87,48 +88,52 @@ export default {
         //保存编辑
         save: function(){
             const id = this.$route.params.id
+            console.log(this.baseinfo);
+            console.log(this.examSite);
             const {name,number,examTime,applyTime} = this.baseinfo
-            const apply_time_start = util.filterDateTime(applyTime[0])
-            const apply_time_end = util.filterDateTime(applyTime[1])
-            const exam_time_start = util.filterDateTime(examTime[0])
-            const exam_time_end = util.filterDateTime(examTime[1])
+            const apply_time_start = applyTime[0]
+            const apply_time_end = applyTime[1]
+            const exam_time_start = examTime[0]
+            const exam_time_end = examTime[1]
             const exam_site = []
             this.examSite.forEach(item=> {
-                if(item.address) {
-                    if(item.time1) {
+                if(item.time1.value) {
+                    exam_site.push({
+                        address: item.address,
+                        room: '考场1',
+                        time: util.filterDateTime(item.time1.value),
+                        id: item.time1.id || ''
+                    })
+                }
+                if(item.time && item.time.length) {
+                    item.time.forEach(t=> {
                         exam_site.push({
                             address: item.address,
                             room: '考场1',
-                            time: util.filterDateTime(item.time1)
+                            time: util.filterDateTime(t.value),
+                            id: t.id || ''
                         })
-                    }
-                    if(item.time && item.time.length) {
-                        item.time.forEach(t=> {
-                            exam_site.push({
-                                address: item.address,
-                                room: '考场1',
-                                time: util.filterDateTime(t.value)
-                            })
+                    })
+                }
+                if(item.rooms && item.rooms.length) {
+                    item.rooms.forEach((room,i)=> {
+                        exam_site.push({
+                            address: item.address,
+                            room: '考场' + (i+2),
+                            time: util.filterDateTime(room.time1.value),
+                            id: room.time1.id || ''
                         })
-                    }
-                    if(item.rooms && item.rooms.length) {
-                        item.rooms.forEach((room,i)=> {
-                            exam_site.push({
-                                address: item.address,
-                                room: '考场' + (i+2),
-                                time: util.filterDateTime(room.time1)
-                            })
-                            if(room.times && room.times.length) {
-                                room.times.forEach(r=> {
-                                    exam_site.push({
-                                        address: item.address,
-                                        room: '考场' + (i+2),
-                                        time: util.filterDateTime(r.value)
-                                    })
+                        if(room.times && room.times.length) {
+                            room.times.forEach(r=> {
+                                exam_site.push({
+                                    address: item.address,
+                                    room: '考场' + (i+2),
+                                    time: util.filterDateTime(r.value),
+                                    id: r.id || ''
                                 })
-                            }
-                        })
-                    }
+                            })
+                        }
+                    })
                 }
             })
             this.$axios({
@@ -153,7 +158,8 @@ export default {
         
     },
     beforeDestroy(){
-        
+        this.$store.commit('test/initExamSite')
+        this.$store.commit('test/initBaseinfo')
     }
 }
 </script>
