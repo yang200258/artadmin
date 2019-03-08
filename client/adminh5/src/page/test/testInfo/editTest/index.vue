@@ -14,7 +14,7 @@
 <script>
 import testInfo from '../../common/testInfo.vue'
 import testLocation from '../../common/testLocation.vue'
-import {mapMutations} from 'vuex'
+import {mapMutations,mapState} from 'vuex'
 import util from '@/util/util'
 export default {
     data() {
@@ -57,7 +57,7 @@ export default {
                     let examSite = res.data.exam_site
                     this.sites = examSite
                     util.mergeJson(examSite).then(res=> {
-                        console.log('数据处理成功！',arr);
+                        console.log('数据处理成功！',res);
                         util.turn(res).then(arr=>{
                             console.log('数据处理成功！',arr);
                             util.turnFinal(arr).then(final=> {
