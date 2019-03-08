@@ -72,7 +72,7 @@ class Pdf {
         $pdfer->addText($apply->track_four, 25, 173);
 
 
-        $str = $apply->apply_no . '_bm' . $continuous_level ? '_continuous' : '';
+        $str = $apply->apply_no . '_bm' . ($continuous_level ? '_continuous' : '');
         $saveFileName = \Yii::getAlias("@app") . "/file/apply/{$str}.pdf";
         $pdfer->export($saveFileName);
         self::pdfpng($saveFileName, \Yii::getAlias("@app") . "/file/applyimg/{$str}.png");
