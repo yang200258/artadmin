@@ -4,6 +4,7 @@
       <div class="title">报名信息</div>
       <div class="info-body">
         <img v-if="enroll.bm_image_url" class="image" :src="enroll.bm_image_url" alt="报名评审表" title="报名评审表" />
+        <img v-if="enroll.bm_continuous_image_url" class="image" style="margin-top:40px" :src="enroll.bm_continuous_image_url" alt="报名评审表" title="报名评审表" />
         <div v-if="enroll.plan" class="seal-box">
           <seal :type="enroll.plan.toString()" />
         </div>
