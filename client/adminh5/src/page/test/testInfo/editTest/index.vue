@@ -1,11 +1,11 @@
 <template>
     <div class="container" >
-        <div v-loading="loadingTable" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">
+        <div v-loading="loadingTable" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)">
             <test-info></test-info>
             <test-location></test-location>
             <div class="button">
-                <el-button>返回修改</el-button>
-                <el-button>完成</el-button>
+                <el-button @click="back">返回修改</el-button>
+                <el-button @click="save">完成</el-button>
             </div>
         </div>
     </div>
@@ -15,10 +15,12 @@
 import testInfo from '../../common/testInfo.vue'
 import testLocation from '../../common/testLocation.vue'
 import {mapMutations} from 'vuex'
+import util from '@/util/util'
 export default {
     data() {
         return {
-            loading: false
+            loading: false,
+            sites: []
         }
     },
     mounted(){
@@ -27,6 +29,12 @@ export default {
     components: {
         testInfo,
         testLocation
+    },
+    computed: {
+        ...mapState('test',{
+            examSite: state=> state.examSite,
+            isEdit: state=> state.isEdit,
+        }),
     },
     methods: {
         ...mapMutations({
@@ -47,11 +55,14 @@ export default {
                     let examTime = [exam_time_start,exam_time_end]
                     this.setBaseinfo({name,number,applyTime,examTime,create_at})
                     let examSite = res.data.exam_site
-                    this.mergeJson(examSite).then(res=> {
-                        this.turn(res).then(arr=>{
-                            this.turnFinal(arr).then(final=> {
+                    this.sites = examSite
+                    util.mergeJson(examSite).then(res=> {
+                        console.log('数据处理成功！',arr);
+                        util.turn(res).then(arr=>{
+                            console.log('数据处理成功！',arr);
+                            util.turnFinal(arr).then(final=> {
                                 console.log('数据处理成功！',final);
-                                this.$store.commit('test/setExamSite',final)
+                                this.setExamSite(final)
                             })
                         })
                     })
@@ -64,101 +75,77 @@ export default {
                 this.loading = false
             })
         },
-        //将多项数组对象合并同类项
-        mergeJson: function(arr){
-            return new Promise((resolve)=> {
-                const map = {}
-                for(const site of arr) {
-                    if(!map.hasOwnProperty(site.address)) {
-                        map[site.address] = site
-                        const val = map[site.address].exam_time
-                        map[site.address].exam_time = [val]
-                    } else {
-                        map[site.address].exam_time.push(site.exam_time)
-                    }
-                }
-                function transform(obj) {
-                    let arr = []
-                    for(let item in obj) {
-                        arr.push(obj[item])
-                    }
-                    return arr
-                }
-                resolve(transform(map))
-            })
-            
+        //返回修改
+        back: function(){
+            this.$store.commit('test/setEdit',false)
+            this.$store.commit('test/initExamSite')
+            this.$store.commit('test/initBaseinfo')
+            this.$route.go(-1)
         },
-        //将合并后数组继续分类为相同考点
-        turn: function(arr){
-            return new Promise((resolve)=> {
-                let o = {}
-                arr.forEach(item=> {
-                    let array = o[item['address']] || []
-                    array.push(item)
-                    o[item['address']] = array
-                })
-                resolve(o)
-            })
-        },
-        //将处理后数据最终转换为所需
-        turnFinal: function(o){
-            return new Promise(resolve=> {
-                let site = []
-                for(let item in o) {
-                    if(o[item].length == 1) {
-                        if(o[item].exam_time.length == 1) {
-                            site.push({address: o[item].address,time1: o[item].exam_time[0],time: [],rooms: [],key: Date.now()})
-                        } else {
-                            const time = []
-                            o[item].exam_time.forEach((t,i)=> {
-                                if(i>=1) {
-                                    time.push({value:t,key: Date.now()})
-                                }
+        //保存编辑
+        save: function(){
+            const {name,number,examTime,applyTime} = this.baseinfo
+            const apply_time_start = util.filterDateTime(applyTime[0])
+            const apply_time_end = util.filterDateTime(applyTime[1])
+            const exam_time_start = util.filterDateTime(examTime[0])
+            const exam_time_end = util.filterDateTime(examTime[1])
+            const exam_site = []
+            this.examSite.forEach(item=> {
+                if(item.address) {
+                    if(item.time1) {
+                        exam_site.push({
+                            address: item.address,
+                            room: '考场1',
+                            time: util.filterDateTime(item.time1)
+                        })
+                    }
+                    if(item.time && item.time.length) {
+                        item.time.forEach(t=> {
+                            exam_site.push({
+                                address: item.address,
+                                room: '考场1',
+                                time: util.filterDateTime(t.value)
                             })
-                            site.push({address: o[item][0].address,time1: o[item].exam_time[0],time: time,rooms: [],key: Date.now()})
-                        }
-                    } else {
-                            let time1 = ''
-                            let time = []
-                            let rooms = []
-                            let times = []
-                            // let address = 
-                            o[item].forEach((l,i) => {
-                            if(i == 0) {
-                                time1 = l.exam_time[0]
-                                if(l.exam_time.length == 1) {
-                                    time = []
-                                } else {
-                                    l.exam_time.forEach((t,m)=> {
-                                        if(m >=1) {
-                                            time.push({value: t,key: Date.now()})
-                                        }
+                        })
+                    }
+                    if(item.rooms && item.rooms.length) {
+                        item.rooms.forEach((room,i)=> {
+                            exam_site.push({
+                                address: item.address,
+                                room: '考场' + (i+2),
+                                time: util.filterDateTime(room.time1)
+                            })
+                            if(room.times && room.times.length) {
+                                room.times.forEach(r=> {
+                                    exam_site.push({
+                                        address: item.address,
+                                        room: '考场' + (i+2),
+                                        time: util.filterDateTime(r.value)
                                     })
-                                }
-                            } else {
-                                rooms.time1 = l.exam_time[0]
-                                if(l.exam_time.length == 1) {
-                                    rooms.times = []
-                                    // rooms.push({time1:rooms_time1,key: Date.now() })
-                                } else {
-                                    l.exam_time.forEach((s,i)=> {
-                                        if(i >=1) {
-                                            times.push({value: s,key: Date.now()})
-                                            
-                                        }
-                                    })
-                                }
-                                rooms.times = times
+                                })
                             }
                         })
-                        site.push({address: o[item][0].address,time1: time1,time: time,rooms: rooms,key: Date.now()})
                     }
                 }
-                console.log(site);
-                resolve(site)
-                
             })
-        }
+            this.$axios({
+                url: '/exam/edit',
+                method: 'post',
+                data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
+            }).then(res=> {
+                if(res && !res.error) {
+                    this.$message.success(res.msg)
+                    this.$router.push({
+                        name: 'testInfo'
+                    })
+                } else {
+                    this.$message.warning(res.msg)
+                }
+            }).catch(err=> {
+                console.log(err);
+            })
+        },
+        
     },
     beforeDestroy(){
         this.$store.commit('test/initExamSite')

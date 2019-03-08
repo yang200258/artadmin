@@ -102,6 +102,10 @@ export default {
                 console.log(err);
             })
         }
+    },
+    beforeDestroy(){
+        this.$store.commit('test/initExamSite')
+        this.$store.commit('test/initBaseinfo')
     }
     
 }

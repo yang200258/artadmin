@@ -9,14 +9,14 @@
                     </el-select>
             </el-row></el-form-item>
             <el-form-item label="机构地址：" prop="organ_address"><el-row><el-input placeholder="请输入机构地址" v-model="addForm.organ_address"></el-input></el-row></el-form-item>
-            <el-form-item label="联系人：" prop="name"><el-row><el-input placeholder="请输入密码" v-model="addForm.name"></el-input></el-row></el-form-item>
+            <el-form-item label="联系人：" prop="name"><el-row><el-input placeholder="请输入联系人" v-model="addForm.name"></el-input></el-row></el-form-item>
             <el-form-item label="联系电话1" prop="phone"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[0]"></el-input></el-row></el-form-item>
             <el-form-item label="联系电话2"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[1]"></el-input></el-row></el-form-item>
             <el-form-item label="联系电话3"><el-row><el-input placeholder="请输入联系电话" v-model="addForm.phone[2]"></el-input></el-row></el-form-item>
             <el-form-item label="官网登录账号：" prop="user"><el-row><el-input placeholder="" v-model="addForm.user"></el-input></el-row></el-form-item>
             <el-form-item label="官网登录密码：" prop="pass"><el-row><el-input type="pass" placeholder="" v-model="addForm.pass"></el-input></el-row></el-form-item>
             <el-form-item>
-                <el-row><el-col :span="2" :push="10"><el-button type="primary" @click="submitForm(addForm)">保存修改</el-button></el-col></el-row>      
+                <el-row><el-col :span="2" :push="10"><el-button type="primary" @click="submitForm(addForm)">立即添加</el-button></el-col></el-row>      
             </el-form-item>
         </el-form>
     </div>

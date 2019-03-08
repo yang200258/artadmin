@@ -96,6 +96,7 @@ export default {
           })
       },
       editTest(scope){
+          this.$store.commit('test/setEdit',true)
           this.$router.push({
                 name: 'editTest',
                 params: {

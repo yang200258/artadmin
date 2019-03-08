@@ -67,7 +67,9 @@ export default {
         }
     },
     mounted(){
-        if(this.$route.params) this.editForm = this.$route.params.oganizationData
+        if(this.$route.params) {
+            this.editForm = this.$route.params.oganizationData
+        } 
     }
 }
 </script>

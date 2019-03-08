@@ -53,6 +53,102 @@ const util = {
         resolve(list)
         })
     },
+    //考试信息数据处理
+    //将多项数组对象合并同类项
+    mergeJson: function(arr){
+        return new Promise((resolve)=> {
+            const map = {}
+            for(const site of arr) {
+                if(!map.hasOwnProperty(site.address)) {
+                    map[site.address] = site
+                    const val = map[site.address].exam_time
+                    map[site.address].exam_time = [val]
+                } else {
+                    map[site.address].exam_time.push(site.exam_time)
+                }
+            }
+            function transform(obj) {
+                let arr = []
+                for(let item in obj) {
+                    arr.push(obj[item])
+                }
+                return arr
+            }
+            resolve(transform(map))
+        })
+        
+    },
+    //将合并后数组继续分类为相同考点
+    turn: function(arr){
+        return new Promise((resolve)=> {
+            let o = {}
+            arr.forEach(item=> {
+                let array = o[item['address']] || []
+                array.push(item)
+                o[item['address']] = array
+            })
+            resolve(o)
+        })
+    },
+    //将处理后数据最终转换为所需
+    turnFinal: function(o){
+        return new Promise(resolve=> {
+            let site = []
+            for(let item in o) {
+                if(o[item].length == 1) {
+                    if(o[item].exam_time.length == 1) {
+                        site.push({address: o[item].address,time1: o[item].exam_time[0],time: [],rooms: [],key: Date.now()})
+                    } else {
+                        const time = []
+                        o[item].exam_time.forEach((t,i)=> {
+                            if(i>=1) {
+                                time.push({value:t,key: Date.now()})
+                            }
+                        })
+                        site.push({address: o[item][0].address,time1: o[item].exam_time[0],time: time,rooms: [],key: Date.now()})
+                    }
+                } else {
+                        let time1 = ''
+                        let time = []
+                        let rooms = []
+                        let times = []
+                        // let address = 
+                        o[item].forEach((l,i) => {
+                        if(i == 0) {
+                            time1 = l.exam_time[0]
+                            if(l.exam_time.length == 1) {
+                                time = []
+                            } else {
+                                l.exam_time.forEach((t,m)=> {
+                                    if(m >=1) {
+                                        time.push({value: t,key: Date.now()})
+                                    }
+                                })
+                            }
+                        } else {
+                            rooms.time1 = l.exam_time[0]
+                            if(l.exam_time.length == 1) {
+                                rooms.times = []
+                                // rooms.push({time1:rooms_time1,key: Date.now() })
+                            } else {
+                                l.exam_time.forEach((s,i)=> {
+                                    if(i >=1) {
+                                        times.push({value: s,key: Date.now()})
+                                        
+                                    }
+                                })
+                            }
+                            rooms.times = times
+                        }
+                    })
+                    site.push({address: o[item][0].address,time1: time1,time: time,rooms: rooms,key: Date.now()})
+                }
+            }
+            console.log(site);
+            resolve(site)
+            
+        })
+    },
 }
 
 export default util

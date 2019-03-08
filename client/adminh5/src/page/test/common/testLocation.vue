@@ -92,6 +92,7 @@ export default {
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
+            isEdit: state=> state.isEdit,
         })
         
     },

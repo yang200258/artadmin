@@ -33,7 +33,7 @@ export default {
         richtext
     },
     mounted(){
-        this.$store.commit('publishinfo/setquillContent','')
+        // this.$store.commit('publishinfo/setquillContent','')
         // this.$store.commit('informobject/setAddType','')
     },
     computed: {
@@ -68,7 +68,7 @@ export default {
                     this.$store.commit('publishinfo/setquillContent','')
                     this.$store.commit('informobject/setaddInformobject',{})
                     this.$store.commit('informobject/setAddUid',[])
-                    this.$message.success(res.msg)
+                    this.$message.success('发布成功！')
                     this.$router.push({
                         name: 'informlist'
                     })
@@ -90,6 +90,13 @@ export default {
         }
 
     },
+    beforeDestroy(){
+        this.$store.commit('informobject/setAddType','')
+        this.$store.commit('publishinfo/setquillContent','')
+        this.$store.commit('informobject/setaddInformobject',{})
+        this.$store.commit('informobject/setAddUid',[])
+        this.$store.commit('publishinfo/setquillContent','')
+    }
 }
 </script>
 
