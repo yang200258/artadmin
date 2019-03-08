@@ -4,8 +4,8 @@
             <test-info></test-info>
             <test-location></test-location>
             <div class="button">
-                <el-button @click="back">返回修改</el-button>
-                <el-button @click="save">完成</el-button>
+                <el-button @click="back">返回</el-button>
+                <el-button @click="save">保存修改</el-button>
             </div>
         </div>
     </div>
@@ -80,10 +80,11 @@ export default {
             this.$store.commit('test/setEdit',false)
             this.$store.commit('test/initExamSite')
             this.$store.commit('test/initBaseinfo')
-            this.$route.go(-1)
+            this.$router.go(-1)
         },
         //保存编辑
         save: function(){
+            const id = this.$route.params.id
             const {name,number,examTime,applyTime} = this.baseinfo
             const apply_time_start = util.filterDateTime(applyTime[0])
             const apply_time_end = util.filterDateTime(applyTime[1])
@@ -131,10 +132,10 @@ export default {
             this.$axios({
                 url: '/exam/edit',
                 method: 'post',
-                data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
+                data: {id,name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
             }).then(res=> {
                 if(res && !res.error) {
-                    this.$message.success(res.msg)
+                    this.$message.success('编辑成功！')
                     this.$router.push({
                         name: 'testInfo'
                     })

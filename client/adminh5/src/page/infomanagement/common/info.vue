@@ -7,7 +7,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="标题：" prop="title">
-                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.title"></el-input>
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入标题" v-model="publishData.title"></el-input>
             </el-form-item>
             <el-row class="alnumber">
                 <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{gettitleNumber}}</span>个字</div></el-col>
@@ -35,7 +35,7 @@
             </el-dialog>
             </el-form-item>
             <el-form-item label="引言：" prop="intro">
-               <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="publishData.intro"></el-input>
+               <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入引言" v-model="publishData.intro"></el-input>
             </el-form-item>
             <el-row class="alnumber">
                 <el-col :offset="8" :span="2"><div style="color: #bbb;">已填写<span style="color: red">{{getintroductionNumber}}</span>个字</div></el-col>

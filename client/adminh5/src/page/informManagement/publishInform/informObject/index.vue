@@ -5,7 +5,7 @@
         @handleCurrentChange="handlePage"  @getRowKey="getRowKey">
         </table-data>
         <div class="button">
-            <el-col style="width:40%;" type="primary"><el-button @click="confirm">确定</el-button></el-col>
+            <el-col ><el-button style="width:10%;" @click="confirm">确定</el-button></el-col>
         </div>
         
         <!-- 添加通知对象弹出层 -->
@@ -30,7 +30,7 @@
                         <el-date-picker v-model="signTime" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                     </el-col>
                     <el-col :span="4" :offset="2">
-                        <el-button type="primary" @click.prevent="chooseInformObject">筛选</el-button>
+                        <el-button type="primary" style="width:70%;" @click.prevent="chooseInformObject">筛选</el-button>
                     </el-col>
                 </el-row>
             </div>

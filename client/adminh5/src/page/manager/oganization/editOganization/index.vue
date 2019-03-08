@@ -43,7 +43,7 @@ export default {
         //保存机构
         submitForm: function(editForm){
             const {name,organ_address,organ_name,username,organ_area,password,phone} = editForm
-            const id = this.$route.paramas.oganizationData.id
+            const id = this.$route.params.oganizationData.id
             this.$refs['editForm'].validate((valid)=> {
                 if(valid) {
                     this.$axios({
@@ -62,6 +62,8 @@ export default {
                     }).catch(err=> {
                         console.log(err);
                     })
+                } else {
+                    this.$message.warning('请检查输入内容是否合法！')
                 }
             })
         }

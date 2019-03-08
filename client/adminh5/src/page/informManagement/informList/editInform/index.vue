@@ -34,6 +34,9 @@ export default {
     mounted(){ 
         this.getInform()
     },
+    beforeDestroy(){
+        this.$store.commit('publishinfo/setquillContent','')
+    },
     methods: {
         //返回
         back: function(){

@@ -5,7 +5,7 @@
 import 'babel-polyfill'
 import Vue from "vue"
 import {Pagination,Dialog,Input,Radio,Checkbox,Select,Button,Option,Table,DatePicker,TimePicker,Form,FormItem,Icon,Upload,Container,Header,Aside,Main,Footer,TableColumn,
-    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,Dropdown,DropdownMenu,DropdownItem,Loading,Message} from 'element-ui'
+    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,Dropdown,DropdownMenu,DropdownItem,Loading,Message,MessageBox} from 'element-ui'
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(TableColumn)
@@ -40,6 +40,7 @@ Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Loading)
 Vue.prototype.$message = Message
+Vue.prototype.$MessageBox = MessageBox
 // Vue.use(MessageBox)
 
 import router from './router'

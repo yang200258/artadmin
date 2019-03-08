@@ -118,7 +118,22 @@ export default {
         },
         //删除考点1-----考场
         deleteroom(index){
-            this.examSite[index].rooms.pop()
+            if(this.isEdit) {
+                this.$confirm('该考场可能已安排考生, 确定删除该考场?', '提示', {
+                    confirmButtonText: '确定删除',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        this.examSite[index].rooms.pop()
+                    }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
+            } else {
+                this.examSite[index].rooms.pop()
+            }
         },
         //添加考点1--考场2---考试时间
         addroomtime(index,m){
@@ -148,7 +163,23 @@ export default {
         },
         //删除考点2-----
         deleteSite(){
-            this.examSite.pop()
+            if(this.isEdit) {
+                this.$confirm('该考点可能已安排考生, 确定删除该考场?', '提示', {
+                    confirmButtonText: '确定删除',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        this.examSite.pop()
+                    }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
+            } else {
+                this.examSite.pop()
+            }
+            
         },
     }
 }
@@ -216,7 +247,7 @@ export default {
                 align-items: center;
                 justify-content: space-between;
                 width: 30%;
-                margin-top: 30px;
+                margin-top: 10px;
                 overflow: hidden;
             }
             .img {

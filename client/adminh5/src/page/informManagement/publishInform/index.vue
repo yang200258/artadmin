@@ -91,6 +91,7 @@ export default {
 
     },
     beforeDestroy(){
+        console.log('触发销毁');
         this.$store.commit('informobject/setAddType','')
         this.$store.commit('publishinfo/setquillContent','')
         this.$store.commit('informobject/setaddInformobject',{})
