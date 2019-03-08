@@ -34,7 +34,7 @@ class OrganController extends Controller
         $username = $request->post('username');
 
         $model = User::find()
-            ->select('id, name, username, organ_address, phone, organ_name, create_at')
+            ->select('id, name, organ_area, username, organ_address, phone, organ_name, create_at')
             ->andWhere(['type' => User::TYPE_ORGAN])
             ->andFilterWhere(['name' => $name])
             ->andFilterWhere(['LIKE', 'phone', $phone])
