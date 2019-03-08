@@ -61,7 +61,7 @@ export default {
                     this.sites = examSite
                     util.mergeJson(examSite).then(arr=> {
                         console.log('数据处理成功！',arr)
-                        util.turn(res).then(t=>{
+                        util.turn(arr).then(t=>{
                             console.log('数据处理成功！',t);
                             util.turnFinal(t).then(final=> {
                                 console.log('数据处理成功！',final);

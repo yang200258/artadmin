@@ -83,6 +83,7 @@ const util = {
     turn: function(arr){
         return new Promise((resolve)=> {
             let o = {}
+            console.log('arr',arr);
             arr.forEach(item=> {
                 let array = o[item['address']] || []
                 array.push(item)
