@@ -77,6 +77,8 @@
                 <el-button @click="deleteexaminee">保存</el-button>
             </span>
         </el-dialog>
+
+        
         <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :loadingTable="isLoading">
         </table-data>
     </div>
@@ -181,16 +183,6 @@ export default {
             link.href = url
             document.body.appendChild(link)
             link.click()
-            // this.$axios({
-            //     url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
-            //     method: 'get',
-            // }).then(res=> {
-            //     if(res && !res.error) {
-            //         console.log('批量下载报名表',res);
-            //     }
-            // }).catch(err=> {
-            //     console.log(err);
-            // })
         },
         //批量下载准考证
         downloadCard: function(){
@@ -202,16 +194,6 @@ export default {
             link.href = url
             document.body.appendChild(link)
             link.click()
-            // this.$axios({
-            //     url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
-            //     method: 'get',
-            // }).then(res=> {
-            //     if(res && !res.error) {
-            //         console.log('批量下载准考证',res);
-            //     }
-            // }).catch(err=> {
-            //     console.log(err);
-            // })
         },
         //批量下载照片
         downloadPic: function(){
@@ -223,16 +205,6 @@ export default {
             link.href = url
             document.body.appendChild(link)
             link.click()
-            // this.$axios({
-            //     url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
-            //     method: 'get',
-            // }).then(res=> {
-            //     if(res && !res.error) {
-            //         console.log('批量下载照片',res);
-            //     }
-            // }).catch(err=> {
-            //     console.log(err);
-            // })
         },
         //到处考级名单报名表
         outputTable: function(){
