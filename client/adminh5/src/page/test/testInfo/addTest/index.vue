@@ -34,7 +34,7 @@ export default {
             baseinfo: state=> state.baseinfo,
         }),
         status(){
-            return (this.examSite.address && this.examSite.time1 && this.baseinfo.name&& this.baseinfo.examTime&& this.baseinfo.number&& this.baseinfo.applyTime) ? false : true
+            return (this.examSite[0].address && this.examSite[0].time1 && this.baseinfo.name&& this.baseinfo.examTime&& this.baseinfo.number&& this.baseinfo.applyTime) ? false : true
         }
     },
     methods: {
