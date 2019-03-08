@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import tableData from '@/page/common/tableData'
 import util from '@/util/util'
 export default {
     data(){
@@ -123,6 +124,9 @@ export default {
     mounted(){
         this.getTypeList()
         this.queryInfoData()
+    },
+    components: {
+        tableData
     },
     methods: {
         publishInfo: function(){

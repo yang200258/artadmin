@@ -22,6 +22,7 @@
 
 <script>
 import util from '@/util/util'
+import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
@@ -36,6 +37,9 @@ export default {
             testLocationData: [],
             isLoading: false
         }
+    },
+    components: {
+        tableData
     },
     mounted(){
         // this.$set(this,'',this.$route.params)

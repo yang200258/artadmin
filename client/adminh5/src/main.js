@@ -49,10 +49,6 @@ import axios from './util/ajax'
 import i18n from './util/i18n'
 import App from './index'
 
-//因组件引入循环，故全局引入组件tableData
-import tableData from './page/common/tableData.vue'
-// 注册全局组建
-Vue.component('table-data',tableData)
 import './components/install'
 // import './plugins/install'
 

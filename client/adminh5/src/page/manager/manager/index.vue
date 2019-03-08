@@ -45,6 +45,7 @@
 
 
 <script>
+import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
@@ -68,6 +69,9 @@ export default {
     },
     mounted(){
         this.queryManager()
+    },
+    components: {
+        tableData
     },
     methods: {
         handleCurrentChange: function(val){
