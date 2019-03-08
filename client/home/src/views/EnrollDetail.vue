@@ -103,7 +103,7 @@ import globalConstant from '../lib/globalConstant'
 import Seal from '../components/Seal'
 
 export default {
-  name: 'enrollDetail',
+  name: 'EnrollDetail',
   data () {
     return {
       statusText: globalConstant.statusText,

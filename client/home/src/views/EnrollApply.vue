@@ -462,6 +462,7 @@ const initialForm = {
   }
 }
 export default {
+  name: 'EnrollApply',
   data () {
     return {
       exam_id: '',
@@ -488,13 +489,13 @@ export default {
   computed: {
     ...mapState('user', ['storeUD'])
   },
-  activated () {
+  mounted () {
     console.log(this.$route.query.id)
     this.exam_id = this.$route.query.id
     this.getOptions()
     this.getForm()
   },
-  deactivated () {
+  beforeDestroy () {
     if (this.saveTimer) {
       clearTimeout(this.saveTimer)
     }
