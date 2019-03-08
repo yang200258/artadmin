@@ -84,6 +84,7 @@ export default {
         },
         //保存编辑
         save: function(){
+            const id = this.$route.params.id
             const {name,number,examTime,applyTime} = this.baseinfo
             const apply_time_start = util.filterDateTime(applyTime[0])
             const apply_time_end = util.filterDateTime(applyTime[1])
@@ -131,10 +132,10 @@ export default {
             this.$axios({
                 url: '/exam/edit',
                 method: 'post',
-                data: {name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
+                data: {id,name,number,apply_time_start,apply_time_end,exam_time_start,exam_time_end,exam_site}
             }).then(res=> {
                 if(res && !res.error) {
-                    this.$message.success(res.msg)
+                    this.$message.success('编辑成功！')
                     this.$router.push({
                         name: 'testInfo'
                     })

@@ -238,7 +238,7 @@ export default {
         outputTable: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download//download/site-apply-list?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/site-apply-list?token=${token}&exam_site_id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
