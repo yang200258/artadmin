@@ -13,7 +13,7 @@
           <div class="side-bar-item cursor-pointer" :class="{actived: $route.meta.actived === 'Regulation'}" @click.stop="sidebarClick('5')">考级简章</div>
         </div>
         <div class="side-body fr">
-          <keep-alive :exclude="['enrollDetail', 'enrollPay']">
+          <keep-alive :exclude="['EnrollDetail', 'EnrollApply', 'EnrollPay']">
             <router-view />
           </keep-alive>
         </div>

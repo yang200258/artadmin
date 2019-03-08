@@ -41,7 +41,7 @@
 <script>
 
 export default {
-  name: 'enrollPay',
+  name: 'EnrollPay',
   data () {
     return {
       enroll: {},

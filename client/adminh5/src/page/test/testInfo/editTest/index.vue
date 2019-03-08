@@ -35,6 +35,7 @@ export default {
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
+            baseinfo: state=> state.baseinfo,
             isEdit: state=> state.isEdit,
         }),
     },
@@ -87,6 +88,8 @@ export default {
         //保存编辑
         save: function(){
             const id = this.$route.params.id
+            console.log(this.baseinfo);
+            console.log(this.examSite);
             const {name,number,examTime,applyTime} = this.baseinfo
             const apply_time_start = util.filterDateTime(applyTime[0])
             const apply_time_end = util.filterDateTime(applyTime[1])
@@ -153,7 +156,8 @@ export default {
         
     },
     beforeDestroy(){
-        
+        this.$store.commit('test/initExamSite')
+        this.$store.commit('test/initBaseinfo')
     }
 }
 </script>
