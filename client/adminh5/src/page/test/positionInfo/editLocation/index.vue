@@ -161,7 +161,7 @@ export default {
                             }
                             r.apply_user_organ_name = r.apply_user.organ_name
                             examineeData.push(r)
-                            sortData.push({name: r.apply_name,id:r.id})
+                            sortData.unshift({name: r.apply_name,id:r.id})
                             this.sortData = sortData
                             this.examineeData = examineeData
                         })
@@ -190,7 +190,7 @@ export default {
         downloadCard: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/kz?token=${token}&exam_site_id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
@@ -201,7 +201,7 @@ export default {
         downloadPic: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/zp?token=${token}&exam_site_id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
