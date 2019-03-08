@@ -19,7 +19,6 @@ class Pdf {
         $pdfer->addText($apply->name, 40, 75);
         $pdfer->addText($apply->sex, 85, 75);
         $pdfer->addText($apply->nation, 115, 75);
-        $pdfer->addText($apply->level, 155, 75);
 
         $pdfer->addText($apply->pinyin, 32, 88, '');
         $pdfer->addText(substr($apply->birth, 0, 4), 95, 88);
@@ -66,6 +65,18 @@ class Pdf {
         $pdfer->addText($apply->track_four, 25, 173);
 
 
+
+        // 生成联考评审表，存储路径为正常的评审表名后加_continuous
+        if ($apply->is_continuous) {
+            $continuousPdf = clone $pdfer;
+            $continuousPdf->addText($apply->level, 155, 75);
+            $continuousStr = $apply->apply_no . '_bm_continuous';
+            $continuousName = \Yii::getAlias("@app") . "/file/apply/{$continuousStr}.pdf";
+            $continuousPdf->export($continuousName);
+            self::pdfpng($continuousName, \Yii::getAlias("@app") . "/file/applyimg/{$continuousStr}.png");
+        }
+
+        $pdfer->addText($apply->level, 155, 75);
         $str = $apply->apply_no . '_bm';
         $saveFileName = \Yii::getAlias("@app") . "/file/apply/{$str}.pdf";
         $pdfer->export($saveFileName);

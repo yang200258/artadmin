@@ -45,6 +45,7 @@ use Yii;
  * @property int $exam_site_id2 考场ID2（连考情况需安排两个考场）
  * @property string $create_at 创建时间
  * @property string $bm 报名表（评审表）PDF文件名
+ * @property string $bm_continuous 连考报名表（评审表）PDF文件名
  * @property string $kz 准考证PDF文件名
  */
 class Apply extends \yii\db\ActiveRecord
