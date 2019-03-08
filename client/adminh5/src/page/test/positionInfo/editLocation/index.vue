@@ -78,7 +78,7 @@
             </span>
         </el-dialog>
 
-        
+
         <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :loadingTable="isLoading">
         </table-data>
     </div>
@@ -86,6 +86,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import tableData from '@/page/common/tableData'
 import util from '@/util/util'
 import Auth from '@/util/auth'
 export default {
@@ -122,6 +123,7 @@ export default {
     },
     components: {
         draggable,
+        tableData
     },
     mounted(){
         this.getExamineeInfo()

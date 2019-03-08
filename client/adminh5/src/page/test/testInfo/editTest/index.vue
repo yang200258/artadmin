@@ -24,7 +24,9 @@ export default {
         }
     },
     mounted(){
-        this.getDetail(this.$route.params.id)
+        if(this.$route.params.id) {
+            this.getDetail(this.$route.params.id)
+        }
     },
     components: {
         testInfo,
@@ -136,6 +138,8 @@ export default {
             }).then(res=> {
                 if(res && !res.error) {
                     this.$message.success('编辑成功！')
+                    this.$store.commit('test/initExamSite')
+                    this.$store.commit('test/initBaseinfo')
                     this.$router.push({
                         name: 'testInfo'
                     })
@@ -149,8 +153,7 @@ export default {
         
     },
     beforeDestroy(){
-        this.$store.commit('test/initExamSite')
-        this.$store.commit('test/initBaseinfo')
+        
     }
 }
 </script>

@@ -76,6 +76,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import tableData from '@/page/common/tableData'
 import util from '@/util/util'
 import Auth from '@/util/auth'
 export default {
@@ -111,7 +112,9 @@ export default {
     mounted(){
         this.queryInfo()
     },
-    
+    components: {
+        tableData
+    },
     methods: {
       handleCurrentChange(val) {
           this.queryInfo(val)

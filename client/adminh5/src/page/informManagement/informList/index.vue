@@ -28,6 +28,7 @@
 
 <script>
 import util from '@/util/util'
+import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
@@ -40,6 +41,9 @@ export default {
             loadingInformList: false,
             deleteid: [],
         }
+    },
+    components: {
+        tableData
     },
     methods: {
         publishInform: function(){
