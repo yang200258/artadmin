@@ -35,6 +35,7 @@ export default {
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
+            baseinfo: state=> state.baseinfo,
             isEdit: state=> state.isEdit,
         }),
     },
@@ -155,7 +156,8 @@ export default {
         
     },
     beforeDestroy(){
-        
+        this.$store.commit('test/initExamSite')
+        this.$store.commit('test/initBaseinfo')
     }
 }
 </script>
