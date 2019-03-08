@@ -126,9 +126,10 @@ class ApplyController extends Controller
                 ->where(['exam_site_id' => $apply['examsite2']['id']])
                 ->andWhere(['apply_id' => $apply['id']])->scalar();
         }
-        $apply['bm_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/bm?name='. $apply['bm'] : '';
-        $apply['kz_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/kz?name='. $apply['kz'] : '';
+//        $apply['bm_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/bm?name='. $apply['bm'] : '';
+//        $apply['kz_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/kz?name='. $apply['kz'] : '';
 
+        $apply['kz_image_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/examimg/'. $apply['kz'] . '.png' : '';
         $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
         $apply['bm_continuous_image_url'] = $apply['bm_continuous'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm_continuous'] . '.png' : '';
 
