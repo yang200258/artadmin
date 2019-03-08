@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
@@ -21,6 +22,9 @@ export default {
     },
     mounted(){
         this.getOptionRecord()
+    },
+    components: {
+        tableData
     },
     methods: {
         refresh: function(){

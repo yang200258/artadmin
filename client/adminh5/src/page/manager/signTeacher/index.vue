@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
@@ -74,6 +75,9 @@ export default {
     },
     mounted(){
         this.querySignTeacher()
+    },
+    components: {
+        tableData
     },
     methods: {
         handleCurrentChange(val){

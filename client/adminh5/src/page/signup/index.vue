@@ -76,7 +76,9 @@
 
 <script>
 import {mapState} from 'vuex'
+import tableData from '@/page/common/tableData'
 import util from '@/util/util'
+import Auth from '@/util/auth'
 export default {
     data() {
         return {
@@ -110,7 +112,9 @@ export default {
     mounted(){
         this.queryInfo()
     },
-    
+    components: {
+        tableData
+    },
     methods: {
       handleCurrentChange(val) {
           this.queryInfo(val)
@@ -209,7 +213,17 @@ export default {
       },
       //导出考级录入系统报名表
       saveOutput: function() {
-
+            let token = Auth.hasToken()
+            let {domain,name,level,id_type,id_number,status,plan,postpone,organ_name,teacher_name,signTime} = this
+            let start_time = util.filterDate(signTime[0])
+            let end_time = util.filterDate(signTime[1])
+            let url = `https://www.hnyskj.net/adminapi/download/apply-list?token=${token}&start_time=${start_time}&end_time=${end_time}&domain=${domain}
+                        &name=${name}&level=${level}&id_type=${id_type}&id_number=${id_number}&status=${status}&plan=${plan}&postpone=${postpone}&organ_name=${organ_name}&teacher_name=${teacher_name}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
       },
       output: function(){
           this.outputstatus = false

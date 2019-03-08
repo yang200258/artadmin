@@ -32,6 +32,7 @@
 
 <script>
 import util from '@/util/util'
+import tableData from '@/page/common/tableData'
 export default {
     data() {
         return {
@@ -49,6 +50,9 @@ export default {
             testData: [],
             isLoading: false
         }
+    },
+    components: {
+        tableData
     },
     mounted(){
         this.queryTestInfo()
@@ -95,8 +99,14 @@ export default {
               name: 'addTest'
           })
       },
-      editTest(){
-          this.$router.push({name: 'editTest'})
+      editTest(scope){
+          this.$store.commit('test/setEdit',true)
+          this.$router.push({
+                name: 'editTest',
+                params: {
+                  id: scope.row.id  
+                }
+              })
       },
       //进入考场安排页面
       testPosition: function(scope) {

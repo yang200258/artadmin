@@ -3,87 +3,77 @@
             <el-header><el-row>考试地点安排</el-row></el-header>
             <el-main>
                 <div class="baseinfo">
-                    <el-form :model="examSite" ref="addexamsite" :rules="rules">
-                        <!-- 考试地点1************************************* -->
-                        <el-form-item label="考试地点1" prop="address"><el-input v-model="examSite.address" placeholder="请填写考试地点"></el-input></el-form-item>
-                        <!-- 考场1*********************** -->
-                        <div class="examsite2">
-                            <p style="color: 14px;"><span style="color: red">*</span >考场1：</p>
-                            <div class="img">
-                                <img src="@/assets/images/add.png"  @click="changeRoomStatus">
-                            </div>
-                        </div>
-                        <div class="line"></div>
-                        <!-- 考试时间1********** -->
-                        <div class="examsite_address2_time2">
-                            <div class="img2"><img src="@/assets/images/add.png" @click="addtime"></div>
-                            <el-form-item prop="time1" required>
-                                <p style="color: 14px;"><span style="color: red">*</span >考试时间1：</p>
-                                <el-date-picker type="datetime" v-model="examSite.time1" placeholder="请设置考场考试时间"></el-date-picker>
+                    <el-form :model="examSite" ref="addexamsite">
+                        <div v-for="(site,index) in examSite" :key="site.key">
+                            <div class="line" style="width:100%" v-if="examSite.length !== 1"></div>
+                            <!-- 考试地点1************************************* -->
+                            <el-form-item>
+                                <p style="color: 14px;"><span style="color: red" v-if="index == 0">*</span >考试地点{{index+1}}：</p>
+                                <el-input v-model="site.address" placeholder="请填写考试地点"></el-input>
                             </el-form-item>
-                            <el-form-item v-for="(time,index) in examSite.time" :key="time.key" :prop="'time.' + index + '.value'" v-if="time1status">
-                                <p style="color: 14px;">考试时间{{index+2}}：</p>
-                                <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
-                            </el-form-item>
-                        </div>
-                        
-                        
-
-                        <div class="line2"  v-if="roomstatus || siteStatus"></div>
-                        <!-- 添加、删除考点1的考场********************************************************************** -->
-                        <div class="editinfo" v-for="(room,index) in examSite.rooms" :key="room.key" v-if="roomstatus">
-                            <div class="examsite2">
-                                <p style="color: 14px;">考场{{(index+2)}}：</p>
-                                <div class="img">
-                                    <img src="@/assets/images/delete.png" style="margin-right:16px" @click="deleteroom">
-                                    <img src="@/assets/images/add.png"  @click="addroom">
-                                </div>
-                            </div>
-                            <div class="line"></div>
-                            <!-- 考试时间1*********** -->
-                            <el-form-item >
-                                <p style="color: 14px;">考试时间1：</p>
-                                <el-date-picker type="datetime" v-model="room.time1" placeholder="请设置考场考试时间"></el-date-picker>
-                            </el-form-item>
-                            <!-- 考试时间2************ -->
-                            <div class="examsite_address2_time2" v-if="isEmpty">
-                                <div class="img2">
-                                    <img src="@/assets/images/delete.png" style="margin-right:16px"  @click="deletetime(index)">
-                                    <img src="@/assets/images/add.png"  @click="addroomtime(index)" >
-                                </div>
-                                <el-form-item v-for="(item,i) in room.times" :key="item.key">
-                                    <p style="color: 14px;">考试时间{{i+2}}：</p>
-                                    <el-date-picker type="datetime" v-model="item.value" placeholder="请设置考场考试时间"></el-date-picker>
-                                </el-form-item>
-                            </div>
-                            <div class="line" style="width: 100%;"></div>
-                        </div>
-
-
-                        <!-- 添加考点********************************************************************** -->
-                        <div v-for="(site,index) in examSite.sites" :key="site.key" v-if="siteStatus">
-                            <!-- 考试地点2************************************* -->
-                            <div class="examsite_address2_time2">
-                                <div class="img2">
-                                    <img src="@/assets/images/delete.png" @click="deleteSite" >
-                                </div>
-                                <el-form-item :label="'考试地点' + (index+2) + '：'"><el-input v-model="site.site" placeholder="请填写考试地点"></el-input></el-form-item>
-                            </div>
                             <!-- 考场1*********************** -->
-                            <p style="color: 14px;">考场1：</p>
-                            <div class="line"></div>
-                            <!-- 考试时间1********** -->
-                            <div class="examsite_address2_time2">
-                                <div class="img2">
-                                    <img src="@/assets/images/add.png"  @click="addaddresstime(index)">
+                            <div class="examsite2">
+                                <p style="color: 14px;"><span style="color: red">*</span >考场1：</p>
+                                <div class="img" v-if="site.rooms.length == 0">
+                                    <img src="@/assets/images/add.png"  @click="addroom(index)">
                                 </div>
-                                <el-form-item v-for="(time,index) in site.times" :key="time.key">
-                                    <p style="color: 14px;">考试时间{{index+1}}：</p>
+                            </div>
+                            <div class="line"></div>
+                            <!-- 考试时间********** -->
+                            <div class="examsite_address2_time2">
+                                <div class="img2"><img src="@/assets/images/add.png" @click="addtime(index)" v-if="site.time.length == 0"></div>
+                                <!-- 考试时间1********** -->
+                                <el-form-item>
+                                    <p style="color: 14px;"><span style="color: red">*</span >考试时间1：</p>
+                                    <el-date-picker type="datetime" v-model="site.time1" placeholder="请设置考场考试时间"></el-date-picker>
+                                </el-form-item>
+                                <!-- 考试时间2********** -->
+                                <el-form-item v-for="(time,i) in site.time" :key="time.key" v-if="site.time.length !== 0">
+                                    <div class="img2">
+                                        <img src="@/assets/images/delete.png" style="margin-right:16px" v-if="site.time.length == (i + 1)" @click="deleteRoomTime(index)">
+                                        <img src="@/assets/images/add.png" @click="addtime(index)" v-if="site.time.length == (i + 1)">
+                                    </div>
+                                    <p style="color: 14px;">考试时间{{i+2}}：</p>
                                     <el-date-picker type="datetime" v-model="time.value" placeholder="请设置考场考试时间"></el-date-picker>
                                 </el-form-item>
                             </div>
+                            <!-- 添加、删除考点的考场********************************************************************** -->
+                            <div class="editinfo" v-for="(room,m) in site.rooms" :key="room.key" v-if="site.rooms.length !== 0">
+                                <div class="line2"  v-if="site.rooms.length !== 0"></div>
+                                <div class="examsite2">
+                                    <p style="color: 14px;">考场{{(m+2)}}：</p>
+                                    <div class="img">
+                                        <img src="@/assets/images/delete.png" style="margin-right:16px" @click="deleteroom(index)" v-if="site.rooms.length == (m+1)">
+                                        <img src="@/assets/images/add.png"  @click="addroom(index)" v-if="site.rooms.length == (m+1)">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <!-- 考试时间*********** -->
+                                <div class="examsite_address2_time2">
+                                    <div class="img2"><img src="@/assets/images/add.png"  @click="addroomtime(index,m)" v-if="room.times.length == 0"></div>
+                                    <!-- 考试时间1********** -->
+                                    <el-form-item >
+                                        <p style="color: 14px;">考试时间1：</p>
+                                        <el-date-picker type="datetime" v-model="room.time1" placeholder="请设置考场考试时间"></el-date-picker>
+                                    </el-form-item>
+                                    <!-- 考试时间2************ -->
+                                    <div v-for="(item,n) in room.times" :key="item.key"  v-if="room.times.length !== 0">
+                                        <div class="img2">
+                                            <img src="@/assets/images/delete.png" style="margin-right:16px"  @click="deletetime(index,m)" v-if="room.times.length == (n+1)">
+                                            <img src="@/assets/images/add.png"  @click="addroomtime(index,m)" v-if="room.times.length == (n+1)">
+                                        </div>
+                                        <el-form-item>
+                                            <p style="color: 14px;">考试时间{{n+2}}：</p>
+                                            <el-date-picker type="datetime" v-model="item.value" placeholder="请设置考场考试时间"></el-date-picker>
+                                        </el-form-item>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <el-button class="addsite" @click="addsite">继续添加考点</el-button>
+                        <el-row class="btn"> 
+                            <el-col :span="4"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
+                            <el-col :span="4"><el-button @click="addsite">继续添加考点</el-button></el-col>
+                        </el-row>
                         <div class="line" style="width: 100%"></div>
                     </el-form>
                 </div>
@@ -96,57 +86,69 @@ import {mapState} from 'vuex'
 export default {
     data(){
         return{
-            isEmpty: true,
-            roomstatus: false,
-            siteStatus: false,
-            time1status: false
+
         }
     },
     computed: {
         ...mapState('test',{
             examSite: state=> state.examSite,
-            rules: state=> state.rules,
+            isEdit: state=> state.isEdit,
         })
         
     },
     methods: {
         //添加考点1--考场1---考试时间
-        addtime(){
-            if(this.time1status) {
-                this.examSite.time.push({
-                    value: '',
-                    key: Date.now()
-                })
+        addtime(index){
+            this.examSite[index].time.push({
+                value: '',
+                key: Date.now()
+            })
+        },
+        //删除考点1--考场1--考试时间
+        deleteRoomTime: function(index){
+            this.examSite[index].time.pop()
+        },
+        //添加考点1------考场
+        addroom(index){
+            this.examSite[index].rooms.push({
+                time1: '',
+                times: [],
+                key: Date.now()
+            })
+        },
+        //删除考点1-----考场
+        deleteroom(index){
+            if(this.isEdit) {
+                this.$confirm('该考场可能已安排考生, 确定删除该考场?', '提示', {
+                    confirmButtonText: '确定删除',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        this.examSite[index].rooms.pop()
+                    }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
             } else {
-                this.time1status = true
+                this.examSite[index].rooms.pop()
             }
         },
         //添加考点1--考场2---考试时间
-        addroomtime(index){
-            console.log(this.examSite.rooms[index]);
-          this.examSite.rooms[index].times.push({
+        addroomtime(index,m){
+          this.examSite[index].rooms[m].times.push({
                 value: '',
                 key: Date.now()
             })  
         },
         //删除考点1--考场2---考试时间
-        deletetime(index){
-            if( this.examSite.rooms[index].times.length == '1') {
-                this.isEmpty = false
-            }
-             this.examSite.rooms[index].times.pop()
+        deletetime(index,m){
+             this.examSite[index].rooms[m].times.pop()
         },
-        //删除考点1-----考场
-        deleteroom(){
-             this.examSite.rooms.pop()
-        },
-        //添加考点1------考场
-        addroom(){
-            this.examSite.rooms.push({
-                time1: '',
-                times: [{value: '',key: Date.now()}],
-                key: Date.now()
-            })
+        //添加考点2------考场
+        addsiteroom: function(){
+            
         },
         //添加考点2--考场1---考试时间
         addaddresstime(index){
@@ -157,27 +159,27 @@ export default {
         },
         //添加考点------------
         addsite() {
-            if(!this.siteStatus) {
-                this.siteStatus = true
-            } else {
-                this.examSite.sites.push({
-                    site: '',
-                    times: [{value: '',key: Date.now()}],
-                    key: Date.now()
-                })
-            }
+            this.examSite.push({address: "",time1: '',time: [],rooms: []})
         },
         //删除考点2-----
         deleteSite(){
-            this.examSite.sites.pop()
-        },
-
-        changeRoomStatus: function(){
-            if(!this.roomstatus) {
-                this.roomstatus = true
+            if(this.isEdit) {
+                this.$confirm('该考点可能已安排考生, 确定删除该考场?', '提示', {
+                    confirmButtonText: '确定删除',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        this.examSite.pop()
+                    }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
             } else {
-                this.addroom()
+                this.examSite.pop()
             }
+            
         },
     }
 }
@@ -245,7 +247,7 @@ export default {
                 align-items: center;
                 justify-content: space-between;
                 width: 30%;
-                margin-top: 30px;
+                margin-top: 10px;
                 overflow: hidden;
             }
             .img {
@@ -307,8 +309,9 @@ export default {
                     display: block;
                 }
             }
-            .addsite {
-                margin-left: 50%;
+            .btn {
+                display: flex;
+                justify-content: center;
             }
         }
         

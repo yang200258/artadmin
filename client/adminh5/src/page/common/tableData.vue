@@ -9,10 +9,10 @@
                     </el-col>
                     <el-col :span="14">
                         <el-row type="flex" justify-content="end">
-                            <el-col :span="2">
+                            <el-col :span="2" :offset="5">
                                 <el-button type="primary" @click.prevent="option"  v-if="isEditOption">{{optionName}}</el-button>
                             </el-col>
-                            <el-col :span="4"  :offset="10">
+                            <el-col :span="4"  :offset="5">
                                 <el-button type="primary" @click.prevent="editOption"  v-if="isEdit">{{editName}}</el-button>
                             </el-col>
                             <el-col :span="6" :offset="4"><el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button></el-col>
@@ -21,8 +21,8 @@
                 </el-row>
                 <el-main>
                     <table-mixin>
-                        <el-table  v-loading="loadingTable" :data="tableData" border @selection-change="handleSelectionChange" :highlight-current-row="true" 
-                        :row-key="getRowKey">
+                        <el-table  v-loading="loadingTable" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" :default-sort="{prop:'sort', order: 'ascending'}"
+                        :data="tableData" border @selection-change="handleSelectionChange" :highlight-current-row="true"  :row-key="getRowKey">
                             <el-table-column type="selection" align="center" v-if="isSelected"> </el-table-column>
                             <el-table-column v-for="(item,index) in head" :prop="item.key" :label="item.name" :key="index" align="center" :show-overflow-tooltip="true" 
                             :reserve-selection="true">

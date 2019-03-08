@@ -5,7 +5,7 @@
 import 'babel-polyfill'
 import Vue from "vue"
 import {Pagination,Dialog,Input,Radio,Checkbox,Select,Button,Option,Table,DatePicker,TimePicker,Form,FormItem,Icon,Upload,Container,Header,Aside,Main,Footer,TableColumn,
-    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,Dropdown,DropdownMenu,DropdownItem,Loading,Message} from 'element-ui'
+    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,Dropdown,DropdownMenu,DropdownItem,Loading,Message,MessageBox} from 'element-ui'
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(TableColumn)
@@ -40,6 +40,7 @@ Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Loading)
 Vue.prototype.$message = Message
+Vue.prototype.$MessageBox = MessageBox
 // Vue.use(MessageBox)
 
 import router from './router'
@@ -48,10 +49,6 @@ import axios from './util/ajax'
 import i18n from './util/i18n'
 import App from './index'
 
-//因组件引入循环，故全局引入组件tableData
-import tableData from './page/common/tableData.vue'
-// 注册全局组建
-Vue.component('table-data',tableData)
 import './components/install'
 // import './plugins/install'
 

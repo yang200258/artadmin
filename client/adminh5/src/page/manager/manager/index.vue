@@ -45,6 +45,7 @@
 
 
 <script>
+import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
@@ -68,6 +69,9 @@ export default {
     },
     mounted(){
         this.queryManager()
+    },
+    components: {
+        tableData
     },
     methods: {
         handleCurrentChange: function(val){
@@ -112,22 +116,27 @@ export default {
         },
         //编辑账号
         editAccount: function(scope){
-            // const rightlist = []
-            // if(scope.row.exam == '1')  rightlist.push('exam')
-            // if(scope.row.apply == '1')  rightlist.push('apply')
-            // if(scope.row.msg == '1')  rightlist.push('msg')
-            // if(scope.row.inform == '1')  rightlist.push('inform')
-            // if(scope.row.admin == '1')  rightlist.push('admin')
-            // this.$store.commit('manager/setRightlist',rightlist)
             this.$store.commit('manager/setManagerdata',scope.row)
             this.$router.push({
                 name: 'editmanager',
-                // rightlist: rightlist
             })
         },
         //删除账号
-        deleteInfo: function(){
-            
+        deleteInfo: function(scope){
+            const id = scope.row.id
+            this.$axios({
+                url: '/admin/delete',
+                method: 'post',
+                data: {id}
+            }).then(res => {
+                if(res  && !res.error) {
+                    this.$message.success('删除成功！')
+                } else {
+                    this.$message.warning(res.msg)
+                }
+            }).catch(err=> {
+                console.log(err);
+            })
         },
         // 关闭重置密码框回调
         handleClose: function(){

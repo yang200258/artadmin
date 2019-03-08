@@ -77,6 +77,8 @@
                 <el-button @click="deleteexaminee">保存</el-button>
             </span>
         </el-dialog>
+
+
         <table-data :head="head" :tableData="examineeData" :isOption="'true'" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo" :loadingTable="isLoading">
         </table-data>
     </div>
@@ -84,6 +86,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import tableData from '@/page/common/tableData'
 import util from '@/util/util'
 import Auth from '@/util/auth'
 export default {
@@ -120,6 +123,7 @@ export default {
     },
     components: {
         draggable,
+        tableData
     },
     mounted(){
         this.getExamineeInfo()
@@ -157,7 +161,7 @@ export default {
                             }
                             r.apply_user_organ_name = r.apply_user.organ_name
                             examineeData.push(r)
-                            sortData.push({name: r.apply_name,id:r.id})
+                            sortData.unshift({name: r.apply_name,id:r.id})
                             this.sortData = sortData
                             this.examineeData = examineeData
                         })
@@ -181,62 +185,39 @@ export default {
             link.href = url
             document.body.appendChild(link)
             link.click()
-            // this.$axios({
-            //     url: '/download/bm?token='+ token + '&exam_site_id=' +exam_site_id,
-            //     method: 'get',
-            // }).then(res=> {
-            //     if(res && !res.error) {
-            //         console.log('批量下载报名表',res);
-            //     }
-            // }).catch(err=> {
-            //     console.log(err);
-            // })
         },
         //批量下载准考证
         downloadCard: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/kz?token=${token}&exam_site_id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
             document.body.appendChild(link)
             link.click()
-            // this.$axios({
-            //     url: '/download/kz?token='+ token + '&exam_site_id=' +exam_site_id,
-            //     method: 'get',
-            // }).then(res=> {
-            //     if(res && !res.error) {
-            //         console.log('批量下载准考证',res);
-            //     }
-            // }).catch(err=> {
-            //     console.log(err);
-            // })
         },
         //批量下载照片
         downloadPic: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download/bm?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/zp?token=${token}&exam_site_id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
             document.body.appendChild(link)
             link.click()
-            // this.$axios({
-            //     url: '/download/zp?token='+ token + '&exam_site_id=' +exam_site_id,
-            //     method: 'get',
-            // }).then(res=> {
-            //     if(res && !res.error) {
-            //         console.log('批量下载照片',res);
-            //     }
-            // }).catch(err=> {
-            //     console.log(err);
-            // })
         },
         //到处考级名单报名表
         outputTable: function(){
-            
+            let token = Auth.hasToken()
+            let exam_site_id = this.exam_site_id
+            let url = `https://www.hnyskj.net/adminapi/download/site-apply-list?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
         },
 
 
