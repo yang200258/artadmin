@@ -5,8 +5,9 @@
                 <div class="baseinfo">
                     <el-form :model="examSite" ref="addexamsite" :rules="rules">
                         <div v-for="(site,index) in examSite" :key="site.key">
+                            <div class="line" style="sidth:100%" v-if="examSite.length !== 1"></div>
                             <!-- 考试地点1************************************* -->
-                            <el-form-item :label="'考试地点' + (index+1)" :prop="'address' + (index+1)"><el-input v-model="site.address" placeholder="请填写考试地点"></el-input></el-form-item>
+                            <el-form-item :label="'考试地点' + (index+1)" prop="address1"><el-input v-model="site.address" placeholder="请填写考试地点"></el-input></el-form-item>
                             <!-- 考场1*********************** -->
                             <div class="examsite2">
                                 <p style="color: 14px;"><span style="color: red">*</span >考场1：</p>
@@ -19,12 +20,12 @@
                             <div class="examsite_address2_time2">
                                 <div class="img2"><img src="@/assets/images/add.png" @click="addtime(index)" v-if="site.time.length == 0"></div>
                                 <!-- 考试时间1********** -->
-                                <el-form-item prop="time1" required>
+                                <el-form-item prop="time1">
                                     <p style="color: 14px;"><span style="color: red">*</span >考试时间1：</p>
                                     <el-date-picker type="datetime" v-model="site.time1" placeholder="请设置考场考试时间"></el-date-picker>
                                 </el-form-item>
                                 <!-- 考试时间2********** -->
-                                <el-form-item v-for="(time,i) in site.time" :key="time.key" :prop="'time.' + i + '.value'" v-if="site.time.length !== 0">
+                                <el-form-item v-for="(time,i) in site.time" :key="time.key" v-if="site.time.length !== 0">
                                     <div class="img2">
                                         <img src="@/assets/images/delete.png" style="margin-right:16px" v-if="site.time.length == (i + 1)" @click="deleteRoomTime(index)">
                                         <img src="@/assets/images/add.png" @click="addtime(index)" v-if="site.time.length == (i + 1)">
@@ -43,7 +44,7 @@
                                         <img src="@/assets/images/add.png"  @click="addroom(index)" v-if="site.rooms.length == (m+1)">
                                     </div>
                                 </div>
-                                <div class="line2"></div>
+                                <div class="line"></div>
                                 <!-- 考试时间*********** -->
                                 <div class="examsite_address2_time2">
                                     <div class="img2"><img src="@/assets/images/add.png"  @click="addroomtime(index,m)" v-if="room.times.length == 0"></div>
@@ -53,19 +54,21 @@
                                         <el-date-picker type="datetime" v-model="room.time1" placeholder="请设置考场考试时间"></el-date-picker>
                                     </el-form-item>
                                     <!-- 考试时间2************ -->
-                                    <div class="img2" v-if="room.times.length !== 0">
-                                        <img src="@/assets/images/delete.png" style="margin-right:16px"  @click="deletetime(index,m)" v-if="room.times.length == (m+1)">
-                                        <img src="@/assets/images/add.png"  @click="addroomtime(index,m)" v-if="room.times.length == (m+1)">
+                                    <div v-for="(item,n) in room.times" :key="item.key"  v-if="room.times.length !== 0">
+                                        <div class="img2">
+                                            <img src="@/assets/images/delete.png" style="margin-right:16px"  @click="deletetime(index,m)" v-if="room.times.length == (n+1)">
+                                            <img src="@/assets/images/add.png"  @click="addroomtime(index,m)" v-if="room.times.length == (n+1)">
+                                        </div>
+                                        <el-form-item>
+                                            <p style="color: 14px;">考试时间{{n+2}}：</p>
+                                            <el-date-picker type="datetime" v-model="item.value" placeholder="请设置考场考试时间"></el-date-picker>
+                                        </el-form-item>
                                     </div>
-                                    <el-form-item v-for="(item,n) in room.times" :key="item.key" v-if="room.times.length !== 0">
-                                        <p style="color: 14px;">考试时间{{n+2}}：</p>
-                                        <el-date-picker type="datetime" v-model="item.value" placeholder="请设置考场考试时间"></el-date-picker>
-                                    </el-form-item>
                                 </div>
                             </div>
                         </div>
                         <el-row>
-                            <el-col :span="4" :push="8"><el-button @click="deleteSite">删除考点</el-button></el-col>
+                            <el-col :span="4" :offset="6"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
                             <el-col :span="4"><el-button @click="addsite">继续添加考点</el-button></el-col>
                         </el-row>
                         <div class="line" style="width: 100%"></div>
