@@ -7,7 +7,7 @@
                         <div v-for="(site,index) in examSite" :key="site.key">
                             <div class="line" style="sidth:100%" v-if="examSite.length !== 1"></div>
                             <!-- 考试地点1************************************* -->
-                            <el-form-item :label="'考试地点' + (index+1)" prop="address1"><el-input v-model="site.address" placeholder="请填写考试地点"></el-input></el-form-item>
+                            <el-form-item :label="'考试地点' + (index+1)" prop="address"><el-input v-model="site.address" placeholder="请填写考试地点"></el-input></el-form-item>
                             <!-- 考场1*********************** -->
                             <div class="examsite2">
                                 <p style="color: 14px;"><span style="color: red">*</span >考场1：</p>
@@ -67,8 +67,8 @@
                                 </div>
                             </div>
                         </div>
-                        <el-row>
-                            <el-col :span="4" :offset="6"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
+                        <el-row :justify="center"> 
+                            <el-col :span="4"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
                             <el-col :span="4"><el-button @click="addsite">继续添加考点</el-button></el-col>
                         </el-row>
                         <div class="line" style="width: 100%"></div>

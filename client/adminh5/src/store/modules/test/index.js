@@ -1,7 +1,7 @@
 const state = {
     examSite: [{address: "",time1: '',time: [],rooms: []}],
     baseinfo: {number: '',name: '',applyTime: [],examTime: []},
-    rules: {address1:[{required: true, message: '请输入考试地点', trigger: 'blur'}],time1:[{type: 'date',required: true, message: '请设置考试时间', trigger: 'change'}]}
+    rules: {address:[{required: true, message: '请输入考试地点', trigger: 'blur'}],time1:[{type: 'date',required: true, message: '请设置考试时间', trigger: 'change'}]}
 }
 
 
