@@ -129,6 +129,9 @@ class ApplyController extends Controller
         $apply['bm_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/bm?name='. $apply['bm'] : '';
         $apply['kz_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/kz?name='. $apply['kz'] : '';
 
+        $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
+        $apply['bm_continuous_image_url'] = $apply['bm_continuous'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm_continuous'] . '.png' : '';
+
         return $this->json($apply);
     }
 
