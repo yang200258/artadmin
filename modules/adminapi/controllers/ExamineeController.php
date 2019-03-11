@@ -109,7 +109,7 @@ class ExamineeController extends Controller
         {
             ExamExaminee::saveExamExaminee($exam_site_id, $one);
             Apply::updateAll(['kz' =>  Pdf::createPdfExam($one->id)], ['id' => $one->id]);
-            Record::saveRecord($this->admin->id, 2, "{$examName}-考点{$exam_site->address}-{$exam_site->room}-{$exam_site->exam_time}-添加考生：{$one->name}");
+            Record::saveRecord($this->admin->id, 2, "{$examName}-考点{$exam_site->address}-{$exam_site->room}-{$exam_site->exam_time}-添加考生“{$one->name}”");
         }
 
         return $this->ok('添加成功');
