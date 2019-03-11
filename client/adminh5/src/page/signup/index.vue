@@ -143,10 +143,10 @@ export default {
                       data.forEach(item=> {
                           util.flatData(item).then(list=> {
                               if(list.examsite1_address) {
-                                  list.room1 = '考场1' + list.examsite1_address + '(' + list.examsite1_room + ')；'
+                                  list.room1 = list.examsite1_address + '(' + list.examsite1_room + ')；'
                               }
                               if(list.examsite2_address) {
-                                  list.room2 = '考场2' + list.examsite2_address + '(' + list.examsite2_room + ')'
+                                  list.room2 = list.examsite2_address + '(' + list.examsite2_room + ')'
                               }
                               if(list.examsite1_address && !list.examsite2_address) {
                                   list.room = list.room1

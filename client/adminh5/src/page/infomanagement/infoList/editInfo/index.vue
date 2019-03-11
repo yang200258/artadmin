@@ -80,8 +80,12 @@ export default {
         saveEdit:function(){
             const publishData = this.$store.state.publishinfo.publishData
             const quillContent = this.$store.state.publishinfo.quillContent
-            // publishData.status = this.$store.state.publishinfo.publishData.status
             publishData.content = quillContent
+            if(this.status == '草稿') {
+                publishData.status = '2'
+            } else {
+                publishData.status = '1'
+            }
             publishData.id = this.$route.params.id
             this.$axios({
                 method: 'post',
