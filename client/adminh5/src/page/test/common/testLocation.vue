@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="line" style="width:100%" v-if="examSite.length !== 1"></div>
+                            <div class="line" style="width:100%" v-if="examSite.length !== (index+1)"></div>
                         </div>
                         <el-row class="btn"> 
                             <el-col :span="4"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
