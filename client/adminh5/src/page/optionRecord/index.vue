@@ -1,7 +1,7 @@
 <template>
     <div class="option-container">
         <table-data :isPagination="'true'" :totalNumber="total" :pageSize="limit" :currentPage="pn" :isEdit="'true'" :editName="'刷新'" :head="head" 
-        :tableData="optionData" :loadingTable="loadingOptionRecord" @editInfo="refresh" @handleCurrentChange="handleCurrentChange"></table-data>
+        :tableData="optionData" :loadingTable="loadingOptionRecord" @editOption="refresh" @handleCurrentChange="handleCurrentChange"></table-data>
     </div>
 </template>
 
@@ -10,7 +10,7 @@ import tableData from '@/page/common/tableData'
 export default {
     data(){
         return{
-            total: 200,
+            total: 0,
             limit: 50,
             pn: 1,
             head: [{key:'admin_id',name: '管理员ID'},{key:'admin_name',name: '姓名'},{key:'optiontype',name: '操作类型'},

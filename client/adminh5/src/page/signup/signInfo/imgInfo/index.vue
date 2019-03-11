@@ -5,9 +5,9 @@
             <el-button @click="back">返回</el-button>
         </div>
         <div class="imginfo">
-            <el-carousel :interval="5000" arrow="always" class="img" autoplay="false">
+            <el-carousel class="img" :autoplay="'false'">
                 <el-carousel-item v-for="item in imgurl" :key="item">
-                    <img :src="item" alt="">
+                    <img :src="item" alt="" v-if="item !== ''">
                 </el-carousel-item>
             </el-carousel>
         </div>
