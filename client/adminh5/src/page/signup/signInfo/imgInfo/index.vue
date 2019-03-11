@@ -5,7 +5,11 @@
             <el-button @click="back">返回</el-button>
         </div>
         <div class="imginfo">
-            <img :src="imgsrc" alt="">
+            <el-carousel class="img" :autoplay="'false'">
+                <el-carousel-item v-for="item in imgurl" :key="item">
+                    <img :src="item" alt="" v-if="item !== ''">
+                </el-carousel-item>
+            </el-carousel>
         </div>
     </div>
 </template>
@@ -15,7 +19,12 @@
 export default {
     data(){
         return {
-            imgsrc: ''
+            imgurl: []
+        }
+    },
+    mounted(){
+        if(this.$route.params.imgurl) {
+            this.imgurl = this.$route.params.imgurl
         }
     },
     methods: {
@@ -40,9 +49,16 @@ export default {
         }
         .imginfo {
             margin: 30px 0;
-            width: 600px;
-            height: 700px;
-            border: 1px solid rgb(3, 3, 3)
+            width: 867px;
+            height: 1298px;
+            border: 1px solid rgb(3, 3, 3);
+            .el-carousel__container {
+                height: 100%;
+            }
+            .img {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 </style>

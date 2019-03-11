@@ -35,7 +35,7 @@ export default {
         this.getInform()
     },
     beforeDestroy(){
-        this.$store.commit('publishinfo/setquillContent','')
+        // this.$store.commit('publishinfo/setquillContent','')
     },
     methods: {
         //返回
