@@ -12,6 +12,7 @@ use Yii;
  */
 class MsgCategory extends \yii\db\ActiveRecord
 {
+    const BANNER_IMAGE_CATEGORY = 8;
     /**
      * {@inheritdoc}
      */
