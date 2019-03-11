@@ -142,17 +142,17 @@ export default {
                   if(data.length > 0){
                       data.forEach(item=> {
                           util.flatData(item).then(list=> {
-                              if(list.examsite1) {
-                                  list.room1 = '考场1' + list.examsite1.address + '(' + list.examsite1.room + ')；'
+                              if(list.examsite1_address) {
+                                  list.room1 = '考场1' + list.examsite1_address + '(' + list.examsite1_room + ')；'
                               }
-                              if(list.examsite2) {
-                                  list.room2 = '考场2' + list.examsite2.address + '(' + list.examsite2.room + ')'
+                              if(list.examsite2_address) {
+                                  list.room2 = '考场2' + list.examsite2_address + '(' + list.examsite2_room + ')'
                               }
-                              if(list.examsite1 && !list.examsite2) {
+                              if(list.examsite1_address && !list.examsite2_address) {
                                   list.room = list.room1
                               }
                             if(list.examsite1 && list.examsite2) {
-                                  list.room = list.room1 + list.room2
+                                  list.room = list.room1 + ';' +list.room2
                               }
                               this.verifyOptions.forEach(item=> {
                                   if(list.status == item.value) {

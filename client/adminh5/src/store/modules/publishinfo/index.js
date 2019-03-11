@@ -1,5 +1,5 @@
 const state = {
-    publishData: {cid:"",title:"",status: 1,cover_id:"",intro:"",content:""},
+    publishData: {cid:"",title:"",status: '',cover_id:"",intro:"",content:""},
     infoTypeOptions: [],
     titleNumber: 0,
     quillContent: '',
