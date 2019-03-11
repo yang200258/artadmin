@@ -165,22 +165,22 @@
                         <el-col :span="8"><el-button type="primary" plain  @click="getExam">查看考生准考证</el-button></el-col>
                     </el-row>
                     <div class="verifyresult" v-if="status">
-                    <el-row>
-                        <el-col :span="6" :offset="2">
-                            <span>是否缺考顺延：</span>
-                            <template>
-                                <el-radio v-model="radio" label="0" >否</el-radio>
-                                <el-radio v-model="radio" label="1" >是</el-radio>
-                            </template>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6" :offset="4">
-                            <el-button @click="backlost">  返回  </el-button>
-                            <el-button @click="confirmlost">  确定  </el-button>
-                        </el-col>
-                    </el-row>
-                </div>
+                        <el-row>
+                            <el-col :span="6" :offset="2">
+                                <span>是否缺考顺延：</span>
+                                <template>
+                                    <el-radio v-model="radio" label="0" >否</el-radio>
+                                    <el-radio v-model="radio" label="1" >是</el-radio>
+                                </template>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6" :offset="4">
+                                <el-button @click="backlost">  返回  </el-button>
+                                <el-button @click="confirmlost">  确定  </el-button>
+                            </el-col>
+                        </el-row>
+                    </div>
                 </div>
             </el-main>
         </el-container>
@@ -219,7 +219,25 @@ export default {
         },
         //确定缺考顺延操作
         confirmlost: function() {
-            this.$router.go(-1)
+            if(this.radio) {
+                const apply_id = detail.id
+                this.$axios({
+                    url: '/apply/prolong',
+                    method: 'post',
+                    data:{apply_id}
+                }).then(res=> {
+                    this.$router.go(-1)
+                    if(res && !res.error) {
+                        this.$message.success(res.msg)
+                    } else {
+                        this.$message.warning(res.msg)
+                    }
+                }).catch(err=> {
+                    console.log(err);
+                })
+            } else {
+                this.$router.go(-1)
+            }
         },
         //获取考生详情信息
         getDetail: function(){
