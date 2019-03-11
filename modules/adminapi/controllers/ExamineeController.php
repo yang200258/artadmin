@@ -41,7 +41,8 @@ class ExamineeController extends Controller
         $teacher_name = $request->post('teacher_name', '');//老师名称;
 
         $model = Apply::find()->with('user')
-            ->andWhere(['exam_id' => $exam_id])
+            // 如果不是缺考顺延就是当前考场，如果是则是下一个考场
+            ->andWhere(['or', ['exam_id' => $exam_id, 'postpone' => 0], ['exam_id' => $exam_id + 1, 'postpone' => 1]])
             ->andWhere(['plan' => 4]) //已缴费
             ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
             ->andFilterWhere(['name' => $name])
