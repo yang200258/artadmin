@@ -55,6 +55,11 @@ export default {
             width: 867px;
             height: 1298px;
             border: 1px solid rgb(3, 3, 3);
+            .el-carousel {
+                .el-carousel__container {
+                    height: 100%!important;
+                }
+            }
             .img {
                 width: 100%;
                 height: 100%;
