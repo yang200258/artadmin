@@ -4,8 +4,8 @@
         <richtext class="richtext"></richtext>
         <el-row class="footer">
             <el-col :offset="8">
-                <el-button @click="saveExample" style="width:6%;margin-right:50px;" type="primary">存草稿</el-button>
-                <el-button @click="publish" style="width:6%;">发布</el-button>  
+                <el-button @click="saveExample" style="width:6%;margin-right:50px;">存草稿</el-button>
+                <el-button @click="publish" style="width:6%;" type="primary">发布</el-button>  
             </el-col>
         </el-row>
     </div>
