@@ -116,7 +116,6 @@ export default {
                 {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
             apply_id_arr: [],
             exam_site_id: '',
-            exam_id: '',
             loadingExam: false,
             loadingInfo: false,
         }

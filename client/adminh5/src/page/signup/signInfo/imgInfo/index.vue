@@ -32,14 +32,14 @@ export default {
             this.$router.go(-1)
         },
         download(){
-            let el = document.getElementsByClassName('is-active')
-            console.log(el);
+            let url = document.getElementsByClassName('is-active')[1].children[0].src
+            console.log(url);
             // let url = `https://www.hnyskj.net/adminapi/download/zp?token=${token}&exam_site_id=${exam_site_id}`
-            // let link = document.createElement('a')
-            // link.style.display = 'none'
-            // link.href = url
-            // document.body.appendChild(link)
-            // link.click()
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
         }
     }
 }
