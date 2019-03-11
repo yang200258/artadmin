@@ -99,7 +99,7 @@ class Pdf {
         if ($apply->domain != '基本乐科')
         {
             $pdfer->addText($apply->level, 50, 91); //报考级别列
-            $pdfer->addText($exam_site1->room, 111, 91);
+            $pdfer->addText(str_replace('考场', '', $exam_site1->room), 111, 91);
 
             $pdfer->addText(substr($exam_site1->exam_time, 5, 2), 55, 102);
             $pdfer->addText(substr($exam_site1->exam_time, 8, 2), 70, 102);
@@ -108,7 +108,7 @@ class Pdf {
         {
             //乐科级别
             $pdfer->addText($apply->level, 50, 113);
-            $pdfer->addText($exam_site1->room, 111, 113);
+            $pdfer->addText(str_replace('考场', '', $exam_site1->room), 111, 113);
 
             $pdfer->addText(substr($exam_site1->exam_time, 5, 2), 55, 124);
             $pdfer->addText(substr($exam_site1->exam_time, 8, 2), 70, 124);
@@ -121,7 +121,7 @@ class Pdf {
                 {
                     //乐科级别2
                     $pdfer->addText($apply->continuous_level, 50, 135);
-                    $pdfer->addText($exam_site2->room, 111, 135);
+                    $pdfer->addText(str_replace('考场', '', $exam_site2->room), 111, 135);
 
                     $pdfer->addText(substr($exam_site2->exam_time, 5, 2), 55, 146);
                     $pdfer->addText(substr($exam_site2->exam_time, 8, 2), 70, 146);
