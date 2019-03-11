@@ -91,10 +91,10 @@ export default {
             console.log(this.baseinfo);
             console.log(this.examSite);
             const {name,number,examTime,applyTime} = this.baseinfo
-            const apply_time_start = applyTime[0]
-            const apply_time_end = applyTime[1]
-            const exam_time_start = examTime[0]
-            const exam_time_end = examTime[1]
+            const apply_time_start = util.filterDateTime(applyTime[0])
+            const apply_time_end = util.filterDateTime(applyTime[1])
+            const exam_time_start = util.filterDateTime(examTime[0])
+            const exam_time_end = util.filterDateTime(examTime[1])
             const exam_site = []
             this.examSite.forEach(item=> {
                 if(item.time1.value) {
