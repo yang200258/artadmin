@@ -305,10 +305,14 @@ export default {
         },
         //查看报名评审表
         getSignTable(){
+            const imgurl =[]
+            if(this.detail.bm_continuous_image_url) imgurl.push(this.detail.bm_continuous_image_url)
+            if(this.detail.bm_image_url) imgurl.push(this.detail.bm_image_url)
+            if(this.detail.kz_image_url) imgurl.push(this.detail.kz_image_url)
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgurl: [this.detail.bm_continuous_image_url,this.detail.bm_image_url,this.detail.kz_image_url]
+                    imgurl: imgurl
                 }
             })
         },
