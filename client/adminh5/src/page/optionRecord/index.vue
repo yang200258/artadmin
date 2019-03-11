@@ -44,11 +44,14 @@ export default {
                 console.log('获取到的操作数据',res)
                 if(res && !res.error) {
                     const list = res.data.list
+                    const page = res.data.page
                     list.forEach(item=> {
                         item.optiontype = this.optionType[item.type-1]
                     })
                     this.optionData = list
-                    this.$set(this,'',res.data.page)
+                    this.total = page.total
+                    this.limit = page.limit
+                    this.pn = page.pn
                 } else {
                     this.$message.warning(res.msg)
                 }

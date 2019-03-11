@@ -1,11 +1,17 @@
 <template>
-    <div class="container" v-if="status">
+    <div class="container" v-if="compelete">
         <info></info>
         <richtext class="richtext"></richtext>
-        <el-row class="footer">
+        <el-row class="footer"  v-if="status !== '2'">
             <el-col :offset="8">
-                <el-button @click="back">返回</el-button>  
-                <el-button @click="saveEdit">保存修改</el-button>
+                <el-button @click="back"  style="width:6%;margin-right:50px;">返回</el-button>  
+                <el-button @click="saveEdit" style="width:6%;" type="primary">保存修改</el-button>
+            </el-col>
+        </el-row>
+        <el-row class="footer">
+            <el-col :offset="8" v-if="status == '2'">
+                <el-button @click="saveExample" style="width:6%;margin-right:50px;">存草稿</el-button>
+                <el-button @click="publish" style="width:6%;" type="primary">发布</el-button>  
             </el-col>
         </el-row>
     </div>
@@ -19,12 +25,17 @@ import {mapMutations} from 'vuex'
 export default {
     data(){
         return{
-            status: false
+            compelete: false,
+            status : '0'
         }
     },
     mounted(){
+        if(this.$route.params.status) {
+            this.status = this.$route.params.status
+        }
         this.cleardata()
         this.getInfo()
+        
     },
     components: {
         info,
@@ -50,10 +61,10 @@ export default {
                 if(res && !res.error){
                     this.$store.commit('publishinfo/setPublishData',res.data)
                     this.$store.commit('publishinfo/setquillContent',res.data.content)
-                    this.status = true
+                    this.compelete = true
                 } else {
                     this.$message.warning('无法获取该信息详情，请重试！')
-                    this.status = true
+                    this.compelete = true
                 }
             }).catch(err=>{
                 console.log(err);
@@ -91,7 +102,37 @@ export default {
             }).catch(err=>{
                 console.log(err);
             })
-        }
+        },
+        //发布信息
+        publish: function(){
+            this.addData(1)
+        },
+        saveExample: function(){
+            this.addData(2)
+        },
+        //发布信息或存草稿公用方法
+        addData: function(status){
+            const publishData = this.$store.state.publishinfo.publishData
+            const quillContent = this.$store.state.publishinfo.quillContent
+            publishData.status = status
+            publishData.content = quillContent
+            this.$axios({
+                method: 'post',
+                url: '/msg/add',
+                data: publishData
+            }).then(res=> {
+                console.log('添加数据响应',res);
+                if(res && !res.error) {
+                    this.$store.commit('publishinfo/setquillContent','')
+                    this.cleardata()
+                    this.$router.push({
+                        name: 'infoList'
+                    })
+                }
+            }).catch(err=>{
+                console.log(err);
+            })
+        },
     }
 }
 </script>
