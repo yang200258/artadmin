@@ -2,14 +2,14 @@
     <div class="container" v-if="compelete">
         <info></info>
         <richtext class="richtext"></richtext>
-        <el-row class="footer"  v-if="publishData.status !== '2'">
+        <el-row class="footer"  v-if="status !== '2'">
             <el-col :offset="8">
                 <el-button @click="back"  style="width:6%;margin-right:50px;">返回</el-button>  
                 <el-button @click="saveEdit" style="width:6%;" type="primary">保存修改</el-button>
             </el-col>
         </el-row>
         <el-row class="footer">
-            <el-col :offset="8" v-if="publishData.status == '2'">
+            <el-col :offset="8" v-if="status == '2'">
                 <el-button @click="saveExample" style="width:6%;margin-right:50px;">存草稿</el-button>
                 <el-button @click="publish" style="width:6%;" type="primary">发布</el-button>  
             </el-col>
@@ -21,27 +21,28 @@
 
 import info from '../../common/info'
 import richtext from '@/page/common/richtext'
-import {mapMutations} from 'vuex'
+import {mapMutations,mapState} from 'vuex'
 export default {
     data(){
         return{
             compelete: false,
-            status : '0'
+            status : ''
         }
     },
     mounted(){
+        if(this.$route.params.status) this.status = this.$route.params.status
+        console.log('this.status',this.status);
         this.cleardata()
         this.getInfo()
-        
     },
     components: {
         info,
         richtext
     },
     computed: {
-        publishData(){
-            return this.$store.publishinfo.publishData
-        }
+        ...mapState('publishinfo',{
+            publishData: state=> state.publishData,
+        })
     },
     methods: {
         //获取信息详情
