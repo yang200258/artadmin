@@ -281,12 +281,12 @@ export default {
         },
         //编辑信息
         editInfo: function(scope){
-            
             this.$router.push({
                 name: 'editInfo',
                 params: {
                     id: scope.row.id,
-                    url: scope.row.cover_url
+                    url: scope.row.cover_url,
+                    status: scope.row.status
                 }
             })
         },

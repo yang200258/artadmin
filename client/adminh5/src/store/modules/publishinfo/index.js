@@ -2,6 +2,7 @@ const state = {
     publishData: {cid:"",title:"",status: 1,cover_id:"",intro:"",content:""},
     infoTypeOptions: [],
     titleNumber: 0,
+    quillContent: '',
     introductionNumber: 0
 }
 
