@@ -196,12 +196,32 @@ class ApplyController extends Controller
         }
     }
 
-    //考试顺延
+    // 缺考顺延
     public function actionProlong()
     {
         $request = \Yii::$app->request;
         $apply_id = $request->post('apply_id');
-        $status = $request->post('status');
+        $apply = Apply::findOne($apply_id);
+        if (!$apply) {
+            return $this->error('报名信息不存在！');
+        }
+
+        if ($apply->postpone == 1) {
+            return $this->error('同一个报名信息只能缺考顺延一次');
+        }
+
+        // 清空考场分配
+        $apply->exam_site_id1 = 0;
+        $apply->exam_site_id2 = 0;
+
+        $apply->postpone = 1;
+
+        if ($apply->save(false)) {
+            Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply_id]");
+            return $this->ok('缺考顺延成功');
+        } else {
+            return $this->error('缺考顺延失败');
+        }
 
     }
 
