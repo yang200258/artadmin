@@ -11,7 +11,7 @@
         <el-row class="footer">
             <el-col :offset="8" v-if="status == '草稿'">
                 <el-button @click="saveExample" style="width:6%;margin-right:50px;">存草稿</el-button>
-                <el-button @click="publish" style="width:6%;" type="primary">发布</el-button>  
+                <el-button @click="saveEdit" style="width:6%;" type="primary">发布</el-button>  
             </el-col>
         </el-row>
     </div>
@@ -101,10 +101,7 @@ export default {
                 console.log(err);
             })
         },
-        //发布信息
-        publish: function(){
-            this.addData(1)
-        },
+        //存草稿
         saveExample: function(){
             this.addData(2)
         },
