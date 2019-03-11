@@ -1,12 +1,12 @@
 <template>
     <div class="img-container">
         <div class="option">
-            <el-button>下载</el-button>
+            <el-button @click="download(imgurl)">下载</el-button>
             <el-button @click="back">返回</el-button>
         </div>
         <div class="imginfo">
-            <el-carousel class="img" :autoplay="'false'" :interval="10000000">
-                <el-carousel-item v-for="item in imgurl" :key="item" style="height:100%;">
+            <el-carousel class="img" :autoplay="false" :interval="10000000" indicator-position="outside">
+                <el-carousel-item v-for="item in imgurl" :key="item" style="height:1298px;" >
                     <img :src="item" alt="" v-if="item !== ''">
                 </el-carousel-item>
             </el-carousel>
@@ -30,6 +30,16 @@ export default {
     methods: {
         back(){
             this.$router.go(-1)
+        },
+        download(){
+            let url = document.getElementsByClassName('is-active')[1].children[0].src
+            console.log(url);
+            // let url = `https://www.hnyskj.net/adminapi/download/zp?token=${token}&exam_site_id=${exam_site_id}`
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            document.body.appendChild(link)
+            link.click()
         }
     }
 }
