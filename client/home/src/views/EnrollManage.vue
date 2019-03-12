@@ -66,7 +66,7 @@
             {{statusText[scope.row.plan]}}
           </template>
         </el-table-column>
-        <el-table-column align="right" label="操作">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
            <span class="cursor-pointer" style="color:#795C41" @click.stop="moreDetail(scope.row.id)">查看详情</span>
           </template>

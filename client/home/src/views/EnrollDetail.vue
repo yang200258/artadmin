@@ -89,7 +89,7 @@
     <div v-else-if="enroll.plan && enroll.plan.toString() === '4'">
       <div class="bottom-buttons">
         <div class="cer-buttons clearfix">
-          <div v-if="storeUD.userType === roles.teacher || storeUD.userType === roles.institution" class="bottom-button cursor-pointer fl" @click.stop="enrollMore">继续添加</div>
+          <div v-if="(storeUD.userType === roles.teacher || storeUD.userType === roles.institution) && enroll.exam_id" class="bottom-button cursor-pointer fl" @click.stop="enrollMore">继续添加</div>
           <!-- <div class="bottom-button cursor-pointer fl" @click.stop="complete">完成</div> -->
         </div>
       </div>
@@ -134,7 +134,7 @@ export default {
       this.$router.replace({ path: '/enroll/pay', query: { id: this.$route.query.id } })
     },
     enrollMore: function () { // 点击继续添加
-      this.$router.replace({ path: '/enroll/apply' })
+      this.$router.replace({ path: '/enroll/apply', query: { id: this.enroll.exam_id } })
     },
     complete: function () { // 点击完成
       this.$router.go(-1)
