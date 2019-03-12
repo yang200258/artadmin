@@ -217,7 +217,7 @@ export default {
     .inform-object {
         .button{
             margin-top: 60px;
-            margin-left: 35%;
+            margin-left: 40%;
             padding-bottom: 100px;
             .el-button {
                 margin-left: 40px;
