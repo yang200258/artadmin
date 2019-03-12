@@ -5,7 +5,7 @@
         @handleCurrentChange="handlePage"  @getRowKey="getRowKey">
         </table-data>
         <div class="button">
-            <el-col style="width:40%;" type="primary"><el-button @click="confirm">确定</el-button></el-col>
+            <el-col ><el-button style="width:10%" @click="confirm">确定</el-button></el-col>
         </div>
         
         <!-- 添加通知对象弹出层 -->
@@ -169,6 +169,7 @@ export default {
                             }
                         })
                         this.$store.commit('informobject/seteditInformobject',list)
+                        this.$message.success('删除成功！')
                     }
                 }).catch(err=> {
                     console.log(err);

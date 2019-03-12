@@ -8,7 +8,7 @@
         </el-row>
         <el-row>
             <span style="color:red">*</span><span>通知对象：</span>
-            <span @click.prevent="goInform" class="clickStyle" style="">点此查看</span>
+            <span @click="goInform" class="clickStyle" style="">点此查看</span>
         </el-row>
         <richtext class="richtext"></richtext>
         <el-row class="footer">
@@ -91,12 +91,12 @@ export default {
 
     },
     beforeDestroy(){
-        console.log('触发销毁');
-        this.$store.commit('informobject/setAddType','')
-        this.$store.commit('publishinfo/setquillContent','')
-        this.$store.commit('informobject/setaddInformobject',{})
-        this.$store.commit('informobject/setAddUid',[])
-        this.$store.commit('publishinfo/setquillContent','')
+        // console.log('触发销毁');
+        // this.$store.commit('informobject/setAddType','')
+        // this.$store.commit('publishinfo/setquillContent','')
+        // this.$store.commit('informobject/setaddInformobject',{})
+        // this.$store.commit('informobject/setAddUid',[])
+        // this.$store.commit('publishinfo/setquillContent','')
     }
 }
 </script>

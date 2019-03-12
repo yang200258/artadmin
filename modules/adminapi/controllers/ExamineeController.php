@@ -41,7 +41,8 @@ class ExamineeController extends Controller
         $teacher_name = $request->post('teacher_name', '');//老师名称;
 
         $model = Apply::find()->with('user')
-            ->andWhere(['exam_id' => $exam_id])
+            // 如果不是缺考顺延就是当前考场，如果是则是下一个考场
+            ->andWhere(['or', ['exam_id' => $exam_id, 'postpone' => 0], ['exam_id' => $exam_id + 1, 'postpone' => 1]])
             ->andWhere(['plan' => 4]) //已缴费
             ->andWhere(['or', ['exam_site_id1' => 0], ['exam_site_id2' => 0, 'is_continuous' => 1]])
             ->andFilterWhere(['name' => $name])
@@ -109,7 +110,7 @@ class ExamineeController extends Controller
         {
             ExamExaminee::saveExamExaminee($exam_site_id, $one);
             Apply::updateAll(['kz' =>  Pdf::createPdfExam($one->id)], ['id' => $one->id]);
-            Record::saveRecord($this->admin->id, 2, "{$examName}-考点{$exam_site->address}-{$exam_site->room}-{$exam_site->exam_time}-添加考生：{$one->name}");
+            Record::saveRecord($this->admin->id, 2, "{$examName}-考点{$exam_site->address}-{$exam_site->room}-{$exam_site->exam_time}-添加考生“{$one->name}”");
         }
 
         return $this->ok('添加成功');

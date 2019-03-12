@@ -51,6 +51,7 @@ const util = {
                 list[keyo] = arr[keyo]
             }
         })
+        console.log('扁平化后数据',list);
         resolve(list)
         })
     },

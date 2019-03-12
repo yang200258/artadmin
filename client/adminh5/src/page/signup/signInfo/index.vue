@@ -51,7 +51,7 @@
                     </el-row>
                     <el-row v-if="status.status !== '3'">
                         <el-col :span="8" ><el-button type="primary" plain v-if="detail.level  == '十级' || detail.level == '表演文凭级'" @click="getProfessional">查看考生专业证书</el-button></el-col>
-                        <el-col :span="8" ><el-button type="primary" plain v-if="(detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级'))" @click="getbase">查看考生基本乐科证书</el-button></el-col>
+                        <el-col :span="8" ><el-button type="primary" plain v-if="((detail.domain == '基本乐科' && detail.level  !== '一级') || (detail.domain !== '基本乐科' && (detail.level  !== '一级' ||detail.level  !== '二级')))  && detail.basic_certificate_url"  @click="getbase">查看考生基本乐科证书</el-button></el-col>
                     </el-row>
                 </div>
                 <div class="line" v-if="detail.is_continuous == '1'"></div>
@@ -165,22 +165,22 @@
                         <el-col :span="8"><el-button type="primary" plain  @click="getExam">查看考生准考证</el-button></el-col>
                     </el-row>
                     <div class="verifyresult" v-if="status">
-                    <el-row>
-                        <el-col :span="6" :offset="2">
-                            <span>是否缺考顺延：</span>
-                            <template>
-                                <el-radio v-model="radio" label="0" >否</el-radio>
-                                <el-radio v-model="radio" label="1" >是</el-radio>
-                            </template>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6" :offset="4">
-                            <el-button @click="backlost">  返回  </el-button>
-                            <el-button @click="confirmlost">  确定  </el-button>
-                        </el-col>
-                    </el-row>
-                </div>
+                        <el-row>
+                            <el-col :span="6" :offset="2">
+                                <span>是否缺考顺延：</span>
+                                <template>
+                                    <el-radio v-model="radio" label="0" >否</el-radio>
+                                    <el-radio v-model="radio" label="1" >是</el-radio>
+                                </template>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6" :offset="4">
+                                <el-button @click="backlost">  返回  </el-button>
+                                <el-button @click="confirmlost">  确定  </el-button>
+                            </el-col>
+                        </el-row>
+                    </div>
                 </div>
             </el-main>
         </el-container>
@@ -219,7 +219,25 @@ export default {
         },
         //确定缺考顺延操作
         confirmlost: function() {
-            this.$router.go(-1)
+            if(this.radio) {
+                const apply_id = detail.id
+                this.$axios({
+                    url: '/apply/prolong',
+                    method: 'post',
+                    data:{apply_id}
+                }).then(res=> {
+                    this.$router.go(-1)
+                    if(res && !res.error) {
+                        this.$message.success(res.msg)
+                    } else {
+                        this.$message.warning(res.msg)
+                    }
+                }).catch(err=> {
+                    console.log(err);
+                })
+            } else {
+                this.$router.go(-1)
+            }
         },
         //获取考生详情信息
         getDetail: function(){
@@ -290,7 +308,7 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.pro_certificate_url 
+                    imgurl: [this.detail.pro_certificate_url ]
                 }
             })
         },
@@ -299,16 +317,20 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.basic_certificate_url  
+                    imgurl: [this.detail.basic_certificate_url ] 
                 }
             })
         },
         //查看报名评审表
         getSignTable(){
+            const imgurl =[]
+            if(this.detail.bm_continuous_image_url) imgurl.push(this.detail.bm_continuous_image_url)
+            if(this.detail.bm_image_url) imgurl.push(this.detail.bm_image_url)
+            if(this.detail.kz_image_url) imgurl.push(this.detail.kz_image_url)
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.bm_url  
+                    imgurl: imgurl
                 }
             })
         },
@@ -317,7 +339,7 @@ export default {
             this.$router.push({
                 name: 'imginfo',
                 params: {
-                    imgsrc: this.detail.kz_url  
+                    imgurl: [this.detail.kz_url] 
                 }
             })
         },

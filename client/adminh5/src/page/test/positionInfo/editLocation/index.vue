@@ -6,7 +6,7 @@
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadCard">批量下载准考证</el-button></el-col>
                 <el-col :span="3" :push="1"><el-button type="primary" @click="downloadPic">批量下载照片</el-button></el-col>
                 <el-col :span="3" :push="1"><el-button type="primary" @click="outputTable">导出考级名单报名表</el-button></el-col>
-                <el-col :span="2" :push="8"><el-button type="primary" @click="sortExaminee = true">考生排序</el-button></el-col>
+                <el-col :span="2" :push="8"><el-button type="primary" @click="sort">考生排序</el-button></el-col>
                 <el-col :span="2" :push="8"><el-button type="primary" @click="addExaminee = true">添加考生</el-button></el-col>
             </el-row>
         </div>
@@ -116,7 +116,6 @@ export default {
                 {key: 'apply_level',name: '报考级别'},{key: 'apply_user_organ_name',name: '负责报名机构'},{key: 'apply_user_name',name: '负责报名老师'}],
             apply_id_arr: [],
             exam_site_id: '',
-            exam_id: '',
             loadingExam: false,
             loadingInfo: false,
         }
@@ -166,9 +165,10 @@ export default {
                                 r.apply_user_name = r.apply_user.name
                             }
                             r.apply_user_organ_name = r.apply_user.organ_name
-                            examineeData.push(r)
-                            sortData.unshift({name: r.apply_name,id:r.id})
-                            this.sortData = sortData
+                            examineeData.unshift(r)
+                            sortData.unshift({name: r.apply_name,id:r.id,sort: r.sort})
+                            // this.sortData = sortData
+                            this.$set(this,'sortData',sortData)
                             this.examineeData = examineeData
                         })
                     })
@@ -218,7 +218,7 @@ export default {
         outputTable: function(){
             let token = Auth.hasToken()
             let exam_site_id = this.exam_site_id
-            let url = `https://www.hnyskj.net/adminapi/download/site-apply-list?token=${token}&exam_site_id=${exam_site_id}`
+            let url = `https://www.hnyskj.net/adminapi/download/site-apply-list?token=${token}&id=${exam_site_id}`
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
@@ -254,6 +254,17 @@ export default {
         },
         cancelSort: function(){
            this.sortExaminee = false
+        },
+        sort: function(){
+            this.sortData.sort(this.compare('sort'))
+            this.sortExaminee = true
+        },
+        compare: function(sort){
+            return function(a,b){
+                const v1 = a[sort] 
+                const v2 = b[sort]
+                return v1-v2
+            }
         },
 
         //添加考生系列操作*****

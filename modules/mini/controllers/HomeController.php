@@ -23,20 +23,23 @@ class HomeController extends Controller
             });
             $one['list'] = $list;
         }
-        $banner = [
-            [
-                'url' => $this->createMiniUrl('/miniappregulation'),
-                'img' => \Yii::$app->params['image_site'] . '/image/mini/1.png'
-            ],
-            [
-                'url' => $this->createMiniUrl('/miniappregulation'),
-                'img' => \Yii::$app->params['image_site'] . '/image/mini/2.png'
-            ],
-            [
-                'url' => $this->createMiniUrl('/miniappregulation'),
-                'img' => \Yii::$app->params['image_site'] . '/image/mini/3.png'
-            ]
-        ];
+
+        $bannerList = Msg::find()
+            ->select('id, cover_id')
+            ->where(['cid' => MsgCategory::BANNER_IMAGE_CATEGORY, 'status' => Msg::STATUS_PUBLISHED])
+            ->orderBy('id desc')
+            ->limit(3)
+            ->asArray()
+            ->all();
+        $banner = [];
+
+        foreach ($bannerList as $item) {
+            $banner[] = [
+                'url' => $this->createMiniUrl('/miniappdynamic?id=' . $item['id']),
+                'img' => $item['cover_id'] ? Image::getAbsoluteUrlById($item['cover_id']) : '',
+            ];
+        }
+
 
         return $this->json(['list' => $category, 'banner' => $banner]);
     }

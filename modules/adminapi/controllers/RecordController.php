@@ -22,6 +22,7 @@ class RecordController extends Controller
             ])
             ->offset($this->offset)
             ->limit($this->limit)
+            ->orderBy('id desc')
             ->asArray()
             ->all();
         array_walk($list, function (&$val){
