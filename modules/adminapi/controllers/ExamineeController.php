@@ -33,6 +33,7 @@ class ExamineeController extends Controller
         $this->init_page();
         $request = \Yii::$app->request;
         $exam_id = $request->post('exam_id'); //必填参数
+        $exam_site_id = $request->post('exam_site_id'); //必填参数
         $name = $request->post('name', '');
         $domain = $request->post('domain', '');
         $level = $request->post('level', '');
@@ -40,6 +41,9 @@ class ExamineeController extends Controller
         $organ_name = $request->post('organ_name', ''); //机构名称
         $teacher_name = $request->post('teacher_name', '');//老师名称;
 
+        if (!$exam_id || !$exam_site_id) {
+            return $this->error('参数错误');
+        }
         $model = Apply::find()->with('user')
             // 如果不是缺考顺延就是当前考场，如果是则是下一个考场
             ->andWhere(['or', ['exam_id' => $exam_id, 'postpone' => 0], ['exam_id' => $exam_id + 1, 'postpone' => 1]])
@@ -66,6 +70,10 @@ class ExamineeController extends Controller
         $total = $model->count();
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
 
+        // 去掉连考已经分配了这个考场的用户
+        array_filter($list, function ($v) use ($exam_site_id) {
+            return $v['exam_site_id1'] != $exam_site_id;
+        });
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
     }
 
