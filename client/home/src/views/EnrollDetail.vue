@@ -134,7 +134,7 @@ export default {
       this.$router.replace({ path: '/enroll/pay', query: { id: this.$route.query.id } })
     },
     enrollMore: function () { // 点击继续添加
-      this.$router.replace({ path: '/enroll/apply' })
+      this.$router.replace({ path: '/enroll/apply', query: { id: this.$route.query.id } })
     },
     complete: function () { // 点击完成
       this.$router.go(-1)
