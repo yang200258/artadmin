@@ -8,13 +8,13 @@
         </el-row>
         <el-row>
             <span style="color:red">*</span><span>通知对象：</span>
-            <span @click.prevent="goInform" class="clickStyle" style="">点此查看</span>
+            <span @click="goInform" class="clickStyle" style="">点此查看</span>
         </el-row>
         <richtext class="richtext"></richtext>
         <el-row class="footer">
             <el-col :offset="8">
-                <el-button type="primary" @click="publishInform">发布</el-button>  
-                <el-button type="primary" @click="cancel">取消</el-button>
+                <el-button @click="cancel" style="width:6%;margin-right:50px">取消</el-button>
+                <el-button type="primary" @click="publishInform" style="width: 6%;">发布</el-button>  
             </el-col>
         </el-row>
     </div>
@@ -33,8 +33,8 @@ export default {
         richtext
     },
     mounted(){
-        // this.$store.commit('publishinfo/setquillContent','')
-        // this.$store.commit('informobject/setAddType','')
+        this.$store.commit('publishinfo/setquillContent','')
+        this.$store.commit('informobject/setAddType','')
     },
     computed: {
         uid_arr(){
@@ -91,12 +91,12 @@ export default {
 
     },
     beforeDestroy(){
-        console.log('触发销毁');
-        this.$store.commit('informobject/setAddType','')
-        this.$store.commit('publishinfo/setquillContent','')
-        this.$store.commit('informobject/setaddInformobject',{})
-        this.$store.commit('informobject/setAddUid',[])
-        this.$store.commit('publishinfo/setquillContent','')
+        // console.log('触发销毁');
+        // this.$store.commit('informobject/setAddType','')
+        // this.$store.commit('publishinfo/setquillContent','')
+        // this.$store.commit('informobject/setaddInformobject',{})
+        // this.$store.commit('informobject/setAddUid',[])
+        // this.$store.commit('publishinfo/setquillContent','')
     }
 }
 </script>

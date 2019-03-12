@@ -126,8 +126,14 @@ class ApplyController extends Controller
                 ->where(['exam_site_id' => $apply['examsite2']['id']])
                 ->andWhere(['apply_id' => $apply['id']])->scalar();
         }
-        $apply['bm_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/bm?name='. $apply['bm'] : '';
-        $apply['kz_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/kz?name='. $apply['kz'] : '';
+
+        $apply['kz_image_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/examimg/'. $apply['kz'] . '.png' : '';
+        $apply['bm_image_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm'] . '.png' : '';
+        $apply['bm_continuous_image_url'] = $apply['bm_continuous'] ? \Yii::$app->params['file_site'] . '/file/applyimg/'. $apply['bm_continuous'] . '.png' : '';
+
+        $apply['kz_url'] = $apply['kz'] ? \Yii::$app->params['file_site'] . '/file/exam/'. $apply['kz'] . '.pdf' : '';
+        $apply['bm_url'] = $apply['bm'] ? \Yii::$app->params['file_site'] . '/file/apply/'. $apply['bm'] . '.pdf' : '';
+        $apply['bm_continuous_url'] = $apply['bm_continuous'] ? \Yii::$app->params['file_site'] . '/file/apply/'. $apply['bm_continuous'] . '.pdf' : '';
 
         return $this->json($apply);
     }
@@ -190,12 +196,32 @@ class ApplyController extends Controller
         }
     }
 
-    //考试顺延
+    // 缺考顺延
     public function actionProlong()
     {
         $request = \Yii::$app->request;
         $apply_id = $request->post('apply_id');
-        $status = $request->post('status');
+        $apply = Apply::findOne($apply_id);
+        if (!$apply) {
+            return $this->error('报名信息不存在！');
+        }
+
+        if ($apply->postpone == 1) {
+            return $this->error('同一个报名信息只能缺考顺延一次');
+        }
+
+        // 清空考场分配
+        $apply->exam_site_id1 = 0;
+        $apply->exam_site_id2 = 0;
+
+        $apply->postpone = 1;
+
+        if ($apply->save(false)) {
+            Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply_id]");
+            return $this->ok('缺考顺延成功');
+        } else {
+            return $this->error('缺考顺延失败');
+        }
 
     }
 

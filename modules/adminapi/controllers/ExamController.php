@@ -172,7 +172,7 @@ class ExamController extends Controller
                 $site->save(false);
                 $examSiteRecordData[] = [
                     $this->admin->id,
-                    "$name-考点{$one['address']}-新增“{$one['room']}”",
+                    "$name-考点{$one['address']}-新增考场“{$one['room']}”",
                     2,
                     date("Y-m-d H:i:s")
                 ];

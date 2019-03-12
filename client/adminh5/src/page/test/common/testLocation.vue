@@ -5,7 +5,6 @@
                 <div class="baseinfo">
                     <el-form :model="examSite" ref="addexamsite">
                         <div v-for="(site,index) in examSite" :key="site.key">
-                            <div class="line" style="width:100%" v-if="examSite.length !== 1"></div>
                             <!-- 考试地点1************************************* -->
                             <el-form-item>
                                 <p style="color: 14px;"><span style="color: red" v-if="index == 0">*</span >考试地点{{index+1}}：</p>
@@ -25,7 +24,7 @@
                                 <!-- 考试时间1********** -->
                                 <el-form-item>
                                     <p style="color: 14px;"><span style="color: red">*</span >考试时间1：</p>
-                                    <el-date-picker type="datetime" v-model="site.time1" placeholder="请设置考场考试时间"></el-date-picker>
+                                    <el-date-picker type="datetime" v-model="site.time1.value" placeholder="请设置考场考试时间"></el-date-picker>
                                 </el-form-item>
                                 <!-- 考试时间2********** -->
                                 <el-form-item v-for="(time,i) in site.time" :key="time.key" v-if="site.time.length !== 0">
@@ -54,7 +53,7 @@
                                     <!-- 考试时间1********** -->
                                     <el-form-item >
                                         <p style="color: 14px;">考试时间1：</p>
-                                        <el-date-picker type="datetime" v-model="room.time1" placeholder="请设置考场考试时间"></el-date-picker>
+                                        <el-date-picker type="datetime" v-model="room.time1.value" placeholder="请设置考场考试时间"></el-date-picker>
                                     </el-form-item>
                                     <!-- 考试时间2************ -->
                                     <div v-for="(item,n) in room.times" :key="item.key"  v-if="room.times.length !== 0">
@@ -69,6 +68,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="line" style="width:100%" v-if="examSite.length !== (index+1)"></div>
                         </div>
                         <el-row class="btn"> 
                             <el-col :span="4"><el-button @click="deleteSite" v-if="examSite.length !== 1">删除考点</el-button></el-col>
@@ -111,7 +111,7 @@ export default {
         //添加考点1------考场
         addroom(index){
             this.examSite[index].rooms.push({
-                time1: '',
+                time1: {value: ''},
                 times: [],
                 key: Date.now()
             })
@@ -159,7 +159,7 @@ export default {
         },
         //添加考点------------
         addsite() {
-            this.examSite.push({address: "",time1: '',time: [],rooms: []})
+            this.examSite.push({address: "",time1: {value: ''},time: [],rooms: []})
         },
         //删除考点2-----
         deleteSite(){

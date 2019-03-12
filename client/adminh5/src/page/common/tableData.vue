@@ -14,8 +14,10 @@
                             </el-col>
                             <el-col :span="4"  :offset="5">
                                 <el-button type="primary" @click.prevent="editOption"  v-if="isEdit">{{editName}}</el-button>
+                            </el-col >
+                            <el-col :span="6" :offset="4">
+                                <el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button>
                             </el-col>
-                            <el-col :span="6" :offset="4"><el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button></el-col>
                         </el-row>
                     </el-col>
                 </el-row>

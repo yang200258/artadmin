@@ -26,7 +26,7 @@
         </div>
         <table-data :isPagination="'true'" :totalNumber="totalNumber" :currentPage="currentPage" :pageSize="pageSize" :head="head" :tableData="testData" :isOption="'true'"
         :isEditTable="'true'" :isEdit="'true'" :isEditAccount="'true'" :editAccountName="'考场安排'" :editTableName="'查看详情'" :loadingTable="isLoading" @editInfo="editTest" 
-        @editOption="addTest" :editName="'添加考试'" @editAccount="testPosition"></table-data>
+        @editOption="addTest" :editName="'添加考试'" @editAccount="testPosition" :isDeleteTable="'true'" :deleteTableName="'删除'" @deleteInfo="deleteInfo"></table-data>
     </div>
 </template>
 
@@ -116,6 +116,24 @@ export default {
                   number: scope.row.number,
                   name: scope.row.name
               }
+          })
+      },
+      //删除考场
+      deleteInfo: function(scope) {
+          const id = scope.row.id
+          this.$axios({
+              url: '/exam/delete-exam-site',
+              method: 'post',
+              data: {id}
+          }).then(res=> {
+              if(res && !res.error) {
+                  this.$message.success('删除成功！')
+                  this.queryTestInfo()
+              } else {
+                  this.$message.success(res.msg)
+              }
+          }).catch(err=> {
+              console.log(err);
           })
       }
     }

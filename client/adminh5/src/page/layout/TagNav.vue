@@ -37,7 +37,6 @@ export default {
     methods: {
         addTagNav(){
             // 如果需要缓存则必须使用组件自身的name，而不是router的name
-            console.log('路由属性', this.$route);
             this.$store.commit("tagNav/addTagNav", {
                 name: this.$router.getMatchedComponents()[1].name,
                 path: this.$route.path,

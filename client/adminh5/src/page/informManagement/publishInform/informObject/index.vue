@@ -2,7 +2,7 @@
     <div class="inform-object">
         <table-data :isPagination="'true'" :currentPage="cp" :pageSize="ps" :totalNumber="tn" :head="head" :tableData="pageinformobject" isEdit="'true'"  :isOption="true" 
         :editName="editName" :isDeleteTable="'true'" :deleteTableName="deleteTableName" @editOption="editOption" @deleteInfo="deleteInfo" :loadingTable="loadingInformTable" 
-        @handleCurrentChange="handlePage"  @getRowKey="getRowKey">
+        @handleCurrentChange="handlePage">
         </table-data>
         <div class="button">
             <el-col ><el-button style="width:10%;" @click="confirm">确定</el-button></el-col>
@@ -194,9 +194,9 @@ export default {
           })
         },
         //避免分页时选中数据重新请求后台
-        getRowKey(row){
-            return row.uid
-        }
+        // getRowKey(row){
+        //     return row.uid
+        // }
     },
     computed: {
         informobject(){

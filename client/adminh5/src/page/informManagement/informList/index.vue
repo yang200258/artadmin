@@ -18,9 +18,9 @@
             </el-row>
         </div>
         <div class="inform-footer">
-            <table-data :isDelete="'true'" :isEditOption="'true'" :deleteName="'删除'" :isSelected="'true'" :head="informHead" :tableData="informListData" :isOption="'true'" :loadingTable="loadingInformList" 
+            <table-data :isDelete="'true'" :isEdit="'true'" :deleteName="'删除'" :isSelected="'true'" :head="informHead" :tableData="informListData" :isOption="'true'" :loadingTable="loadingInformList" 
             :isEditTable="'true'" :isDeleteTable="'true'" :editTableName="'编辑'" :deleteTableName="'删除'" @editInfo="editInfo" @deleteInfo="deleteInfo" 
-            @handleCurrentChange="handleCurrentChange" @handleSelectionChange="handleSelectionChange" @deleteOption="deleteOption" :optionName="'发布通知'" @option="publishInform">
+            @handleCurrentChange="handleCurrentChange" @handleSelectionChange="handleSelectionChange" @deleteOption="deleteOption" :editName="'发布通知'" @editOption="publishInform">
             </table-data>
         </div>
     </div>
@@ -36,7 +36,7 @@ export default {
             filter: [{value: '',label: '全部'},{value: '1',label: '成绩查询'},{value: '2',label: '准考证领取'},{value: '3',label: '考场查询'},
             {value: '4',label: '考试报名'},{value: '5',label: '大赛通知'},{value: '6',label: '定向通知'}],
             publishInformDate: [],
-            informHead: [{key:'id',name: '通知编号'},{key:'type',name: '通知类型'},{key:'content',name: '通知详情'},{key:'create_at',name: '发布时间'}],
+            informHead: [{key:'id',name: '通知编号'},{key:'type',name: '通知类型'},{key:'filter_content',name: '通知详情'},{key:'create_at',name: '发布时间'}],
             informListData: [],
             loadingInformList: false,
             deleteid: [],
