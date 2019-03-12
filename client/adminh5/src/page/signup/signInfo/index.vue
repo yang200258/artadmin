@@ -220,7 +220,7 @@ export default {
         //确定缺考顺延操作
         confirmlost: function() {
             if(this.radio) {
-                const apply_id = detail.id
+                const apply_id = this.detail.id
                 this.$axios({
                     url: '/apply/prolong',
                     method: 'post',
