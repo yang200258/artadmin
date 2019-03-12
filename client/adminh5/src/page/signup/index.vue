@@ -62,7 +62,7 @@
         <el-dialog title="提示" :before-close="output" :visible="outputstatus" width="60%" :center="true" :lock-scroll="false">
             <p>导出名单包括本期已缴费未缺考顺延的考生，以及上期已缴费缺考顺延的考生</p>
             <span slot="footer">
-                <el-button @click="output = 'false'">取消</el-button>
+                <el-button @click="output">取消</el-button>
                 <el-button @click="saveOutput">确定下载</el-button>
             </span>
         </el-dialog>
