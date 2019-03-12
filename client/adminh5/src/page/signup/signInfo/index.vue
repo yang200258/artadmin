@@ -164,7 +164,7 @@
                         <el-col :span="8"><el-button type="primary" plain  @click="getSignTable">查看考生报名评审表</el-button></el-col>
                         <el-col :span="8"><el-button type="primary" plain  @click="getExam">查看考生准考证</el-button></el-col>
                     </el-row>
-                    <div class="verifyresult" v-if="status">
+                    <div class="verifyresult" v-if="detail.postpone == '0'">
                         <el-row>
                             <el-col :span="6" :offset="2">
                                 <span>是否缺考顺延：</span>
@@ -220,7 +220,7 @@ export default {
         //确定缺考顺延操作
         confirmlost: function() {
             if(this.radio) {
-                const apply_id = detail.id
+                const apply_id = this.detail.id
                 this.$axios({
                     url: '/apply/prolong',
                     method: 'post',
