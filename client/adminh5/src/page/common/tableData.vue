@@ -4,7 +4,7 @@
             <el-container class="infoTable">
                 <el-row type="flex" justify-content="space-betweeen">
                     <el-col :span="18">
-                        <el-pagination v-if="isPagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[50, 100, 150, 200]" background :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalNumber">
+                        <el-pagination v-if="isPagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[50]" background :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalNumber">
                         </el-pagination>
                     </el-col>
                     <el-col :span="14">
@@ -14,8 +14,10 @@
                             </el-col>
                             <el-col :span="4"  :offset="5">
                                 <el-button type="primary" @click.prevent="editOption"  v-if="isEdit">{{editName}}</el-button>
+                            </el-col >
+                            <el-col :span="6" :offset="4">
+                                <el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button>
                             </el-col>
-                            <el-col :span="6" :offset="4"><el-button type="primary" @click.prevent="deleteOption"  v-if="isDelete">{{deleteName}}</el-button></el-col>
                         </el-row>
                     </el-col>
                 </el-row>

@@ -15,12 +15,12 @@
                     <el-col :span="8"><p>考生姓名：</p><el-input v-model="name" class="" placeholder="考生姓名" clearable></el-input></el-col>
                     <el-col :span="8"><p>报考专业：</p>
                         <el-select v-model="domain" placeholder="全部" @change="changeSelect">
-                            <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
+                            <el-option v-for="item in domainOptions" :key="item.key" :label="item.key" :value="item.label"> </el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="8" :offset="0"><p>报考级别：</p>
                         <el-select v-model="level" placeholder="全部">
-                            <el-option v-for="item in levelOptions" :key="item.value" :label="item.value" :value="item.value"> </el-option>
+                            <el-option v-for="item in levelOptions" :key="item.key" :label="item.key" :value="item.value"> </el-option>
                         </el-select>
                     </el-col>
                 </el-row>
@@ -182,16 +182,16 @@ export default {
             // this.getOption()
         },
         //改变选择框时触发
-        changeSelect: function(val){
-            this.levelOptions = [{key: '全部',value:''}]
-           this.domainOptions.forEach(item=> {
-              if(item.key == val) {
-                  for(let i =0;i<item.value.length;i++) {
-                      this.levelOptions.push({key: item.value[i],value:item.value[i]})
-                  }
-              }
-          })
-        },
+        changeSelect: function(val) {
+        this.levelOptions = [{key: '全部',value:''}]
+        this.domainOptions.forEach(item=> {
+            if(item.key == val) {
+                for(let i =0;i<item.value.length;i++) {
+                    this.levelOptions.push({key: item.value[i],value:item.value[i]})
+                }
+            }
+        })
+      },
         //避免分页时选中数据重新请求后台
         getRowKey(row){
             return row.uid
@@ -217,7 +217,7 @@ export default {
     .inform-object {
         .button{
             margin-top: 60px;
-            margin-left: 35%;
+            margin-left: 40%;
             padding-bottom: 100px;
             .el-button {
                 margin-left: 40px;

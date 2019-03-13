@@ -311,10 +311,11 @@ export default {
             pn = pn || 1
             const {name,domain,level,id_number,organ_name,teacher_name,exam_id} = this
             let exam = []
+            let exam_site_id = this.$route.params.exam_site_id
             this.$axios({
                 url: '/examinee',
                 method: 'post',
-                data: {name,domain,level,id_number,organ_name,teacher_name,exam_id,pn}
+                data: {name,domain,level,id_number,organ_name,teacher_name,exam_id,pn,exam_site_id}
             }).then(res=> {
                 if(res && !res.error) {
                     const list = res.data.list

@@ -78,7 +78,7 @@ export default {
       form2: {
         username: '',
         password: '',
-        tyep: '2'
+        type: '2'
       },
       tip2: '',
       tokenTimer: null,
