@@ -46,10 +46,10 @@ class InformController extends Controller
         $total = $model->count();
         $list = $model->orderBy('create_at desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
         array_walk($list, function (&$val){
-            if (in_array($val['type'], [1,2,3,4,5,6]))
-            {
+//            if (in_array($val['type'], [1,2,3,4,5,6]))
+//            {
                 $val['filter_content'] = strip_tags($val['content']);
-            }
+//            }
             $val['uid_arr'] = InformUser::find()->select(['uid'])->where(['inform_id' => $val['id']])->column();
         });
 

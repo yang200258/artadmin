@@ -17,10 +17,10 @@ class InformController extends Controller
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
 
         array_walk($list, function (&$val){
-            if (in_array($val['inform']['type'], [1,2,3,4,5,6]))
-            {
+//            if (in_array($val['inform']['type'], [1,2,3,4,5,6]))
+//            {
                 $val['inform']['content'] = strip_tags($val['inform']['content']);
-            }
+//            }
            $val['inform']['detail'] = $this->createMiniUrl('/miniappmessage?id=' . $val['inform']['id']);
         });
         InformUser::updateAll(['read' => 1], ['uid' => $this->userid, 'read' => 0]); //更新所有未读消息为已读
