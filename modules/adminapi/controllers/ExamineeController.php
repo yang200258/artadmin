@@ -56,13 +56,17 @@ class ExamineeController extends Controller
 
         if ($organ_name)
         {
-            $uid = User::find()->select('id')->where(['organ_name' => $organ_name, 'type' => 2])->scalar();
+            $uid = User::find()->select('id')
+                ->where(['type' => [1, 2]])->andWhere(['like', 'organ_name', $organ_name])
+                ->asArray()->column();
             $uid = $uid ? $uid : 0;
             $model->andWhere(['uid' => $uid]);
         }
         if ($teacher_name)
         {
-            $uid = User::find()->select('id')->where(['name' => $teacher_name, 'type' => 1])->scalar();
+            $uid = User::find()->select('id')
+                ->where(['type' => [1, 2]])->andWhere(['like', 'name', $teacher_name])
+                ->asArray()->column();
             $uid = $uid ? $uid : 0;
             $model->andWhere(['uid' => $uid]);
         }
