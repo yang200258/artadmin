@@ -3,9 +3,47 @@
 // import '../mock/index.js'
 
 import 'babel-polyfill'
+import 'lib-flexible/flexible'
 import Vue from "vue"
-import {Pagination,Dialog,Input,Radio,Checkbox,Select,Button,Option,Table,DatePicker,TimePicker,Form,FormItem,Icon,Upload,Container,Header,Aside,Main,Footer,TableColumn,
-    Row,Col,Tag,Menu,Submenu,MenuItem,CheckboxGroup,RadioGroup,Dropdown,DropdownMenu,DropdownItem,Loading,Message,MessageBox,Carousel,CarouselItem} from 'element-ui'
+import {
+    Pagination,
+    Dialog,
+    Input,
+    Radio,
+    Checkbox,
+    Select,
+    Button,
+    Option,
+    Table,
+    DatePicker,
+    TimePicker,
+    Form,
+    FormItem,
+    Icon,
+    Upload,
+    Container,
+    Header,
+    Aside,
+    Main,
+    Footer,
+    TableColumn,
+    Row,
+    Col,
+    Tag,
+    Menu,
+    Submenu,
+    MenuItem,
+    CheckboxGroup,
+    RadioGroup,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    Loading,
+    Message,
+    MessageBox,
+    Carousel,
+    CarouselItem
+} from 'element-ui'
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(TableColumn)
@@ -57,7 +95,7 @@ import './components/install'
 
 // 注册组件到Vue
 Vue.prototype.$axios = axios
-Vue.use( {
+Vue.use({
     i18n: (key, value) => i18n.t(key, value)
 })
 
