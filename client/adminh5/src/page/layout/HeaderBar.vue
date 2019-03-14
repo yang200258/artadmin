@@ -10,7 +10,7 @@
                     <el-dropdown @command="userOperation">
                         <span class="user">{{username}}<i class="el-icon-caret-bottom el-icon--right"></i></span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="editPaw">{{$t('global.editpassword')}}</el-dropdown-item>
+                            <!-- <el-dropdown-item command="editPaw">{{$t('global.editpassword')}}</el-dropdown-item> -->
                             <el-dropdown-item command="logout">{{$t('global.logout')}}</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

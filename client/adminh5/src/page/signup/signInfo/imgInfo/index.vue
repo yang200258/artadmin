@@ -38,6 +38,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
+            link.target = '_Blank'
             document.body.appendChild(link)
             link.click()
         }

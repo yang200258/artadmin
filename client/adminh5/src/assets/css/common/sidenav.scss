@@ -1,28 +1,31 @@
 /* 二三级菜单 */
-.el-menu--horizontal{
-    .el-menu{
+
+.el-menu--horizontal {
+    .el-menu {
         background-color: $topSubNavBg;
-        .el-menu-item, .el-submenu__title{
+        .el-menu-item,
+        .el-submenu__title {
             color: $topSubNavItemColor;
             background-color: $topSubNavBg;
-            &.is-active{
+            &.is-active {
                 color: $topSubNavItemColor;
                 background-color: $topSubNavItemHover;
             }
-        } 
+        }
     }
     .el-menu-item:not(.is-disabled):hover,
-    .el-submenu__title:hover{
+    .el-submenu__title:hover {
         color: $topSubNavItemColor;
         background-color: $topSubNavItemHover;
-    }    
+    }
 }
+
 .side-nav {
-    .el-menu{
+    .el-menu {
         border-right: none;
         z-index: 10;
     }
-    .full-screen-navBg{
+    .full-screen-navBg {
         position: absolute;
         left: 0;
         bottom: 0;
@@ -30,10 +33,10 @@
         height: 100%;
         z-index: 5;
     }
-    .el-submenu .el-menu-item{
+    .el-submenu .el-menu-item {
         min-width: 0;
     }
-    &.left{
+    &.left {
         position: absolute;
         top: $headerHeight;
         bottom: 0;
@@ -42,49 +45,51 @@
         background-color: $leftNavBg;
         border-right: $leftNavBorder;
         overflow: auto;
-        .el-menu{
+        .el-menu {
             background-color: $leftNavBg;
-            .el-submenu__title{
+            .el-submenu__title {
                 color: $leftNavColor;
             }
         }
-        .el-menu-item{
+        .el-menu-item {
             color: $leftNavColor;
-            &.is-active{
+            &.is-active {
                 background-color: darken(#465873, 8%);
                 color: $--menu-item-color;
             }
         }
         box-sizing: border-box;
     }
-    &.top{
+    &.top {
         float: left;
         margin-left: 20px;
-        & > .el-menu{
+        height: 60px;
+        overflow: hidden;
+        &>.el-menu {
             background-color: transparent;
             /* 无下级菜单的menu-item */
-            & > .el-menu-item{
+            &>.el-menu-item {
                 color: $topNavItemColor;
-                &:hover{
+                &:hover {
                     background-color: $topNavItemHoverBg;
                 }
-                &.is-active{
+                &.is-active {
                     background-color: transparent;
                     border-bottom-color: $topNavItemActiveBg;
                 }
             }
             /* 有下级菜单的menu-item */
-            & > .el-submenu{
-                & > .el-submenu__title{
+            &>.el-submenu {
+                &>.el-submenu__title {
                     color: $topNavItemColor;
-                    & > .el-submenu__icon-arrow{
+                    &>.el-submenu__icon-arrow {
                         color: $topNavItemColor;
                     }
                 }
-                &:hover .el-submenu__title{
+                &:hover .el-submenu__title {
                     background-color: $topNavItemHoverBg;
                 }
-                &.is-active > .el-submenu__title{
+                &.is-active>.el-submenu__title {
                     background-color: transparent;
                     border-bottom-color: $topNavItemActiveBg;
                 }
