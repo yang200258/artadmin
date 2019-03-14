@@ -28,7 +28,7 @@
 
 <script>
 import util from '@/util/util'
-import tableData from '@/page/common/tableData'
+import tableData from '@/components/common/tableData'
 export default {
     data(){
         return{

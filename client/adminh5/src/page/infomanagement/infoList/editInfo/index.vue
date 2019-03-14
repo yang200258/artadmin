@@ -19,8 +19,8 @@
 
 <script>
 
-import info from '../../common/info'
-import richtext from '@/page/common/richtext'
+import info from '@/components/infomanagement/info'
+import richtext from '@/components/common/richtext'
 import {mapMutations,mapState} from 'vuex'
 export default {
     data(){

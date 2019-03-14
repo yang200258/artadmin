@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import testInfo from '../../common/testInfo.vue'
-import testLocation from '../../common/testLocation.vue'
+import testInfo from '@/components/test/testInfo.vue'
+import testLocation from '@/components/test/testLocation.vue'
 import {mapState} from 'vuex'
 import util from '@/util/util'
 export default {

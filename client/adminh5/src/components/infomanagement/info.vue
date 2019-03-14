@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// import richtext from '../../common/richtext'
 import Auth from '@/util/auth'
 import { mapGetters } from 'vuex';
 export default {

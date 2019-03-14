@@ -86,7 +86,7 @@
 
 <script>
 import draggable from 'vuedraggable'
-import tableData from '@/page/common/tableData'
+import tableData from '@/components/common/tableData'
 import util from '@/util/util'
 import Auth from '@/util/auth'
 export default {

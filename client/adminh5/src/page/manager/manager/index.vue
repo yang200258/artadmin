@@ -45,7 +45,7 @@
 
 
 <script>
-import tableData from '@/page/common/tableData'
+import tableData from '@/components/common/tableData'
 export default {
     data(){
         return{

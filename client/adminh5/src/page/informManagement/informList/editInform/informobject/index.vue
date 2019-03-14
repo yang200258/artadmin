@@ -45,7 +45,7 @@
     </div>
 </template>
 <script>
-import tableData from '@/page/common/tableData'
+import tableData from '@/components/common/tableData'
 import util from '@/util/util'
 export default {
     data(){

@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import richtext from '@/page/common/richtext'
+import richtext from '@/components/common/richtext'
 export default {
     data(){
         return{
