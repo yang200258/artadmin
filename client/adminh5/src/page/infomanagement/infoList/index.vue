@@ -34,7 +34,7 @@
         @editInfo="editInfo" @deleteInfo="deleteInfo" @editOption="editOption" @deleteOption="deleteOption" @handleSelectionChange="handleSelectionChange" @getRowKey="getRowKey" 
         :optionName="'发布信息'" @option="publishInfo">
          </table-data>
-        <el-dialog title="分类管理" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+        <el-dialog title="信息分类管理" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
             <el-tag class="category-container" v-for="item in category" :key="item.id" closable @close="closeTag(item.id)" ref="categaryName">
                 <span>{{item.name}}</span>
                 <div class="el-icon-edit" @click="editCategaryName(item)"></div>

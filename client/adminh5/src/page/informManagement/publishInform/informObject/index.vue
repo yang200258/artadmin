@@ -5,7 +5,7 @@
         @handleCurrentChange="handlePage">
         </table-data>
         <div class="button">
-            <el-col ><el-button style="width:10%;" @click="confirm">确定</el-button></el-col>
+            <el-col ><el-button style="width:10%;" @click="confirm" type="primary">确定</el-button></el-col>
         </div>
         
         <!-- 添加通知对象弹出层 -->
@@ -86,6 +86,10 @@ export default {
         confirm: function(){
             this.$router.push({
                 name: 'publishInform',
+                params: {
+                    type: this.type,
+                    content: this.content
+                }
             })
         },
         //筛选通知对象
@@ -209,6 +213,12 @@ export default {
         tn(){
             return this.$store.state.informobject.addinformobjectdata.inform.length
         },
+        type(){
+            return this.$store.state.informobject.addinformobjectdata.type
+        },
+        content(){
+            return this.$store.state.publishinfo.quillContent
+        }
     }
 }
 </script>

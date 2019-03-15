@@ -5,7 +5,7 @@
         @handleCurrentChange="handlePage"  @getRowKey="getRowKey">
         </table-data>
         <div class="button">
-            <el-col ><el-button style="width:10%" @click="confirm">确定</el-button></el-col>
+            <el-col ><el-button style="width:10%" @click="confirm" type="primary">确定</el-button></el-col>
         </div>
         
         <!-- 添加通知对象弹出层 -->
