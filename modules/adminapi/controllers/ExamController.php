@@ -76,7 +76,7 @@ class ExamController extends Controller
         foreach ($list as &$one)
         {
             $one['site_num'] = ExamSite::find()->where(['exam_id' => $one['id']])->count('DISTINCT address');
-            $one['room_num'] = ExamSite::find()->where(['exam_id' => $one['id']])->count('DISTINCT room');
+            $one['room_num'] = ExamSite::find()->where(['exam_id' => $one['id']])->count('DISTINCT address,room');
             $one['status_name'] = $this->getStatus($one);
         }
 
