@@ -47,6 +47,7 @@ use Yii;
  * @property string $bm 报名表（评审表）PDF文件名
  * @property string $bm_continuous 连考报名表（评审表）PDF文件名
  * @property string $kz 准考证PDF文件名
+ * @property string $mini_form_id 小程序formId，用于发送模板消息
  */
 class Apply extends \yii\db\ActiveRecord
 {
