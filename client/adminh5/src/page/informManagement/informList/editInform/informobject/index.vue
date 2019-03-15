@@ -37,8 +37,8 @@
             <table-data :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isSelected="'true'" :tableData="addInformData" 
             :head="informHead" :loadingTable="loadingAddInformTable" @handleSelectionChange="handleSelectionChange"></table-data>
             <span slot="footer">
-                <el-button @click="cancel">取消</el-button>
-                <el-button @click="saveAddInform">保存</el-button>
+                <el-button @click="cancel" style="width:10%;">取消</el-button>
+                <el-button @click="saveAddInform" type="primary" style="width:10%;">保存</el-button>
             </span>
         </el-dialog>
 
