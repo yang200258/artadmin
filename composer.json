@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "phpoffice/phpword": "^0.16.0",
         "tecnickcom/tcpdf": "~6.2",
-        "setasign/fpdi": "~2.0"
+        "setasign/fpdi": "~2.0",
+        "overtrue/wechat": "~4.0"
     },
     "require-dev": {
         "yiisoft/yii2-gii": "~2.0.0",
