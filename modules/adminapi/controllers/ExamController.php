@@ -9,6 +9,8 @@ use app\models\Exam;
 use app\models\ExamExaminee;
 use app\models\ExamSite;
 use app\models\Record;
+use yii\db\Exception;
+use yii\db\StaleObjectException;
 
 class ExamController extends Controller
 {
@@ -76,7 +78,7 @@ class ExamController extends Controller
         foreach ($list as &$one)
         {
             $one['site_num'] = ExamSite::find()->where(['exam_id' => $one['id']])->count('DISTINCT address');
-            $one['room_num'] = ExamSite::find()->where(['exam_id' => $one['id']])->count('DISTINCT room');
+            $one['room_num'] = ExamSite::find()->where(['exam_id' => $one['id']])->count('DISTINCT address,room');
             $one['status_name'] = $this->getStatus($one);
         }
 
@@ -275,6 +277,36 @@ class ExamController extends Controller
         return $this->json(['exam' => $exam, 'exam_site' => $ExamSite]);
     }
 
+    public function actionDeleteExam()
+    {
+        $request = \Yii::$app->request;
+        $id = $request->post('id');
+        if (!$id)
+        {
+            return $this->error('参数错误');
+        }
+
+        $exam = Exam::findOne($id);
+        if (!$exam) {
+            return $this->error('考试不存在或已被删除');
+        }
+        $transaction = \Yii::$app->db->beginTransaction();//创建事务
+        try {
+            // 删除考试
+            $exam->delete();
+            $examSiteIds = ExamSite::find()->where(['exam_id' => $id])->select('id')->column();
+            ExamSite::deleteAll(['exam_id' => $id]);// 删除考场信息
+            ExamExaminee::deleteAll(['exam_site_id' => $id]);// 删除排序信息
+            // 移除分配信息
+            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id1' => $examSiteIds]);
+            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id2' => $examSiteIds]);
+            $transaction->commit();
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            return $this->error('删除失败' . $e->getMessage());
+        }
+        return $this->ok('删除成功');
+    }
     public function actionDeleteExamSite()
     {
         $request = \Yii::$app->request;

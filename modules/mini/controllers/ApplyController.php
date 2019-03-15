@@ -40,6 +40,7 @@ class ApplyController extends Controller
         $preparer = $request->post('preparer', ''); //填表人
         $adviser = $request->post('adviser', ''); //指导老师
         $adviser_phone = $request->post('adviser_phone', ''); //指导老师电话
+        $mini_form_id = $request->post('mini_form_id', '');
         $continuous_level = $continuous_level == '否' ? '' : $continuous_level;
 
         $exam = Exam::findOne($exam_id);
@@ -154,6 +155,7 @@ class ApplyController extends Controller
             $apply->preparer = $preparer;
             $apply->adviser = $adviser;
             $apply->adviser_phone = $adviser_phone;
+            $apply->mini_form_id = $mini_form_id;
             $apply->create_at = date('Y-m-d H:i:s');
             if (in_array($this->user->type, [1, 2]))   //如果是老师或者机构报名，相当于直接缴费
             {
