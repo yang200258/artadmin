@@ -124,7 +124,7 @@ class PayController extends Controller
                         $miniApp = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
                         $miniApp->template_message->send([
                             'touser' => $apply->user->openid,
-                            'template_id' => \Yii::$app->params['weixin_mini_template']['pay'],
+                            'template_id' => \Yii::$app->params['weixin_mini_template']['status'],
                             'page' => 'pages/myenroll/myenroll',
                             'form_id' => $apply_pay->prepay_id,
                             'data' => [

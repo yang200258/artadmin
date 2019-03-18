@@ -22,9 +22,13 @@ return [
         // 下面为可选项
         // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
         'response_type' => 'array',
+
+        'log' => [
+            'level' => 'debug',
+            'file' => ' /web/artyk/runtime/wechat.log',
+        ],
     ],
     'weixin_mini_template' => [
-        'check' => 'NhesljnePGi3YJxNJW_57VPxD4rlU2_3iUq0EWKchos',
-        'pay' => 'mmJyYwZ5j5Yi97ckh0dVc3-4hgiysv8CVRX3xn9-fSw',
+        'status' => 'mmJyYwZ5j5Yi97ckh0dVc3-4hgiysv8CVRX3xn9-fSw',
     ],
 ];
