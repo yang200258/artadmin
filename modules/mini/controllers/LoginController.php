@@ -62,6 +62,9 @@ class LoginController extends Controller
                         if (!$user->save(false)){
                             return $this->error('用户创建失败', 401);
                         }
+                    } elseif (!$user->openid) {
+                        $user->openid = $sessionKeyArr['openid'];
+                        $user->save(false);
                     }
                     $sessionString = md5($sessionKeyArr['openid'] . $sessionKeyArr['session_key']);
                     \Yii::$app->cache->set($sessionString, $sessionKeyArr, 3600 * 24 * 30);
