@@ -144,7 +144,7 @@ class Apply extends \yii\db\ActiveRecord
 
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'uid'])->select('id,name,organ_name,type');
+        return $this->hasOne(User::className(), ['id' => 'uid'])->select('id,name,organ_name,type,openid');
     }
 
     public function getExamsite1()

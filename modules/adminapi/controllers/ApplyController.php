@@ -11,6 +11,7 @@ use app\models\Inform;
 use app\models\InformUser;
 use app\models\Record;
 use app\models\User;
+use EasyWeChat\Factory;
 use yii\db\Expression;
 
 class ApplyController extends Controller
@@ -193,6 +194,21 @@ class ApplyController extends Controller
             }
             Record::saveRecord($this->admin->id, 1, ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply_id]");
             $transaction->commit();//提交事务
+            // 对小程序报名用户发送审核模板消息
+            if ($apply->mini_form_id) {
+                $miniApp = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
+                $miniApp->template_message->send([
+                    'touser' => $apply->user->openid,
+                    'template_id' => \Yii::$app->params['weixin_mini_template']['check'],
+//                'page' => 'index',
+                    'form_id' => $apply->mini_form_id,
+                    'data' => [
+                        'keyword1' => 'VALUE',//todo
+                        'keyword2' => 'VALUE2',
+                    ],
+                ]);
+            }
+
             return $this->ok('审核完成');
         } catch (\Exception $e) {
             $transaction->rollback();//回滚事务
