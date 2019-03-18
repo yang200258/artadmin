@@ -11,8 +11,8 @@ return [
         'billing_ip' => ""
     ],
     'user.passwordResetTokenExpire' => 3600,
-    'image_site' => 'http://artadmintest.fantuan.cn',
-    'file_site' => 'http://artadmintest.fantuan.cn',
+    'image_site' => 'https://static.hnyskj.net',
+    'file_site' => 'https://www.hnyskj.net',
 
     // easywechat小程序初始化
     'weixin_mini' => [
