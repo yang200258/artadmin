@@ -18,7 +18,7 @@ class PayController extends Controller
         $request = \Yii::$app->request;
         $apply_id = $request->getBodyParam('apply_id');
 
-        $apply = Apply::find()->with('pay')->where(['id' => $apply_id])->asArray()->one();
+        $apply = Apply::find()->with('pay')->where(['id' => $apply_id])->one();
         if (!$apply)
         {
             return $this->error('报名不存在');
