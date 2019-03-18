@@ -44,7 +44,8 @@ export default {
               },
               entryDisabled: {
                 query_apply: item.status.toString() !== '2'
-              }
+              },
+              applyStartTime: new Date(item.apply_time_start).getTime()
             }
           })
           this.enrollNotice = enrollNotice
