@@ -201,12 +201,13 @@ class ApplyController extends Controller
                 $miniApp = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
                 $miniApp->template_message->send([
                     'touser' => $apply->user->openid,
-                    'template_id' => \Yii::$app->params['weixin_mini_template']['check'],
-//                'page' => 'index',
+                    'template_id' => \Yii::$app->params['weixin_mini_template']['pay'],
+                    'page' => 'pages/myenroll/myenroll',
                     'form_id' => $apply->mini_form_id,
                     'data' => [
-                        'keyword1' => 'VALUE',//todo
-                        'keyword2' => 'VALUE2',
+                        'keyword1' => '中国音乐学院社会艺术水平考级（海南考区）' . $apply->exam->name . $apply->domain . $apply->level . '报名',
+                        'keyword2' => '审核' . ($status == 4 ? '通过' : '未通过'),
+                        'keyword3' => $content,
                     ],
                 ]);
             }

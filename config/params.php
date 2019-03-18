@@ -1,8 +1,11 @@
 <?php
+$miniAppId = 'wx44012a9f9aa3ad09';
+$miniSecret = '8b4219e34cc1a75324ed42cbc8d7629c';
+
 return [
     'weixin' => [
-        'appid' =>'wx44012a9f9aa3ad09',
-        'appsecret'=>'8b4219e34cc1a75324ed42cbc8d7629c',
+        'appid' => $miniAppId,
+        'appsecret'=> $miniSecret,
         'home_appid' =>'wxe2f2c66f76dbd611',
         'home_appsecret'=>'183fce5cbef8d09ab2d0d9752fcd6c79',
         'billing_ip' => ""
@@ -10,9 +13,11 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'image_site' => 'http://artadmintest.fantuan.cn',
     'file_site' => 'http://artadmintest.fantuan.cn',
+
+    // easywechat小程序初始化
     'weixin_mini' => [
-        'app_id' => 'wx3cf0f39249eb0exx',
-        'secret' => 'f1c242f4f28f735d4687abb469072axx',
+        'app_id' => $miniAppId,
+        'secret' => $miniSecret,
 
         // 下面为可选项
         // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
@@ -20,11 +25,11 @@ return [
 
         'log' => [
             'level' => 'debug',
-            'file' => __DIR__ . '/wechat.log',
+            'file' => 'runtime/wechat.log',
         ],
     ],
     'weixin_mini_template' => [
-        'check' => 'xxxxxxxx',
-        'pay' => 'xxxxxxxxx',
+        'check' => 'NhesljnePGi3YJxNJW_57VPxD4rlU2_3iUq0EWKchos',
+        'pay' => 'mmJyYwZ5j5Yi97ckh0dVc3-4hgiysv8CVRX3xn9-fSw',
     ],
 ];
