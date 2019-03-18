@@ -290,6 +290,11 @@ class ExamController extends Controller
         if (!$exam) {
             return $this->error('考试不存在或已被删除');
         }
+        $apply = Apply::find()->where(['exam_id' => $id])->exists();
+        if ($apply)
+        {
+            return $this->error('该考试已有考生报名，不可删除');
+        }
         $transaction = \Yii::$app->db->beginTransaction();//创建事务
         try {
             // 删除考试
