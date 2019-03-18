@@ -11,7 +11,7 @@ return [
         'billing_ip' => ""
     ],
     'user.passwordResetTokenExpire' => 3600,
-    'image_site' => 'https://static.hnyskj.net',
+    'image_site' => 'https://dimg.hnyskj.net',
     'file_site' => 'https://www.hnyskj.net',
 
     // easywechat小程序初始化
