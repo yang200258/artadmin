@@ -23,10 +23,10 @@ return [
         // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
         'response_type' => 'array',
 
-        'log' => [
-            'level' => 'debug',
-            'file' => ' /web/artyk/runtime/wechat.log',
-        ],
+//        'log' => [
+//            'level' => 'debug',
+//            'file' => ' /web/artyk/runtime/wechat.log',
+//        ],
     ],
     'weixin_mini_template' => [
         'status' => 'mmJyYwZ5j5Yi97ckh0dVc3-4hgiysv8CVRX3xn9-fSw',
