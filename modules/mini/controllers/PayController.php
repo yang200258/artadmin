@@ -7,6 +7,7 @@ use app\models\Apply;
 use app\models\ApplyPay;
 use app\models\Inform;
 use app\models\InformUser;
+use EasyWeChat\Factory;
 use yii\db\Expression;
 use yii\helpers\Url;
 
@@ -17,7 +18,7 @@ class PayController extends Controller
         $request = \Yii::$app->request;
         $apply_id = $request->getBodyParam('apply_id');
 
-        $apply = Apply::find()->with('pay')->where(['id' => $apply_id])->asArray()->one();
+        $apply = Apply::find()->with('pay')->where(['id' => $apply_id])->one();
         if (!$apply)
         {
             return $this->error('报名不存在');
@@ -53,10 +54,12 @@ class PayController extends Controller
         $input->SetOpenid($openId);
         $order = \WxPayApi::unifiedOrder($input);
 
-        if($order['return_code'] != 'SUCCESS' || $order['result_code'] != 'SUCCESS')
+        if($order['return_code'] != 'SUCCESS' || $order['result_code'] != 'SUCCESS' || !isset($order['prepay_id']))
         {
             return $this->error('支付失败');
         }
+        $apply->pay->prepay_id = $order['prepay_id'];
+        $apply->pay->save(false);
         $tools = new \JsApiPay();
         $jsApiParameters = $tools->GetJsApiParameters($order);
 
@@ -116,6 +119,21 @@ class PayController extends Controller
                     Apply::updateAll(['plan' => 4], ['id' => $apply->id]);
 
                     $content = '您已成功报名中国音乐学院社会艺术水平考级考试！ 关注微信公众号“海南考级中心”及时获取更多考试相关信息';
+                    //
+                    if ($apply_pay->prepay_id) {
+                        $miniApp = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
+                        $miniApp->template_message->send([
+                            'touser' => $apply->user->openid,
+                            'template_id' => \Yii::$app->params['weixin_mini_template']['pay'],
+                            'page' => 'pages/myenroll/myenroll',
+                            'form_id' => $apply_pay->prepay_id,
+                            'data' => [
+                                'keyword1' => '中国音乐学院社会艺术水平考级（海南考区）' . $apply->exam->name . $apply->domain . $apply->level . '报名',
+                                'keyword2' => '报名成功',
+                                'keyword3' => $content,
+                            ],
+                        ]);
+                    }
                     $inform = new Inform();
                     $inform->type = 9;
                     $inform->content = new Expression("COMPRESS(:content)", [':content' => $content]);

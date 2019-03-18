@@ -2,6 +2,7 @@
 namespace app\helpers;
 
 use app\models\Token;
+use EasyWeChat\Factory;
 
 class WeiXin {
 
@@ -44,16 +45,17 @@ class WeiXin {
             return [];
         }
 
-        $weixin = \Yii::$app->params['weixin'];
-        $apiUrl = "https://api.weixin.qq.com/sns/jscode2session?appid={$weixin['appid']}&secret={$weixin['appsecret']}&js_code={$code}&grant_type=authorization_code";
-        $json = file_get_contents($apiUrl);
-        $result = json_decode($json, true);
+//        $weixin = \Yii::$app->params['weixin'];
+//        $apiUrl = "https://api.weixin.qq.com/sns/jscode2session?appid={$weixin['appid']}&secret={$weixin['appsecret']}&js_code={$code}&grant_type=authorization_code";
+//        $json = file_get_contents($apiUrl);
+//        $result = json_decode($json, true);
+        $app = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
+        $result = $app->auth->session($code);
         if (isset($result['openid'])){
             return $result;
         }else{
             return [];
         }
-
     }
 
     /**

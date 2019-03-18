@@ -36,7 +36,7 @@ export default {
             filter: [{value: '',label: '全部'},{value: '1',label: '成绩查询'},{value: '2',label: '准考证领取'},{value: '3',label: '考场查询'},
             {value: '4',label: '考试报名'},{value: '5',label: '大赛通知'},{value: '6',label: '定向通知'}],
             publishInformDate: [],
-            informHead: [{key:'id',name: '通知编号'},{key:'type',name: '通知类型'},{key:'filter_content',name: '通知详情'},{key:'create_at',name: '发布时间'}],
+            informHead: [{key:'id',name: '通知编号'},{key:'info_type',name: '通知类型'},{key:'filter_content',name: '通知详情'},{key:'create_at',name: '发布时间'}],
             informListData: [],
             loadingInformList: false,
             deleteid: [],
@@ -66,7 +66,7 @@ export default {
                 console.log('查询通知列表',res);
                 if(res && !res.error) {
                     res.data.list.forEach(item=> {
-                        item.type = res.data.filter[item.type]
+                        item.info_type = res.data.filter[item.type]
                     })
                     this.$store.commit('informobject/setFilter',res.data.filter)
                     this.informListData = res.data.list

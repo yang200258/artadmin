@@ -35,6 +35,10 @@ export default {
     mounted(){
         this.$store.commit('publishinfo/setquillContent','')
         this.$store.commit('informobject/setAddType','')
+        if(this.$route.params) {
+            this.$store.commit('informobject/setAddType',this.$route.params.type)
+            this.$store.commit('publishinfo/setquillContent',this.$route.params.content)
+        }
     },
     computed: {
         uid_arr(){
@@ -52,6 +56,10 @@ export default {
         goInform: function(){
             this.$router.push({
                 name: 'addinformObject',
+                params: {
+                    type: this.type,
+                    content: this.content
+                }
             })
         },
         //发布通知

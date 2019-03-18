@@ -5,7 +5,7 @@
         @handleCurrentChange="handlePage"  @getRowKey="getRowKey">
         </table-data>
         <div class="button">
-            <el-col ><el-button style="width:10%" @click="confirm">确定</el-button></el-col>
+            <el-col ><el-button style="width:10%" @click="confirm" type="primary">确定</el-button></el-col>
         </div>
         
         <!-- 添加通知对象弹出层 -->
@@ -37,8 +37,8 @@
             <table-data :isPagination="'true'" :currentPage="currentPage" :pageSize="pageSize" :totalNumber="totalNumber" :isSelected="'true'" :tableData="addInformData" 
             :head="informHead" :loadingTable="loadingAddInformTable" @handleSelectionChange="handleSelectionChange"></table-data>
             <span slot="footer">
-                <el-button @click="cancel">取消</el-button>
-                <el-button @click="saveAddInform">保存</el-button>
+                <el-button @click="cancel" style="width:10%;">取消</el-button>
+                <el-button @click="saveAddInform" type="primary" style="width:10%;">保存</el-button>
             </span>
         </el-dialog>
 

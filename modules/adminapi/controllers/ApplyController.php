@@ -11,6 +11,7 @@ use app\models\Inform;
 use app\models\InformUser;
 use app\models\Record;
 use app\models\User;
+use EasyWeChat\Factory;
 use yii\db\Expression;
 
 class ApplyController extends Controller
@@ -46,6 +47,7 @@ class ApplyController extends Controller
         $teacher_name = $request->post('teacher_name');//老师名称
         $start_time = $request->post('start_time');
         $end_time = $request->post('end_time');
+        $is_continuous = $request->post('is_continuous');
 
         $model = Apply::find()->with(['pay', 'user', 'examsite1', 'examsite2'])
             ->andFilterWhere(['LIKE', 'name', $name])
@@ -55,6 +57,7 @@ class ApplyController extends Controller
             ->andFilterWhere(['id_number' => $id_number])
             ->andFilterWhere(['status' => $status])
             ->andFilterWhere(['plan' => $plan])
+            ->andFilterWhere(['is_continuous' => $is_continuous])
             ->andFilterWhere(['>=', 'create_at', $start_time])
             ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . ' 23:59:59': '']);
         if ($postpone)
@@ -193,6 +196,22 @@ class ApplyController extends Controller
             }
             Record::saveRecord($this->admin->id, 1, ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply_id]");
             $transaction->commit();//提交事务
+            // 对小程序报名用户发送审核模板消息
+            if ($apply->mini_form_id) {
+                $miniApp = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
+                $miniApp->template_message->send([
+                    'touser' => $apply->user->openid,
+                    'template_id' => \Yii::$app->params['weixin_mini_template']['pay'],
+                    'page' => 'pages/myenroll/myenroll',
+                    'form_id' => $apply->mini_form_id,
+                    'data' => [
+                        'keyword1' => '中国音乐学院社会艺术水平考级（海南考区）' . $apply->exam->name . $apply->domain . $apply->level . '报名',
+                        'keyword2' => '审核' . ($status == 4 ? '通过' : '未通过'),
+                        'keyword3' => $content,
+                    ],
+                ]);
+            }
+
             return $this->ok('审核完成');
         } catch (\Exception $e) {
             $transaction->rollback();//回滚事务

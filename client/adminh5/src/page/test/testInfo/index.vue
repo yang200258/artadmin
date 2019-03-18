@@ -122,7 +122,7 @@ export default {
       deleteInfo: function(scope) {
           const id = scope.row.id
           this.$axios({
-              url: '/exam/delete-exam-site',
+              url: '/exam/delete-exam',
               method: 'post',
               data: {id}
           }).then(res=> {

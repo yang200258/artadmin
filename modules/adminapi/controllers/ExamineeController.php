@@ -75,7 +75,7 @@ class ExamineeController extends Controller
         $list = $model->orderBy('id desc')->offset($this->offset)->limit($this->limit)->asArray()->all();
 
         // 去掉连考已经分配了这个考场的用户
-        array_filter($list, function ($v) use ($exam_site_id) {
+        $list = array_filter($list, function ($v) use ($exam_site_id) {
             return $v['exam_site_id1'] != $exam_site_id;
         });
         return $this->json(['list' => $list, 'page' => $this->page($total)]);
