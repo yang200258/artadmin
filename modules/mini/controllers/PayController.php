@@ -58,8 +58,8 @@ class PayController extends Controller
         {
             return $this->error('支付失败');
         }
-        $apply->prepay_id = $order['prepay_id'];
-        $apply->save(false);
+        $apply->pay->prepay_id = $order['prepay_id'];
+        $apply->pay->save(false);
         $tools = new \JsApiPay();
         $jsApiParameters = $tools->GetJsApiParameters($order);
 
