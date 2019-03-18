@@ -47,6 +47,7 @@ class ApplyController extends Controller
         $teacher_name = $request->post('teacher_name');//老师名称
         $start_time = $request->post('start_time');
         $end_time = $request->post('end_time');
+        $is_continuous = $request->post('is_continuous');
 
         $model = Apply::find()->with(['pay', 'user', 'examsite1', 'examsite2'])
             ->andFilterWhere(['LIKE', 'name', $name])
@@ -56,6 +57,7 @@ class ApplyController extends Controller
             ->andFilterWhere(['id_number' => $id_number])
             ->andFilterWhere(['status' => $status])
             ->andFilterWhere(['plan' => $plan])
+            ->andFilterWhere(['is_continuous' => $is_continuous])
             ->andFilterWhere(['>=', 'create_at', $start_time])
             ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . ' 23:59:59': '']);
         if ($postpone)
