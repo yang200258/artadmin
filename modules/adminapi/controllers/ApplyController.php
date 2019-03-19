@@ -241,6 +241,8 @@ class ApplyController extends Controller
 
         if ($apply->save(false)) {
             Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply_id]");
+            $content = "您报名的中国音乐学院社会艺术水平考级（海南考区）{$apply->exam->name}{$apply->domain}{$apply->level}考试的考试资格已成功顺延至下一期考试，关注微信公众号“海南考级中心”及时获取考试信息，避免错过考试！";
+            Inform::saveInform($content, 10, $apply->uid, $apply->id);
             return $this->ok('缺考顺延成功');
         } else {
             return $this->error('缺考顺延失败');

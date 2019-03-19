@@ -47,4 +47,20 @@ class Inform extends \yii\db\ActiveRecord
             'create_at' => '创建时间',
         ];
     }
+
+    public static function saveInform($content, $type, $uid, $applyId = 0)
+    {
+        $inform = new self;
+        $inform->content = $content;
+        $inform->type = $type;
+        $inform->create_at = date("Y-m-d H:i:s");
+        if (!$inform->save(false)) {
+            return false;
+        }
+        $informUser = new InformUser();
+        $informUser->uid = $uid;
+        $informUser->inform_id = $inform->id;
+        $informUser->apply_id = $applyId;
+        return $informUser->save(false);
+    }
 }
