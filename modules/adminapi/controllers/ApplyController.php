@@ -42,7 +42,7 @@ class ApplyController extends Controller
         $id_number = $request->post('id_number'); //证件号码
         $status = $request->post('status'); //审核状态：1=待审核2=不通过3=无需审核4已通过
         $plan = $request->post('plan'); //当前进度：1=审核中2=待缴费3=已失效4=已缴费
-        $postpone = $request->post('postpone'); //是否缺考顺延
+        $postpone = $request->post('postpone', ''); //是否缺考顺延
         $organ_name = $request->post('organ_name'); //机构名称
         $teacher_name = $request->post('teacher_name');//老师名称
         $start_time = $request->post('start_time');
@@ -60,9 +60,9 @@ class ApplyController extends Controller
             ->andFilterWhere(['is_continuous' => $is_continuous])
             ->andFilterWhere(['>=', 'create_at', $start_time])
             ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . ' 23:59:59': '']);
-        if ($postpone)
+        if ($postpone !== '')
         {
-            $model->andWhere(['postpone' => $postpone-1]);
+            $model->andWhere(['postpone' => $postpone]);
         }
         if ($organ_name)
         {
