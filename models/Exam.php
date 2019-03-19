@@ -17,7 +17,7 @@ use yii2tech\ar\softdelete\SoftDeleteQueryBehavior;
  * @property string $exam_time_start 考试开始时间
  * @property string $exam_time_end 考试结束时间
  * @property string $create_at 创建时间
- * @property string $is_delete 软删除标记
+ * @property int $is_delete 软删除标记
  */
 class Exam extends \yii\db\ActiveRecord
 {
