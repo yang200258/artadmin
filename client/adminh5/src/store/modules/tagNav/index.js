@@ -8,33 +8,33 @@ const state = {
 }
 
 const mutations = {
-    addTagNav(state, data){
-        console.log('路由data',data);
+    addTagNav(state, data) {
+        console.log('路由data', data);
         if (state.openedPageList.some(v => v.path === data.path)) return
-        if(state.cachedPageName.includes(data.name)){
+        if (state.cachedPageName.includes(data.name)) {
             console.error(`${data.name} 组件出现命名重复，请检查组件中的name字段。当前组件所在的路由地址为：${data.path}`)
             return
         }
         state.openedPageList.push(data)
-        if(state.cachePage){
+        if (state.cachePage) {
             state.cachedPageName.push(data.name)
         }
     },
-    removeTagNav(state, data){
-        if(data){
-            for(let [i, v] of state.openedPageList.entries()){
-                if(v.path === data.path){
+    removeTagNav(state, data) {
+        if (data) {
+            for (let [i, v] of state.openedPageList.entries()) {
+                if (v.path === data.path) {
                     state.openedPageList.splice(i, 1)
                 }
             }
-            
-            if(state.cachePage){
+
+            if (state.cachePage) {
                 let index = state.cachedPageName.indexOf(data.name)
-                if(index >= 0){
+                if (index >= 0) {
                     state.cachedPageName.splice(index, 1)
                 }
             }
-        } else{
+        } else {
             state.openedPageList = []
             state.cachedPageName = []
         }
