@@ -73,6 +73,8 @@ export default {
         if(this.$route.params.url) {
             this.fileLists = [{name: 'title',url: this.$route.params.url}]
             this.uploadDisabled = true
+            let upload_div = this.$refs.upload.$children[1].$el;
+            upload_div.style.cssText = "display: none;"
         }
         
         

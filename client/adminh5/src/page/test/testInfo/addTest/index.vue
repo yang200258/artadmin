@@ -53,7 +53,7 @@ export default {
                         exam_site.push({
                             address: item.address,
                             room: '考场1',
-                            time: util.filterDateTime(item.time1)
+                            time: util.filterDateTime(item.time1.value)
                         })
                     }
                     if(item.time && item.time.length) {
@@ -70,7 +70,7 @@ export default {
                             exam_site.push({
                                 address: item.address,
                                 room: '考场' + (i+2),
-                                time: util.filterDateTime(room.time1)
+                                time: util.filterDateTime(room.time1.value)
                             })
                             if(room.times && room.times.length) {
                                 room.times.forEach(r=> {
