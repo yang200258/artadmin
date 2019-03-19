@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii2tech\ar\softdelete\SoftDeleteBehavior;
+use yii2tech\ar\softdelete\SoftDeleteQueryBehavior;
 
 /**
  * This is the model class for table "exam".
@@ -18,6 +20,32 @@ use Yii;
  */
 class Exam extends \yii\db\ActiveRecord
 {
+
+    // 使用软删除
+    public function behaviors()
+    {
+        return [
+            'softDeleteBehavior' => [
+                'class' => SoftDeleteBehavior::class,
+                'softDeleteAttributeValues' => [
+                    'is_delete' => true,
+                ],
+                'replaceRegularDelete' => true // mutate native `delete()` method
+            ],
+        ];
+    }
+
+    /**
+     * 只查询没有被软删除的数据
+     * @return \yii\db\ActiveQuery|SoftDeleteQueryBehavior
+     */
+    public static function find()
+    {
+        $query = parent::find();
+        $query->attachBehavior('softDelete', SoftDeleteQueryBehavior::class);
+        return $query->notDeleted();;
+    }
+
     /**
      * {@inheritdoc}
      */

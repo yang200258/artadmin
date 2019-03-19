@@ -299,12 +299,12 @@ class ExamController extends Controller
         try {
             // 删除考试
             $exam->delete();
-            $examSiteIds = ExamSite::find()->where(['exam_id' => $id])->select('id')->column();
-            ExamSite::deleteAll(['exam_id' => $id]);// 删除考场信息
-            ExamExaminee::deleteAll(['exam_site_id' => $id]);// 删除排序信息
-            // 移除分配信息
-            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id1' => $examSiteIds]);
-            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id2' => $examSiteIds]);
+//            $examSiteIds = ExamSite::find()->where(['exam_id' => $id])->select('id')->column();
+//            ExamSite::deleteAll(['exam_id' => $id]);// 删除考场信息
+//            ExamExaminee::deleteAll(['exam_site_id' => $id]);// 删除排序信息
+//            // 移除分配信息
+//            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id1' => $examSiteIds]);
+//            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id2' => $examSiteIds]);
             $transaction->commit();
         } catch (\Throwable $e) {
             $transaction->rollBack();
