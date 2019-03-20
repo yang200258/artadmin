@@ -6,8 +6,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const cssLoaders = utils.cssLoaders({
     sourceMap: isProduction ?
-        config.build.productionSourceMap :
-        config.dev.cssSourceMap,
+        config.build.productionSourceMap : config.dev.cssSourceMap,
     extract: isProduction
 })
 const extendLoaders = {
@@ -21,5 +20,6 @@ module.exports = {
         source: 'src',
         img: 'src',
         image: 'xlink:href'
+
     }
 }
