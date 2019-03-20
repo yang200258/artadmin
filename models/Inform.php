@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "inform".
@@ -51,8 +52,7 @@ class Inform extends \yii\db\ActiveRecord
     public static function saveInform($content, $type, $uid, $applyId = 0)
     {
         $inform = new self;
-        $inform->content = $content;
-        $inform->type = $type;
+        $inform->content = new Expression("COMPRESS(:content)", [':content' => $content]);        $inform->type = $type;
         $inform->create_at = date("Y-m-d H:i:s");
         if (!$inform->save(false)) {
             return false;
