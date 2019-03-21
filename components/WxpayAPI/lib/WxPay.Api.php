@@ -23,7 +23,7 @@ class WxPayApi
 	 */
 	public static function unifiedOrder($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder";
+		$url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 		//检测必填参数
 		if(!$inputObj->IsOut_trade_noSet()) {
 			throw new WxPayException("缺少统一支付接口必填参数out_trade_no！");
@@ -72,7 +72,7 @@ class WxPayApi
 	 */
 	public static function orderQuery($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/pay/orderquery";
+		$url = "https://api.mch.weixin.qq.com/pay/orderquery";
 		//检测必填参数
 		if(!$inputObj->IsOut_trade_noSet() && !$inputObj->IsTransaction_idSet()) {
 			throw new WxPayException("订单查询接口中，out_trade_no、transaction_id至少填一个！");
@@ -103,7 +103,7 @@ class WxPayApi
 	 */
 	public static function closeOrder($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/pay/closeorder";
+		$url = "https://api.mch.weixin.qq.com/pay/closeorder";
 		//检测必填参数
 		if(!$inputObj->IsOut_trade_noSet()) {
 			throw new WxPayException("订单查询接口中，out_trade_no必填！");
@@ -135,7 +135,7 @@ class WxPayApi
 	 */
 	public static function refund($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/secapi/pay/refund";
+		$url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 		//检测必填参数
 		if(!$inputObj->IsOut_trade_noSet() && !$inputObj->IsTransaction_idSet()) {
 			throw new WxPayException("退款申请接口中，out_trade_no、transaction_id至少填一个！");
@@ -171,7 +171,7 @@ class WxPayApi
      */
     public static function payment($inputObj, $timeOut = 6)
     {
-        $url = "https://api.mch.weixin.qq.com/sandboxnew/mmpaymkttransfers/promotion/transfers";
+        $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
         //检测必填参数
         if(!$inputObj->IsPartner_trade_noSet()) {
             throw new WxPayException("");
@@ -214,7 +214,7 @@ class WxPayApi
 	 */
 	public static function refundQuery($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/pay/refundquery";
+		$url = "https://api.mch.weixin.qq.com/pay/refundquery";
 		//检测必填参数
 		if(!$inputObj->IsOut_refund_noSet() &&
 			!$inputObj->IsOut_trade_noSet() &&
@@ -247,7 +247,7 @@ class WxPayApi
 	 */
 	public static function downloadBill($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/pay/downloadbill";
+		$url = "https://api.mch.weixin.qq.com/pay/downloadbill";
 		//检测必填参数
 		if(!$inputObj->IsBill_dateSet()) {
 			throw new WxPayException("对账单接口中，缺少必填参数bill_date！");
@@ -277,7 +277,7 @@ class WxPayApi
 	 */
 	public static function micropay($inputObj, $timeOut = 10)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/pay/micropay";
+		$url = "https://api.mch.weixin.qq.com/pay/micropay";
 		//检测必填参数
 		if(!$inputObj->IsBodySet()) {
 			throw new WxPayException("提交被扫支付API接口中，缺少必填参数body！");
@@ -315,7 +315,7 @@ class WxPayApi
 	 */
 	public static function reverse($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/secapi/pay/reverse";
+		$url = "https://api.mch.weixin.qq.com/secapi/pay/reverse";
 		//检测必填参数
 		if(!$inputObj->IsOut_trade_noSet() && !$inputObj->IsTransaction_idSet()) {
 			throw new WxPayException("撤销订单API接口中，参数out_trade_no和transaction_id必须填写一个！");
@@ -348,7 +348,7 @@ class WxPayApi
 	 */
 	public static function report($inputObj, $timeOut = 1)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/payitil/report";
+		$url = "https://api.mch.weixin.qq.com/payitil/report";
 		//检测必填参数
 		if(!$inputObj->IsInterface_urlSet()) {
 			throw new WxPayException("接口URL，缺少必填参数interface_url！");
@@ -413,7 +413,7 @@ class WxPayApi
 	 */
 	public static function shorturl($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/sandboxnew/tools/shorturl";
+		$url = "https://api.mch.weixin.qq.com/tools/shorturl";
 		//检测必填参数
 		if(!$inputObj->IsLong_urlSet()) {
 			throw new WxPayException("需要转换的URL，签名用原串，传输需URL encode！");
