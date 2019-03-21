@@ -194,7 +194,7 @@ class ApplyController extends Controller
                 $transaction->rollback();//回滚事务
                 return $this->error('创建失败');
             }
-            Record::saveRecord($this->admin->id, 1, ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply_id]");
+            Record::saveRecord($this->admin->id, 1, ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply->apply_no]");
             $transaction->commit();//提交事务
             // 对小程序报名用户发送审核模板消息
             if ($apply->mini_form_id) {
@@ -240,7 +240,7 @@ class ApplyController extends Controller
         $apply->postpone = 1;
 
         if ($apply->save(false)) {
-            Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply_id]");
+            Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply->apply_no]");
             $content = "您报名的中国音乐学院社会艺术水平考级（海南考区）{$apply->exam->name}{$apply->domain}{$apply->level}考试的考试资格已成功顺延至下一期考试，关注微信公众号“海南考级中心”及时获取考试信息，避免错过考试！";
             Inform::saveInform($content, 10, $apply->uid, $apply->id);
             return $this->ok('缺考顺延成功');
