@@ -151,10 +151,8 @@ class PayController extends Controller
                         $transaction->rollback();//回滚事务
                         return $this->error('创建失败');
                     }
+
                     $transaction->commit();//提交事务
-
-                    echo "success";
-
                 } catch (\Exception $e) {
                     \Yii::error($e->getMessage());
                     $transaction->rollback();//回滚事务
@@ -162,6 +160,8 @@ class PayController extends Controller
                 }
             }
         }
+        echo 'success';
+        die;
     }
 
 

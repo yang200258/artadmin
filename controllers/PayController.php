@@ -124,7 +124,6 @@ class PayController extends Controller
             if ($result['trade_state'] == "SUCCESS") {
                 $transaction = \Yii::$app->db->beginTransaction();//创建事务
                 try {
-
                     $apply_pay = ApplyPay::findOne(['apply_id' => $apply['id']]);
                     $apply_pay->number = $result['out_trade_no'];
                     $apply_pay->type = 1;
@@ -157,8 +156,6 @@ class PayController extends Controller
                     }
                     $transaction->commit();//提交事务
 
-                    echo "success";
-
                 } catch (\Exception $e) {
                     \Yii::error($e->getMessage());
                     $transaction->rollback();//回滚事务
@@ -166,6 +163,8 @@ class PayController extends Controller
                 }
             }
         }
+        echo 'success';
+        exit;
     }
 
     //二维码链接输出，get传
