@@ -16,7 +16,7 @@
         </template>
         <div class="sys-content" :class="layout">
             <tag-nav></tag-nav>
-            <keep-alive :exclude="tagNavList">
+            <keep-alive :include="tagNavList">
                 <router-view></router-view>
             </keep-alive>
         </div>
