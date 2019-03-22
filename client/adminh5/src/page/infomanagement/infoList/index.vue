@@ -285,7 +285,7 @@ export default {
                 name: 'editInfo',
                 params: {
                     id: scope.row.id,
-                    url: scope.row.cover_url,
+                    url: scope.row.cover_url || null,
                     status: scope.row.status
                 }
             })
