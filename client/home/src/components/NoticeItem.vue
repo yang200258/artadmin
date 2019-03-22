@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <div v-if="notice.entry && notice.entry.query_apply" class="button cursor-pointer fr" :class="{disabled: notice.entryDisabled && notice.entryDisabled.query_apply}" @click.stop="applyClick(notice.id)">{{(notice.entryDisabled && notice.entryDisabled.query_apply) ? '截止报名' : '立即报名'}}</div>
+    <div v-if="notice.entry && notice.entry.query_apply" class="button cursor-pointer fr" :class="{disabled: notice.entryDisabled && notice.entryDisabled.query_apply}" @click.stop="applyClick(notice.id)">{{(notice.entryDisabled && notice.entryDisabled.query_apply) ? (beforeDeadline ? '未开始报名' : '截止报名') : '立即报名'}}</div>
   </div>
 </template>
 
@@ -18,6 +18,12 @@ export default {
     notice: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    beforeDeadline () {
+      let now = new Date().getTime()
+      return now < this.notice.applyStartTime
     }
   },
   methods: {

@@ -33,6 +33,7 @@ class ComposerStaticInit513841db475c31b9751bd64e3544d6fa
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
+            'yii2tech\\ar\\softdelete\\' => 23,
         ),
         's' => 
         array (
@@ -147,6 +148,10 @@ class ComposerStaticInit513841db475c31b9751bd64e3544d6fa
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'yii2tech\\ar\\softdelete\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yii2tech/ar-softdelete/src',
         ),
         'setasign\\Fpdi\\' => 
         array (

@@ -11,18 +11,17 @@ class ExamController extends Controller
     //获取考试信息
     public function actionIndex()
     {
-        $exam = Exam::find()->orderBy('id desc')->asArray()->one();
+        $serverTime = date('Y-m-d H:i:s');
+
+        $exam = Exam::find()
+            ->where(['<', 'apply_time_start', $serverTime])
+            ->where(['>', 'apply_time_end', $serverTime])
+            ->orderBy('id desc')->asArray()->one();
         if (!$exam)
         {
             return $this->json(['is_exam' => false]);
         }
-        //服务器当前时间
-        $server_time = date('Y-m-d H:i:s');
 
-        if ($server_time < $exam['apply_time_start'] || $server_time > $exam['apply_time_end'])
-        {
-            return $this->json(['is_apply' => false]);
-        }
         $data['exam'] = $exam;
         $data['is_apply'] = true;
         $data['url'] = $this->createMiniUrl('/miniappregulation'); //简章链接

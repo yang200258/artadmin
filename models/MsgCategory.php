@@ -41,4 +41,13 @@ class MsgCategory extends \yii\db\ActiveRecord
             'name' => '分类名称',
         ];
     }
+
+    public function getList()
+    {
+        return $this->hasMany(Msg::class, ['cid' => 'id'])
+            ->where(['status' => Msg::STATUS_PUBLISHED])
+            ->orderBy('id desc')
+            ->limit(3)
+            ->asArray();
+    }
 }

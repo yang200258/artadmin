@@ -61,14 +61,14 @@ class Controller extends \yii\rest\Controller
             \Yii::$app->end();
         }
 
-        if (!\Yii::$app->user->loginByAccessToken($token))
+        $this->user = \Yii::$app->user->loginByAccessToken($token);
+        if (!$this->user)
         {
             $resp = \Yii::$app->response;
             $resp->data = $this->error('登录失败，请重新登录', 401);
             $resp->send();
             \Yii::$app->end();
         }
-        $this->user = User::findOne(['token' => $token]);
         $this->userid = $this->user->id;
         return true;
     }

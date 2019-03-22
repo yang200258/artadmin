@@ -11,6 +11,7 @@ use app\models\Inform;
 use app\models\InformUser;
 use app\models\Record;
 use app\models\User;
+use EasyWeChat\Factory;
 use yii\db\Expression;
 
 class ApplyController extends Controller
@@ -41,11 +42,12 @@ class ApplyController extends Controller
         $id_number = $request->post('id_number'); //证件号码
         $status = $request->post('status'); //审核状态：1=待审核2=不通过3=无需审核4已通过
         $plan = $request->post('plan'); //当前进度：1=审核中2=待缴费3=已失效4=已缴费
-        $postpone = $request->post('postpone'); //是否缺考顺延
+        $postpone = $request->post('postpone', ''); //是否缺考顺延
         $organ_name = $request->post('organ_name'); //机构名称
         $teacher_name = $request->post('teacher_name');//老师名称
         $start_time = $request->post('start_time');
         $end_time = $request->post('end_time');
+        $is_continuous = $request->post('is_continuous');
 
         $model = Apply::find()->with(['pay', 'user', 'examsite1', 'examsite2'])
             ->andFilterWhere(['LIKE', 'name', $name])
@@ -55,11 +57,12 @@ class ApplyController extends Controller
             ->andFilterWhere(['id_number' => $id_number])
             ->andFilterWhere(['status' => $status])
             ->andFilterWhere(['plan' => $plan])
+            ->andFilterWhere(['is_continuous' => $is_continuous])
             ->andFilterWhere(['>=', 'create_at', $start_time])
             ->andFilterWhere(['<=', 'create_at', $end_time ? $end_time . ' 23:59:59': '']);
-        if ($postpone)
+        if ($postpone !== '')
         {
-            $model->andWhere(['postpone' => $postpone-1]);
+            $model->andWhere(['postpone' => $postpone]);
         }
         if ($organ_name)
         {
@@ -191,8 +194,24 @@ class ApplyController extends Controller
                 $transaction->rollback();//回滚事务
                 return $this->error('创建失败');
             }
-            Record::saveRecord($this->admin->id, 1, ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply_id]");
+            Record::saveRecord($this->admin->id, 1, ($status == 4 ? '通过' : '未通过') . "审核：报名编号[$apply->apply_no]");
             $transaction->commit();//提交事务
+            // 对小程序报名用户发送审核模板消息
+            if ($apply->mini_form_id) {
+                $miniApp = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
+                $miniApp->template_message->send([
+                    'touser' => $apply->user->openid,
+                    'template_id' => \Yii::$app->params['weixin_mini_template']['status'],
+                    'page' => 'pages/myenroll/myenroll',
+                    'form_id' => $apply->mini_form_id,
+                    'data' => [
+                        'keyword1' => '中国音乐学院社会艺术水平考级（海南考区）' . $apply->exam->name . $apply->domain . $apply->level . '报名',
+                        'keyword2' => '审核' . ($status == 4 ? '通过' : '未通过'),
+                        'keyword3' => $content,
+                    ],
+                ]);
+            }
+
             return $this->ok('审核完成');
         } catch (\Exception $e) {
             $transaction->rollback();//回滚事务
@@ -221,7 +240,9 @@ class ApplyController extends Controller
         $apply->postpone = 1;
 
         if ($apply->save(false)) {
-            Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply_id]");
+            Record::saveRecord($this->admin->id, 1, "缺考顺延：报名编号[$apply->apply_no]");
+            $content = "您报名的中国音乐学院社会艺术水平考级（海南考区）{$apply->exam->name}{$apply->domain}{$apply->level}考试的考试资格已成功顺延至下一期考试，关注微信公众号“海南考级中心”及时获取考试信息，避免错过考试！";
+            Inform::saveInform($content, 10, $apply->uid, $apply->id);
             return $this->ok('缺考顺延成功');
         } else {
             return $this->error('缺考顺延失败');

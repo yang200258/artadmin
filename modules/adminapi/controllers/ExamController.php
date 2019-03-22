@@ -149,6 +149,22 @@ class ExamController extends Controller
         {
             return $this->error('存在相同的考试编号，请核实，重新输入');
         }
+
+        // 查询是否有相同时间段的考试
+        $duplicateExam = Exam::find()
+            ->where(['and', ['<', 'apply_time_start', $apply_time_end], ['>', 'apply_time_end', $apply_time_start]])
+            ->orWhere(['and', ['<', 'exam_time_start', $exam_time_end], ['>', 'exam_time_end', $exam_time_start]])
+            ->asArray()
+            ->one();
+//        var_dump($duplicateExam);die;
+        if ($duplicateExam) {
+            if ($duplicateExam['apply_time_start'] < $apply_time_end && $duplicateExam['apply_time_end'] > $apply_time_start) {
+                return $this->error("报名时间{$apply_time_start}---{$apply_time_end}与考试“{$duplicateExam['name']}”报名时间{$duplicateExam['apply_time_start']}---{$duplicateExam['apply_time_end']}冲突");
+            } else {
+                return $this->error("考试时间{$exam_time_start}---{$exam_time_end}与考试“{$duplicateExam['name']}”考试时间{$duplicateExam['exam_time_start']}---{$duplicateExam['exam_time_end']}冲突");
+            } 
+        }
+
         $exam = new Exam();
         $exam->number = $number;
         $exam->name = $name;
@@ -290,16 +306,21 @@ class ExamController extends Controller
         if (!$exam) {
             return $this->error('考试不存在或已被删除');
         }
+        $apply = Apply::find()->where(['exam_id' => $id])->exists();
+        if ($apply)
+        {
+            return $this->error('该考试已有考生报名，不可删除');
+        }
         $transaction = \Yii::$app->db->beginTransaction();//创建事务
         try {
             // 删除考试
             $exam->delete();
-            $examSiteIds = ExamSite::find()->where(['exam_id' => $id])->select('id')->column();
-            ExamSite::deleteAll(['exam_id' => $id]);// 删除考场信息
-            ExamExaminee::deleteAll(['exam_site_id' => $id]);// 删除排序信息
-            // 移除分配信息
-            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id1' => $examSiteIds]);
-            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id2' => $examSiteIds]);
+//            $examSiteIds = ExamSite::find()->where(['exam_id' => $id])->select('id')->column();
+//            ExamSite::deleteAll(['exam_id' => $id]);// 删除考场信息
+//            ExamExaminee::deleteAll(['exam_site_id' => $id]);// 删除排序信息
+//            // 移除分配信息
+//            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id1' => $examSiteIds]);
+//            Apply::updateAll(['exam_site_id1' => 0,'exam_site_id2' => 0, 'kz' => ''], ['exam_site_id2' => $examSiteIds]);
             $transaction->commit();
         } catch (\Throwable $e) {
             $transaction->rollBack();

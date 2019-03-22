@@ -5,6 +5,7 @@ namespace app\commands;
 
 use app\helpers\Pdfer;
 use app\models\Admin;
+use EasyWeChat\Factory;
 
 class TestController extends Controller
 {
@@ -63,6 +64,12 @@ class TestController extends Controller
 
         $saveFileName = \Yii::getAlias("@app") . "/runtime/1.pdf";
         $pdfer->export($saveFileName);
+    }
+
+    public function actionWechat()
+    {
+        $app = Factory::miniProgram(\Yii::$app->params['weixin_mini']);
+        var_dump($app->auth->session(1312321321));
     }
 
 }

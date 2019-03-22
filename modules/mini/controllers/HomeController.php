@@ -12,11 +12,11 @@ class HomeController extends Controller
     //主页
     public function actionIndex()
     {
-        $category = MsgCategory::find()->where(['id' => [1, 2, 3, 4, 5]])->asArray()->all();
+        $category = MsgCategory::find()->with('list')->where(['id' => [1, 2, 3, 4, 5]])->asArray()->all();
 
         foreach ($category as &$one)
         {
-            $list = Msg::find()->select('')->where(['cid' => $one['id'], 'status' => Msg::STATUS_PUBLISHED])->orderBy('id desc')->limit(3)->asArray()->all();
+            $list = $one['list'];
             array_walk($list, function (&$val){
                 $val['cover_url'] = $val['cover_id'] ? Image::getAbsoluteUrlById($val['cover_id']) : '';
                 $val['url'] = $this->createMiniUrl('/miniappdynamic?id=' . $val['id']);

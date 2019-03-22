@@ -58,20 +58,15 @@ class Controller extends \yii\rest\Controller
             $resp->send();
             \Yii::$app->end();
         }
-
-        if (!\Yii::$app->user->loginByAccessToken($token))
+        $this->admin = \Yii::$app->user->loginByAccessToken($token);
+        if (!$this->admin)
         {
             $resp = \Yii::$app->response;
             $resp->data = $this->error('登录失败，请重新登录', 401);
             $resp->send();
             \Yii::$app->end();
         }
-        $this->admin = Admin::findOne(['token' => $token]);
 
-        if (!$this->admin)
-        {
-            return false;
-        }
         return true;
     }
 

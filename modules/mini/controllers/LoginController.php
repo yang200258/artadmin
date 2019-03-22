@@ -16,10 +16,18 @@ class LoginController extends Controller
         if (!$sessionKeyArr) {
             return $this->error('获取登录态失败', 401);
         }else{
-            $this->log(json_encode($sessionKeyArr));
-            $user = User::findOne(['openid' => $sessionKeyArr['openid']]);
-            if (isset($user->union_id))
+            $this->log(json_encode($sessionKeyArr), 'sessionKey');
+            if (isset($sessionKeyArr['union_id']))
             {
+                $user = User::findOne(['union_id' => $sessionKeyArr['union_id']]);
+                if (!$user)
+                {
+                    return $this->error('登录失败', 401);
+                }
+                $user->openid = $sessionKeyArr['openid'];
+                if (!$user->save(false)){
+                    return $this->error('保存用户信息失败', 401);
+                }
                 $sessionString = md5($sessionKeyArr['openid'] . $sessionKeyArr['session_key']);
                 \Yii::$app->cache->set($sessionString, $sessionKeyArr, 3600 * 24 * 30);
                 $user->token = $sessionString;
@@ -38,8 +46,8 @@ class LoginController extends Controller
                 $weiXinConfig = \Yii::$app->params['weixin'];
                 $pc = new \WXBizDataCrypt($weiXinConfig['appid'], $sessionKeyArr['session_key']);
                 $errCode = $pc->decryptData($encryptedData, $iv, $data );
-                $this->log($errCode);
-                $this->log($data);
+                $this->log($errCode, 'errCode');
+                $this->log($data, 'data');
                 if ($errCode == 0)
                 {
                     $data = json_decode($data);
@@ -54,6 +62,9 @@ class LoginController extends Controller
                         if (!$user->save(false)){
                             return $this->error('用户创建失败', 401);
                         }
+                    } elseif (!$user->openid) {
+                        $user->openid = $sessionKeyArr['openid'];
+                        $user->save(false);
                     }
                     $sessionString = md5($sessionKeyArr['openid'] . $sessionKeyArr['session_key']);
                     \Yii::$app->cache->set($sessionString, $sessionKeyArr, 3600 * 24 * 30);
@@ -67,9 +78,9 @@ class LoginController extends Controller
     }
 
 
-    protected function log($message)
+    protected function log($message, $level = 'info')
     {
         $file = \Yii::getAlias("@app") . "/runtime/logs/" . "pay.log";
-        file_put_contents($file, date("Y-m-d H:i:s") . ":" . $message . "\n", FILE_APPEND);
+        file_put_contents($file, date("Y-m-d H:i:s") . "[$level]:" . $message . "\n", FILE_APPEND);
     }
 }

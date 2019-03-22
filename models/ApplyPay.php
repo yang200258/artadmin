@@ -13,6 +13,7 @@ use Yii;
  * @property string $price 缴费金额
  * @property int $type 缴费方式1=微信支付2=线下缴费
  * @property int $status 缴费状态1=已缴费
+ * @property string prepay_id 预付款id，小程序模板消息用
  * @property string $pay_time 缴费时间
  * @property string $create_at 创建时间
  */

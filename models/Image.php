@@ -89,7 +89,8 @@ class Image extends \yii\db\ActiveRecord
         if ($imageId == 0) {
             return '';
         }
-        $md5 = static::find()->select('md5')->where(['id' => $imageId])->limit(1)->scalar();
+        // 永久缓存
+        $md5 = static::find()->select('md5')->where(['id' => $imageId])->cache(0)->limit(1)->scalar();
         return $md5 ? static::createAbsoluteUrl($md5) : '';
     }
 }
