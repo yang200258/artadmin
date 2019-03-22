@@ -1,6 +1,6 @@
 const state = {
     // 是否要缓存页面，默认不缓存
-    cachePage: false,
+    cachePage: true,
     // 已经打开的页面
     openedPageList: [],
     // 缓存的页面
