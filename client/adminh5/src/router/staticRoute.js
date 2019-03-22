@@ -298,7 +298,7 @@ const staticRoute = [
                 component: signup,
             },
             {
-                path: 'signInfo',
+                path: 'signInfo/:id?/:status?/:plan?/:postpone?/:domain?',
                 name: 'signInfo',
                 component: signInfo,
                 meta: {name: '考生详情'}
@@ -328,20 +328,20 @@ const staticRoute = [
                 meta: {name: '添加考试'}
             },
             {
-                path: 'testInfo/editTest',
+                path: 'testInfo/editTest/:id?',
                 name: 'editTest',
                 component: editTest,
                 meta: {name: '编辑考试'}
             },
             {
-                path: 'positionInfo',
+                path: 'positionInfo/:number?/:name?',
                 name: 'positionInfo',
                 component: positionInfo,
                 meta: {name: '考场管理'}
             },
             
             {
-                path: 'positionInfo/editLocation',
+                path: 'positionInfo/editLocation/:exam_site_id?/:exam_id?',
                 name: 'editLocation',
                 component: editLocation,
                 meta: {name: '考生安排'}
@@ -365,7 +365,7 @@ const staticRoute = [
                 meta: {name: '信息管理'},
             },
             {
-                path: 'editInfo',
+                path: 'editInfo/:id?/:url?/:status?',
                 name: 'editInfo',
                 component: editInfo,
                 meta: {name: '编辑信息'}
